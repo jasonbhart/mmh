@@ -1,0 +1,33 @@
+/*
+	Frequency by Pixelarity
+	pixelarity.com @pixelarity
+	License: pixelarity.com/license
+*/
+
+/* Basic */
+
+	body, input, select, textarea {
+		font-size: 11pt;
+	}
+
+/* Wrapper */
+
+	.wrapper {
+		padding: 6em 0 4em 0;
+	}
+
+		.wrapper.style3 {
+			padding: 6em 0 4em 0;
+		}
+
+/* Banner */
+
+	#banner {
+		padding: 14em 0 11em 0;
+	}
+
+/* Footer */
+
+	#footer {
+		padding: 6em 0 4em 0;
+	}

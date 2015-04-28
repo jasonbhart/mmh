@@ -1,0 +1,258 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Meet Me Here Prototype</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery.dropotron.min.js"></script>
+		<script src="js/jquery.scrolly.min.js"></script>
+		<script src="js/jquery.scrollgress.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="css/skel.css" />
+			<link rel="stylesheet" href="css/style.css" />
+			<link rel="stylesheet" href="css/style-xlarge.css" />
+		</noscript>
+		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+	</head>
+	<body>
+	<script type="text/javascript">
+		// This is called with the results from from FB.getLoginStatus().
+		function statusChangeCallback(response) {
+			console.log('statusChangeCallback');
+			console.log(response);
+			// The response object is returned with a status field that lets the
+			// app know the current login status of the person.
+			// Full docs on the response object can be found in the documentation
+			// for FB.getLoginStatus().
+			if (response.status === 'connected') {
+				// Logged into your app and Facebook.
+				testAPI();
+			} else if (response.status === 'not_authorized') {
+				// The person is logged into Facebook, but not your app.
+				document.getElementById('status').innerHTML = 'Please log ' +
+				'into this app.';
+			} else {
+				// The person is not logged into Facebook, so we're not sure if
+				// they are logged into this app or not.
+				document.getElementById('status').innerHTML = 'Please log ' +
+				'into Facebook.';
+			}
+		}
+
+		// This function is called when someone finishes with the Login
+		// Button.  See the onlogin handler attached to it in the sample
+		// code below.
+		function checkLoginState() {
+			FB.getLoginStatus(function(response) {
+				statusChangeCallback(response);
+			});
+		}
+
+		window.fbAsyncInit = function() {
+			FB.init({
+				appId      : '450586198440716',
+				cookie     : true,  // enable cookies to allow the server to access
+									// the session
+				xfbml      : true,  // parse social plugins on this page
+				version    : 'v2.2' // use version 2.2
+			});
+
+			// Now that we've initialized the JavaScript SDK, we call
+			// FB.getLoginStatus().  This function gets the state of the
+			// person visiting this page and can return one of three states to
+			// the callback you provide.  They can be:
+			//
+			// 1. Logged into your app ('connected')
+			// 2. Logged into Facebook, but not your app ('not_authorized')
+			// 3. Not logged into Facebook and can't tell if they are logged into
+			//    your app or not.
+			//
+			// These three cases are handled in the callback function.
+
+			FB.getLoginStatus(function(response) {
+				statusChangeCallback(response);
+			});
+
+		};
+
+		// Load the SDK asynchronously
+		(function(d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) return;
+			js = d.createElement(s); js.id = id;
+			js.src = "//connect.facebook.net/en_US/sdk.js";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+
+		// Here we run a very simple test of the Graph API after login is
+		// successful.  See statusChangeCallback() for when this call is made.
+		function testAPI() {
+			console.log('Welcome!  Fetching your information.... ');
+			FB.api('/me', function(response) {
+				console.log('Successful login for: ' + response.name);
+				document.getElementById('status').innerHTML =
+						'Thanks for logging in, ' + response.name + '!';
+				picUrl = '<img src="http://graph.facebook.com/' + response.id + '/picture?width=100&height=100" alt="" />';
+				$("#userprofilepic").html(picUrl);
+			});
+		}
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#time1").click(function () {
+				$(this).toggleClass('special');
+			});
+
+			$("#time2").click(function () {
+				$(this).toggleClass('special');
+			});
+
+			$("#time3").click(function () {
+				$(this).toggleClass('special');
+			});
+
+			$("#place1").click(function () {
+				$(this).toggleClass('alt');
+			});
+
+			$("#place2").click(function () {
+				$(this).toggleClass('alt');
+			});
+
+			$("#place3").click(function () {
+				$(this).toggleClass('alt');
+			});
+		});
+	</script>
+		<!-- Header -->
+			<header id="header">
+				<h1 id="logo"><a href="index.html">Meet Me Here</a></h1>
+				<nav id="nav">
+					<ul>
+						<li><a href="index.html">New Meet</a></li>
+						<li>
+							<a href="">Invite</a>
+							<ul>
+								<li><a href="left-sidebar.html">Left Sidebar</a></li>
+								<li><a href="right-sidebar.html">Right Sidebar</a></li>
+								<li><a href="no-sidebar.html">No Sidebar</a></li>
+								<li>
+									<a href="">Submenu</a>
+									<ul>
+										<li><a href="#">Option 1</a></li>
+										<li><a href="#">Option 2</a></li>
+										<li><a href="#">Option 3</a></li>
+										<li><a href="#">Option 4</a></li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li><a href="elements.html">History</a></li>
+						<li><a href="#" class="button alt">Sign Up</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Main -->
+			<section id="main" class="wrapper style1">
+				<div class="container box big bordered">
+					<!--<header class="major special">-->
+						<!--<h2>Meet Me Here</h2>-->
+						<!--<p>Lorem ipsum dolor sit amet nullam id egestas urna aliquam</p>-->
+					<!--</header>-->
+					<section>
+						<p><span class="image left" id="userprofilepic"></span></p>
+					</section>
+					<section>
+						<ul class="actions" style="margin-bottom: 10px;">
+							<li><a class="button alt" id="place1">Original Joe's</a></li>
+							<li><a class="button alt" id="place2">Clarke's</a></li>
+							<li><a class="button alt" id="place3">Flames</a></li>
+						</ul>
+					</section>
+					<section>
+						<ul class="actions">
+							<li><a class="button" id="time1">7:00pm</a></li>
+							<li><a class="button" id="time2">7:30pm</a></li>
+							<li><a class="button" id="time3">8:00pm</a></li>
+						</ul>
+					</section>
+					<section>
+						<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+						</fb:login-button>
+
+						<div id="status">
+						</div>
+					</section>
+				</div>
+			</section>
+
+		<!-- Footer -->
+			<div id="footer">
+				<div class="container">
+					<div class="row 200% uniform">
+						<section class="4u 12u$(medium) 12u$(xsmall) footer-info">
+							<h2>Ipsum dolor sed consequat</h2>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta molestiae eius dolorem quod deserunt esse libero, dolorum temporibus, aliquid nemo vitae sit enim quas ipsam dicta et veritatis excepturi suscipit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio incidunt, tempora quasi, impedit laudantium totam.</p>
+							<ul class="actions">
+								<li><a href="#" class="button alt">Learn more</a></li>
+							</ul>
+						</section>
+						<section class="4u 6u(medium) 12u$(xsmall)">
+							<h3>Recent News</h3>
+							<ul class="updates">
+								<li>
+									<p><a href="#">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum tenetur sequi eos porro minima laborum!</a></p>
+									<span class="timestamp">Posted 2 hours ago</span>
+								</li>
+								<li>
+									<p><a href="#">Perferendis deserunt, iure ipsum animi quidem molestiae esse quisquam rerum quas placeat.</a></p>
+									<span class="timestamp">Posted 6 hours ago</span>
+								</li>
+								<li>
+									<p><a href="#">Ex est veniam, ratione voluptas quidem eveniet accusantium impedit explicabo error, commodi.</a></p>
+									<span class="timestamp">Posted 8 hours ago</span>
+								</li>
+							</ul>
+						</section>
+						<section class="4u$ 6u$(medium) 12u$(xsmall)">
+							<h3>Contact Us</h3>
+							<ul class="labeled-icons">
+								<li>
+									<h4 class="icon fa-home"><span class="label">Address</span></h4>
+									1234 Somewhere Road #5403<br />
+									Nashville, TN 00000
+								</li>
+								<li>
+									<h4 class="icon fa-phone"><span class="label">Phone</span></h4>
+									(000) 555-0000 x12345
+								</li>
+								<li>
+									<h4 class="icon fa-envelope"><span class="label">Email</span></h4>
+									<a href="#">hello@untitled.tld</a>
+								</li>
+								<li>
+									<h4 class="icon fa-facebook"><span class="label">Facebook</span></h4>
+									<a href="#">facebook.com/untitled-tld</a>
+								</li>
+								<li>
+									<h4 class="icon fa-twitter"><span class="label">Twitter</span></h4>
+									<a href="#">twitter.com/untitled-tld</a>
+								</li>
+							</ul>
+						</section>
+					</div>
+				</div>
+				<div class="copyright">
+					&copy; Untitled. All rights reserved.
+				</div>
+			</div>
+
+	</body>
+</html>

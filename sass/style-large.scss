@@ -1,0 +1,24 @@
+@import 'vars';
+@import 'mixins';
+
+/*
+	Frequency by Pixelarity
+	pixelarity.com @pixelarity
+	License: pixelarity.com/license
+*/
+
+/* Basic */
+
+	body, input, select, textarea {
+		font-size: 11pt;
+	}
+
+/* Banner */
+
+	#banner {
+		@include padding(11em, 0, (1em, 0, 0, 0));
+
+		h2 {
+			font-size: 2.5em;
+		}
+	}

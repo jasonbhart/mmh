@@ -1,0 +1,132 @@
+@import 'vars';
+@import 'mixins';
+
+/*
+	Frequency by Pixelarity
+	pixelarity.com @pixelarity
+	License: pixelarity.com/license
+*/
+
+/* Basic */
+
+	body, input, select, textarea {
+		font-size: 11pt;
+	}
+
+	h2 {
+		font-size: 1.5em;
+	}
+
+	h3 {
+		font-size: 1.15em;
+	}
+
+	h4 {
+		font-size: 1em;
+	}
+
+	header.major {
+
+		p {
+			font-size: 1.15em;
+		}
+	}
+
+/* Lists */
+
+	ul {
+		&.icons-grid {
+			li {
+				@include padding(2em, 1.5em);
+				width: 100%;
+
+				&:nth-child(odd) {
+					border-right: 0;
+				}
+			}
+		}
+
+		&.counters {
+			li {
+				@include padding(0, 5%);
+				min-width: 0;
+				width: 45%;
+				vertical-align: top;
+			}
+		}
+	}
+
+/* Box */
+
+	.box {
+		@include padding(2em, 1em, (0, 0, -1em, 0));
+
+		&.big {
+			@include padding(2em, 1.5em);
+
+			header.major {
+				padding: 2em 0 2em;
+			}
+		}
+
+		.image.full {
+			margin-bottom: 2em;
+			margin-left: -1em;
+			width: calc(100% + (1em * 2));
+
+			img {
+				width: 100%;
+			}
+		}
+
+		> .image.full:first-child {
+			margin-top: -2em;
+		}
+	}
+
+/* Wrapper */
+
+	.wrapper {
+		@include padding(4em, 0);
+
+		&.style1 {
+			.box.alt {
+				header.major {
+					@include padding(4em, 2em);
+				}
+			}
+		}
+
+		&.style3 {
+			@include padding(4em, 0);
+		}
+	}
+
+/* Banner */
+
+	#banner {
+		@include padding(6em, 2em, (1em, 0, 0, 0));
+
+		h2 {
+			font-size: 1.5em;
+		}
+
+		p {
+			font-size: 1.15em;
+		}
+	}
+
+/* Footer */
+
+	#footer {
+		@include padding(4em, 0, (0, 0, 2em, 0));
+
+		.copyright {
+			li {
+				border-left: 0;
+				margin-left: 0;
+				padding-left: 0;
+				display: block;
+			}
+		}
+	}
