@@ -102,16 +102,27 @@
 				picUrl = '<img src="//graph.facebook.com/' + response.id + '/picture?width=100&height=100" alt="" />';
 				$("#userprofilepic").html(picUrl);
 				$("#fb-login-button").hide();
+				meetRef.push({
+					'user': response.id
+				})
 			});
 		}
 	</script>
 	<script type="text/javascript">
-		var where = ["Original Joe's"];
+		var where = new Array();
 		var when = ["6:00pm", "7:30pm", "8:00pm"];
 		var suggestCount = 0;
+
+		function updateWhere() {
+			meetRef.set({
+				'whereArray': where
+			});
+		}
 	</script>
 	<script type="text/javascript">
 		var ref = new Firebase("https://radiant-heat-9175.firebaseio.com/meets");
+		var meetRef = '';
+		var userRef = '';
 
 		$.urlParam = function(name) {
 			var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -129,12 +140,14 @@
 				ref = ref.child(meetId);
 			} else {
 				var postIdRef = ref.push({
-					'name': 'New Meeting'
+					'whereArray': ''
 				});
 
 				var meetId = postIdRef.key();
 			}
 
+			meetRef = new Firebase("https://radiant-heat-9175.firebaseio.com/meets/" + meetId);
+			whereRef = new Firebase("https://radiant-heat-9175.firebaseio.com/meets/" + meetId + "/whereArray");
 			var suggestRef = new Firebase("https://radiant-heat-9175.firebaseio.com/suggestions/" + meetId);
 
 			$.getJSON('http://edgeprod.com:8080', function(data) {
@@ -151,6 +164,23 @@
 				}
 			});
 
+			whereRef.on("value", function(snapshot) {
+				var resultSnap = (snapshot.val());
+
+				if (resultSnap) {
+					where = resultSnap;
+					console.log(resultSnap);
+
+					$("#wherelist").html(' ');
+
+					for (var i = 0, len = where.length; i < len; i++) {
+						$("#wherelist").append('<li><a class="button alt" id="place' + (i + 1) + '">' + where[i] + '</a></li>');
+					}
+				}
+			}, function (errorObject) {
+				console.log("The read failed: " + errorObject.code);
+			});
+
 			suggestRef.on("child_added", function(snapshot) {
 				suggestCount++;
 
@@ -162,7 +192,7 @@
 					'<tr>' +
 					'<td><a href="' + suggestData.url + '" target="_blank">' + suggestData.name + '</a></td>' +
 					'<td><img src="' + suggestData.rating_url + '">' +
-					'<td style="text-align: right;"><a href="#" class="button special small" id="suggest' + suggestCount + '">Suggest</a></td>' +
+					'<td style="text-align: right;"><a class="button special small" id="suggest' + suggestCount + '">Suggest</a></td>' +
 					'</tr>'
 				);
 			}, function (errorObject) {
@@ -181,34 +211,228 @@
 				$("#whenlist").append('<li><a class="button alt" id="time' + (i + 1) + '">' + when[i] + '</a></li>');
 			}
 
-			$("#suggest1").click(function () {
-				alert('works');
+			$("body").on("click","#suggest1",function(e) {
+				where.push(businessNames[0]);
+				updateWhere();
 			});
 
-			$("#time1").click(function () {
+			$("body").on("click","#suggest2",function(e) {
+				where.push(businessNames[1]);
+				updateWhere();
+			});
+
+			$("body").on("click","#suggest3",function(e) {
+				where.push(businessNames[2]);
+				updateWhere();
+			});
+
+			$("body").on("click","#suggest4",function(e) {
+				where.push(businessNames[3]);
+				updateWhere();
+			});
+
+			$("body").on("click","#suggest5",function(e) {
+				where.push(businessNames[4]);
+				updateWhere();
+			});
+
+			$("body").on("click","#suggest6",function(e) {
+				where.push(businessNames[5]);
+				updateWhere();
+			});
+
+			$("body").on("click","#suggest7",function(e) {
+				where.push(businessNames[6]);
+				updateWhere();
+			});
+
+			$("body").on("click","#suggest8",function(e) {
+				where.push(businessNames[7]);
+				updateWhere();
+			});
+
+			$("body").on("click","#suggest9",function(e) {
+				where.push(businessNames[8]);
+				updateWhere();
+			});
+
+			$("body").on("click","#suggest10",function(e) {
+				where.push(businessNames[9]);
+				updateWhere();
+			});
+
+			$("body").on("click","#suggest11",function(e) {
+				where.push(businessNames[10]);
+				updateWhere();
+			});
+
+			$("body").on("click","#suggest12",function(e) {
+				where.push(businessNames[11]);
+				updateWhere();
+			});
+
+			$("body").on("click","#suggest13",function(e) {
+				where.push(businessNames[12]);
+				updateWhere();
+			});
+
+			$("body").on("click","#suggest14",function(e) {
+				where.push(businessNames[13]);
+				updateWhere();
+			});
+
+			$("body").on("click","#suggest15",function(e) {
+				where.push(businessNames[14]);
+				updateWhere();
+			});
+
+			$("body").on("click","#suggest16",function(e) {
+				where.push(businessNames[15]);
+				updateWhere();
+			});
+
+			$("body").on("click","#suggest17",function(e) {
+				where.push(businessNames[16]);
+				updateWhere();
+			});
+
+			$("body").on("click","#suggest18",function(e) {
+				where.push(businessNames[17]);
+				updateWhere();
+			});
+
+			$("body").on("click","#suggest19",function(e) {
+				where.push(businessNames[18]);
+				updateWhere();
+			});
+
+			$("body").on("click","#suggest20",function(e) {
+				where.push(businessNames[19]);
+				updateWhere();
+			});
+
+			$("body").on("click","#place1",function(e) {
 				$(this).toggleClass('special');
 				$(this).toggleClass('alt');
 			});
 
-			$("#time2").click(function () {
+			$("body").on("click","#place2",function(e) {
 				$(this).toggleClass('special');
 				$(this).toggleClass('alt');
 			});
 
-			$("#time3").click(function () {
+			$("body").on("click","#place3",function(e) {
 				$(this).toggleClass('special');
 				$(this).toggleClass('alt');
 			});
 
-			$("#place1").click(function () {
+			$("body").on("click","#place4",function(e) {
+				$(this).toggleClass('special');
 				$(this).toggleClass('alt');
 			});
 
-			$("#place2").click(function () {
+			$("body").on("click","#place5",function(e) {
+				$(this).toggleClass('special');
 				$(this).toggleClass('alt');
 			});
 
-			$("#place3").click(function () {
+			$("body").on("click","#place6",function(e) {
+				$(this).toggleClass('special');
+				$(this).toggleClass('alt');
+			});
+
+			$("body").on("click","#place7",function(e) {
+				$(this).toggleClass('special');
+				$(this).toggleClass('alt');
+			});
+
+			$("body").on("click","#place8",function(e) {
+				$(this).toggleClass('special');
+				$(this).toggleClass('alt');
+			});
+
+			$("body").on("click","#place9",function(e) {
+				$(this).toggleClass('special');
+				$(this).toggleClass('alt');
+			});
+
+			$("body").on("click","#place10",function(e) {
+				$(this).toggleClass('special');
+				$(this).toggleClass('alt');
+			});
+
+			$("body").on("click","#place11",function(e) {
+				$(this).toggleClass('special');
+				$(this).toggleClass('alt');
+			});
+
+			$("body").on("click","#place12",function(e) {
+				$(this).toggleClass('special');
+				$(this).toggleClass('alt');
+			});
+
+			$("body").on("click","#place13",function(e) {
+				$(this).toggleClass('special');
+				$(this).toggleClass('alt');
+			});
+
+			$("body").on("click","#place14",function(e) {
+				$(this).toggleClass('special');
+				$(this).toggleClass('alt');
+			});
+
+			$("body").on("click","#place15",function(e) {
+				$(this).toggleClass('special');
+				$(this).toggleClass('alt');
+			});
+
+			$("body").on("click","#place16",function(e) {
+				$(this).toggleClass('special');
+				$(this).toggleClass('alt');
+			});
+
+			$("body").on("click","#place17",function(e) {
+				$(this).toggleClass('special');
+				$(this).toggleClass('alt');
+			});
+
+			$("body").on("click","#place18",function(e) {
+				$(this).toggleClass('special');
+				$(this).toggleClass('alt');
+			});
+
+			$("body").on("click","#place19",function(e) {
+				$(this).toggleClass('special');
+				$(this).toggleClass('alt');
+			});
+
+			$("body").on("click","#place20",function(e) {
+				$(this).toggleClass('special');
+				$(this).toggleClass('alt');
+			});
+
+			$("body").on("click","#time1",function(e) {
+				$(this).toggleClass('special');
+				$(this).toggleClass('alt');
+			});
+
+			$("body").on("click","#time2",function(e) {
+				$(this).toggleClass('special');
+				$(this).toggleClass('alt');
+			});
+
+			$("body").on("click","#time3",function(e) {
+				$(this).toggleClass('special');
+				$(this).toggleClass('alt');
+			});
+
+			$("body").on("click","#time4",function(e) {
+				$(this).toggleClass('special');
+				$(this).toggleClass('alt');
+			});
+
+			$("body").on("click","#time5",function(e) {
+				$(this).toggleClass('special');
 				$(this).toggleClass('alt');
 			});
 		});
@@ -234,6 +458,9 @@
 						<!--<p>Lorem ipsum dolor sit amet nullam id egestas urna aliquam</p>-->
 					<!--</header>-->
 					<section>
+						<div id="fb-userid"></div>
+					</section>
+					<section>
 						<p><span class="image left" id="userprofilepic"></span></p>
 					</section>
 					<section>
@@ -250,6 +477,7 @@
 						<div id="status"></div>
 					</section>
 					<section>
+						<br clear="all" />
 						<div id="share-data"></div>
 					</section>
 					<section style="margin-top: 30px;">
