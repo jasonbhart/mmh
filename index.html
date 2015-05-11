@@ -79,7 +79,6 @@
 			FB.getLoginStatus(function(response) {
 				statusChangeCallback(response);
 			});
-
 		};
 
 		// Load the SDK asynchronously
@@ -114,7 +113,7 @@
 		var suggestCount = 0;
 
 		function updateWhere() {
-			meetRef.set({
+			whereRef.set({
 				'whereArray': where
 			});
 		}
@@ -140,14 +139,14 @@
 				ref = ref.child(meetId);
 			} else {
 				var postIdRef = ref.push({
-					'whereArray': ''
+					'name': 'New Meetup'
 				});
 
 				var meetId = postIdRef.key();
 			}
 
 			meetRef = new Firebase("https://radiant-heat-9175.firebaseio.com/meets/" + meetId);
-			whereRef = new Firebase("https://radiant-heat-9175.firebaseio.com/meets/" + meetId + "/whereArray");
+			whereRef = new Firebase("https://radiant-heat-9175.firebaseio.com/where/" + meetId);
 			var suggestRef = new Firebase("https://radiant-heat-9175.firebaseio.com/suggestions/" + meetId);
 
 			$.getJSON('http://edgeprod.com:8080', function(data) {
@@ -168,8 +167,8 @@
 				var resultSnap = (snapshot.val());
 
 				if (resultSnap) {
-					where = resultSnap;
-					console.log(resultSnap);
+					where = resultSnap.whereArray;
+					console.log(resultSnap.whereArray);
 
 					$("#wherelist").html(' ');
 
