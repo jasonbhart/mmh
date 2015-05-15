@@ -8,12 +8,15 @@
 		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
 		<script src="//cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
 		<script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+                <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+                <script src="https://cdn.firebase.com/libs/angularfire/1.1.1/angularfire.min.js"></script>
 		<script src="js/jquery.dropotron.min.js"></script>
 		<script src="js/jquery.scrolly.min.js"></script>
 		<script src="js/jquery.scrollgress.min.js"></script>
 		<script src="js/skel.min.js"></script>
 		<script src="js/skel-layers.min.js"></script>
 		<script src="js/init.js"></script>
+		<script src="js/app.js"></script>
 		<noscript>
 			<link rel="stylesheet" href="css/skel.css" />
 			<link rel="stylesheet" href="css/style.css" />
@@ -23,100 +26,109 @@
 	</head>
 	<body>
 	<script type="text/javascript">
-		// This is called with the results from from FB.getLoginStatus().
-		function statusChangeCallback(response) {
-			console.log('statusChangeCallback');
-			console.log(response);
-			// The response object is returned with a status field that lets the
-			// app know the current login status of the person.
-			// Full docs on the response object can be found in the documentation
-			// for FB.getLoginStatus().
-			if (response.status === 'connected') {
-				// Logged into your app and Facebook.
-				testAPI();
-			} else if (response.status === 'not_authorized') {
-				// The person is logged into Facebook, but not your app.
-				document.getElementById('status').innerHTML = 'Please log ' +
-				'into this app.';
-			} else {
-				// The person is not logged into Facebook, so we're not sure if
-				// they are logged into this app or not.
-				document.getElementById('status').innerHTML = 'Please log ' +
-				'into Facebook.';
-			}
-		}
-
-		// This function is called when someone finishes with the Login
-		// Button.  See the onlogin handler attached to it in the sample
-		// code below.
-		function checkLoginState() {
-			FB.getLoginStatus(function(response) {
-				statusChangeCallback(response);
-			});
-		}
-
-		window.fbAsyncInit = function() {
-			FB.init({
-				appId      : '450586198440716',
-				cookie     : true,  // enable cookies to allow the server to access
-									// the session
-				xfbml      : true,  // parse social plugins on this page
-				version    : 'v2.2' // use version 2.2
-			});
-
-			// Now that we've initialized the JavaScript SDK, we call
-			// FB.getLoginStatus().  This function gets the state of the
-			// person visiting this page and can return one of three states to
-			// the callback you provide.  They can be:
-			//
-			// 1. Logged into your app ('connected')
-			// 2. Logged into Facebook, but not your app ('not_authorized')
-			// 3. Not logged into Facebook and can't tell if they are logged into
-			//    your app or not.
-			//
-			// These three cases are handled in the callback function.
-
-			FB.getLoginStatus(function(response) {
-				statusChangeCallback(response);
-			});
-		};
-
-		// Load the SDK asynchronously
-		(function(d, s, id) {
-			var js, fjs = d.getElementsByTagName(s)[0];
-			if (d.getElementById(id)) return;
-			js = d.createElement(s); js.id = id;
-			js.src = "//connect.facebook.net/en_US/sdk.js";
-			fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));
-
-		// Here we run a very simple test of the Graph API after login is
-		// successful.  See statusChangeCallback() for when this call is made.
-		function testAPI() {
-			console.log('Welcome!  Fetching your information.... ');
-			FB.api('/me', function(response) {
-				console.log('Successful login for: ' + response.name);
-//				document.getElementById('status').innerHTML =
-//						'Logged in as: ' + response.name;
-				picUrl = '<img src="//graph.facebook.com/' + response.id + '/picture?width=100&height=100" alt="" />';
-				$("#userprofilepic").html(picUrl);
-				$("#fb-login-button").hide();
-				meetRef.push({
-					'user': response.id
-				})
-			});
-		}
+//		// This is called with the results from from FB.getLoginStatus().
+//                previousLoginStatus = null;
+//		function statusChangeCallback(response) {
+//			console.log('statusChangeCallback');
+//			console.log(response);
+//			// The response object is returned with a status field that lets the
+//			// app know the current login status of the person.
+//			// Full docs on the response object can be found in the documentation
+//			// for FB.getLoginStatus().
+//			if (response.status === 'connected') {
+//                            // reload page after authentication
+//                            if (previousLoginStatus != null && previousLoginStatus != 'connected') {
+//                                var url = window.location.href;
+//                                if (url.indexOf('?') != -1) {
+//                                    if (!url.endsWith('&'))
+//                                        url += '&';
+//                                    
+//                                    url += 'meet=' + meetId;
+//                                }
+//                                window.location = url;
+//                            }
+//                            // Logged into your app and Facebook.
+//                            testAPI();
+//			} else if (response.status === 'not_authorized') {
+//				// The person is logged into Facebook, but not your app.
+//				document.getElementById('status').innerHTML = 'Please log ' +
+//				'into this app.';
+//			} else {
+//				// The person is not logged into Facebook, so we're not sure if
+//				// they are logged into this app or not.
+//				document.getElementById('status').innerHTML = 'Please log ' +
+//				'into Facebook.';
+//			}
+//                        
+//                        previousLoginStatus = response.status;
+//		}
+//
+//		// This function is called when someone finishes with the Login
+//		// Button.  See the onlogin handler attached to it in the sample
+//		// code below.
+//		function checkLoginState() {
+//			FB.getLoginStatus(function(response) {
+//				statusChangeCallback(response);
+//			});
+//		}
+//
+//		window.fbAsyncInit = function() {
+//			FB.init({
+//				appId      : '450586198440716',
+//				cookie     : true,  // enable cookies to allow the server to access
+//									// the session
+//				xfbml      : true,  // parse social plugins on this page
+//				version    : 'v2.2' // use version 2.2
+//			});
+//
+//			// Now that we've initialized the JavaScript SDK, we call
+//			// FB.getLoginStatus().  This function gets the state of the
+//			// person visiting this page and can return one of three states to
+//			// the callback you provide.  They can be:
+//			//
+//			// 1. Logged into your app ('connected')
+//			// 2. Logged into Facebook, but not your app ('not_authorized')
+//			// 3. Not logged into Facebook and can't tell if they are logged into
+//			//    your app or not.
+//			//
+//			// These three cases are handled in the callback function.
+//
+//			FB.getLoginStatus(function(response) {
+//				statusChangeCallback(response);
+//			});
+//		};
+//
+//		// Load the SDK asynchronously
+//		(function(d, s, id) {
+//			var js, fjs = d.getElementsByTagName(s)[0];
+//			if (d.getElementById(id)) return;
+//			js = d.createElement(s); js.id = id;
+//			js.src = "//connect.facebook.net/en_US/sdk.js";
+//			fjs.parentNode.insertBefore(js, fjs);
+//		}(document, 'script', 'facebook-jssdk'));
+//
+//		// Here we run a very simple test of the Graph API after login is
+//		// successful.  See statusChangeCallback() for when this call is made.
+//		function testAPI() {
+//			console.log('Welcome!  Fetching your information.... ');
+//			FB.api('/me', function(response) {
+//				console.log('Successful login for: ' + response.name);
+////				document.getElementById('status').innerHTML =
+////						'Logged in as: ' + response.name;
+//				picUrl = '<img src="//graph.facebook.com/' + response.id + '/picture?width=100&height=100" alt="" />';
+//				$("#userprofilepic").html(picUrl);
+//				$("#fb-login-button").hide();
+//				meetRef.push({
+//					'user': response.id
+//				})
+//			});
+//		}
 	</script>
 	<script type="text/javascript">
 		var where = new Array();
 		var when = ["6:00pm", "7:30pm", "8:00pm"];
 		var suggestCount = 0;
 
-		function updateWhere() {
-			whereRef.set({
-				'whereArray': where
-			});
-		}
 	</script>
 	<script type="text/javascript">
 		var ref = new Firebase("https://radiant-heat-9175.firebaseio.com/meets");
@@ -134,281 +146,10 @@
 		};
 
 		$(document).ready(function() {
-			if ($.urlParam('meet')) {
-				meetId = $.urlParam('meet');
-				ref = ref.child(meetId);
-			} else {
-				var postIdRef = ref.push({
-					'name': 'New Meetup'
-				});
-
-				var meetId = postIdRef.key();
-			}
-
-			meetRef = new Firebase("https://radiant-heat-9175.firebaseio.com/meets/" + meetId);
-			whereRef = new Firebase("https://radiant-heat-9175.firebaseio.com/where/" + meetId);
-			var suggestRef = new Firebase("https://radiant-heat-9175.firebaseio.com/suggestions/" + meetId);
-
-			$.getJSON('http://edgeprod.com:8080', function(data) {
-				businessNames = Object.keys(data.businesses).map(function (key) { return data.businesses[key].name; });
-				businessUrls = Object.keys(data.businesses).map(function (key) { return data.businesses[key].url; });
-				businessRatingUrls = Object.keys(data.businesses).map(function (key) { return data.businesses[key].rating_img_url; });
-
-				for (i = 0; i < businessNames.length; i++) {
-					suggestRef.push({
-						'name': businessNames[i],
-						'url': businessUrls[i],
-						'rating_url': businessRatingUrls[i]
-					});
-				}
-			});
-
-			whereRef.on("value", function(snapshot) {
-				var resultSnap = (snapshot.val());
-
-				if (resultSnap) {
-					where = resultSnap.whereArray;
-					console.log(resultSnap.whereArray);
-
-					$("#wherelist").html(' ');
-
-					for (var i = 0, len = where.length; i < len; i++) {
-						$("#wherelist").append('<li><a class="button alt" id="place' + (i + 1) + '">' + where[i] + '</a></li>');
-					}
-				}
-			}, function (errorObject) {
-				console.log("The read failed: " + errorObject.code);
-			});
-
-			suggestRef.on("child_added", function(snapshot) {
-				suggestCount++;
-
-				var suggestData = snapshot.val();
-
-				console.log(suggestData);
-
-				$("#suggestions").append(
-					'<tr>' +
-					'<td><a href="' + suggestData.url + '" target="_blank">' + suggestData.name + '</a></td>' +
-					'<td><img src="' + suggestData.rating_url + '">' +
-					'<td style="text-align: right;"><a class="button special small" id="suggest' + suggestCount + '">Suggest</a></td>' +
-					'</tr>'
-				);
-			}, function (errorObject) {
-				console.log("The read failed: " + errorObject.code);
-			});
-
-			var shareUrl = 'https://radiant-heat-9175.firebaseapp.com?meet=' + meetId;
-
-			$("#share-data").html('<span style="font-size: 20px;">Share this via: <a href="' + shareUrl + '">' + shareUrl + '</a></span>');
-
-			for (var i = 0, len = where.length; i < len; i++) {
-				$("#wherelist").append('<li><a class="button alt" id="place' + (i + 1) + '">' + where[i] + '</a></li>');
-			}
-
 			for (var i = 0, len = when.length; i < len; i++) {
 				$("#whenlist").append('<li><a class="button alt" id="time' + (i + 1) + '">' + when[i] + '</a></li>');
 			}
 
-			$("body").on("click","#suggest1",function(e) {
-				where.push(businessNames[0]);
-				updateWhere();
-			});
-
-			$("body").on("click","#suggest2",function(e) {
-				where.push(businessNames[1]);
-				updateWhere();
-			});
-
-			$("body").on("click","#suggest3",function(e) {
-				where.push(businessNames[2]);
-				updateWhere();
-			});
-
-			$("body").on("click","#suggest4",function(e) {
-				where.push(businessNames[3]);
-				updateWhere();
-			});
-
-			$("body").on("click","#suggest5",function(e) {
-				where.push(businessNames[4]);
-				updateWhere();
-			});
-
-			$("body").on("click","#suggest6",function(e) {
-				where.push(businessNames[5]);
-				updateWhere();
-			});
-
-			$("body").on("click","#suggest7",function(e) {
-				where.push(businessNames[6]);
-				updateWhere();
-			});
-
-			$("body").on("click","#suggest8",function(e) {
-				where.push(businessNames[7]);
-				updateWhere();
-			});
-
-			$("body").on("click","#suggest9",function(e) {
-				where.push(businessNames[8]);
-				updateWhere();
-			});
-
-			$("body").on("click","#suggest10",function(e) {
-				where.push(businessNames[9]);
-				updateWhere();
-			});
-
-			$("body").on("click","#suggest11",function(e) {
-				where.push(businessNames[10]);
-				updateWhere();
-			});
-
-			$("body").on("click","#suggest12",function(e) {
-				where.push(businessNames[11]);
-				updateWhere();
-			});
-
-			$("body").on("click","#suggest13",function(e) {
-				where.push(businessNames[12]);
-				updateWhere();
-			});
-
-			$("body").on("click","#suggest14",function(e) {
-				where.push(businessNames[13]);
-				updateWhere();
-			});
-
-			$("body").on("click","#suggest15",function(e) {
-				where.push(businessNames[14]);
-				updateWhere();
-			});
-
-			$("body").on("click","#suggest16",function(e) {
-				where.push(businessNames[15]);
-				updateWhere();
-			});
-
-			$("body").on("click","#suggest17",function(e) {
-				where.push(businessNames[16]);
-				updateWhere();
-			});
-
-			$("body").on("click","#suggest18",function(e) {
-				where.push(businessNames[17]);
-				updateWhere();
-			});
-
-			$("body").on("click","#suggest19",function(e) {
-				where.push(businessNames[18]);
-				updateWhere();
-			});
-
-			$("body").on("click","#suggest20",function(e) {
-				where.push(businessNames[19]);
-				updateWhere();
-			});
-
-			$("body").on("click","#place1",function(e) {
-				$(this).toggleClass('special');
-				$(this).toggleClass('alt');
-			});
-
-			$("body").on("click","#place2",function(e) {
-				$(this).toggleClass('special');
-				$(this).toggleClass('alt');
-			});
-
-			$("body").on("click","#place3",function(e) {
-				$(this).toggleClass('special');
-				$(this).toggleClass('alt');
-			});
-
-			$("body").on("click","#place4",function(e) {
-				$(this).toggleClass('special');
-				$(this).toggleClass('alt');
-			});
-
-			$("body").on("click","#place5",function(e) {
-				$(this).toggleClass('special');
-				$(this).toggleClass('alt');
-			});
-
-			$("body").on("click","#place6",function(e) {
-				$(this).toggleClass('special');
-				$(this).toggleClass('alt');
-			});
-
-			$("body").on("click","#place7",function(e) {
-				$(this).toggleClass('special');
-				$(this).toggleClass('alt');
-			});
-
-			$("body").on("click","#place8",function(e) {
-				$(this).toggleClass('special');
-				$(this).toggleClass('alt');
-			});
-
-			$("body").on("click","#place9",function(e) {
-				$(this).toggleClass('special');
-				$(this).toggleClass('alt');
-			});
-
-			$("body").on("click","#place10",function(e) {
-				$(this).toggleClass('special');
-				$(this).toggleClass('alt');
-			});
-
-			$("body").on("click","#place11",function(e) {
-				$(this).toggleClass('special');
-				$(this).toggleClass('alt');
-			});
-
-			$("body").on("click","#place12",function(e) {
-				$(this).toggleClass('special');
-				$(this).toggleClass('alt');
-			});
-
-			$("body").on("click","#place13",function(e) {
-				$(this).toggleClass('special');
-				$(this).toggleClass('alt');
-			});
-
-			$("body").on("click","#place14",function(e) {
-				$(this).toggleClass('special');
-				$(this).toggleClass('alt');
-			});
-
-			$("body").on("click","#place15",function(e) {
-				$(this).toggleClass('special');
-				$(this).toggleClass('alt');
-			});
-
-			$("body").on("click","#place16",function(e) {
-				$(this).toggleClass('special');
-				$(this).toggleClass('alt');
-			});
-
-			$("body").on("click","#place17",function(e) {
-				$(this).toggleClass('special');
-				$(this).toggleClass('alt');
-			});
-
-			$("body").on("click","#place18",function(e) {
-				$(this).toggleClass('special');
-				$(this).toggleClass('alt');
-			});
-
-			$("body").on("click","#place19",function(e) {
-				$(this).toggleClass('special');
-				$(this).toggleClass('alt');
-			});
-
-			$("body").on("click","#place20",function(e) {
-				$(this).toggleClass('special');
-				$(this).toggleClass('alt');
-			});
 
 			$("body").on("click","#time1",function(e) {
 				$(this).toggleClass('special');
@@ -450,8 +191,8 @@
 			</header>
 
 		<!-- Main -->
-			<section id="main" class="wrapper style1">
-				<div class="container box big bordered">
+			<section id="main" class="wrapper style1" ng-app="mmh">
+				<div class="container box big bordered" ng-controller="main">
 					<!--<header class="major special">-->
 						<!--<h2>Meet Me Here</h2>-->
 						<!--<p>Lorem ipsum dolor sit amet nullam id egestas urna aliquam</p>-->
@@ -460,30 +201,54 @@
 						<div id="fb-userid"></div>
 					</section>
 					<section>
-						<p><span class="image left" id="userprofilepic"></span></p>
+                                            <p ng-show="identity.pictureUrl"><span class="image left" id="userprofilepic">
+                                                <img ng-src="{{ identity.pictureUrl }}" alt="" />
+                                            </span></p>
 					</section>
 					<section>
-						<ul class="actions" style="margin-bottom: 10px;" id="wherelist">
-						</ul>
+                                                <div ng-repeat="record in selectionTable">
+                                                    <span>{{ record.user.name }}</span>
+                                                    <ul class="actions" style="margin-bottom: 10px;">
+                                                        <li ng-repeat="place in record.places">
+                                                            <a class="button" ng-class="place.selectionId ? 'special' : 'alt'" ng-click="selectPlace(record.user, place)">
+                                                                {{ place.suggestion.name }}
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
 					</section>
 					<section>
 						<ul class="actions" id="whenlist">
 						</ul>
 					</section>
 					<section>
-						<fb:login-button scope="public_profile,email" onlogin="checkLoginState();" id="fb-login-button">
+                                            <div ng-show="!identity.logged">
+						<fb:login-button scope="public_profile,email" id="fb-login-button">
 						</fb:login-button>
-						<div id="status"></div>
+                                            </div>
+						<div id="status" ng-show="identity.logged">Logged in as: {{ identity.name }}</div>
 					</section>
 					<section>
 						<br clear="all" />
-						<div id="share-data"></div>
+                                                <div id="share-data" ng-show="shareUrl">
+                                                    <span style="font-size: 20px;">Share this via: <a ng-href="{{ shareUrl }}">{{ shareUrl }}</a></span>
+                                                </div>
 					</section>
 					<section style="margin-top: 30px;">
 						<div class="table-wrapper">
 							<table>
-								<tbody id="suggestions">
-
+                                                                <tbody ng-repeat="suggestion in suggestions">
+                                                                <tr>
+                                                                    <td>
+                                                                        <a ng-href="{{ suggestion.url }}" target="_blank">{{ suggestion.name }}</a>
+                                                                    </td>
+                                                                    <td>
+                                                                        <img ng-src="{{ suggestion.rating_url }}">
+                                                                    </td>
+                                                                    <td style="text-align: right;">
+                                                                        <a class="button special small" ng-click="addSuggestion(suggestion)">Suggest</a>
+                                                                    </td>
+                                                                    </tr>
 								</tbody>
 							</table>
 						</div>
