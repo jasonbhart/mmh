@@ -1438,3 +1438,24 @@
 					margin-left: 0;
 					padding-left: 0;
 				}
+
+.user-places {
+    border: 2px solid gray;
+    border-radius: 4px;
+    margin-bottom: 3px;
+    padding: 3px;
+}
+
+.user-places.logged-user {
+    border-color: orange;
+}
+
+.user-places .user-info {
+    float: left;
+    text-align: center;
+    width: 100px;
+}
+
+.user-places .places {
+    margin-left: 105px;
+}

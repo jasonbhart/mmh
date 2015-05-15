@@ -201,20 +201,22 @@
 						<div id="fb-userid"></div>
 					</section>
 					<section>
-                                            <p ng-show="identity.pictureUrl"><span class="image left" id="userprofilepic">
-                                                <img ng-src="{{ identity.pictureUrl }}" alt="" />
-                                            </span></p>
-					</section>
-					<section>
-                                                <div ng-repeat="record in selectionTable">
-                                                    <span>{{ record.user.name }}</span>
-                                                    <ul class="actions" style="margin-bottom: 10px;">
+                                                <div ng-repeat="record in selectionTable" ng-class="record.user.id == identity.id ? 'logged-user' : ''" class="user-places">
+                                                    <div class="user-info">
+                                                        <span>{{ record.user.name }}</span>
+                                                        <div id="userprofilepic" ng-show="record.user.id">
+                                                            <img ng-src="//graph.facebook.com/{{ record.user.id }}/picture?width=100&height=100" alt="" />
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <ul class="actions places" style="margin-bottom: 10px;">
                                                         <li ng-repeat="place in record.places">
                                                             <a class="button" ng-class="place.selectionId ? 'special' : 'alt'" ng-click="selectPlace(record.user, place)">
                                                                 {{ place.suggestion.name }}
                                                             </a>
                                                         </li>
                                                     </ul>
+                                                    <div style="clear: both"></div>
                                                 </div>
 					</section>
 					<section>

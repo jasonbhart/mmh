@@ -192,8 +192,8 @@
 
         // selection/deselection of place by user
         $scope.selectPlace = function(user, place) {
-//            if (user.id != identity.id)
-//                return;
+            if (user.id != $scope.identity.id)
+                return;
 
             if (place.selectionId)
                 refs.userPlaces.child(place.selectionId).remove();
