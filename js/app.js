@@ -109,7 +109,7 @@
         // load suggestions
         if (isNew) {
             // get suggestions
-            $.getJSON('http://edgeprod.com:8080', function(data) {
+            $.getJSON('https://edgeprod.com:8081', function(data) {
                 var businessNames = Object.keys(data.businesses).map(function (key) { return data.businesses[key].name; });
                 var businessUrls = Object.keys(data.businesses).map(function (key) { return data.businesses[key].url; });
                 var businessRatingUrls = Object.keys(data.businesses).map(function (key) { return data.businesses[key].rating_img_url; });
