@@ -44,7 +44,7 @@
                         $scope.identity.logged = true;
                         $scope.identity.pictureUrl = '//graph.facebook.com/' + response.id + '/picture?width=100&height=100'
                         $scope.$apply();
-                        
+
                         loadCurrentUser();
                     });
                 }
@@ -75,6 +75,8 @@
             isNew = true;
         }
 
+        var availableTimes = ["6:00pm", "7:30pm", "8:00pm"];
+
         refs.meet = refs.meet.child(meetId);
         refs.suggestions = new Firebase(firebaseUrl + '/suggestions/' + meetId);
         refs.meetSuggestions = refs.meet.child('suggestions');
@@ -92,7 +94,10 @@
                 }
 
                 refs.userPlaces = refs.user.child('places');
-            })
+                refs.userTimes = refs.user.child('times');
+                
+                makeSelectionTable();
+            });
         }
 
         loadCurrentUser();
@@ -104,15 +109,14 @@
         $scope.selectionTable = [];
 
 
-
         // load suggestions
         if (isNew) {
             // get suggestions
-            $.getJSON('https://edgeprod.com:8081', function(data) {
+            $.getJSON('https://edgeprod.com:8081/', function(data) {
                 var businessNames = Object.keys(data.businesses).map(function (key) { return data.businesses[key].name; });
                 var businessUrls = Object.keys(data.businesses).map(function (key) { return data.businesses[key].url; });
                 var businessRatingUrls = Object.keys(data.businesses).map(function (key) { return data.businesses[key].rating_img_url; });
-                
+
                 // initialize suggestions
                 var savedSuggestions = [];
                 businessNames.forEach(function(e, i) {
@@ -143,14 +147,24 @@
 
                     // at this step users and suggestions are fetched
                     
-                    var data = [];
+                    var data = {
+                        user: null,
+                        others: []
+                    };
 
                     usersSnap.forEach(function(user) {
                         // places selected by user
                         var selectedPlaces = {};
+                        var selectedTimes = {};
                         user = user.val();
                         if (!user.name)
                             return;
+
+                        var record = {
+                            user: user,
+                            places: [],
+                            times: []
+                        };
 
                         // collect places selected by user
                         var places = user.places || {};
@@ -160,10 +174,19 @@
                             selectedPlaces[places[p]] = p;
                         }
 
-                        var record = {
-                            user: user,
-                            places: []
-                        };
+                        var times = user.times || {};
+                        for (var t in times) {
+                            if (!times.hasOwnProperty(t))
+                                continue;
+                            selectedTimes[times[t]] = t;
+                        }
+                        
+                        for (var i=0; i<availableTimes.length; i++) {
+                            record.times.push({
+                                time: availableTimes[i],
+                                selectionId: availableTimes[i] in selectedTimes ? selectedTimes[availableTimes[i]] : null
+                            });
+                        }
 
                         suggSnap.forEach(function(sugg) {
                             var suggId = sugg.key();
@@ -173,8 +196,11 @@
                                 selectionId: suggId in selectedPlaces ? selectedPlaces[suggId] : null
                             });
                         });
-                        
-                        data.push(record);
+
+                        if (record.user.id == $scope.identity.id)
+                            data.user = record;
+                        else
+                            data.others.push(record);
                     });                    
 
                     $scope.selectionTable = data;
@@ -198,6 +224,13 @@
                 refs.userPlaces.child(place.selectionId).remove();
             else
                 refs.userPlaces.push(place.suggestionId);
+        }
+
+        $scope.selectTime = function(time) {
+            if (time.selectionId)
+                refs.userTimes.child(time.selectionId).remove();
+            else
+                refs.userTimes.push(time.time);
         }
 
         // watch for where changes

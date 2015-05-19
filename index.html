@@ -25,59 +25,6 @@
 		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
 	</head>
 	<body>
-	<script type="text/javascript">
-		var where = new Array();
-		var when = ["6:00pm", "7:30pm", "8:00pm"];
-		var suggestCount = 0;
-
-	</script>
-	<script type="text/javascript">
-		var ref = new Firebase("https://radiant-heat-9175.firebaseio.com/meets");
-		var meetRef = '';
-		var userRef = '';
-
-		$.urlParam = function(name) {
-			var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-			if (results==null){
-				return null;
-			}
-			else{
-				return results[1] || 0;
-			}
-		};
-
-		$(document).ready(function() {
-			for (var i = 0, len = when.length; i < len; i++) {
-				$("#whenlist").append('<li><a class="button alt" id="time' + (i + 1) + '">' + when[i] + '</a></li>');
-			}
-
-
-			$("body").on("click","#time1",function(e) {
-				$(this).toggleClass('special');
-				$(this).toggleClass('alt');
-			});
-
-			$("body").on("click","#time2",function(e) {
-				$(this).toggleClass('special');
-				$(this).toggleClass('alt');
-			});
-
-			$("body").on("click","#time3",function(e) {
-				$(this).toggleClass('special');
-				$(this).toggleClass('alt');
-			});
-
-			$("body").on("click","#time4",function(e) {
-				$(this).toggleClass('special');
-				$(this).toggleClass('alt');
-			});
-
-			$("body").on("click","#time5",function(e) {
-				$(this).toggleClass('special');
-				$(this).toggleClass('alt');
-			});
-		});
-	</script>
 		<!-- Header -->
 			<header id="header">
 				<h1 id="logo"><a href="index.html">Meet Me Here</a></h1>
@@ -102,27 +49,59 @@
 						<div id="fb-userid"></div>
 					</section>
 					<section>
-                                                <div ng-repeat="record in selectionTable" ng-class="record.user.id == identity.id ? 'logged-user' : ''" class="user-places">
-                                                    <div class="user-info">
-                                                        <span ng-show="!record.user.id">{{ record.user.name }}</span>
-                                                        <div id="userprofilepic" ng-show="record.user.id">
-                                                            <img ng-src="//graph.facebook.com/{{ record.user.id }}/picture?width=100&height=100" alt="" />
-                                                        </div>
+                                            <div class="user-places logged-user">
+                                                <div class="user-info">
+                                                    <span>{{ selectionTable.user.user.name }}</span>
+                                                    <div id="userprofilepic" ng-show="selectionTable.user.user.id">
+                                                        <img ng-src="//graph.facebook.com/{{ selectionTable.user.user.id }}/picture?width=100&height=100" alt="" />
                                                     </div>
-                                                    
-                                                    <ul class="actions places" style="margin-bottom: 10px;">
-                                                        <li ng-repeat="place in record.places">
-                                                            <a class="button" ng-class="place.selectionId ? 'special' : 'alt'" ng-click="selectPlace(record.user, place)">
+                                                </div>
+
+                                                <div class="user-selection">Places:
+                                                    <ul class="actions" style="margin-bottom: 10px;">
+                                                        <li ng-repeat="place in selectionTable.user.places">
+                                                            <a class="button" ng-class="place.selectionId ? 'special' : 'alt'" ng-click="selectPlace(selectionTable.user.user, place)">
                                                                 {{ place.suggestion.name }}
                                                             </a>
                                                         </li>
                                                     </ul>
-                                                    <div style="clear: both"></div>
+                                                    <hr />
+                                                    Times:
+                                                    <ul class="actions">
+                                                        <li ng-repeat="time in selectionTable.user.times">
+                                                            <a class="button" ng-click="selectTime(time)" ng-class="time.selectionId ? 'special': 'alt'">{{ time.time }}</a>
+                                                        </li>
+                                                    </ul>
                                                 </div>
-					</section>
-					<section>
-						<ul class="actions" id="whenlist">
-						</ul>
+                                                <div style="clear: both"></div>
+                                            </div>
+
+                                            <div ng-repeat="record in selectionTable.others" class="user-places">
+                                                <div class="user-info">
+                                                    <span>{{ record.user.name }}</span>
+                                                    <div id="userprofilepic" ng-show="record.user.id">
+                                                        <img ng-src="//graph.facebook.com/{{ record.user.id }}/picture?width=100&height=100" alt="" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="user-selection">Places:
+                                                    <ul class="actions" style="margin-bottom: 10px;">
+                                                        <li ng-repeat="place in record.places">
+                                                            <a class="button" ng-class="place.selectionId ? 'special' : 'alt'">
+                                                                {{ place.suggestion.name }}
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                    <hr />
+                                                    Times:
+                                                    <ul class="actions">
+                                                        <li ng-repeat="time in record.times">
+                                                            <a class="button" ng-class="time.selectionId ? 'special': 'alt'">{{ time.time }}</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div style="clear: both"></div>
+                                            </div>
 					</section>
 					<section>
                                             <div ng-show="!identity.logged">
