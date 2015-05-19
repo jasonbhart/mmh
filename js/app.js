@@ -24,7 +24,13 @@
             logged: false
         };
 
-        $scope.$watch('identity.id', function() {
+        $scope.$watch('identity.id', function(newVal, oldVal) {
+            // remove anonymous user
+            if (oldVal == 0 && refs.user) {
+                refs.user.orderByChild('id').equalTo(0).once('value', function(userSnap) {
+                    userSnap.ref().remove();
+                });
+            }
             loadCurrentUser();
         });
 
@@ -41,7 +47,6 @@
             $window.FB.Event.subscribe('auth.authResponseChange', function(response) {
                 if (response.status == 'connected' && response.authResponse) {
                     $window.FB.api('/me', function(response) {
-                        console.log('FB response', response);
                         // set identity
                         $scope.identity.id = response.id;
                         $scope.identity.name = response.name;
