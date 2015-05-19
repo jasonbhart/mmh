@@ -24,6 +24,10 @@
             logged: false
         };
 
+        $scope.$watch('identity.id', function() {
+            loadCurrentUser();
+        });
+
         $window.fbAsyncInit = function() {
             $window.FB.init({
                     appId      : '450586198440716',
@@ -44,8 +48,6 @@
                         $scope.identity.logged = true;
                         $scope.identity.pictureUrl = '//graph.facebook.com/' + response.id + '/picture?width=100&height=100'
                         $scope.$apply();
-
-                        loadCurrentUser();
                     });
                 }
             });
