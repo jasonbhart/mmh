@@ -51,9 +51,9 @@
 					<section>
                                             <div class="user-places logged-user">
                                                 <div class="user-info">
-                                                    <span>{{ selectionTable.user.user.name }}</span>
+                                                    <span ng-show="!selectionTable.user.user.id">{{ selectionTable.user.user.name }}</span>
                                                     <div id="userprofilepic" ng-show="selectionTable.user.user.id">
-                                                        <img ng-src="//graph.facebook.com/{{ selectionTable.user.user.id }}/picture?width=100&height=100" alt="" />
+                                                        <img ng-src="//graph.facebook.com/{{ selectionTable.user.user.id }}/picture?width=100&height=100" title="{{ selectionTable.user.user.name }}" />
                                                     </div>
                                                 </div>
 
@@ -76,11 +76,12 @@
                                                 <div style="clear: both"></div>
                                             </div>
 
+                                            <!-- other users -->
                                             <div ng-repeat="record in selectionTable.others" class="user-places">
                                                 <div class="user-info">
-                                                    <span>{{ record.user.name }}</span>
+                                                    <span ng-show="!record.user.id">{{ record.user.name }}</span>
                                                     <div id="userprofilepic" ng-show="record.user.id">
-                                                        <img ng-src="//graph.facebook.com/{{ record.user.id }}/picture?width=100&height=100" alt="" />
+                                                        <img ng-src="//graph.facebook.com/{{ record.user.id }}/picture?width=100&height=100" title="{{ record.user.name }}" />
                                                     </div>
                                                 </div>
 
