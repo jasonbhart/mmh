@@ -103,12 +103,35 @@
             isNew = true;
         }
 
-        var availableTimes = ["6:00pm", "7:30pm", "8:00pm"];
+        var availableTimes = [];
+        var dateObject = new Date();
+
+        availableTimes = returnHours12(dateObject, 3);
 
         refs.meet = refs.meet.child(meetId);
         refs.suggestions = new Firebase(firebaseUrl + '/suggestions/' + meetId);
         refs.meetSuggestions = refs.meet.child('suggestions');
         refs.users = refs.meet.child('users');
+
+        function returnHours12(date, number) {
+            var hourArray = [];
+            var hour = (date.getHours() + 24) % 12 || 12;
+
+            for (var i = 1; i <= number; i++) {
+                if ((hour + i) > 12) {
+                    var newHour = ((hour + i) - 12) + ':00';
+                    newHour += ((date.getHours() + i) >= 12 && (date.getHours() + i) <= 23) ? 'pm' : 'am';
+                    hourArray.push(newHour);
+                } else {
+                    var newHour = (hour + i) + ':00';
+                    newHour += ((date.getHours() + i) >= 12 && (date.getHours() + i) <= 23) ? 'pm' : 'am';
+                    hourArray.push(newHour);
+                }
+
+            }
+
+            return hourArray;
+        }
 
         function initUser() {
             console.log('loadCurrentUser: enter');
