@@ -84,16 +84,29 @@
 
         var availableTimes = [];
         var dateObject = new Date();
-        availableTimes.push((hours12(dateObject) + 1) + ':00');
-        availableTimes.push((hours12(dateObject) + 2) + ':00');
-        availableTimes.push((hours12(dateObject) + 3) + ':00');
+
+        availableTimes = returnHours12(dateObject, 3);
 
         refs.meet = refs.meet.child(meetId);
         refs.suggestions = new Firebase(firebaseUrl + '/suggestions/' + meetId);
         refs.meetSuggestions = refs.meet.child('suggestions');
         refs.users = refs.meet.child('users');
 
-        function hours12(date) { return (date.getHours() + 24) % 12 || 12; }
+        function returnHours12(date, number) {
+            var hourArray = [];
+            var hour = (date.getHours() + 24) % 12 || 12;
+
+            for (var i = 1; i <= number; i++) {
+                if ((hour + i) > 12) {
+                    hourArray.push(((hour + i) - 12) + ':00');
+                } else {
+                    hourArray.push((hour + i) + ':00');
+                }
+
+            }
+
+            return hourArray;
+        }
 
         function loadCurrentUser() {
             // init/load user
