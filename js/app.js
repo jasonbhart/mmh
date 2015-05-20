@@ -98,9 +98,13 @@
 
             for (var i = 1; i <= number; i++) {
                 if ((hour + i) > 12) {
-                    hourArray.push(((hour + i) - 12) + ':00');
+                    var newHour = ((hour + i) - 12) + ':00';
+                    newHour += ((date.getHours() + i) >= 12 && (date.getHours() + i) <= 23) ? 'pm' : 'am';
+                    hourArray.push(newHour);
                 } else {
-                    hourArray.push((hour + i) + ':00');
+                    var newHour = (hour + i) + ':00';
+                    newHour += ((date.getHours() + i) >= 12 && (date.getHours() + i) <= 23) ? 'pm' : 'am';
+                    hourArray.push(newHour);
                 }
 
             }
