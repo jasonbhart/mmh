@@ -19,20 +19,30 @@
                         function($scope, $q, $window, $firebaseObject, $firebaseArray) {
 
         $scope.identity = {
-            id: 0, //Math.abs(Math.round(Math.random() * Math.pow(2, 32))),           // random uid
-            name: 'Anonymous',
+            id: undefined, //Math.abs(Math.round(Math.random() * Math.pow(2, 32))),           // random uid
+            name: undefined,
             logged: false
         };
 
-        $scope.$watch('identity.id', function(newVal, oldVal) {
-            // remove anonymous user
-            if (oldVal == 0 && refs.user) {
-                refs.user.orderByChild('id').equalTo(0).once('value', function(userSnap) {
-                    userSnap.ref().remove();
-                });
+        $scope.$watch('identity', function(newVal, oldVal) {
+            console.log('watch', newVal, oldVal);
+
+            if (oldVal.id !== newVal.id) {
+                // remove anonymous user
+                if (oldVal.id !== undefined && oldVal.logged === false) {
+                    refs.users.orderByChild('id').equalTo(oldVal.id).once('value', function(userSnap) {
+                        if (!userSnap.exists())
+                            return;
+                        var id = Object.keys(userSnap.val())[0];
+                        var userRef = userSnap.child(id).ref();
+                        console.log('removing anonymous user', userRef.toString());
+                        userRef.remove();
+                    });
+                }
+
+                initUser();
             }
-            loadCurrentUser();
-        });
+        }, true);
 
         $window.fbAsyncInit = function() {
             $window.FB.init({
@@ -41,21 +51,31 @@
                                                             // the session
                     xfbml      : true,  // parse social plugins on this page
                     version    : 'v2.2', // use version 2.2
-                    status     : true       // get user login status asap
+                    status     : true       // get user login status asap. FIXME: somewhy this doesn't work
             });
 
-            $window.FB.Event.subscribe('auth.authResponseChange', function(response) {
+            function fbAuthStatusChange(response) {
+                console.log('auth.statusChanged', response);
                 if (response.status == 'connected' && response.authResponse) {
                     $window.FB.api('/me', function(response) {
                         // set identity
-                        $scope.identity.id = response.id;
+                        $scope.identity.id = response.id; // + Math.round(Math.random()*1000).toString();
                         $scope.identity.name = response.name;
                         $scope.identity.logged = true;
-                        $scope.identity.pictureUrl = '//graph.facebook.com/' + response.id + '/picture?width=100&height=100'
+                        $scope.identity.pictureUrl = '//graph.facebook.com/' + response.id + '/picture?width=100&height=100';
                         $scope.$apply();
                     });
+                } else {
+                    // todo: get fb auth status
+                    $scope.identity.id = 'anonymous0';
+                    $scope.identity.name = 'Anonymous';
+                    $scope.identity.logged = false;
+                    $scope.$apply();
                 }
-            });
+            }
+
+            $window.FB.Event.subscribe('auth.statusChange', fbAuthStatusChange);    // subscribe for status changes
+            $window.FB.getLoginStatus(fbAuthStatusChange);      // need to call this because status in init doesn't work
         };
         (function(d, s, id) {
                 var js, fjs = d.getElementsByTagName(s)[0];
@@ -64,6 +84,7 @@
                 js.src = "//connect.facebook.net/en_US/sdk.js";
                 fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
+
 
         var meetId, isNew = false;
         var refs = {};
@@ -82,45 +103,30 @@
             isNew = true;
         }
 
-        var availableTimes = [];
-        var dateObject = new Date();
-
-        availableTimes = returnHours12(dateObject, 3);
+        var availableTimes = ["6:00pm", "7:30pm", "8:00pm"];
 
         refs.meet = refs.meet.child(meetId);
         refs.suggestions = new Firebase(firebaseUrl + '/suggestions/' + meetId);
         refs.meetSuggestions = refs.meet.child('suggestions');
         refs.users = refs.meet.child('users');
 
-        function returnHours12(date, number) {
-            var hourArray = [];
-            var hour = (date.getHours() + 24) % 12 || 12;
-
-            for (var i = 1; i <= number; i++) {
-                if ((hour + i) > 12) {
-                    var newHour = ((hour + i) - 12) + ':00';
-                    newHour += ((date.getHours() + i) >= 12 && (date.getHours() + i) <= 23) ? 'pm' : 'am';
-                    hourArray.push(newHour);
-                } else {
-                    var newHour = (hour + i) + ':00';
-                    newHour += ((date.getHours() + i) >= 12 && (date.getHours() + i) <= 23) ? 'pm' : 'am';
-                    hourArray.push(newHour);
-                }
-
-            }
-
-            return hourArray;
-        }
-
-        function loadCurrentUser() {
+        function initUser() {
+            console.log('loadCurrentUser: enter');
             // init/load user
             refs.users.orderByChild('id').equalTo($scope.identity.id).once('value', function(userSnap) {
                 if (!userSnap.exists()) {
-                    refs.user = refs.users.push({ id: $scope.identity.id, name: $scope.identity.name });
+                    refs.user = refs.users.push({
+                        id: $scope.identity.id,
+                        name: $scope.identity.name,
+                        logged: $scope.identity.logged
+                    });
+                    console.log('loadCurrentUser: pushed new ', refs.user.toString());
                 } else {
                     var val = userSnap.val();
                     var id = Object.keys(val)[0];
                     refs.user = userSnap.ref().child(id);
+                    console.log('loadCurrentUser: found existing ', refs.user.toString());
+
                 }
 
                 refs.userPlaces = refs.user.child('places');
@@ -130,8 +136,6 @@
             });
         }
 
-        loadCurrentUser();
-                            
         var users = $firebaseArray(refs.users);
 
         $scope.shareUrl = 'https://radiant-heat-9175.firebaseapp.com?meet=' + meetId;
@@ -272,6 +276,7 @@
 
         // watch for users changes
         users.$watch(function(event) {
+            console.log('user watch', event.event);
             if (event.event == 'child_added' || event.event == 'child_removed' || event.event == 'child_changed') {
                 makeSelectionTable();
             }
