@@ -82,12 +82,18 @@
             isNew = true;
         }
 
-        var availableTimes = ["6:00pm", "7:30pm", "8:00pm"];
+        var availableTimes = [];
+        var dateObject = new Date();
+        availableTimes.push((hours12(dateObject) + 1) + ':00');
+        availableTimes.push((hours12(dateObject) + 2) + ':00');
+        availableTimes.push((hours12(dateObject) + 3) + ':00');
 
         refs.meet = refs.meet.child(meetId);
         refs.suggestions = new Firebase(firebaseUrl + '/suggestions/' + meetId);
         refs.meetSuggestions = refs.meet.child('suggestions');
         refs.users = refs.meet.child('users');
+
+        function hours12(date) { return (date.getHours() + 24) % 12 || 12; }
 
         function loadCurrentUser() {
             // init/load user
