@@ -51,8 +51,8 @@
 					<section>
                                             <div class="user-places logged-user">
                                                 <div class="user-info">
-                                                    <span ng-show="!selectionTable.user.user.id">{{ selectionTable.user.user.name }}</span>
-                                                    <div id="userprofilepic" ng-show="selectionTable.user.user.id">
+                                                    <span ng-show="!selectionTable.user.user.logged">{{ selectionTable.user.user.name }}</span>
+                                                    <div id="userprofilepic" ng-show="selectionTable.user.user.logged">
                                                         <img ng-src="//graph.facebook.com/{{ selectionTable.user.user.id }}/picture?width=100&height=100" title="{{ selectionTable.user.user.name }}" />
                                                     </div>
                                                 </div>
@@ -79,8 +79,8 @@
                                             <!-- other users -->
                                             <div ng-repeat="record in selectionTable.others" class="user-places">
                                                 <div class="user-info">
-                                                    <span ng-show="!record.user.id">{{ record.user.name }}</span>
-                                                    <div id="userprofilepic" ng-show="record.user.id">
+                                                    <span ng-show="!record.user.logged">{{ record.user.name }}</span>
+                                                    <div id="userprofilepic" ng-show="record.user.logged">
                                                         <img ng-src="//graph.facebook.com/{{ record.user.id }}/picture?width=100&height=100" title="{{ record.user.name }}" />
                                                     </div>
                                                 </div>
