@@ -129,7 +129,7 @@
                                                                         <a ng-href="{{ suggestion.url }}" target="_blank">{{ suggestion.name }}</a>
                                                                     </td>
                                                                     <td>
-                                                                        <img ng-src="{{ suggestion.rating_url }}">
+                                                                        <img ng-src="{{ suggestion.rating_url|stripUrlSchema }}">
                                                                     </td>
                                                                     <td style="text-align: right;">
                                                                         <a class="button special small" ng-click="addSuggestion(suggestion)">Suggest</a>

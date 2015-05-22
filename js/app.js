@@ -4,6 +4,12 @@
     var firebaseUrl = 'https://radiant-heat-9175.firebaseio.com';
 
     var mmhApp = angular.module('mmh', ['ngCookies','firebase']);
+    
+    mmhApp.filter('stripUrlSchema', function() {
+        return function(input) {
+            return (input || '').replace(/^\w+\:\/\//, '//');
+        }
+    });
 
     $.urlParam = function(name) {
         var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
