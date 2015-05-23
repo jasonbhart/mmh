@@ -1104,6 +1104,7 @@
 
 		h1 {
 			color: $color-fg-bold;
+                        font-size: inherit;
 			font-weight: $font-weight-heading;
 			height: inherit;
 			left: 1.25em;
@@ -1365,3 +1366,24 @@
 			}
 		}
 	}
+
+.user-places {
+    border: 2px solid gray;
+    border-radius: 4px;
+    margin-bottom: 3px;
+    padding: 3px;
+    
+    &.logged-user {
+        border-color: orange;
+    }
+    
+    .user-info {
+        float: left;
+        text-align: center;
+        width: 100px;
+    }
+
+    .user-selection {
+        margin-left: 105px;
+    }
+}
