@@ -21,6 +21,57 @@
         }
     };
 
+    // used to get new places and times
+    function getObjectValuesDiff(obj, excludeObj) {
+        // merge places
+        var values1 = [];
+        var values2 = [];
+        if (obj) {
+            for (var id in obj) {
+                if (!obj.hasOwnProperty(id))
+                    continue;
+
+                values1.push(obj[id]);
+            }
+
+            if (excludeObj) {
+                for (var id in excludeObj) {
+                    if (!excludeObj.hasOwnProperty(id))
+                        continue;
+
+                    values2.push(excludeObj[id]);
+                }
+            }
+        }
+        
+        return _.difference(values1, values2);
+    }
+    
+    function mergeUserDataBySnapshots(srcUserSnap1, dstUserSnap2) {
+        console.log('userSnap1', srcUserSnap1.toString());
+        console.log('userSnap2', dstUserSnap2.toString());
+
+        var srcUser1 = srcUserSnap1.val();
+        var dstUser2 = dstUserSnap2.val();
+        var dstUserRef = dstUserSnap2.ref();
+
+        console.log('dstUserRef', dstUserRef);
+
+        var newPlaces = getObjectValuesDiff(srcUser1.places, dstUser2.places);
+        console.log('newPlaces', newPlaces);
+        var placesRef = dstUserRef.child('places');
+        for (var i=0; i<newPlaces.length; i++) {
+            placesRef.push(newPlaces[i]);
+        }
+
+        var newTimes = getObjectValuesDiff(srcUser1.times, dstUser2.times);
+        console.log('newTimes', newTimes);
+        var timesRef = dstUserRef.child('times');
+        for (var i=0; i<newTimes.length; i++) {
+            timesRef.push(newTimes[i]);
+        }
+    }
+
     mmhApp.controller('main', ['$scope', '$q', '$window', '$cookies', '$firebaseObject', '$firebaseArray',
                         function($scope, $q, $window, $cookies, $firebaseObject, $firebaseArray) {
 
@@ -34,7 +85,6 @@
         var meetId, isNew = false;
         var refs = {};
         refs.meet = new Firebase(firebaseUrl + '/meets');
-
 
         // load or create meeting
         if ($.urlParam('meet')) {
@@ -64,17 +114,33 @@
 
             if (oldVal.id !== newVal.id) {
                 
-                // remove anonymous user
+                // merge data and remove anonymous user
                 if (oldVal.id !== undefined && oldVal.logged === false) {
                     console.log('before remove anonymous user', oldVal.id)
-                    refs.users.orderByChild('id').equalTo(oldVal.id).once('value', function(userSnap) {
-                        if (!userSnap.exists())
+                    refs.users.orderByChild('id').equalTo(oldVal.id).once('value', function(anonSearchSnap) {
+                        // anonymous doesn't exist
+                        if (!anonSearchSnap.exists())
                             return;
-                        var value = userSnap.val();
+                        
+                        var value = anonSearchSnap.val();
                         var id = Object.keys(value)[0];
-                        var userRef = userSnap.child(id).ref();
-                        console.log('removing anonymous user', userRef.toString());
-                        userRef.remove();
+                        var anonUserSnap = anonSearchSnap.child(id);
+                        var anonRef = anonUserSnap.ref();
+
+                        refs.users.orderByChild('id').equalTo(newVal.id).once('value', function(userSearchSnap) {
+                            // user doesn't exist
+                            if (!userSearchSnap.exists())
+                                return;
+                            
+                            var value = userSearchSnap.val();
+                            var id = Object.keys(value)[0];
+                            var userSnap = userSearchSnap.child(id);
+
+                            mergeUserDataBySnapshots(anonUserSnap, userSnap);
+                        });
+
+                        console.log('removing anonymous user', anonRef.toString());
+                        anonRef.remove();
                     });
                 }
 
