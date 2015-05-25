@@ -52,30 +52,34 @@
         console.log('userSnap2', dstUserSnap2.toString());
 
         var srcUser1 = srcUserSnap1.val();
-        var dstUser2 = dstUserSnap2.val();
+        var dstUser2 = dstUserSnap2.val() || {};
         var dstUserRef = dstUserSnap2.ref();
 
         console.log('dstUserRef', dstUserRef);
 
-        var newPlaces = getObjectValuesDiff(srcUser1.places, dstUser2.places);
-        console.log('newPlaces', newPlaces);
-        var placesRef = dstUserRef.child('places');
-        for (var i=0; i<newPlaces.length; i++) {
-            placesRef.push(newPlaces[i]);
+        var newWhere = getObjectValuesDiff(srcUser1.where, dstUser2.where);
+        console.log('newWhere', newWhere);
+        var whereRef = dstUserRef.child('where');
+        for (var i=0; i<newWhere.length; i++) {
+            whereRef.push(newWhere[i]);
         }
 
-        var newTimes = getObjectValuesDiff(srcUser1.times, dstUser2.times);
-        console.log('newTimes', newTimes);
-        var timesRef = dstUserRef.child('times');
-        for (var i=0; i<newTimes.length; i++) {
-            timesRef.push(newTimes[i]);
+        var newWhen = getObjectValuesDiff(srcUser1.when, dstUser2.when);
+        console.log('newWhen', newWhen);
+        var whenRef = dstUserRef.child('when');
+        for (var i=0; i<newWhen.length; i++) {
+            whenRef.push(newWhen[i]);
         }
+
+        console.log('mergeUserDataBySnapshots: done');
     }
 
     mmhApp.controller('main', ['$scope', '$q', '$window', '$cookies', '$firebaseObject', '$firebaseArray',
                         function($scope, $q, $window, $cookies, $firebaseObject, $firebaseArray) {
 
         var anonymousIdCookie = 'anonymousId';
+        var USER_TYPE_ANONYMOUS = 1;
+        var USER_TYPE_FACEBOOK = 2;
         $scope.identity = {
             id: undefined, //Math.abs(Math.round(Math.random() * Math.pow(2, 32))),           // random uid
             name: undefined,
@@ -105,47 +109,51 @@
 
         refs.meet = refs.meet.child(meetId);
         refs.suggestions = new Firebase(firebaseUrl + '/suggestions/' + meetId);
-        refs.meetSuggestions = refs.meet.child('suggestions');
-        refs.users = refs.meet.child('users');
+        refs.users = new Firebase(firebaseUrl + '/users');
+        refs.meetUsers = refs.meet.child('users');
 
         // watch identity changes
         $scope.$watch('identity', function(newVal, oldVal) {
             console.log('watch', newVal, oldVal);
 
             if (oldVal.id !== newVal.id) {
-                
-                // merge data and remove anonymous user
+
+                // merge user's meet data and remove anonymous user
                 if (oldVal.id !== undefined && oldVal.logged === false) {
-                    console.log('before remove anonymous user', oldVal.id)
-                    refs.users.orderByChild('id').equalTo(oldVal.id).once('value', function(anonSearchSnap) {
+                    console.log('before remove anonymous user', oldVal.id);
+                    
+                    refs.meetUsers.orderByKey().equalTo(oldVal.id).once('value', function(meetAnonSnap) {
                         // anonymous doesn't exist
-                        if (!anonSearchSnap.exists())
+                        if (!meetAnonSnap.exists()) {
+                            initUser();
                             return;
+                        }
                         
-                        var value = anonSearchSnap.val();
+                        var value = meetAnonSnap.val();
                         var id = Object.keys(value)[0];
-                        var anonUserSnap = anonSearchSnap.child(id);
-                        var anonRef = anonUserSnap.ref();
+                        meetAnonSnap = meetAnonSnap.child(id);
+                        var meetAnonRef = meetAnonSnap.ref();
+                        var anonRef = refs.users.child(oldVal.id);
 
-                        refs.users.orderByChild('id').equalTo(newVal.id).once('value', function(userSearchSnap) {
-                            // user doesn't exist
-                            if (!userSearchSnap.exists())
-                                return;
+                        // load authenticated user's data
+                        refs.meetUsers.orderByKey().equalTo(newVal.id).once('value', function(meetUserSnap) {
+                            meetUserSnap = meetUserSnap.child(newVal.id);
+
+                            console.log('merge', meetAnonSnap.ref().toString(), meetUserSnap.ref().toString());
+                            mergeUserDataBySnapshots(meetAnonSnap, meetUserSnap);
                             
-                            var value = userSearchSnap.val();
-                            var id = Object.keys(value)[0];
-                            var userSnap = userSearchSnap.child(id);
-
-                            mergeUserDataBySnapshots(anonUserSnap, userSnap);
+                            meetUsers = $firebaseArray(refs.meetUsers);
+                            meetUsers.$watch(meetUsersEventHandler);
+                            
+                            console.log('removing anonymous user', meetAnonRef.toString());
+                            meetAnonRef.remove();
+                            anonRef.remove();
+                            initUser();
                         });
-
-                        console.log('removing anonymous user', anonRef.toString());
-                        anonRef.remove();
                     });
+                } else {
+                    initUser();
                 }
-
-                initUser();
-                makeSelectionTable();
             }
         }, true);
 
@@ -168,18 +176,19 @@
                         // user is authenticated, remove anonymousId cookie
                         delete $cookies[anonymousIdCookie];
 
-                        refs.users.orderByChild('id').equalTo(response.id).once('value', function(snap) {
+                        refs.users.orderByChild('facebookid').equalTo(response.id).once('value', function(snap) {
                             if (!snap.exists()) {
                                 createUser({
-                                    id: response.id,    // + Math.round(Math.random()*1000).toString();
+                                    facebookid: response.id,    // + Math.round(Math.random()*1000).toString();
                                     name: response.name,
                                     logged: true
                                 }, function(ref) {
-                                    ChangeUser(response.id);
+                                    changeUser(ref.key(), USER_TYPE_FACEBOOK);
                                 });
                             } else {
+                                var id = _.keys(snap.val())[0];
                                 console.log('FB user exists', response.id);
-                                ChangeUser(response.id);
+                                changeUser(id, USER_TYPE_FACEBOOK);
                             }
                         });
 
@@ -192,12 +201,12 @@
                     // notify $scope that user has changed
                     var onGetAnonymousUser = function (id) {
                         $cookies[anonymousIdCookie] = id;
-                        ChangeUser(id);
+                        changeUser(id, USER_TYPE_ANONYMOUS);
                     }
 
                     // check if such anonymous user exists
                     if (id) {
-                        refs.users.orderByChild('id').equalTo(id).once('value', function(snap) {
+                        refs.users.orderByChild('anonymousid').equalTo(id).once('value', function(snap) {
                             // no such user exists for current meeting
                             if (!snap.exists()) {
                                 createAnonymousUser(onGetAnonymousUser);
@@ -205,7 +214,6 @@
                                 // user exists
                                 var value = snap.val();
                                 value = value[Object.keys(value)[0]];
-                                console.log(value);
                                 onGetAnonymousUser(value.id);
                             }
                         });
@@ -227,6 +235,11 @@
                 fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
 
+        $scope.getProfilePictureUrl = function(user) {
+            if (user.facebookid)
+                return '//graph.facebook.com/' + user.facebookid + '/picture?width=100&height=100';
+            return null;
+        }
 
         function returnHours12(date, number) {
             var hourArray = [];
@@ -251,64 +264,73 @@
         function createAnonymousUser(onComplete) {
             console.log('createAnonymousUser');
             createUser({
-                id: 0,
                 name: 'Anonymous',
                 logged: false
             }, function(ref) {
                 console.log('createAnonymousUser: ', ref.toString());
-                var id = 'anonymous' + ref.key();
-                ref.update({ id: id }, function() {
-                    onComplete(id)
+                ref.update({ anonymousid: ref.key() }, function() {
+                    onComplete(ref.key());
                 });
             });
         }
 
         function createUser(user, onComplete) {
-            var ref = refs.users.push({
-                id: user.id,
-                name: user.name,
-                logged: user.logged
-            }, function() {
+            var ref = refs.users.push(user, function() {
                 console.log('createUser: ', ref.toString());
-                onComplete(ref);
+                ref.update({
+                    id: ref.key()
+                }, function() {
+                    onComplete(ref)
+                });
             });
         }
-        
-        function ChangeUser(id) {
-            console.log('ChangeUser: changing', id);
-            refs.users.orderByChild('id').equalTo(id).once('value', function(userSnap) {
+ 
+        function changeUser(userId, userType) {
+            console.log('Change user: begin ', userId);
+            refs.users.orderByChild('id').equalTo(userId).once('value', function(userSnap) {
                 if (!userSnap.exists())
                     return;
 
                 var val = userSnap.val();
                 var key = Object.keys(val)[0];
-                console.log(key);
                 var user = val[key];
 
-                console.log('ChangeUser: found', user.id);
-
-                refs.user = refs.users.child(key);
-
+                console.log('changeUser: found', user.id);
+                
                 // load identity
                 $scope.identity.id = user.id;
                 $scope.identity.name = user.name;
                 $scope.identity.logged = user.logged;
+                $scope.identity.userType = userType;
 
                 $scope.$apply();
             });
         }
-
+                            
         function initUser() {
             console.log('initUser');
-                            
-            refs.userPlaces = refs.user.child('places');
-            refs.userTimes = refs.user.child('times');
+
+            var id = $scope.identity.id;
+
+            function onInitialized() {
+            }
+
+            refs.meetUser = refs.meetUsers.child(id);
+
+            // add current user to the current meeting
+            refs.meetUser.once('value', function(userSnap) {
+                console.log('initUser: meetId - ' + meetId.toString() + ', userId - ' + id.toString());
+                refs.meetUser.update({joined: true});
+                refs.userWhere = refs.meetUser.child('where');
+                refs.userWhen = refs.meetUser.child('when');
+            });
         }
 
-        var users = $firebaseArray(refs.users);
+        var meetUsers = $firebaseArray(refs.meetUsers);
 
         $scope.shareUrl = 'https://radiant-heat-9175.firebaseapp.com?meet=' + meetId;
         $scope.suggestions = $firebaseArray(refs.suggestions);
+        var usersInfo = {};      // user's name, status etc.
         $scope.selectionTable = [];
 
 
@@ -344,71 +366,59 @@
 
         // helpers
         function makeSelectionTable() {
-            refs.users.once('value', function(usersSnap) {
-                // select only those having suggested = true
-                refs.suggestions.orderByChild('suggested').equalTo(true).once('value', function(suggSnap) {
+            console.log('makeSelectionTable', $scope.suggestions, meetUsers, meetUsers.length, usersInfo);
 
-                    // at this step users and suggestions are fetched
-                    
-                    var data = {
-                        user: null,
-                        others: []
-                    };
+            var data = {
+                user: null,
+                others: []
+            };
 
-                    usersSnap.forEach(function(user) {
-                        // places selected by user
-                        var selectedPlaces = {};
-                        var selectedTimes = {};
-                        user = user.val();
-                        if (!user.name)
-                            return;
-
-                        var record = {
-                            user: user,
-                            places: [],
-                            times: []
-                        };
-
-                        // collect places selected by user
-                        var places = user.places || {};
-                        for (var p in places) {
-                            if (!places.hasOwnProperty(p))
-                                continue;
-                            selectedPlaces[places[p]] = p;
-                        }
-
-                        var times = user.times || {};
-                        for (var t in times) {
-                            if (!times.hasOwnProperty(t))
-                                continue;
-                            selectedTimes[times[t]] = t;
-                        }
-                        
-                        for (var i=0; i<availableTimes.length; i++) {
-                            record.times.push({
-                                time: availableTimes[i],
-                                selectionId: availableTimes[i] in selectedTimes ? selectedTimes[availableTimes[i]] : null
-                            });
-                        }
-
-                        suggSnap.forEach(function(sugg) {
-                            var suggId = sugg.key();
-                            record.places.push({
-                                suggestionId: sugg.key(),
-                                suggestion: sugg.val(),
-                                selectionId: suggId in selectedPlaces ? selectedPlaces[suggId] : null
-                            });
-                        });
-
-                        if (record.user.id == $scope.identity.id)
-                            data.user = record;
-                        else
-                            data.others.push(record);
-                    });                    
-
-                    $scope.selectionTable = data;
-                });
+            var addedSuggestions = _.filter($scope.suggestions, function(sugg) {
+                return sugg.suggested;
             });
+
+            // join meet users with selected suggestions
+            meetUsers.forEach(function(meetUser) {
+
+                // meeting user record doesn't have related user
+                if (!(meetUser.$id in usersInfo)) {
+                    console.log(meetUser.$id.toString() + ' doesn\'t have user info');
+                    return;
+                }
+
+                var selectedWhere = _.invert(meetUser.where);
+                var selectedWhen = _.invert(meetUser.when);
+                       
+                var record = {
+                    user: usersInfo[meetUser.$id],
+                    where: [],
+                    when: []
+                };
+
+                // fill when
+                for (var i=0; i<availableTimes.length; i++) {
+                    record.when.push({
+                        time: availableTimes[i],
+                        selectionId: availableTimes[i] in selectedWhen ? selectedWhen[availableTimes[i]] : null
+                    });
+                }
+
+                // fill where
+                addedSuggestions.forEach(function(sugg) {
+                    record.where.push({
+                        suggestionId: sugg.$id,
+                        suggestion: sugg,
+                        selectionId: sugg.$id in selectedWhere ? selectedWhere[sugg.$id] : null
+                    });
+                });
+
+                if (record.user.id == $scope.identity.id)
+                    data.user = record;
+                else
+                    data.others.push(record);      
+            });
+            
+            $scope.selectionTable = data;
         }
 
         // handlers
@@ -419,36 +429,68 @@
         }
 
         // selection/deselection of place by user
-        $scope.selectPlace = function(user, place) {
+        $scope.selectWhere = function(user, where) {
             if (user.id != $scope.identity.id)
                 return;
 
-            if (place.selectionId)
-                refs.userPlaces.child(place.selectionId).remove();
+            // deselect if already selected
+            if (where.selectionId)
+                refs.userWhere.child(where.selectionId).remove();
             else
-                refs.userPlaces.push(place.suggestionId);
+                refs.userWhere.push(where.suggestionId);
         }
 
-        $scope.selectTime = function(time) {
-            if (time.selectionId)
-                refs.userTimes.child(time.selectionId).remove();
+        $scope.selectWhen = function(when) {
+            // deselect if already selected
+            if (when.selectionId)
+                refs.userWhen.child(when.selectionId).remove();
             else
-                refs.userTimes.push(time.time);
+                refs.userWhen.push(when.time);
         }
 
         // watch for where changes
         $scope.suggestions.$watch(function(event) {
+//            console.log('suggestions', event);
             if (event.event == 'child_added' || event.event == 'child_removed' || event.event == 'child_changed') {
                 makeSelectionTable();
             }
         });
 
-        // watch for users changes
-        users.$watch(function(event) {
-            console.log('user watch', event.event);
-            if (event.event == 'child_added' || event.event == 'child_removed' || event.event == 'child_changed') {
-                makeSelectionTable();
+        // watch for meet users changes
+        var meetUsersEventHandler = function(event) {
+            console.log('user watch', event, _.cloneDeep(meetUsers));
+            if (event.event == 'child_added') {
+                // load user info
+                
+                // get meet user
+                var mu = _.find(meetUsers, function(mu) {
+                    return mu.$id == event.key;
+                });
+                
+                // search user info
+                var user = _.find($scope.users, function(u) {
+                    return u.id == mu.id;
+                });
+                
+                // do not have ?
+                if (!user) {
+                    // find user
+                    usersInfo[event.key] = $firebaseObject(refs.users.child(event.key));
+                    usersInfo[event.key].$loaded(makeSelectionTable);
+                    return;
+                }
             }
-        });
+            
+            if (event.event == 'child_removed') {
+                if (event.key in usersInfo) {
+                    usersInfo[event.key].$destroy();
+                    delete usersInfo[event.key];
+                }
+            }
+
+            makeSelectionTable();
+        };
+        
+        meetUsers.$watch(meetUsersEventHandler);
     }]);
 })();
