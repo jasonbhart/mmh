@@ -142,9 +142,6 @@
                             console.log('merge', meetAnonSnap.ref().toString(), meetUserSnap.ref().toString());
                             mergeUserDataBySnapshots(meetAnonSnap, meetUserSnap);
                             
-                            meetUsers = $firebaseArray(refs.meetUsers);
-                            meetUsers.$watch(meetUsersEventHandler);
-                            
                             console.log('removing anonymous user', meetAnonRef.toString());
                             meetAnonRef.remove();
                             anonRef.remove();
@@ -323,6 +320,7 @@
                 refs.meetUser.update({joined: true});
                 refs.userWhere = refs.meetUser.child('where');
                 refs.userWhen = refs.meetUser.child('when');
+                makeSelectionTable();
             });
         }
 
@@ -381,7 +379,7 @@
             meetUsers.forEach(function(meetUser) {
 
                 // meeting user record doesn't have related user
-                if (!(meetUser.$id in usersInfo)) {
+                if (!usersInfo[meetUser.$id]) {
                     console.log(meetUser.$id.toString() + ' doesn\'t have user info');
                     return;
                 }
