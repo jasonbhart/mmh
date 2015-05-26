@@ -164,16 +164,16 @@
                     status     : false       // get user login status asap. This works but only if user is logged in
             });
 
-            var authResponse = null;
+            var authResponse = {};
 
             function fbAuthStatusChange(response) {
                 console.log('auth.statusChanged', response);
 
                 // somewhy it happens twice
-                if (authResponse == response.authResponse)
+                if (authResponse.status == response.status && authResponse.authResponse == response.authResponse)
                     return;
                 
-                authResponse = response.authResponse;
+                authResponse = response;
                 
                 console.log('auth.statusChanged after');
 
@@ -231,8 +231,8 @@
                 }
             }
 
+            $window.FB.getLoginStatus(fbAuthStatusChange, true);      // need to call this because status in init doesn't work
             $window.FB.Event.subscribe('auth.statusChange', fbAuthStatusChange);    // subscribe for status changes
-            $window.FB.getLoginStatus(fbAuthStatusChange);      // need to call this because status in init doesn't work
         };
         (function(d, s, id) {
                 var js, fjs = d.getElementsByTagName(s)[0];
@@ -374,7 +374,7 @@
 
         // helpers
         function makeSelectionTable() {
-            console.log('makeSelectionTable', $scope.suggestions, meetUsers, meetUsers.length, usersInfo);
+//            console.log('makeSelectionTable', $scope.suggestions, meetUsers, meetUsers.length, usersInfo);
 
             var data = {
                 user: null,
