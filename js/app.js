@@ -160,13 +160,23 @@
                     cookie     : true,  // enable cookies to allow the server to access
                                                             // the session
                     xfbml      : true,  // parse social plugins on this page
-                    version    : 'v2.2' // use version 2.2
-                    //status     : true       // get user login status asap. This works but only if user is logged in
+                    version    : 'v2.2', // use version 2.2
+                    status     : false       // get user login status asap. This works but only if user is logged in
             });
+
+            var authResponse = null;
 
             function fbAuthStatusChange(response) {
                 console.log('auth.statusChanged', response);
+
+                // somewhy it happens twice
+                if (authResponse == response.authResponse)
+                    return;
                 
+                authResponse = response.authResponse;
+                
+                console.log('auth.statusChanged after');
+
                 if (response.status == 'connected' && response.authResponse) {
                     $window.FB.api('/me', function(response) {
                         console.log('Facebook: /me', response.id);

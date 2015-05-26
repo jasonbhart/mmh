@@ -53,11 +53,15 @@
 						<div id="fb-userid"></div>
 					</section>
 					<section>
-                                            <div class="user-places logged-user" ng-if="selectionTable.user">
+                                            <div class="user-places logged-user" ng-show="selectionTable.user">
                                                 <div class="user-info">
                                                     <span ng-show="!selectionTable.user.user.logged">{{ selectionTable.user.user.name }}</span>
                                                     <div id="userprofilepic" ng-if="selectionTable.user.user.logged">
                                                         <img ng-src="{{ getProfilePictureUrl(selectionTable.user.user) }}" title="{{ selectionTable.user.user.name }}" />
+                                                    </div>
+                                                    <div ng-show="!identity.logged">
+                                                        <fb:login-button scope="public_profile,email" id="fb-login-button">
+                                                        </fb:login-button>
                                                     </div>
                                                 </div>
 
@@ -109,10 +113,6 @@
                                             </div>
 					</section>
 					<section>
-                                            <div ng-show="!identity.logged">
-						<fb:login-button scope="public_profile,email" id="fb-login-button">
-						</fb:login-button>
-                                            </div>
 						<!--<div id="status" ng-show="identity.logged">Logged in as: {{ identity.name }}</div>-->
 					</section>
 					<section>
