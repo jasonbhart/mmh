@@ -74,8 +74,11 @@
         console.log('mergeUserDataBySnapshots: done');
     }
 
-    mmhApp.controller('main', ['$scope', '$q', '$window', '$cookies', '$firebaseObject', '$firebaseArray',
-                        function($scope, $q, $window, $cookies, $firebaseObject, $firebaseArray) {
+    mmhApp.controller('main', ['$scope', '$q', '$window', '$log', '$cookies', '$firebaseObject', '$firebaseArray',
+                        function($scope, $q, $window, $log, $cookies, $firebaseObject, $firebaseArray) {
+
+        $window.fbo = $firebaseObject;
+        $window.fba = $firebaseArray;
 
         var anonymousIdCookie = 'anonymousId';
         var USER_TYPE_ANONYMOUS = 1;
@@ -374,7 +377,7 @@
 
         // helpers
         function makeSelectionTable() {
-//            console.log('makeSelectionTable', $scope.suggestions, meetUsers, meetUsers.length, usersInfo);
+            console.log('makeSelectionTable', $scope.suggestions, meetUsers, meetUsers.length, usersInfo);
 
             var data = {
                 user: null,
@@ -429,11 +432,37 @@
             $scope.selectionTable = data;
         }
 
+        function toggleSuggestion(meetUserRef, suggestionId, state) {
+            meetUserRef
+                .child('where')
+                    .orderByValue()
+                    .equalTo(suggestionId)
+                    .once('value', function(snap) {
+                var exists = snap.exists();
+
+                if (state === undefined) {          // toggle
+                    state = !exists;
+                }
+                
+                if (exists && !state) {      // remove
+                    $log.log('toggleSuggestion Remove: ', snap.ref().toString(), snap.val());
+                    var id = _.keys(snap.val())[0];
+                    snap.ref().child(id).remove();
+                } else if (!exists && state) {      // add
+                    $log.log('toggleSuggestion Add: ', snap.ref().toString(), snap.val());
+                    snap.ref().push(suggestionId);
+                }
+            });
+        }
+
         // handlers
         // mark/unmark suggestion as suggested
         $scope.addSuggestion = function(suggestion) {
             var ref = refs.suggestions.child(suggestion.$id);
-            ref.update({ suggested: true });
+            ref.update({ suggested: true }, function() {
+                // select suggestion by user
+                toggleSuggestion(refs.meetUser, suggestion.$id, true);
+            });
         }
 
         // selection/deselection of place by user
@@ -441,11 +470,7 @@
             if (user.id != $scope.identity.id)
                 return;
 
-            // deselect if already selected
-            if (where.selectionId)
-                refs.userWhere.child(where.selectionId).remove();
-            else
-                refs.userWhere.push(where.suggestionId);
+            toggleSuggestion(refs.meetUser, where.suggestionId);
         }
 
         $scope.selectWhen = function(when) {
@@ -500,5 +525,12 @@
         };
         
         meetUsers.$watch(meetUsersEventHandler);
+
+        refs.users.on('child_removed', function(userSnap) {
+            var key = userSnap.key();
+            var record = meetUsers.$getRecord(key);
+            meetUsers.$remove(record);
+        });
+
     }]);
 })();
