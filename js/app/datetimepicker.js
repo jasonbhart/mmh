@@ -2,20 +2,20 @@
     var app = angular.module('dateTimePicker', []);
     
     app.directive('dateTimePicker', function() {
-        
-        var format = 'h:mmA';
-        
         return {
             require: 'ngModel',
             restrict: 'E',
+            scope: {
+                timeFormat: '@'
+            },
             templateUrl: 'js/app/tmpl/datetime-picker.html',
             link: function(scope, elem, attrs, ngModelCtrl) {
                 var timepicker = jQuery(elem).find('.date').datetimepicker({
-                    format: format,
+                    format: scope.timeFormat,
                     stepping: 15,
                     showClose: true,
                 }).on('dp.change', function() {
-                    var date = timepicker.date().format(format);
+                    var date = timepicker.date().local();
                     ngModelCtrl.$setViewValue(date);
                 });
                 
@@ -23,7 +23,7 @@
 
                 // model -> view
                 ngModelCtrl.$formatters.push(function(modelValue) {
-                    return modelValue || null;
+                    return modelValue || new moment().local();
                 });
                 
                 // view -> model

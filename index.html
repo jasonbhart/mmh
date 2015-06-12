@@ -80,16 +80,16 @@
                                                     <hr />
                                                     Times:
                                                     <ul class="actions">
-                                                        <li ng-repeat="time in selectionTable.user.when">
-                                                            <a class="button" ng-click="selectWhen(time.time)" ng-class="time.selectionId ? 'special': 'alt'">{{ time.time }}</a>
+                                                        <li ng-repeat="when in selectionTable.user.when">
+                                                            <a class="button" ng-click="selectWhen(when.whenId)" ng-class="when.selected ? 'special': 'alt'">{{ when.when }}</a>
                                                         </li>
                                                     </ul>
                                                     <div class="row">
                                                         <div class="col-md-2">
-                                                            <date-time-picker ng-model="customWhen"></date-time-picker>
+                                                            <date-time-picker ng-model="customWhen" time-format="{{timeFormat}}"></date-time-picker>
                                                         </div>
                                                         <div class="col-md-1">
-                                                            <a class="button alt" ng-click="addWhen(customWhen)" >add</a>
+                                                            <a class="button alt" ng-click="addWhen(customWhen)">add</a>
                                                         </div>
                                                     </div>
                                                     {{ customTime }}
