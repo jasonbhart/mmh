@@ -88,7 +88,8 @@
             name: undefined,
             logged: false
         };
-        
+
+        $scope.timeFormat = 'h:mma';
         $scope.customWhen = null;
 
         var meetId, isNew = false;
@@ -107,8 +108,6 @@
             isNew = true;
         }
 
-        var dateObject = new Date();
-
         refs.meet = refs.meet.child(meetId);
         refs.suggestions = new Firebase(firebaseUrl + '/suggestions/' + meetId);
         refs.users = new Firebase(firebaseUrl + '/users');
@@ -118,7 +117,8 @@
         var meetWhenArray = $firebaseArray(refs.meetWhen);
 
         // add when
-        var newWhen = returnHours12(dateObject, 3);
+        var dateObject = new Date();
+        var newWhen = generateHours(dateObject, 3);
         for (var i=0; i<newWhen.length; i++) {
             toggleMeetWhen(newWhen[i], true);
         }
@@ -259,24 +259,16 @@
             return null;
         }
 
-        function returnHours12(date, number) {
-            var hourArray = [];
-            var hour = (date.getHours() + 24) % 12 || 12;
-
-            for (var i = 1; i <= number; i++) {
-                if ((hour + i) > 12) {
-                    var newHour = ((hour + i) - 12) + ':00';
-                    newHour += ((date.getHours() + i) >= 12 && (date.getHours() + i) <= 23) ? 'pm' : 'am';
-                    hourArray.push(newHour);
-                } else {
-                    var newHour = (hour + i) + ':00';
-                    newHour += ((date.getHours() + i) >= 12 && (date.getHours() + i) <= 23) ? 'pm' : 'am';
-                    hourArray.push(newHour);
-                }
-
+        function generateHours(date, number) {
+            var hours = [];
+            var m = new moment(date).minutes(0).seconds(0).milliseconds(0);
+            
+            for (var i=1; i<=number; i++) {
+                m.add(1, 'hour');
+                hours.push(m.clone());
             }
 
-            return hourArray;
+            return hours;
         }
 
         function createAnonymousUser(onComplete) {
@@ -345,7 +337,8 @@
             });
         }
 
-        var meetUsers = $firebaseArray(refs.meetUsers);
+        var meetUsersArray = $firebaseArray(refs.meetUsers);
+        
 
         $scope.shareUrl = 'https://radiant-heat-9175.firebaseapp.com?meet=' + meetId;
         $scope.suggestions = $firebaseArray(refs.suggestions);
@@ -385,7 +378,7 @@
 
         // helpers
         function makeSelectionTable() {
-            console.log('makeSelectionTable', $scope.suggestions, meetUsers, meetUsers.length, usersInfo);
+            console.log('makeSelectionTable', $scope.suggestions, meetUsersArray, meetUsersArray.length, usersInfo);
 
             var data = {
                 user: null,
@@ -395,13 +388,23 @@
             var availableWhere = _.filter($scope.suggestions, function(sugg) {
                 return sugg.suggested;
             });
-            
+
+            // convert datetime to local
             var availableWhen = _.map(meetWhenArray, function(when) {
-                return when.$value;
-            }).sort();
+                return {
+                    id: when.$id,
+                    when: moment.utc(when.$value).local()
+                }
+            }).sort(function(a, b) {
+                if (a.when < b.when)
+                    return -1;
+                else if (a.when > b.when)
+                    return 1;
+                return 0;
+            });
             
             // join meet users with selected suggestions
-            meetUsers.forEach(function(meetUser) {
+            meetUsersArray.forEach(function(meetUser) {
 
                 // meeting user record doesn't have related user
                 if (!usersInfo[meetUser.$id]) {
@@ -420,9 +423,11 @@
 
                 // fill when
                 for (var i=0; i<availableWhen.length; i++) {
+                    var when = availableWhen[i];
                     record.when.push({
-                        time: availableWhen[i],
-                        selectionId: availableWhen[i] in selectedWhen ? selectedWhen[availableWhen[i]] : null
+                        whenId: when.id,
+                        when: when.when.format($scope.timeFormat),
+                        selected: when.id in selectedWhen
                     });
                 }
 
@@ -467,11 +472,15 @@
             });
         }
 
-        function toggleMeetWhen(when, state) {
+        function toggleMeetWhen(whenMoment, state) {
             var defer = $q.defer();
+
+            // save datetime in UTC
+            whenMoment = whenMoment.clone().utc().toISOString();
+
             refs.meetWhen
                 .orderByValue()
-                .equalTo(when)
+                .equalTo(whenMoment)
                 .once('value', function(snap)
             {
                 var exists = snap.exists();
@@ -486,18 +495,18 @@
                     snap.ref().child(id).remove(function() { defer.resolve(); });
                 } else if (!exists && state) {      // add
                     $log.log('toggleMeetWhen Add: ', snap.ref().toString(), snap.val());
-                    snap.ref().push(when, function() { defer.resolve(); });
+                    var whenRef = snap.ref().push(whenMoment, function() { defer.resolve(whenRef.key()); });
                 }
             });
             
             return defer.promise;
         }
 
-        function toggleWhen(meetUserRef, when, state) {
+        function toggleWhen(meetUserRef, whenId, state) {
             meetUserRef
                 .child('when')
                     .orderByValue()
-                    .equalTo(when)
+                    .equalTo(whenId)
                     .once('value', function(snap) {
                 var exists = snap.exists();
 
@@ -511,7 +520,7 @@
                     snap.ref().child(id).remove();
                 } else if (!exists && state) {      // add
                     $log.log('toggleWhen Add: ', snap.ref().toString(), snap.val());
-                    snap.ref().push(when);
+                    snap.ref().push(whenId);
                 }
             });
         }
@@ -534,16 +543,14 @@
             toggleWhere(refs.meetUser, where.suggestionId);
         }
 
-        $scope.addWhen = function(when) {
-            toggleMeetWhen(when, true).then(function() {
-                toggleWhen(refs.meetUser, when, true);
+        $scope.addWhen = function(whenMoment) {
+            toggleMeetWhen(whenMoment, true).then(function(whenId) {
+//                toggleWhen(refs.meetUser, whenId, true);
             });
         }
 
-        $scope.selectWhen = function(when, state) {
-            if (!when)
-                return;
-            toggleWhen(refs.meetUser, when, state);
+        $scope.selectWhen = function(whenId) {
+            toggleWhen(refs.meetUser, whenId);
         }
 
         // watch for where changes
@@ -554,14 +561,19 @@
             }
         });
 
+        meetWhenArray.$watch(function(event) {
+            makeSelectionTable();
+        });
+
+
         // watch for meet users changes
         var meetUsersEventHandler = function(event) {
-            console.log('user watch', event, _.cloneDeep(meetUsers));
+            console.log('user watch', event, _.cloneDeep(meetUsersArray));
             if (event.event == 'child_added') {
                 // load user info
                 
                 // get meet user
-                var mu = _.find(meetUsers, function(mu) {
+                var mu = _.find(meetUsersArray, function(mu) {
                     return mu.$id == event.key;
                 });
                 
@@ -589,12 +601,12 @@
             makeSelectionTable();
         };
         
-        meetUsers.$watch(meetUsersEventHandler);
+        meetUsersArray.$watch(meetUsersEventHandler);
 
         refs.users.on('child_removed', function(userSnap) {
             var key = userSnap.key();
-            var record = meetUsers.$getRecord(key);
-            meetUsers.$remove(record);
+            var record = meetUsersArray.$getRecord(key);
+            meetUsersArray.$remove(record);
         });
 
     }]);
