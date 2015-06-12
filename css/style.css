@@ -1314,3 +1314,11 @@ body.is-touch #banner {
 .user-places .user-selection {
   margin-left: 105px;
 }
+
+.bootstrap-datetimepicker-widget table tr {
+  background-color: white !important;
+  border: none;
+}
+.bootstrap-datetimepicker-widget a {
+  color: #337AB7;
+}

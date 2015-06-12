@@ -3,7 +3,7 @@
 
     var firebaseUrl = 'https://radiant-heat-9175.firebaseio.com';
 
-    var mmhApp = angular.module('mmh', ['ngCookies','firebase']);
+    var mmhApp = angular.module('mmh', ['ngCookies','firebase', 'dateTimePicker']);
     
     mmhApp.filter('stripUrlSchema', function() {
         return function(input) {
@@ -88,6 +88,8 @@
             name: undefined,
             logged: false
         };
+        
+        $scope.customWhen = null;
 
         var meetId, isNew = false;
         var refs = {};
@@ -105,15 +107,21 @@
             isNew = true;
         }
 
-        var availableTimes = [];
         var dateObject = new Date();
-
-        availableTimes = returnHours12(dateObject, 3);
 
         refs.meet = refs.meet.child(meetId);
         refs.suggestions = new Firebase(firebaseUrl + '/suggestions/' + meetId);
         refs.users = new Firebase(firebaseUrl + '/users');
         refs.meetUsers = refs.meet.child('users');
+        refs.meetWhen = refs.meet.child('when');
+        
+        var meetWhenArray = $firebaseArray(refs.meetWhen);
+
+        // add when
+        var newWhen = returnHours12(dateObject, 3);
+        for (var i=0; i<newWhen.length; i++) {
+            toggleMeetWhen(newWhen[i], true);
+        }
 
         // watch identity changes
         $scope.$watch('identity', function(newVal, oldVal) {
@@ -384,10 +392,14 @@
                 others: []
             };
 
-            var addedSuggestions = _.filter($scope.suggestions, function(sugg) {
+            var availableWhere = _.filter($scope.suggestions, function(sugg) {
                 return sugg.suggested;
             });
-
+            
+            var availableWhen = _.map(meetWhenArray, function(when) {
+                return when.$value;
+            }).sort();
+            
             // join meet users with selected suggestions
             meetUsers.forEach(function(meetUser) {
 
@@ -407,15 +419,15 @@
                 };
 
                 // fill when
-                for (var i=0; i<availableTimes.length; i++) {
+                for (var i=0; i<availableWhen.length; i++) {
                     record.when.push({
-                        time: availableTimes[i],
-                        selectionId: availableTimes[i] in selectedWhen ? selectedWhen[availableTimes[i]] : null
+                        time: availableWhen[i],
+                        selectionId: availableWhen[i] in selectedWhen ? selectedWhen[availableWhen[i]] : null
                     });
                 }
 
                 // fill where
-                addedSuggestions.forEach(function(sugg) {
+                availableWhere.forEach(function(sugg) {
                     record.where.push({
                         suggestionId: sugg.$id,
                         suggestion: sugg,
@@ -432,7 +444,7 @@
             $scope.selectionTable = data;
         }
 
-        function toggleSuggestion(meetUserRef, suggestionId, state) {
+        function toggleWhere(meetUserRef, suggestionId, state) {
             meetUserRef
                 .child('where')
                     .orderByValue()
@@ -445,12 +457,61 @@
                 }
                 
                 if (exists && !state) {      // remove
-                    $log.log('toggleSuggestion Remove: ', snap.ref().toString(), snap.val());
+                    $log.log('toggleWhere Remove: ', snap.ref().toString(), snap.val());
                     var id = _.keys(snap.val())[0];
                     snap.ref().child(id).remove();
                 } else if (!exists && state) {      // add
-                    $log.log('toggleSuggestion Add: ', snap.ref().toString(), snap.val());
+                    $log.log('toggleWhere Add: ', snap.ref().toString(), snap.val());
                     snap.ref().push(suggestionId);
+                }
+            });
+        }
+
+        function toggleMeetWhen(when, state) {
+            var defer = $q.defer();
+            refs.meetWhen
+                .orderByValue()
+                .equalTo(when)
+                .once('value', function(snap)
+            {
+                var exists = snap.exists();
+
+                if (state === undefined) {          // toggle
+                    state = !exists;
+                }
+                
+                if (exists && !state) {      // remove
+                    $log.log('toggleMeetWhen Remove: ', snap.ref().toString(), snap.val());
+                    var id = _.keys(snap.val())[0];
+                    snap.ref().child(id).remove(function() { defer.resolve(); });
+                } else if (!exists && state) {      // add
+                    $log.log('toggleMeetWhen Add: ', snap.ref().toString(), snap.val());
+                    snap.ref().push(when, function() { defer.resolve(); });
+                }
+            });
+            
+            return defer.promise;
+        }
+
+        function toggleWhen(meetUserRef, when, state) {
+            meetUserRef
+                .child('when')
+                    .orderByValue()
+                    .equalTo(when)
+                    .once('value', function(snap) {
+                var exists = snap.exists();
+
+                if (state === undefined) {          // toggle
+                    state = !exists;
+                }
+                
+                if (exists && !state) {      // remove
+                    $log.log('toggleWhen Remove: ', snap.ref().toString(), snap.val());
+                    var id = _.keys(snap.val())[0];
+                    snap.ref().child(id).remove();
+                } else if (!exists && state) {      // add
+                    $log.log('toggleWhen Add: ', snap.ref().toString(), snap.val());
+                    snap.ref().push(when);
                 }
             });
         }
@@ -461,7 +522,7 @@
             var ref = refs.suggestions.child(suggestion.$id);
             ref.update({ suggested: true }, function() {
                 // select suggestion by user
-                toggleSuggestion(refs.meetUser, suggestion.$id, true);
+                toggleWhere(refs.meetUser, suggestion.$id, true);
             });
         }
 
@@ -470,15 +531,19 @@
             if (user.id != $scope.identity.id)
                 return;
 
-            toggleSuggestion(refs.meetUser, where.suggestionId);
+            toggleWhere(refs.meetUser, where.suggestionId);
         }
 
-        $scope.selectWhen = function(when) {
-            // deselect if already selected
-            if (when.selectionId)
-                refs.userWhen.child(when.selectionId).remove();
-            else
-                refs.userWhen.push(when.time);
+        $scope.addWhen = function(when) {
+            toggleMeetWhen(when, true).then(function() {
+                toggleWhen(refs.meetUser, when, true);
+            });
+        }
+
+        $scope.selectWhen = function(when, state) {
+            if (!when)
+                return;
+            toggleWhen(refs.meetUser, when, state);
         }
 
         // watch for where changes
