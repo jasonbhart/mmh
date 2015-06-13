@@ -64,6 +64,8 @@
                                                     <span ng-hide="selectionTable.user.user.logged">{{ selectionTable.user.user.name }}</span>
                                                     <div id="userprofilepic" ng-if="selectionTable.user.user.logged">
                                                         <img ng-src="{{ getProfilePictureUrl(selectionTable.user.user) }}" title="{{ selectionTable.user.user.name }}" />
+														<br>
+														(You)
                                                     </div>
                                                     <div ng-hide="identity.logged">
                                                         <fb:login-button scope="public_profile,email" id="fb-login-button">
@@ -108,7 +110,8 @@
                                                 <div class="user-info">
                                                     <span ng-hide="record.user.logged">{{ record.user.name }}</span>
                                                     <div id="userprofilepic" ng-if="record.user.logged">
-                                                        <img ng-src="{{getProfilePictureUrl(record.user)}}" title="{{ record.user.name }}" />
+                                                        <img ng-src="{{getProfilePictureUrl(record.user)}}" title="{{ record.user.name }}" /><br />
+														{{ record.user.name }}
                                                     </div>
                                                     <div>
                                                         Location: <div>{{ record.user.locality || "Unknown" }}</div>
