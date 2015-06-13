@@ -1,5 +1,5 @@
-(function () {
-    var app = angular.module('dateTimePicker', []);
+;(function () {
+    var app = angular.module('mmhDirectives', []);
     
     app.directive('dateTimePicker', function() {
         return {

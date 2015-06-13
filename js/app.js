@@ -3,7 +3,7 @@
 
     var firebaseUrl = 'https://radiant-heat-9175.firebaseio.com';
 
-    var mmhApp = angular.module('mmh', ['ngCookies','firebase', 'dateTimePicker']);
+    var mmhApp = angular.module('mmh', ['ngCookies','firebase', 'mmhServices', 'mmhDirectives']);
     
     mmhApp.filter('stripUrlSchema', function() {
         return function(input) {
@@ -74,8 +74,8 @@
         console.log('mergeUserDataBySnapshots: done');
     }
 
-    mmhApp.controller('main', ['$scope', '$q', '$window', '$log', '$cookies', '$firebaseObject', '$firebaseArray',
-                        function($scope, $q, $window, $log, $cookies, $firebaseObject, $firebaseArray) {
+    mmhApp.controller('main', ['$scope', '$q', '$window', '$log', '$cookies', '$firebaseObject', '$firebaseArray', 'geoLocation',
+                        function($scope, $q, $window, $log, $cookies, $firebaseObject, $firebaseArray, geoLocation) {
 
         $window.fbo = $firebaseObject;
         $window.fba = $firebaseArray;
@@ -306,14 +306,25 @@
                 var user = val[key];
 
                 console.log('changeUser: found', user.id);
-                
-                // load identity
-                $scope.identity.id = user.id;
-                $scope.identity.name = user.name;
-                $scope.identity.logged = user.logged;
-                $scope.identity.userType = userType;
 
-                $scope.$apply();
+                $scope.$apply(function() {
+                    // load identity
+                    $scope.identity.id = user.id;
+                    $scope.identity.name = user.name;
+                    $scope.identity.logged = user.logged;
+                    $scope.identity.userType = userType;
+
+                    if (!user.locality) {
+                        geoLocation.getCurrentLocality().then(
+                            function(locality) {
+                                refs.users.child(key).update({ locality: locality });
+                                console.log('geoLocation success', locality);
+                            }, function(error) {
+                                console.log('geoLocation error', error);
+                            }
+                        );
+                    }
+                });
             });
         }
                             
