@@ -422,17 +422,20 @@
                 controller: 'LocationMapCtrl',
                 size: 'lg',
                 windowClass: 'location-map-modal',
+                resolve: {
+                    location: function() {
+                        return null;
+                    }
+                }
             };
 
             // position map to current user location if we have such
             if (userObject.location) {
-                options.resolve = {
-                    location: function() {
-                        return  {
-                            lat: userObject.location.coords.lat,
-                            lng: userObject.location.coords.lng
-                        };
-                    }
+                options.resolve.location = function() {
+                    return  {
+                        lat: userObject.location.coords.lat,
+                        lng: userObject.location.coords.lng
+                    };
                 };
             }
 
