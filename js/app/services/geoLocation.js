@@ -1,9 +1,9 @@
 ;(function() {
     "use strict";
 
-    var app = angular.module('mmhServices');
+    var app = angular.module('mmh.services');
 
-    app.factory('geoLocation', ['$window', '$q', function($window, $q) {
+    app.factory('geoLocation', ['$window', '$q', '$log', function($window, $q, $log) {
         return {
             getLocation: function(options) {
                 var defer = $q.defer();
@@ -45,6 +45,7 @@
                 var defer = $q.defer();
                 this.geoDecode(lat, lng).then(
                     function(result) {
+                        $log.log('geoLocation getLocality result success', result);
                         var locality = null;
                         // find locality in the result
                         for (var i=0; i<result.length; i++) {
@@ -52,7 +53,6 @@
                                 var acomps = result[i].address_components;
                                 
                                 if (acomps && acomps.length > 0) {
-                                    console.log('XXXX', lat, lng, result);
                                     locality = {
                                         coords: {
                                             lat: result[i].geometry.location.lat(),
