@@ -1322,3 +1322,38 @@ body.is-touch #banner {
 .bootstrap-datetimepicker-widget a {
   color: #337AB7;
 }
+
+.user-groups {
+  margin-bottom: 1em;
+}
+.user-groups .group {
+  border: 1px solid gray;
+  border-radius: 3px;
+  display: inline-block;
+  margin: 0.5em;
+  min-width: 25%;
+  padding: 2px;
+  vertical-align: middle;
+}
+.user-groups .group .name {
+  border-bottom: 2px solid gray;
+  font-weight: bold;
+  font-style: italic;
+  margin-bottom: 3px;
+}
+.user-groups .group .name .location {
+  color: gray;
+  font-size: small;
+  font-weight: normal;
+}
+.user-groups .user {
+  background: #fd0;
+  border: 1px solid orange;
+  display: inline-block;
+  font-weight: bold;
+  margin-right: 3px;
+  padding: 2px;
+}
+.user-groups .user:last-child {
+  margin-right: 0px;
+}
