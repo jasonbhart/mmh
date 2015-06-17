@@ -110,7 +110,7 @@
 
                         groups.push(group);
 
-                        // filter out users that belongs to just created group
+                        // filter out users that belong to just created group
                         users = _.filter(users, function(u) {
                             return group.userIds.indexOf(u.userId) < 0;
                         });
@@ -122,7 +122,7 @@
         }
     }
     
-    var app = angular.module('mmhServices');
+    var app = angular.module('mmh.services');
     
     app.service('userGroupBuilder', UserGroupBuilder);
 })();

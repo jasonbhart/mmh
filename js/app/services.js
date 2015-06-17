@@ -1,5 +1,5 @@
 ;(function() {
     "use strict";
 
-    var app = angular.module('mmhServices', []);
+    var app = angular.module('mmh.services', []);
 })();

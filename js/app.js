@@ -3,7 +3,7 @@
 
     var firebaseUrl = 'https://radiant-heat-9175.firebaseio.com';
 
-    var mmhApp = angular.module('mmh', ['ngCookies','firebase', 'mmhServices', 'mmhDirectives']);
+    var mmhApp = angular.module('mmh', ['ngCookies','firebase', 'ui.bootstrap', 'mmh.services', 'mmh.directives']);
     
     mmhApp.filter('stripUrlSchema', function() {
         return function(input) {
@@ -74,8 +74,8 @@
         console.log('mergeUserDataBySnapshots: done');
     }
 
-    mmhApp.controller('main', ['$scope', '$q', '$window', '$log', '$cookies', '$firebaseObject', '$firebaseArray', 'geoLocation', 'userGroupBuilder',
-                        function($scope, $q, $window, $log, $cookies, $firebaseObject, $firebaseArray, geoLocation, userGroupBuilder) {
+    mmhApp.controller('main', ['$scope', '$q', '$window', '$log', '$cookies', '$firebaseObject', '$firebaseArray', 'geoLocation', 'userGroupBuilder', '$modal',
+                        function($scope, $q, $window, $log, $cookies, $firebaseObject, $firebaseArray, geoLocation, userGroupBuilder, $modal) {
 
         $window.fbo = $firebaseObject;
         $window.fba = $firebaseArray;
@@ -115,6 +115,8 @@
         refs.meetWhen = refs.meet.child('when');
         
         var meetWhenArray = $firebaseArray(refs.meetWhen);
+        var meetUserObject;
+        var userObject;
 
         // add when
         var dateObject = new Date();
@@ -314,17 +316,6 @@
                     $scope.identity.logged = user.logged;
                     $scope.identity.userType = userType;
                 });
-
-                if (!user.location) {
-                    geoLocation.getCurrentLocation().then(
-                        function(location) {
-                            refs.users.child(key).update({ location: location }); 
-                            console.log('geoLocation success', location);
-                        }, function(error) {
-                            console.log('geoLocation error', error);
-                        }
-                    );
-                }
             });
         }
                             
@@ -333,14 +324,29 @@
 
             var id = $scope.identity.id;
             refs.meetUser = refs.meetUsers.child(id);
+            meetUserObject = new $firebaseObject(refs.meetUser);
+            userObject = new $firebaseObject(refs.users.child(id));
 
-            // add current user to the current meeting
-            refs.meetUser.once('value', function(userSnap) {
+            meetUserObject.$loaded().then(function() {
+                // add current user to the current meeting
                 console.log('initUser: meetId - ' + meetId.toString() + ', userId - ' + id.toString());
                 refs.meetUser.update({joined: true});
                 refs.userWhere = refs.meetUser.child('where');
                 refs.userWhen = refs.meetUser.child('when');
                 makeSelectionTable();
+            });
+
+            userObject.$loaded().then(function() {
+                if (!userObject.location) {
+                    geoLocation.getCurrentLocation().then(
+                        function(location) {
+                            refs.users.child(userObject.$id).update({ location: location });
+                            console.log('geoLocation success', location);
+                        }, function(error) {
+                            console.log('geoLocation error', error);
+                        }
+                    );
+                }
             });
         }
 
@@ -408,6 +414,43 @@
                 where: where,
                 when: when
             };
+        }
+
+        $scope.changeLocation = function() {
+            var options = {
+                templateUrl: 'js/app/tmpl/locationMap.html',
+                controller: 'LocationMapCtrl',
+                size: 'lg',
+                windowClass: 'location-map-modal',
+            };
+
+            // position map to current user location if we have such
+            if (userObject.location) {
+                options.resolve = {
+                    location: function() {
+                        return  {
+                            lat: userObject.location.coords.lat,
+                            lng: userObject.location.coords.lng
+                        };
+                    }
+                };
+            }
+
+            var modal = $modal.open(options);
+            modal.result.then(function(result) {
+                if (!result)
+                    return;
+
+                geoLocation.getLocality(result.lat, result.lng).then(
+                    function(location) {
+                        refs.users.child(userObject.$id).update({ location: location }); 
+                        $log.log('geoLocation success', location);
+                    }, function(error) {
+                        $window.alert('Failed to change location: ' + error);
+                        $log.log('geoLocation error', error);
+                    }
+                );
+            });
         }
 
         // helpers
@@ -690,5 +733,64 @@
             meetUsersArray.$remove(record);
         });
 
+    }]);
+
+    // Location map popup controller
+    mmhApp.controller(
+        'LocationMapCtrl',
+        ['$scope', '$modalInstance', '$document', 'location',
+        function ($scope, $modalInstance, $document, location) {
+
+        $scope.position = null;
+
+        $scope.confirm = function () {
+            $modalInstance.close($scope.position);
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss();
+        };
+        
+        $modalInstance.rendered.then(function() {
+            var mapOptions = {
+                zoom: 10
+            };
+
+            // default position: New York
+            var position = new google.maps.LatLng(40.7033127, -73.979681);
+            if (location) {
+                position = new google.maps.LatLng(location.lat, location.lng);
+            }
+
+            $scope.position = {
+                lat: position.lat(),
+                lng: position.lng()
+            };
+
+            var mapElement = $document.find('.location-map-modal .map-canvas').get(0);
+
+            // show map
+            var map = new google.maps.Map(mapElement, mapOptions);
+
+            google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
+                google.maps.event.trigger(map, 'resize');
+            });
+            map.setCenter(position);
+
+            var marker = new google.maps.Marker({
+                position: position,
+                map: map,
+                draggable: true
+            });
+            
+            google.maps.event.addListener(marker, 'dragend', function(e) {
+                $scope.$apply(function() {
+                    $scope.position = {
+                        lat: e.latLng.lat(),
+                        lng: e.latLng.lng(),
+                    };
+                });
+            });
+        });
     }]);
 })();

@@ -1089,7 +1089,7 @@
 		box-shadow: 0px 0.0375em 0.125em 0px rgba(0,0,0,0.05);
 		color: $color-fg-bold;
 		cursor: default;
-		height: 4.5em;
+		height: $header-height;
 		left: 0;
 		line-height: 4.4em;
 		position: fixed;
@@ -1386,6 +1386,22 @@
     .user-selection {
         margin-left: 105px;
     }
+    
+    .location {
+        .name {
+            color: #55f;
+        }
+
+        .switcher {
+            cursor: pointer;
+        }
+        
+        .switcher:hover {
+            color: black;
+            border-bottom: 1px dotted gray;
+        }
+    }
+    
 }
 
 .bootstrap-datetimepicker-widget {
@@ -1439,4 +1455,8 @@
     .user:last-child {
         margin-right: 0px;
     }
+}
+
+.location-map-modal {
+    margin-top: $modal-top-margin;
 }

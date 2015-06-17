@@ -1314,6 +1314,16 @@ body.is-touch #banner {
 .user-places .user-selection {
   margin-left: 105px;
 }
+.user-places .location .name {
+  color: #55f;
+}
+.user-places .location .switcher {
+  cursor: pointer;
+}
+.user-places .location .switcher:hover {
+  color: black;
+  border-bottom: 1px dotted gray;
+}
 
 .bootstrap-datetimepicker-widget table tr {
   background-color: white !important;
@@ -1356,4 +1366,8 @@ body.is-touch #banner {
 }
 .user-groups .user:last-child {
   margin-right: 0px;
+}
+
+.location-map-modal {
+  margin-top: 3em;
 }
