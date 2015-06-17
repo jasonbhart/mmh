@@ -74,8 +74,8 @@
         console.log('mergeUserDataBySnapshots: done');
     }
 
-    mmhApp.controller('main', ['$scope', '$q', '$window', '$log', '$cookies', '$firebaseObject', '$firebaseArray', 'geoLocation',
-                        function($scope, $q, $window, $log, $cookies, $firebaseObject, $firebaseArray, geoLocation) {
+    mmhApp.controller('main', ['$scope', '$q', '$window', '$log', '$cookies', '$firebaseObject', '$firebaseArray', 'geoLocation', 'userGroupBuilder',
+                        function($scope, $q, $window, $log, $cookies, $firebaseObject, $firebaseArray, geoLocation, userGroupBuilder) {
 
         $window.fbo = $firebaseObject;
         $window.fba = $firebaseArray;
@@ -313,18 +313,18 @@
                     $scope.identity.name = user.name;
                     $scope.identity.logged = user.logged;
                     $scope.identity.userType = userType;
-
-                    if (!user.locality) {
-                        geoLocation.getCurrentLocality().then(
-                            function(locality) {
-                                refs.users.child(key).update({ locality: locality });
-                                console.log('geoLocation success', locality);
-                            }, function(error) {
-                                console.log('geoLocation error', error);
-                            }
-                        );
-                    }
                 });
+
+                if (!user.location) {
+                    geoLocation.getCurrentLocation().then(
+                        function(location) {
+                            refs.users.child(key).update({ location: location }); 
+                            console.log('geoLocation success', location);
+                        }, function(error) {
+                            console.log('geoLocation error', error);
+                        }
+                    );
+                }
             });
         }
                             
@@ -332,10 +332,6 @@
             console.log('initUser');
 
             var id = $scope.identity.id;
-
-            function onInitialized() {
-            }
-
             refs.meetUser = refs.meetUsers.child(id);
 
             // add current user to the current meeting
@@ -355,6 +351,7 @@
         $scope.suggestions = $firebaseArray(refs.suggestions);
         var usersInfo = {};      // user's name, status etc.
         $scope.selectionTable = [];
+        $scope.userGroups = [];
 
 
         // load suggestions
@@ -387,6 +384,32 @@
             $scope.suggestions = $firebaseArray(refs.suggestions);
         }
 
+        function getFormattingData() {
+            var where = _.filter($scope.suggestions, function(sugg) {
+                return sugg.suggested;
+            });
+
+            // convert datetime to local
+            var when = _.map(meetWhenArray, function(when) {
+                return {
+                    id: when.$id,
+                    when: moment.utc(when.$value).local()
+                };
+            }).sort(function(a, b) {
+                if (a.when < b.when)
+                    return -1;
+                else if (a.when > b.when)
+                    return 1;
+                return 0;
+            });
+            
+            return {
+                users: usersInfo,
+                where: where,
+                when: when
+            };
+        }
+
         // helpers
         function makeSelectionTable() {
             console.log('makeSelectionTable', $scope.suggestions, meetUsersArray, meetUsersArray.length, usersInfo);
@@ -396,29 +419,13 @@
                 others: []
             };
 
-            var availableWhere = _.filter($scope.suggestions, function(sugg) {
-                return sugg.suggested;
-            });
-
-            // convert datetime to local
-            var availableWhen = _.map(meetWhenArray, function(when) {
-                return {
-                    id: when.$id,
-                    when: moment.utc(when.$value).local()
-                }
-            }).sort(function(a, b) {
-                if (a.when < b.when)
-                    return -1;
-                else if (a.when > b.when)
-                    return 1;
-                return 0;
-            });
+            var formattingData = getFormattingData();
             
             // join meet users with selected suggestions
             meetUsersArray.forEach(function(meetUser) {
 
                 // meeting user record doesn't have related user
-                if (!usersInfo[meetUser.$id]) {
+                if (!formattingData.users[meetUser.$id]) {
                     console.log(meetUser.$id.toString() + ' doesn\'t have user info');
                     return;
                 }
@@ -427,14 +434,14 @@
                 var selectedWhen = _.invert(meetUser.when);
                        
                 var record = {
-                    user: usersInfo[meetUser.$id],
+                    user: formattingData.users[meetUser.$id],
                     where: [],
                     when: []
                 };
 
                 // fill when
-                for (var i=0; i<availableWhen.length; i++) {
-                    var when = availableWhen[i];
+                for (var i=0; i<formattingData.when.length; i++) {
+                    var when = formattingData.when[i];
                     record.when.push({
                         whenId: when.id,
                         when: when.when.format($scope.timeFormat),
@@ -443,7 +450,7 @@
                 }
 
                 // fill where
-                availableWhere.forEach(function(sugg) {
+                formattingData.where.forEach(function(sugg) {
                     record.where.push({
                         suggestionId: sugg.$id,
                         suggestion: sugg,
@@ -458,6 +465,60 @@
             });
             
             $scope.selectionTable = data;
+
+            $scope.userGroups = buildUserGroups(formattingData);
+            console.log('User Groups', $scope.userGroups);
+        }
+        
+        function buildUserGroups(formattingData) {
+            // build groups
+            var groups = userGroupBuilder.build(
+                _.map(meetUsersArray, function(u) {
+                    var location = formattingData.users[u.$id]
+                        ? formattingData.users[u.$id].location || null : null;
+                    return {
+                        userId: u.$id,
+                        location: location,
+                        where: _.values(u.where),
+                        when: _.values(u.when)
+                    }
+                })
+            );
+
+            // format groups
+            var result = [];
+            for (var i=0; i<groups.length; i++) {
+                var group = groups[i];
+
+                // we want groups with more then 1 participant
+                if (group.userIds.length < 2)
+                    continue;
+                
+                var users = _.map(group.userIds, function(id) {
+                    return formattingData.users[id];
+                });
+                    
+                var where = _.find(formattingData.where, function(w) {
+                    return w.$id == group.where.id;
+                });
+                var when = _.find(formattingData.when, function(w) {
+                    return w.id == group.when.id;
+                });
+                
+                if (where && when) {
+                    result.push({
+                        users: users,
+                        location: group.location,
+                        where: where,
+                        when: {
+                            when: when,
+                            formatted: when.when.format($scope.timeFormat)
+                        }
+                    });
+                }
+            }
+            
+            return result;
         }
 
         function toggleWhere(meetUserRef, suggestionId, state) {
@@ -613,6 +674,15 @@
         };
         
         meetUsersArray.$watch(meetUsersEventHandler);
+
+        refs.users.on('child_changed', function(userSnap) {
+            // our user changed ?
+            if (userSnap.exists() && usersInfo[userSnap.key()]) {
+                $scope.$evalAsync(function() {
+                    makeSelectionTable();
+                });
+            }
+        });
 
         refs.users.on('child_removed', function(userSnap) {
             var key = userSnap.key();
