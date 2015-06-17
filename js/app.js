@@ -489,6 +489,11 @@
             var result = [];
             for (var i=0; i<groups.length; i++) {
                 var group = groups[i];
+
+                // we want groups with more then 1 participant
+                if (group.userIds.length < 2)
+                    continue;
+                
                 var users = _.map(group.userIds, function(id) {
                     return formattingData.users[id];
                 });
