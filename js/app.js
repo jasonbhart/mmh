@@ -74,8 +74,8 @@
         console.log('mergeUserDataBySnapshots: done');
     }
 
-    mmhApp.controller('main', ['$scope', '$q', '$window', '$log', '$cookies', '$firebaseObject', '$firebaseArray', 'geoLocation', 'userGroupBuilder', '$modal',
-                        function($scope, $q, $window, $log, $cookies, $firebaseObject, $firebaseArray, geoLocation, userGroupBuilder, $modal) {
+    mmhApp.controller('main', ['$scope', '$q', '$window', '$log', '$cookies', '$firebaseObject', '$firebaseArray', 'geoLocation', 'userGroupBuilder', '$modal', 'dataProvider',
+                        function($scope, $q, $window, $log, $cookies, $firebaseObject, $firebaseArray, geoLocation, userGroupBuilder, $modal, dataProvider) {
 
         $window.fbo = $firebaseObject;
         $window.fba = $firebaseArray;
@@ -108,15 +108,26 @@
             isNew = true;
         }
 
-        refs.meet = refs.meet.child(meetId);
-        refs.suggestions = new Firebase(firebaseUrl + '/suggestions/' + meetId);
-        refs.users = new Firebase(firebaseUrl + '/users');
-        refs.meetUsers = refs.meet.child('users');
-        refs.meetWhen = refs.meet.child('when');
+        refs.meet = refs.meet.child(meetId);                                // current meeting info
+        refs.users = new Firebase(firebaseUrl + '/users');                  // stores all users info
+        refs.suggestions = new Firebase(firebaseUrl + '/suggestions');      // stores user specific suggestions, key: userid
+        refs.meetUsers = refs.meet.child('users');                          // users participating in meeting, key: userId
+        refs.meetWhere = refs.meet.child('where');                          // available places for current meet
+        refs.meetWhen = refs.meet.child('when');                            // available times for current meet
+        refs.userSuggestions = null;
         
+        var meetUsersArray = $firebaseArray(refs.meetUsers);
+        var meetWhereArray = $firebaseArray(refs.meetWhere);
         var meetWhenArray = $firebaseArray(refs.meetWhen);
+        var userSuggestionsArray;
         var meetUserObject;
         var userObject;
+
+        $scope.shareUrl = 'https://radiant-heat-9175.firebaseapp.com?meet=' + meetId;
+        $scope.suggestions = null;
+        var usersInfo = {};      // user's name, status etc. with elements of type $firebaseObject
+        $scope.selectionTable = [];
+        $scope.userGroups = [];
 
         // add when
         var dateObject = new Date();
@@ -320,7 +331,7 @@
         }
                             
         function initUser() {
-            console.log('initUser');
+            $log.log('initUser');
 
             var id = $scope.identity.id;
             refs.meetUser = refs.meetUsers.child(id);
@@ -329,10 +340,26 @@
 
             meetUserObject.$loaded().then(function() {
                 // add current user to the current meeting
-                console.log('initUser: meetId - ' + meetId.toString() + ', userId - ' + id.toString());
+                $log.log('initUser: meetId - ' + meetId.toString() + ', userId - ' + id.toString());
+                refs.userSuggestions = refs.suggestions.child(id);
                 refs.meetUser.update({joined: true});
                 refs.userWhere = refs.meetUser.child('where');
                 refs.userWhen = refs.meetUser.child('when');
+
+                userSuggestionsArray = $firebaseArray(refs.userSuggestions);
+                
+                userSuggestionsArray.$loaded().then(function() {
+                    // load default suggestions
+                    if (userSuggestionsArray.length == 0) {
+                        dataProvider.getSuggestions().then(function(suggestions) {
+                            _.forEach(suggestions, function(e) {
+                                refs.userSuggestions.push(e);
+                            });
+                        });
+                    }
+                });
+                $scope.suggestions = userSuggestionsArray;
+                
                 makeSelectionTable();
             });
 
@@ -340,60 +367,41 @@
                 if (!userObject.location) {
                     geoLocation.getCurrentLocation().then(
                         function(location) {
-                            refs.users.child(userObject.$id).update({ location: location });
-                            console.log('geoLocation success', location);
+                            changeLocation(refs.users.child(userObject.$id), location);
+                            $log.log('geoLocation success', location);
                         }, function(error) {
-                            console.log('geoLocation error', error);
+                            $log.log('geoLocation error', error);
                         }
                     );
                 }
             });
         }
 
-        var meetUsersArray = $firebaseArray(refs.meetUsers);
-        
-
-        $scope.shareUrl = 'https://radiant-heat-9175.firebaseapp.com?meet=' + meetId;
-        $scope.suggestions = $firebaseArray(refs.suggestions);
-        var usersInfo = {};      // user's name, status etc.
-        $scope.selectionTable = [];
-        $scope.userGroups = [];
-
-
-        // load suggestions
-        if (isNew) {
-            // get suggestions
-            $.getJSON('https://edgeprod.com:8081/', function(data) {
-                var businessNames = Object.keys(data.businesses).map(function (key) { return data.businesses[key].name; });
-                var businessUrls = Object.keys(data.businesses).map(function (key) { return data.businesses[key].url; });
-                var businessRatingUrls = Object.keys(data.businesses).map(function (key) { return data.businesses[key].rating_img_url; });
-
-                // initialize suggestions
-                var savedSuggestions = [];
-                businessNames.forEach(function(e, i) {
-                    var defer = $q.defer();
-                    savedSuggestions.push(defer.promise);
-                    refs.suggestions.push({
-                            'name': businessNames[i],
-                            'url': businessUrls[i],
-                            'rating_url': businessRatingUrls[i]
-                    }, function() {
-                        defer.resolve(true);
+        // updates location and loads location specific suggestions
+        function changeLocation(userRef, location) {
+            userRef.update(
+                { location: location },
+                function() {
+                    var options = location ? {location: location.shortName} : null;
+                    // load suggestions
+                    dataProvider.getSuggestions(options).then(function(suggestions) {
+                        refs.userSuggestions.remove(function(error) {
+                            if (error)
+                                return;
+                            _.forEach(suggestions, function(e) {
+                                refs.userSuggestions.push(e);
+                            });
+                        });
+                    }, function(error) {
+                        alert(error);
+                        $log.log('changeLocation: ', error);
                     });
-                });
-                
-                $q.all(savedSuggestions).then(function() {
-                    $scope.suggestions = $firebaseArray(refs.suggestions);
-                });
-            });
-        } else {
-            $scope.suggestions = $firebaseArray(refs.suggestions);
+                }
+            );
         }
 
         function getFormattingData() {
-            var where = _.filter($scope.suggestions, function(sugg) {
-                return sugg.suggested;
-            });
+            var where = meetWhereArray;
 
             // convert datetime to local
             var when = _.map(meetWhenArray, function(when) {
@@ -446,7 +454,7 @@
 
                 geoLocation.getLocality(result.lat, result.lng).then(
                     function(location) {
-                        refs.users.child(userObject.$id).update({ location: location }); 
+                        changeLocation(refs.users.child(userObject.$id), location);
                         $log.log('geoLocation success', location);
                     }, function(error) {
                         $window.alert('Failed to change location: ' + error);
@@ -567,6 +575,36 @@
             return result;
         }
 
+        // add/remove suggestion to/from available suggestions for meet
+        function toggleMeetWhere(where, state) {
+            var defer = $q.defer();
+
+            // search by url (as a key)
+            refs.meetWhere
+                .orderByChild('url')
+                .equalTo(where.url)
+                .once('value', function(snap)
+            {
+                var exists = snap.exists();
+
+                if (state === undefined) {          // toggle
+                    state = !exists;
+                }
+                
+                if (exists && !state) {      // remove
+                    $log.log('toggleMeetWhere Remove: ', snap.ref().toString(), snap.val());
+                    var id = _.keys(snap.val())[0];
+                    snap.ref().child(id).remove(function() { defer.resolve(); });
+                } else if (!exists && state) {      // add
+                    $log.log('toggleMeetWhere Add: ', snap.ref().toString(), snap.val());
+                    var whereRef = snap.ref().push(where, function() { defer.resolve(whereRef.key()); });
+                }
+            });
+            
+            return defer.promise;
+        }
+
+
         function toggleWhere(meetUserRef, suggestionId, state) {
             meetUserRef
                 .child('where')
@@ -590,6 +628,7 @@
             });
         }
 
+        // add/remove time to/from available times for meet
         function toggleMeetWhen(whenMoment, state) {
             var defer = $q.defer();
 
@@ -620,6 +659,7 @@
             return defer.promise;
         }
 
+        // toggle time for user
         function toggleWhen(meetUserRef, whenId, state) {
             meetUserRef
                 .child('when')
@@ -646,10 +686,19 @@
         // handlers
         // mark/unmark suggestion as suggested
         $scope.addSuggestion = function(suggestion) {
-            var ref = refs.suggestions.child(suggestion.$id);
-            ref.update({ suggested: true }, function() {
+            toggleMeetWhere({
+                name: suggestion.name,
+                rating_url: suggestion.rating_url,
+                url: suggestion.url
+            }, true).then(function(whereId) {
                 // select suggestion by user
-                toggleWhere(refs.meetUser, suggestion.$id, true);
+                toggleWhere(refs.meetUser, whereId, true);
+            });
+        }
+
+        $scope.addWhen = function(whenMoment) {
+            toggleMeetWhen(whenMoment, true).then(function(whenId) {
+                toggleWhen(refs.meetUser, whenId, true);
             });
         }
 
@@ -661,22 +710,12 @@
             toggleWhere(refs.meetUser, where.suggestionId);
         }
 
-        $scope.addWhen = function(whenMoment) {
-            toggleMeetWhen(whenMoment, true).then(function(whenId) {
-//                toggleWhen(refs.meetUser, whenId, true);
-            });
-        }
-
         $scope.selectWhen = function(whenId) {
             toggleWhen(refs.meetUser, whenId);
         }
 
-        // watch for where changes
-        $scope.suggestions.$watch(function(event) {
-//            console.log('suggestions', event);
-            if (event.event == 'child_added' || event.event == 'child_removed' || event.event == 'child_changed') {
-                makeSelectionTable();
-            }
+        meetWhereArray.$watch(function(event) {
+            makeSelectionTable();
         });
 
         meetWhenArray.$watch(function(event) {
