@@ -5,8 +5,33 @@
     
     app.factory('dataProvider', ['$q', '$http', '$log', function($q, $http, $log) {
         return {
+            convertMilesToKms: function(miles) {
+                return miles * 1.609344;
+            },
+            
+            /*
+             * options = {
+             *  location: "location name",
+             *  coords: {
+             *      lat: number,
+             *      lng: number
+             *  },
+             *  radius: "number in kms"
+             * }
+             */
             getSuggestions: function(options) {
-                var xhr = $.getJSON('https://edgeprod.com:8081/', options);
+                var searchOptions = {};
+
+                if (options && options.location) {
+                    searchOptions.location = options.location;
+
+                    if (options.coords && options.radius) {
+                        searchOptions.coords = options.coords.lat + ',' + options.coords.lng;
+                        searchOptions.radius = options.radius * 1000;
+                    }
+                }
+
+                var xhr = $.getJSON('https://edgeprod.com:8081/', searchOptions);
                 var defer = $q.defer();
 
                 xhr.done(function(data) {

@@ -30,6 +30,7 @@
                 geocoder.geocode({
                     latLng: latLng,
                 }, function(result, status) {
+                    console.log('geoDecode', lat, lng, result, status);
                     if (status == google.maps.GeocoderStatus.OK) {
                         defer.resolve(result);
                     } else {
@@ -55,8 +56,8 @@
                                 if (acomps && acomps.length > 0) {
                                     locality = {
                                         coords: {
-                                            lat: result[i].geometry.location.lat(),
-                                            lng: result[i].geometry.location.lng()
+                                            lat: lat,
+                                            lng: lng
                                         },
                                         locality: _.first(acomps),
                                         country: _.last(acomps)
