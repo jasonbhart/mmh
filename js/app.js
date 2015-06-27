@@ -83,6 +83,8 @@
         var anonymousIdCookie = 'anonymousId';
         var USER_TYPE_ANONYMOUS = 1;
         var USER_TYPE_FACEBOOK = 2;
+        var DEFAULT_RADIUS = 1;
+        
         $scope.identity = {
             id: undefined, //Math.abs(Math.round(Math.random() * Math.pow(2, 32))),           // random uid
             name: undefined,
@@ -367,6 +369,7 @@
                 if (!userObject.location) {
                     geoLocation.getCurrentLocation().then(
                         function(location) {
+                            location.radius = DEFAULT_RADIUS;
                             changeLocation(refs.users.child(userObject.$id), location);
                             $log.log('geoLocation success', location);
                         }, function(error) {
@@ -382,7 +385,15 @@
             userRef.update(
                 { location: location },
                 function() {
-                    var options = location ? {location: location.shortName} : null;
+                    var options = null;
+                    if (location) {
+                        options = {
+                            location: location.shortName,
+                            coords: location.coords,
+                            radius: dataProvider.convertMilesToKms(location.radius)
+                        };
+                    }
+                    
                     // load suggestions
                     dataProvider.getSuggestions(options).then(function(suggestions) {
                         refs.userSuggestions.remove(function(error) {
@@ -441,8 +452,11 @@
             if (userObject.location) {
                 options.resolve.location = function() {
                     return  {
-                        lat: userObject.location.coords.lat,
-                        lng: userObject.location.coords.lng
+                        position: {
+                            lat: userObject.location.coords.lat,
+                            lng: userObject.location.coords.lng
+                        },
+                        radius: userObject.location.radius
                     };
                 };
             }
@@ -452,8 +466,9 @@
                 if (!result)
                     return;
 
-                geoLocation.getLocality(result.lat, result.lng).then(
+                geoLocation.getLocality(result.position.lat, result.position.lng).then(
                     function(location) {
+                        location.radius = result.radius;
                         changeLocation(refs.users.child(userObject.$id), location);
                         $log.log('geoLocation success', location);
                     }, function(error) {
@@ -783,30 +798,28 @@
         ['$scope', '$modalInstance', '$document', 'location',
         function ($scope, $modalInstance, $document, location) {
 
-        $scope.position = null;
+        // default position: Boston, MA
+        $scope.position = { lat: 42.3133735, lng: -71.0571571 };
+        $scope.radius = 1;
+        if (location) {
+            $scope.position = { lat: location.position.lat, lng: location.position.lng };
+            $scope.radius = location.radius;
+        }
 
         $scope.confirm = function () {
-            $modalInstance.close($scope.position);
+            $modalInstance.close({
+                position: $scope.position,
+                radius: parseInt($scope.radius)
+            });
         };
 
         $scope.cancel = function () {
             $modalInstance.dismiss();
         };
-        
+
         $modalInstance.rendered.then(function() {
             var mapOptions = {
                 zoom: 10
-            };
-
-            // default position: New York
-            var position = new google.maps.LatLng(40.7033127, -73.979681);
-            if (location) {
-                position = new google.maps.LatLng(location.lat, location.lng);
-            }
-
-            $scope.position = {
-                lat: position.lat(),
-                lng: position.lng()
             };
 
             var mapElement = $document.find('.location-map-modal .map-canvas').get(0);
@@ -814,6 +827,10 @@
             // show map
             var map = new google.maps.Map(mapElement, mapOptions);
 
+            // google maps changes position object, so we want to pass a copy of it
+            var position = new google.maps.LatLng($scope.position.lat, $scope.position.lng);
+
+            // trigger map resizing to adjust size after loading (we have dynamically sized workarea)
             google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
                 google.maps.event.trigger(map, 'resize');
             });
@@ -824,7 +841,8 @@
                 map: map,
                 draggable: true
             });
-            
+
+            // marker drag
             google.maps.event.addListener(marker, 'dragend', function(e) {
                 $scope.$apply(function() {
                     $scope.position = {
