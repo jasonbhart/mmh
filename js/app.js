@@ -388,7 +388,6 @@
                     var options = null;
                     if (location) {
                         options = {
-                            location: location.shortName,
                             coords: location.coords,
                             radius: dataProvider.convertMilesToKms(location.radius)
                         };
@@ -437,7 +436,7 @@
 
         $scope.changeLocation = function() {
             var options = {
-                templateUrl: 'js/app/tmpl/locationMap.html',
+                templateUrl: 'js/app/tmpl/locationMap.html?v=2',
                 controller: 'LocationMapCtrl',
                 size: 'lg',
                 windowClass: 'location-map-modal',
@@ -819,7 +818,10 @@
 
         $modalInstance.rendered.then(function() {
             var mapOptions = {
-                zoom: 10
+                zoom: 10,
+                panControl: true,
+                zoomControl: true,
+                scaleControl: true
             };
 
             var mapElement = $document.find('.location-map-modal .map-canvas').get(0);
