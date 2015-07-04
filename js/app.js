@@ -100,7 +100,8 @@
             meetId = $.urlParam('meet');
         } else {
             var postIdRef = refs.meet.push({
-                'name': 'New Meetup'
+                'name': 'New Meetup',
+                'createdDate': moment().utc().toISOString()
             });
 
             meetId = postIdRef.key();
@@ -273,7 +274,7 @@
 
         function generateHours(date, number) {
             var hours = [];
-            var m = new moment(date).minutes(0).seconds(0).milliseconds(0);
+            var m = moment(date).minutes(0).seconds(0).milliseconds(0);
             
             for (var i=1; i<=number; i++) {
                 m.add(1, 'hour');
@@ -887,11 +888,13 @@
         // reflect radius changes to area radius
         $scope.$watch('radius', function(radius) {
             if (area) {
-                radius = dataProvider.convertMilesToKms(radius);
-                console.log(radius)
-                area.setRadius(radius * 1000);
+                area.setRadius(getAreaRadius(radius));
             }
         });
+        
+        function getAreaRadius(radiusInMiles) {
+            return dataProvider.convertMilesToKms(radiusInMiles) * 1000;
+        }
 
         // circle around marker (current position)
         var area = null;
@@ -931,12 +934,13 @@
                 fillColor: '#5555AA',
                 fillOpacity: 0.35,
                 center: position,
-                radius: 1000,
-                map: map
+                radius: getAreaRadius($scope.radius),
+                map: map,
+                geodesic: true
             });
 
             // marker drag
-            google.maps.event.addListener(marker, 'dragend', function(e) {
+            google.maps.event.addListener(marker, 'drag', function(e) {
                 $scope.$apply(function() {
                     $scope.position = {
                         lat: e.latLng.lat(),
