@@ -862,8 +862,8 @@
     // Location map popup controller
     mmhApp.controller(
         'LocationMapCtrl',
-        ['$scope', '$modalInstance', '$document', 'location',
-        function ($scope, $modalInstance, $document, location) {
+        ['$scope', '$modalInstance', '$document', 'location', 'dataProvider',
+        function ($scope, $modalInstance, $document, location, dataProvider) {
 
         // default position: Boston, MA
         $scope.position = { lat: 42.3133735, lng: -71.0571571 };
@@ -883,6 +883,18 @@
         $scope.cancel = function () {
             $modalInstance.dismiss();
         };
+
+        // reflect radius changes to area radius
+        $scope.$watch('radius', function(radius) {
+            if (area) {
+                radius = dataProvider.convertMilesToKms(radius);
+                console.log(radius)
+                area.setRadius(radius * 1000);
+            }
+        });
+
+        // circle around marker (current position)
+        var area = null;
 
         $modalInstance.rendered.then(function() {
             var mapOptions = {
@@ -911,6 +923,17 @@
                 map: map,
                 draggable: true
             });
+            
+            area = new google.maps.Circle({
+                strokeColor: '#5555AA',
+                strokeOpacity: 1,
+                strokeWeight: 2,
+                fillColor: '#5555AA',
+                fillOpacity: 0.35,
+                center: position,
+                radius: 1000,
+                map: map
+            });
 
             // marker drag
             google.maps.event.addListener(marker, 'dragend', function(e) {
@@ -920,6 +943,8 @@
                         lng: e.latLng.lng(),
                     };
                 });
+                
+                area.setCenter(e.latLng);
             });
         });
     }]);
