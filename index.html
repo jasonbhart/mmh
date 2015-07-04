@@ -77,7 +77,7 @@
                         </div>
                     </div>
 
-                    <div class="user-places logged-user" ng-show="selectionTable.user">
+                    <div class="user-places logged-user" ng-if="selectionTable.user">
                         <div class="user-info">
                             <span ng-hide="selectionTable.user.user.logged">{{ selectionTable.user.user.name}}</span>
                             <div id="userprofilepic" ng-if="selectionTable.user.user.logged">
@@ -94,11 +94,20 @@
                                 <span class="switcher" ng-click="changeLocation()">change</span>
                             </div>
                         </div>
+                        
+                        <div class="confirm-section text-center" data-toggle="tooltip" data-placement="top" title="{{ selectionTable.user.status.message }}">
+                            <!--
+                            <div ng-hide="selectionTable.user.status.canConfirm">{{ selectionTable.user.status.message }}</div>
+                            -->
+                            <button type="button" class="btn btn-lg fa fa-check fa-2x" ng-class="selectionTable.user.status.cssClasses" ng-click="confirmSelection()">
+                                {{ selectionTable.user.confirmed ? "Confirmed" : "Let's do it" }}
+                            </button>
+                        </div>
 
                         <div class="user-selection">Places:
                             <ul class="actions" style="margin-bottom: 10px;">
                                 <li ng-repeat="place in selectionTable.user.where">
-                                    <a class="button" ng-class="place.selectionId ? 'special' : 'alt'" ng-click="selectWhere(selectionTable.user.user, place)">
+                                    <a class="button" ng-class="place.cssClasses" ng-click="selectWhere(selectionTable.user.user, place)">
                                         {{ place.suggestion.name}}
                                     </a>
                                 </li>
@@ -107,7 +116,7 @@
                             Times:
                             <ul class="actions">
                                 <li ng-repeat="when in selectionTable.user.when">
-                                    <a class="button" ng-click="selectWhen(when.whenId)" ng-class="when.selected ? 'special': 'alt'">{{ when.when}}</a>
+                                    <a class="button" ng-click="selectWhen(when.whenId)" ng-class="when.cssClasses">{{ when.when}}</a>
                                 </li>
                             </ul>
                             <div class="row">
@@ -135,10 +144,17 @@
                             </div>
                         </div>
 
+                        <div class="confirm-section">
+                            <div>{{ selectionTable.user.confirmationMessage }}</div>
+                            <button type="button" class="btn btn-lg  fa fa-2x disabled" ng-class="record.confirmed ? 'btn-success fa-check' : 'btn-info'">
+                                    {{ record.confirmed ? 'confirmed' : 'not confirmed' }}
+                            </button>
+                        </div>
+                        
                         <div class="user-selection">Places:
                             <ul class="actions" style="margin-bottom: 10px;">
                                 <li ng-repeat="place in record.where">
-                                    <a class="button" ng-class="place.selectionId ? 'special' : 'alt'">
+                                    <a class="button disabled" ng-class="place.selectionId ? 'special' : 'alt'">
                                         {{ place.suggestion.name}}
                                     </a>
                                 </li>
@@ -147,7 +163,7 @@
                             Times:
                             <ul class="actions">
                                 <li ng-repeat="when in record.when">
-                                    <a class="button" ng-class="when.selected ? 'special': 'alt'">{{ when.when}}</a>
+                                    <a class="button disabled" ng-class="when.selected ? 'special': 'alt'">{{ when.when}}</a>
                                 </li>
                             </ul>
                         </div>

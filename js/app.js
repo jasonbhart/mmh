@@ -77,9 +77,6 @@
     mmhApp.controller('main', ['$scope', '$q', '$window', '$log', '$cookies', '$firebaseObject', '$firebaseArray', 'geoLocation', 'userGroupBuilder', '$modal', 'dataProvider',
                         function($scope, $q, $window, $log, $cookies, $firebaseObject, $firebaseArray, geoLocation, userGroupBuilder, $modal, dataProvider) {
 
-        $window.fbo = $firebaseObject;
-        $window.fba = $firebaseArray;
-
         var anonymousIdCookie = 'anonymousId';
         var USER_TYPE_ANONYMOUS = 1;
         var USER_TYPE_FACEBOOK = 2;
@@ -504,30 +501,52 @@
                 var record = {
                     user: formattingData.users[meetUser.$id],
                     where: [],
-                    when: []
+                    when: [],
+                    confirmed: meetUser.confirmed       // did user confirm selection ?
                 };
 
                 // fill when
                 for (var i=0; i<formattingData.when.length; i++) {
                     var when = formattingData.when[i];
-                    record.when.push({
+                    var w = {
                         whenId: when.id,
                         when: when.when.format($scope.timeFormat),
                         selected: when.id in selectedWhen
-                    });
+                    };
+                    
+                    w.cssClasses = [
+                        w.selected ? 'special': 'alt'
+                    ];
+                    
+                    if (record.confirmed)
+                        w.cssClasses.push('disabled');
+                    
+                    record.when.push(w);
                 }
 
                 // fill where
                 formattingData.where.forEach(function(sugg) {
-                    record.where.push({
+                    var w = {
                         suggestionId: sugg.$id,
                         suggestion: sugg,
                         selectionId: sugg.$id in selectedWhere ? selectedWhere[sugg.$id] : null
-                    });
+                    };
+                    
+                    w.cssClasses = [
+                        w.selectionId ? 'special': 'alt'
+                    ];
+                    
+                    if (record.confirmed)
+                        w.cssClasses.push('disabled');
+                    
+                    record.where.push(w);
                 });
 
-                if (record.user.id == $scope.identity.id)
+                if ($scope.identity.id && record.user.id == $scope.identity.id) {
                     data.user = record;
+                    data.user.status = getConfirmationStatus(meetUser);
+                    data.user.status.cssClasses = getConfirmationCssClasses(data.user.status.canConfirm, meetUser.confirmed);
+                }
                 else
                     data.others.push(record);      
             });
@@ -700,6 +719,8 @@
         // handlers
         // mark/unmark suggestion as suggested
         $scope.addSuggestion = function(suggestion) {
+            if (meetUserObject.confirmed)
+                return;
             toggleMeetWhere({
                 name: suggestion.name,
                 rating_url: suggestion.rating_url,
@@ -711,6 +732,8 @@
         }
 
         $scope.addWhen = function(whenMoment) {
+            if (meetUserObject.confirmed)
+                return;
             toggleMeetWhen(whenMoment, true).then(function(whenId) {
                 toggleWhen(refs.meetUser, whenId, true);
             });
@@ -718,14 +741,59 @@
 
         // selection/deselection of place by user
         $scope.selectWhere = function(user, where) {
-            if (user.id != $scope.identity.id)
+            // do not allow change "when" if user has confirmed selection
+            if (meetUserObject.confirmed)
                 return;
 
             toggleWhere(refs.meetUser, where.suggestionId);
         }
 
         $scope.selectWhen = function(whenId) {
+            // do not allow change "when" if user has confirmed selection
+            if (meetUserObject.confirmed)
+                return;
             toggleWhen(refs.meetUser, whenId);
+        }
+
+        $scope.confirmSelection = function() {
+            var status = getConfirmationStatus(meetUserObject);
+            if (!status.canConfirm)
+                return;
+
+            refs.meetUser.update({
+                confirmed: !meetUserObject.confirmed
+            });
+        }
+
+        // confirmation status of the current user
+        function getConfirmationStatus(meetUser) {
+            var status = {
+                canConfirm: true,
+                message: null
+            };
+
+            var whereCount = _.keys(meetUser.where).length;
+            var whenCount = _.keys(meetUser.when).length;
+            
+            if (whereCount != 1 || whenCount != 1) {
+                status.canConfirm = false;
+                status.message = 'You need to select just one location and time';
+            }
+            
+            return status;
+        }
+
+        // classes for confirm button of the current user
+        function getConfirmationCssClasses(canConfirm, confirmed) {
+            var classes = [];
+
+            if (canConfirm) {
+                classes.push(confirmed ? 'btn-success' : 'btn-info');
+            } else {
+                classes.push('btn-warning', 'disabled');
+            }    
+            
+            return classes;
         }
 
         meetWhereArray.$watch(function(event) {
