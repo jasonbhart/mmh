@@ -12,21 +12,29 @@
             /*
              * options = {
              *  location: "location name",
+             *  OR
              *  coords: {
              *      lat: number,
              *      lng: number
              *  },
+             *  
              *  radius: "number in kms"
              * }
              */
             getSuggestions: function(options) {
                 var searchOptions = {};
 
-                if (options && options.location) {
-                    searchOptions.location = options.location;
-
-                    if (options.coords && options.radius) {
+                if (options) {
+                    // location
+                    if (options.location) {
+                        searchOptions.location = options.location;
+                    } else if (options.coords) {
                         searchOptions.coords = options.coords.lat + ',' + options.coords.lng;
+                    }
+
+                    // search radius
+                    if (options.radius) {
+                        // convert to meters
                         searchOptions.radius = options.radius * 1000;
                     }
                 }
@@ -61,11 +69,16 @@
                     // initialize suggestions
                     var suggestions = [];
                     _.forEach(businessNames, function(e, i) {
-                        suggestions.push({
+                        var suggestion = {
                             'name': businessNames[i],
                             'url': businessUrls[i],
                             'rating_url': businessRatingUrls[i]
-                        });
+                        };
+                        
+                        if (data.businesses[i].distance)
+                          suggestion.distance = data.businesses[i].distance;
+                      
+                        suggestions.push(suggestion);
                     });
                     
                     defer.resolve(suggestions);

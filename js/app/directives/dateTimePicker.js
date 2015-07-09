@@ -25,7 +25,7 @@
 
                 // model -> view
                 ngModelCtrl.$formatters.push(function(modelValue) {
-                    return modelValue || new moment().local();
+                    return modelValue || moment().local();
                 });
                 
                 // view -> model
