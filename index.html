@@ -66,20 +66,20 @@
                     <div id="fb-userid"></div>
                 </section>
                 <section>
-                    <div ng-show="userGroups.length">
+                    <div ng-show="userGroups.groups.length">
                         Groups:
                         <div class="user-groups">
-                            <div class="group" ng-repeat="group in userGroups">
+                            <div class="group" ng-repeat="group in userGroups.groups">
                                 <div class="name">
                                     <div class="join-ctrl" ng-class="group.hasJoined(identity.id) && 'joined'" ng-click="joinGroup(group)">
                                         {{ group.hasJoined(identity.id) ? 'leave' : 'join' }}
                                     </div>
-                                    {{ group.where.name}} @ {{ group.when.formatted}}
+                                    {{ group.where.name }} @ {{ group.when.formatted }}
                                     <div class="location">Location: {{ group.location.shortName || 'Unknown' }} </div>
                                 </div>
                                 <div class="user" ng-repeat="user in group.users">
                                     <span ng-class="group.hasJoined(user.id) && 'fa fa-thumbs-up'"></span>
-                                    {{ user.name}}
+                                    {{ user.name }} <span ng-if="user.id == identity.id && userGroups.isMultiName(user.id)">(you)</span>
                                 </div>
                             </div>
                         </div>
@@ -88,14 +88,15 @@
                     <div class="user-places logged-user" ng-if="selectionTable.user">
                         <div class="user-info">
                             <span ng-hide="selectionTable.user.user.logged">{{ selectionTable.user.user.name}}</span>
-                            <div id="userprofilepic" ng-if="selectionTable.user.user.logged">
-                                <img ng-src="{{ getProfilePictureUrl(selectionTable.user.user)}}" title="{{ selectionTable.user.user.name}}" />
-                                <br>
+                            <div>
+                                <div id="userprofilepic" ng-if="selectionTable.user.user.logged">
+                                    <img ng-src="{{ getProfilePictureUrl(selectionTable.user.user)}}" title="{{ selectionTable.user.user.name}}" />
+                                </div>
+                                <div ng-hide="identity.logged">
+                                    <fb:login-button scope="public_profile,email" id="fb-login-button">
+                                    </fb:login-button>
+                                </div>
                                 (You)
-                            </div>
-                            <div ng-hide="identity.logged">
-                                <fb:login-button scope="public_profile,email" id="fb-login-button">
-                                </fb:login-button>
                             </div>
                             <div class="location">
                                 Location: <div class="name">{{ selectionTable.user.user.location.shortName || "Unknown" }}</div>

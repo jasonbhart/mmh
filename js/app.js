@@ -618,7 +618,29 @@
                 }
             });
 
-            return result;
+            // find names that occur more than once
+            var userNames = {};
+            _.forOwn(formattingData.users, function(u) {
+                if (!userNames[u.name]) {
+                    userNames[u.name] = [];
+                }
+                userNames[u.name].push(u.id);
+            });
+            
+            var multiNames = [];
+            _.forOwn(userNames, function(ids) {
+                if (ids.length > 1)
+                    multiNames = multiNames.concat(ids);
+            });
+            
+            var userGroups = {
+                groups: result,
+                isMultiName: function(id) {
+                    return multiNames.indexOf(id) >= 0;
+                }
+            };
+
+            return userGroups;
         }
 
         // add/remove suggestion to/from available suggestions for meet
