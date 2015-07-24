@@ -32,6 +32,8 @@
         <script src="js/app/services/dataProvider.js"></script>
         <script src="js/app/services/geoLocation.js"></script>
         <script src="js/app/services/userGroupBuilder.js"></script>
+        <script src="js/app/controllers.js"></script>
+        <script src="js/app/controllers/locationMap.js"></script>
         <noscript>
         <link rel="stylesheet" href="css/skel.css" />
         <link rel="stylesheet" href="css/style.css" />
@@ -69,10 +71,16 @@
                         <div class="user-groups">
                             <div class="group" ng-repeat="group in userGroups">
                                 <div class="name">
+                                    <div class="join-ctrl" ng-class="group.hasJoined(identity.id) && 'joined'" ng-click="joinGroup(group)">
+                                        {{ group.hasJoined(identity.id) ? 'leave' : 'join' }}
+                                    </div>
                                     {{ group.where.name}} @ {{ group.when.formatted}}
                                     <div class="location">Location: {{ group.location.shortName || 'Unknown' }} </div>
                                 </div>
-                                <div class="user" ng-repeat="user in group.users">{{ user.name}}</div>
+                                <div class="user" ng-repeat="user in group.users">
+                                    <span ng-class="group.hasJoined(user.id) && 'fa fa-thumbs-up'"></span>
+                                    {{ user.name}}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -95,15 +103,6 @@
                             </div>
                         </div>
                         
-                        <div class="confirm-section text-center" data-toggle="tooltip" data-placement="top" title="{{ selectionTable.user.status.message }}">
-                            <!--
-                            <div ng-hide="selectionTable.user.status.canConfirm">{{ selectionTable.user.status.message }}</div>
-                            -->
-                            <button type="button" class="btn btn-lg fa fa-check fa-2x" ng-class="selectionTable.user.status.cssClasses" ng-click="confirmSelection()">
-                                {{ selectionTable.user.confirmed ? "Confirmed" : "Let's do it" }}
-                            </button>
-                        </div>
-
                         <div class="user-selection">Places:
                             <ul class="actions" style="margin-bottom: 10px;">
                                 <li ng-repeat="place in selectionTable.user.where">
@@ -145,7 +144,6 @@
                         </div>
 
                         <div class="confirm-section">
-                            <div>{{ selectionTable.user.confirmationMessage }}</div>
                             <button type="button" class="btn btn-lg  fa fa-2x disabled" ng-class="record.confirmed ? 'btn-success fa-check' : 'btn-info'">
                                     {{ record.confirmed ? 'confirmed' : 'not confirmed' }}
                             </button>

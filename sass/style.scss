@@ -1437,18 +1437,33 @@
         min-width: 25%;
         padding: 2px;
         vertical-align: middle;
-    }
-    
-    .group .name {
-        border-bottom: 2px solid gray;
-        font-weight: bold;
-        font-style: italic;
-        margin-bottom: 3px;
+
+        .name {
+            border-bottom: 2px solid gray;
+            font-weight: bold;
+            font-style: italic;
+            margin-bottom: 3px;
+            white-space: nowrap;
+
+            .location {
+                color: gray;
+                font-size: small;
+                font-weight: normal;
+            }
+        }
         
-        .location {
-            color: gray;
-            font-size: small;
-            font-weight: normal;
+        .join-ctrl {
+            background-color: gray;
+            border-radius: 5px 0px 5px 5px;
+            cursor: pointer;
+            color: white;
+            float: right;
+            margin-left: 10px;
+            padding: 0.5em;
+            
+            &.joined {
+                background-color: green;
+            }
         }
     }
     

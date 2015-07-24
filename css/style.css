@@ -1358,11 +1358,24 @@ body.is-touch #banner {
   font-weight: bold;
   font-style: italic;
   margin-bottom: 3px;
+  white-space: nowrap;
 }
 .user-groups .group .name .location {
   color: gray;
   font-size: small;
   font-weight: normal;
+}
+.user-groups .group .join-ctrl {
+  background-color: gray;
+  border-radius: 5px 0px 5px 5px;
+  cursor: pointer;
+  color: white;
+  float: right;
+  margin-left: 10px;
+  padding: 0.5em;
+}
+.user-groups .group .join-ctrl.joined {
+  background-color: green;
 }
 .user-groups .user {
   background: #fd0;

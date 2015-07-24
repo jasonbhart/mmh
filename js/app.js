@@ -3,7 +3,17 @@
 
     var firebaseUrl = 'https://radiant-heat-9175.firebaseio.com';
 
-    var mmhApp = angular.module('mmh', ['ngCookies','firebase', 'ui.bootstrap', 'mmh.services', 'mmh.directives']);
+    var mmhApp = angular.module(
+        'mmh',
+        [
+            'ngCookies',
+            'firebase',
+            'ui.bootstrap',
+            'mmh.services',
+            'mmh.directives',
+            'mmh.controllers'
+        ]
+    );
     
     mmhApp.filter('stripUrlSchema', function() {
         return function(input) {
@@ -503,7 +513,7 @@
                     user: formattingData.users[meetUser.$id],
                     where: [],
                     when: [],
-                    confirmed: meetUser.confirmed       // did user confirm selection ?
+                    confirmed: meetUser.group       // did user joined some group ?
                 };
 
                 // fill when
@@ -518,9 +528,6 @@
                     w.cssClasses = [
                         w.selected ? 'special': 'alt'
                     ];
-                    
-                    if (record.confirmed)
-                        w.cssClasses.push('disabled');
                     
                     record.when.push(w);
                 }
@@ -537,16 +544,11 @@
                         w.selectionId ? 'special': 'alt'
                     ];
                     
-                    if (record.confirmed)
-                        w.cssClasses.push('disabled');
-                    
                     record.where.push(w);
                 });
 
                 if ($scope.identity.id && record.user.id == $scope.identity.id) {
                     data.user = record;
-                    data.user.status = getConfirmationStatus(meetUser);
-                    data.user.status.cssClasses = getConfirmationCssClasses(data.user.status.canConfirm, meetUser.confirmed);
                 }
                 else
                     data.others.push(record);      
@@ -575,12 +577,11 @@
 
             // format groups
             var result = [];
-            for (var i=0; i<groups.length; i++) {
-                var group = groups[i];
+            _.forEach(groups, function(group) {
 
                 // we want groups with more then 1 participant
                 if (group.userIds.length < 2)
-                    continue;
+                    return;
                 
                 var users = _.map(group.userIds, function(id) {
                     return formattingData.users[id];
@@ -589,8 +590,16 @@
                 var where = _.find(formattingData.where, function(w) {
                     return w.$id == group.where.id;
                 });
+                
                 var when = _.find(formattingData.when, function(w) {
                     return w.id == group.when.id;
+                });
+
+                var joined = _.filter(group.userIds, function(id) {
+                    var u = meetUsersArray.$getRecord(id);
+                    return u.group
+                        && u.group.where == group.where.id
+                        && u.group.when == group.when.id;
                 });
                 
                 if (where && when) {
@@ -601,11 +610,14 @@
                         when: {
                             when: when,
                             formatted: when.when.format($scope.timeFormat)
+                        },
+                        hasJoined: function(userId) {
+                            return joined.indexOf(userId) >= 0;
                         }
                     });
                 }
-            }
-            
+            });
+
             return result;
         }
 
@@ -720,8 +732,6 @@
         // handlers
         // mark/unmark suggestion as suggested
         $scope.addSuggestion = function(suggestion) {
-            if (meetUserObject.confirmed)
-                return;
             toggleMeetWhere({
                 name: suggestion.name,
                 rating_url: suggestion.rating_url,
@@ -733,8 +743,6 @@
         }
 
         $scope.addWhen = function(whenMoment) {
-            if (meetUserObject.confirmed)
-                return;
             toggleMeetWhen(whenMoment, true).then(function(whenId) {
                 toggleWhen(refs.meetUser, whenId, true);
             });
@@ -742,59 +750,74 @@
 
         // selection/deselection of place by user
         $scope.selectWhere = function(user, where) {
-            // do not allow change "when" if user has confirmed selection
-            if (meetUserObject.confirmed)
-                return;
-
             toggleWhere(refs.meetUser, where.suggestionId);
         }
 
         $scope.selectWhen = function(whenId) {
-            // do not allow change "when" if user has confirmed selection
-            if (meetUserObject.confirmed)
-                return;
             toggleWhen(refs.meetUser, whenId);
         }
+        
+        function toggleJoinGroup(meetUserRef, group, state) {
+            var defer = $q.defer();
+            meetUserRef.child('group').once('value', function(snap) {
+                var exists = snap.exists();
 
-        $scope.confirmSelection = function() {
-            var status = getConfirmationStatus(meetUserObject);
-            if (!status.canConfirm)
-                return;
+                if (state === undefined) {          // toggle
+                    state = !exists;
+                }
 
-            refs.meetUser.update({
-                confirmed: !meetUserObject.confirmed
+                // new group and current group are not equal 
+                // set group to new group
+                if (exists && !state) {
+                    var val = snap.val();
+                    if (group && (group.whereId != val.where || group.whenId != val.when)) {
+                        exists = false;
+                        state = true;
+                    }
+                }
+                
+                if (exists && !state) {      // remove
+                    $log.log('toggleJoinGroup Remove: ', snap.ref().toString(), snap.val());
+                    snap.ref().remove(function() {
+                        defer.resolve({group: group, joined: false});
+                    });
+                } else if (!exists && state) {      // add
+                    $log.log('toggleJoinGroup Add: ', snap.ref().toString(), snap.val());
+                    snap.ref().set({
+                        where: group.whereId,
+                        when: group.whenId
+                    }, function() {
+                        defer.resolve({group: group, joined: true});
+                    });
+                }
             });
+            
+            return defer.promise;
         }
 
-        // confirmation status of the current user
-        function getConfirmationStatus(meetUser) {
-            var status = {
-                canConfirm: true,
-                message: null
-            };
+        $scope.joinGroup = function(group) {
+            toggleJoinGroup(
+                refs.meetUser,
+                {
+                    whereId: group.where.$id,
+                    whenId: group.when.when.id
+                }
+            ).then(function(result) {
+                if (!result.joined)
+                    return;
 
-            var whereCount = _.keys(meetUser.where).length;
-            var whenCount = _.keys(meetUser.when).length;
-            
-            if (whereCount != 1 || whenCount != 1) {
-                status.canConfirm = false;
-                status.message = 'You need to select just one location and time';
-            }
-            
-            return status;
-        }
-
-        // classes for confirm button of the current user
-        function getConfirmationCssClasses(canConfirm, confirmed) {
-            var classes = [];
-
-            if (canConfirm) {
-                classes.push(confirmed ? 'btn-success' : 'btn-info');
-            } else {
-                classes.push('btn-warning', 'disabled');
-            }    
-            
-            return classes;
+                // remove all where and when and set only those in the joined group
+                var whereRef = refs.meetUser.child('where').push(result.group.whereId, function() {
+                    var data = {};
+                    data[whereRef.key()] = result.group.whereId;
+                    refs.meetUser.child('where').set(data);
+                });
+                var whenRef = refs.meetUser.child('when').push(result.group.whenId, function() {
+                    var data = {};
+                    data[whenRef.key()] = result.group.whenId;
+                    refs.meetUser.child('when').set(data);
+                });
+            });
         }
 
         meetWhereArray.$watch(function(event) {
@@ -858,98 +881,5 @@
             meetUsersArray.$remove(record);
         });
 
-    }]);
-
-    // Location map popup controller
-    mmhApp.controller(
-        'LocationMapCtrl',
-        ['$scope', '$modalInstance', '$document', 'location', 'dataProvider',
-        function ($scope, $modalInstance, $document, location, dataProvider) {
-
-        // default position: Boston, MA
-        $scope.position = { lat: 42.3133735, lng: -71.0571571 };
-        $scope.radius = 1;
-        if (location) {
-            $scope.position = { lat: location.position.lat, lng: location.position.lng };
-            $scope.radius = location.radius;
-        }
-
-        $scope.confirm = function () {
-            $modalInstance.close({
-                position: $scope.position,
-                radius: parseInt($scope.radius)
-            });
-        };
-
-        $scope.cancel = function () {
-            $modalInstance.dismiss();
-        };
-
-        // reflect radius changes to area radius
-        $scope.$watch('radius', function(radius) {
-            if (area) {
-                area.setRadius(getAreaRadius(radius));
-            }
-        });
-        
-        function getAreaRadius(radiusInMiles) {
-            return dataProvider.convertMilesToKms(radiusInMiles) * 1000;
-        }
-
-        // circle around marker (current position)
-        var area = null;
-
-        $modalInstance.rendered.then(function() {
-            var mapOptions = {
-                zoom: 10,
-                panControl: true,
-                zoomControl: true,
-                scaleControl: true
-            };
-
-            var mapElement = $document.find('.location-map-modal .map-canvas').get(0);
-
-            // show map
-            var map = new google.maps.Map(mapElement, mapOptions);
-
-            // google maps changes position object, so we want to pass a copy of it
-            var position = new google.maps.LatLng($scope.position.lat, $scope.position.lng);
-
-            // trigger map resizing to adjust size after loading (we have dynamically sized workarea)
-            google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
-                google.maps.event.trigger(map, 'resize');
-            });
-            map.setCenter(position);
-
-            var marker = new google.maps.Marker({
-                position: position,
-                map: map,
-                draggable: true
-            });
-            
-            area = new google.maps.Circle({
-                strokeColor: '#5555AA',
-                strokeOpacity: 1,
-                strokeWeight: 2,
-                fillColor: '#5555AA',
-                fillOpacity: 0.35,
-                center: position,
-                radius: getAreaRadius($scope.radius),
-                map: map,
-                geodesic: true
-            });
-
-            // marker drag
-            google.maps.event.addListener(marker, 'drag', function(e) {
-                $scope.$apply(function() {
-                    $scope.position = {
-                        lat: e.latLng.lat(),
-                        lng: e.latLng.lng(),
-                    };
-                });
-                
-                area.setCenter(e.latLng);
-            });
-        });
     }]);
 })();

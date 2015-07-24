@@ -56,7 +56,7 @@
 
                 var whenMap = buildMap(whenUsers, 'when');
 
-                // the biggest count is on 0 index
+                // the biggest count is at 0 index
                 if (whenMap.length > 0 && whenMap[0].count > when.count) {
                     where.id = whereMap[i].id;
                     where.count = whereMap[i].count;
@@ -91,32 +91,22 @@
 
         // build all groups
         this.build = function (users) {
-            var groups = []
+            var groups = [];
 
-            // for each group of users grouped by location ...
-            _.forEach(
-                _.values(
-                    _.groupBy(users, function(u) {
-                        return u.location ? u.location.shortName : null;
-                    })
-                ),
-                function(users) {
-                    while (users.length > 0) {
-                        var group = buildGroup(users);
+            while (users.length > 0) {
+                var group = buildGroup(users);
 
-                        // this can happen when "where/when" fields are empty
-                        if (!group)
-                            break;
+                // this can happen when "where/when" fields are empty
+                if (!group)
+                    break;
 
-                        groups.push(group);
+                groups.push(group);
 
-                        // filter out users that belong to just created group
-                        users = _.filter(users, function(u) {
-                            return group.userIds.indexOf(u.userId) < 0;
-                        });
-                    }    
-                }
-            );
+                // filter out users that belong to just created group
+                users = _.filter(users, function(u) {
+                    return group.userIds.indexOf(u.userId) < 0;
+                });
+            }    
 
             return groups;
         }
