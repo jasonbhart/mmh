@@ -36,7 +36,7 @@
 
         // build group with the biggest number of members
         function buildGroup(users) {
-            var whereMap = buildMap(users, 'where');
+            var whereMap = buildMap(users, 'whereIds');
             var where = {
                 id: undefined,
                 count: 0
@@ -51,10 +51,10 @@
 
                 // get users for the current where value
                 var whenUsers = _.filter(users, function(u) {
-                    return u.where.indexOf(whereMap[i].id) >= 0;
+                    return u.whereIds.indexOf(whereMap[i].id) >= 0;
                 });
 
-                var whenMap = buildMap(whenUsers, 'when');
+                var whenMap = buildMap(whenUsers, 'whenIds');
 
                 // the biggest count is at 0 index
                 if (whenMap.length > 0 && whenMap[0].count > when.count) {
@@ -78,8 +78,8 @@
 
                 group.userIds = _.map(
                     _.filter(users, function(u) {
-                        return u.where.indexOf(where.id) >= 0
-                            && u.when.indexOf(when.id) >= 0;
+                        return u.whereIds.indexOf(where.id) >= 0
+                            && u.whenIds.indexOf(when.id) >= 0;
                     }), function(u) {
                         return u.userId;
                     }
@@ -88,9 +88,39 @@
 
             return  group;
         }
+        
+        this.fuzzyMatchWhen = function(groups, user, whenMap) {
+            var secondsLimit = 15 * 60;     // 15 minutes
+
+            // convert user's when to durations
+            var userWhen = _.map(user.whenIds, function(id) {
+                return moment.duration(whenMap[id]);
+            });
+
+            // try match group's when with user's when
+            for (var i=0; i<groups.length; i++) {
+                var group = groups[i];
+                var groupWhen = moment.duration(whenMap[group.when.id]);
+                
+                for (var j=0; j<userWhen.length; j++) {
+                    var when = userWhen[j];
+                    var seconds = moment.duration(when)
+                                    .subtract(groupWhen)
+                                    .asSeconds();
+                    seconds = Math.abs(seconds);
+                    
+                    // we have a match if difference in seconds is less than limit
+                    if (seconds <= secondsLimit) {
+                        return group;
+                    }
+                }
+            }
+
+            return null;
+        }
 
         // build all groups
-        this.build = function (users) {
+        this.build = function (users, whenMap) {
             var groups = [];
 
             while (users.length > 0) {
@@ -100,13 +130,32 @@
                 if (!group)
                     break;
 
-                groups.push(group);
-
                 // filter out users that belong to just created group
-                users = _.filter(users, function(u) {
-                    return group.userIds.indexOf(u.userId) < 0;
+                var leftUsers = [];
+                var usedUsers = [];
+                _.forEach(users, function(u) {
+                    var idx = group.userIds.indexOf(u.userId);
+                    if (idx < 0)
+                        leftUsers.push(u);
+                    else
+                        usedUsers.push(u);
                 });
-            }    
+                users = leftUsers;
+
+                // try fuzzy match
+                if (group.userIds.length == 1) {
+                    var otherGroup = this.fuzzyMatchWhen(groups, usedUsers[0], whenMap);
+
+                    // add user to matching group
+                    if (otherGroup) {
+                        otherGroup.userIds.push(usedUsers[0].userId);
+                        group = null;
+                    }
+                }
+
+                if (group)
+                    groups.push(group);
+            }
 
             return groups;
         }

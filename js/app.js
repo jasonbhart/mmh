@@ -561,6 +561,11 @@
         }
         
         function buildUserGroups(formattingData) {
+            var whenMap = {};
+            _.forEach(formattingData.when, function(w) {
+                whenMap[w.id] = w.when;
+            });
+
             // build groups
             var groups = userGroupBuilder.build(
                 _.map(meetUsersArray, function(u) {
@@ -569,10 +574,11 @@
                     return {
                         userId: u.$id,
                         location: location,
-                        where: _.values(u.where),
-                        when: _.values(u.when)
+                        whereIds: _.values(u.where),
+                        whenIds: _.values(u.when)
                     }
-                })
+                }),
+                whenMap
             );
 
             // format groups
