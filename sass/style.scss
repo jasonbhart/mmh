@@ -1483,4 +1483,21 @@
 
 .location-map-modal {
     margin-top: $modal-top-margin;
+
+    .search-box {
+        background-color: white;
+        border: none !important;
+        box-shadow: none !important;
+        margin: 15px 0px 0px 15px;
+        width: 350px;
+    }
+    
+    .modal-body > .search-box {
+        display: none;
+    }
+}
+
+// for google maps autocomplete inside bootstrap's modal
+.modal-open .pac-container {
+    z-index: 1050 !important;
 }

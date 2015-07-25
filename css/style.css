@@ -1392,3 +1392,17 @@ body.is-touch #banner {
 .location-map-modal {
   margin-top: 3em;
 }
+.location-map-modal .search-box {
+  background-color: white;
+  border: none !important;
+  box-shadow: none !important;
+  margin: 15px 0px 0px 15px;
+  width: 350px;
+}
+.location-map-modal .modal-body > .search-box {
+  display: none;
+}
+
+.modal-open .pac-container {
+  z-index: 1050 !important;
+}
