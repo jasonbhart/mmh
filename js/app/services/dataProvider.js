@@ -65,14 +65,22 @@
                     var businessNames = Object.keys(data.businesses).map(function (key) { return data.businesses[key].name; });
                     var businessUrls = Object.keys(data.businesses).map(function (key) { return data.businesses[key].url; });
                     var businessRatingUrls = Object.keys(data.businesses).map(function (key) { return data.businesses[key].rating_img_url; });
-
+                    var businessImageUrls = Object.keys(data.businesses).map(function (key) { return data.businesses[key].image_url; });
+                    var businessDisplayAddress = Object.keys(data.businesses).map(function (key) { return data.businesses[key].location.display_address; });
+                    var businessCities = Object.keys(data.businesses).map(function (key) { return data.businesses[key].location.city; });
+                    var businessCountryCodes = Object.keys(data.businesses).map(function (key) { return data.businesses[key].location.country_code; });
+                    
                     // initialize suggestions
                     var suggestions = [];
                     _.forEach(businessNames, function(e, i) {
                         var suggestion = {
                             'name': businessNames[i],
                             'url': businessUrls[i],
-                            'rating_url': businessRatingUrls[i]
+                            'rating_url': businessRatingUrls[i],
+                            'image_url': businessImageUrls[i],
+                            'display_address': businessDisplayAddress[i],
+                            'city': businessCities[i],
+                            'country_code': businessCountryCodes[i]
                         };
                         
                         if (data.businesses[i].distance)
@@ -80,7 +88,6 @@
                       
                         suggestions.push(suggestion);
                     });
-                    
                     defer.resolve(suggestions);
                 }).fail(function(jqxhr, textStatus, error) {
                     $log.log('mmh.services:dataProvider:getSuggestions failed', textStatus, error);

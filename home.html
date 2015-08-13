@@ -44,6 +44,7 @@
     <script src="js/app/services/userGroupBuilder.js"></script>
     <script src="js/app/controllers.js"></script>
     <script src="js/app/controllers/locationMap.js"></script>
+    <script src="js/app/controllers/homepage.js"></script>
 </head>
 <body>
 	<div id="container" ng-app="mmh">
@@ -111,9 +112,9 @@
 							<div class="thumb"><img ng-src="{{ row.image_url }}" alt=""/></div>
 							<h3 class="title"><a href="{{ row.url }}">{{ row.name }}</a></h3>
 							<p class="rate">
-								<img ng-src="{{ row.rating_img_url }}" alt=""/>
+								<img ng-src="{{ row.rating_url }}" alt=""/>
 							</p>
-							<p class="address">{{ row.location.display_address.join(' ')}}<span class="subtext">{{ row.location.city + ', ' + row.location.country_code}}</span></p>
+							<p class="address">{{ row.display_address.join(' ')}}<span class="subtext">{{ row.city + ', ' + row.country_code}}</span></p>
 						</div>
 						<span class="btn-area">
 							<a href="#none" class="btn waves-effect waves-light">INVITE</a>
