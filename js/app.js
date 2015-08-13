@@ -910,4 +910,19 @@
         });
 
     }]);
+
+    // get data from yelp
+    mmhApp.controller('HomepageCtrl', ['$scope', '$http', function ($scope, $http) {
+        $scope.yelpUrl = 'https://edgeprod.com:8081/';
+        
+        $http.get($scope.yelpUrl).then(
+            function(res) {
+                $scope.yelps = res.data.businesses;
+            }
+        );
+
+        $scope.showmore = function() {
+            
+        }
+    }]);
 })();
