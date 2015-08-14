@@ -37,14 +37,12 @@
                         // convert to meters
                         searchOptions.radius = options.radius * 1000;
                     }
-                    // search radius
+                    // search offset, default 0.
                     if (options.offset) {
-                        // convert to meters
                         searchOptions.offset = options.offset;
                     }
-                    // search radius
+                    // search limit - number of fetch items upon cliking show more
                     if (options.limit) {
-                        // convert to meters
                         searchOptions.limit = options.limit;
                     }
                 }
