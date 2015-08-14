@@ -37,8 +37,19 @@
                         // convert to meters
                         searchOptions.radius = options.radius * 1000;
                     }
+                    // search radius
+                    if (options.offset) {
+                        // convert to meters
+                        searchOptions.offset = options.offset;
+                    }
+                    // search radius
+                    if (options.limit) {
+                        // convert to meters
+                        searchOptions.limit = options.limit;
+                    }
                 }
 
+//                var xhr = $.getJSON('http://localhost:8080/', searchOptions);
                 var xhr = $.getJSON('https://edgeprod.com:8081/', searchOptions);
                 var defer = $q.defer();
 
