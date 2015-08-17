@@ -5,9 +5,9 @@
     
     // Location map popup controller
     app.controller(
-        'LocationMapCtrl',
-        ['$scope', '$modalInstance', '$document', 'location', 'dataProvider',
-        function ($scope, $modalInstance, $document, location, dataProvider) {
+        'LocationMapController',
+        ['$scope', 'modalInstance', 'location', 'dataProvider',
+        function ($scope, modalInstance, location, dataProvider) {
 
         // default position: Boston, MA
         $scope.position = { lat: 42.3133735, lng: -71.0571571 };
@@ -18,14 +18,14 @@
         }
 
         $scope.confirm = function () {
-            $modalInstance.close({
+            modalInstance.close({
                 position: $scope.position,
                 radius: parseInt($scope.radius)
             });
         };
 
         $scope.cancel = function () {
-            $modalInstance.dismiss();
+            modalInstance.dismiss();
         };
 
         // reflect radius changes to area radius
@@ -51,7 +51,7 @@
         // circle around marker (current position)
         var area = null;
 
-        $modalInstance.rendered.then(function() {
+        modalInstance.rendered.then(function(rootElement) {
             var mapOptions = {
                 zoom: 10,
                 panControl: true,
@@ -59,9 +59,8 @@
                 scaleControl: true
             };
 
-            var container = $document.find('.location-map-modal');
-            var searchBox = container.find('.search-box').get(0);
-            var mapElement = container.find('.map-canvas').get(0);
+            var searchBox = rootElement.find('.search-box').get(0);
+            var mapElement = rootElement.find('.map-canvas').get(0);
 
             // create map
             var map = new google.maps.Map(mapElement, mapOptions);

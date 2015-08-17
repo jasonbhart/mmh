@@ -1,0 +1,32 @@
+<div class="modal">
+    <div class="modal-content">
+        <h4 class="title">Where do you want to do this?</h4>
+        <div class="pop-place">
+            <div class="select-area row">
+                <div class="right">
+                    <span>you can search for places by category:</span>
+                    <select class="select-jq browser-default" style="width: auto" ng-model="term" ng-s>
+                        <option value="{{ item.id }}" class="{{ item.id }}" ng-repeat="item in terms" ng-selected="item.id == term">{{ item.name }}</option>
+                    </select>
+                </div>
+            </div>
+            <ul class="best-places">
+                <li class="row" ng-repeat="place in places">
+                    <div class="info">
+                        <h3 class="title"><a href="{{ place.url }}">{{ place.name }}</a></h3>
+                        <stars-rating rating="{{ place.rating }}"></stars-rating>
+                    </div>
+                    <div class="check-area">
+                        <input type="checkbox" class="filled-in" id="filled-in-box-{{$index}}" ng-model="place.selected" />
+                        <label for="filled-in-box-{{$index}}"></label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <a href="#none" class="modal-close icon-close"><i class="material-icons">close</i></a>
+    </div>
+    <div class="modal-footer">
+        <a href="#none" class="modal-close waves-effect waves-light btn grey" ng-click="cancel()">Close</a>
+        <a href="#none" class="modal-action modal-close waves-effect waves-light btn red" ng-click="confirm()">Add done</a>
+    </div>
+</div>

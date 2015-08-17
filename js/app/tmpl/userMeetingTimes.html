@@ -1,0 +1,23 @@
+<div id="modal-time" class="modal white">
+    <div class="modal-content">
+        <h4 class="title">When do you want to do this?</h4> {{ time }}
+        <div class="timepicker-wrap">
+            <div class="row">
+                <date-time-picker ng-model="time" format="{{ timeFormat }}"></date-time-picker>
+                <a class="btn btn-add waves-effect waves-light" href="#none" ng-click="addTime()"><i class="icon"></i> Add</a>
+            </div>
+            <div class="box-white">
+                <ul class="choose-list">
+                    <li ng-repeat="time in times">
+                        <a href="#none" class="icon" title="Delete" ng-click="removeTime(time)">Delete</a>{{ formatTime(time) }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <a href="#none" class="modal-close icon-close"><i class="material-icons">close</i></a>
+    </div>
+    <div class="modal-footer">
+        <a href="#none" class="modal-close waves-effect waves-light btn grey" ng-click="cancel()">Close</a>
+        <a href="#none" class="modal-action modal-close waves-effect waves-light btn red" ng-click="confirm()">Add done</a>
+    </div>
+</div>

@@ -9,6 +9,37 @@
                 return miles * 1.609344;
             },
             
+            getTerms: function() {
+                return [
+                    { id: 'restaurants', name: 'Restaurants' },
+                    { id: 'food', name: 'Food' },
+                    { id: 'nightlife', name: 'Nightlife' },
+                    { id: 'shopping', name: 'Shopping' },
+                    { id: 'bars', name: 'Bars' },
+                    { id: 'american-new', name: 'American (New)' },
+                    { id: 'breakfast-brunch', name: 'Breakfast & Brunch' },
+                    { id: 'coffee-tea', name: 'Coffee & Tea' },
+                    { id: 'beauty-spas', name: 'Beauty & Spas' },
+                    { id: 'health-medical', name: 'Health & Medical' },
+                    { id: 'home-services', name: 'Home Services' },
+                    { id: 'automotive', name: 'Automotive' },
+                    { id: 'local-services', name: 'Local Services' },
+                    { id: 'event-services', name: 'Event Planning & Services' },
+                    { id: 'arts-entertainment', name: 'Arts & Entertainment' },
+                    { id: 'active-life', name: 'Active Life' },
+                    { id: 'hotels-travel', name: 'Hotels & Travel' },
+                    { id: 'pets', name: 'Pets' },
+                    { id: 'professional-services', name: 'Professional Services' },
+                    { id: 'local-flavor', name: 'Local Flavor' },
+                    { id: 'education', name: 'Education' },
+                    { id: 'public-government', name: 'Public Services & Government' },
+                    { id: 'real-estate', name: 'Real Estate' },
+                    { id: 'financial-services', name: 'Financial Services' },
+                    { id: 'mass-media', name: 'Mass Media' },
+                    { id: 'religious-organizations', name: 'Religious Organizations' }
+                ];
+            },
+            
             /*
              * options = {
              *  location: "location name",
@@ -37,6 +68,9 @@
                         // convert to meters
                         searchOptions.radius = options.radius * 1000;
                     }
+                    
+                    if (options.term)
+                        searchOptions.term = options.term;
                 }
 
                 var xhr = $.getJSON('https://edgeprod.com:8081/', searchOptions);
@@ -62,7 +96,7 @@
                         return;
                     }
 
-                    var businessNames = Object.keys(data.businesses).map(function (key) { return data.businesses[key].name; });
+                    var businessNames = Object.keys(data.businesses).map(function (key) { console.log(data.businesses[key]); return data.businesses[key].name; });
                     var businessUrls = Object.keys(data.businesses).map(function (key) { return data.businesses[key].url; });
                     var businessRatingUrls = Object.keys(data.businesses).map(function (key) { return data.businesses[key].rating_img_url; });
 
@@ -72,7 +106,8 @@
                         var suggestion = {
                             'name': businessNames[i],
                             'url': businessUrls[i],
-                            'rating_url': businessRatingUrls[i]
+                            'rating_url': businessRatingUrls[i],
+                            'rating': data.businesses[i].rating
                         };
                         
                         if (data.businesses[i].distance)
