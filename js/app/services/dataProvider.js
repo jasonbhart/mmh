@@ -71,8 +71,17 @@
                     
                     if (options.term)
                         searchOptions.term = options.term;
+                    // search offset, default 0.
+                    if (options.offset) {
+                        searchOptions.offset = options.offset;
+                    }
+                    // search limit - number of fetch items upon cliking show more
+                    if (options.limit) {
+                        searchOptions.limit = options.limit;
+                    }
                 }
 
+//                var xhr = $.getJSON('http://localhost:8080/', searchOptions);
                 var xhr = $.getJSON('https://edgeprod.com:8081/', searchOptions);
                 var defer = $q.defer();
 
@@ -96,10 +105,14 @@
                         return;
                     }
 
-                    var businessNames = Object.keys(data.businesses).map(function (key) { console.log(data.businesses[key]); return data.businesses[key].name; });
+                    var businessNames = Object.keys(data.businesses).map(function (key) { return data.businesses[key].name; });
                     var businessUrls = Object.keys(data.businesses).map(function (key) { return data.businesses[key].url; });
                     var businessRatingUrls = Object.keys(data.businesses).map(function (key) { return data.businesses[key].rating_img_url; });
-
+                    var businessImageUrls = Object.keys(data.businesses).map(function (key) { return data.businesses[key].image_url; });
+                    var businessDisplayAddress = Object.keys(data.businesses).map(function (key) { return data.businesses[key].location.display_address; });
+                    var businessCities = Object.keys(data.businesses).map(function (key) { return data.businesses[key].location.city; });
+                    var businessCountryCodes = Object.keys(data.businesses).map(function (key) { return data.businesses[key].location.country_code; });
+                    
                     // initialize suggestions
                     var suggestions = [];
                     _.forEach(businessNames, function(e, i) {
@@ -107,7 +120,11 @@
                             'name': businessNames[i],
                             'url': businessUrls[i],
                             'rating_url': businessRatingUrls[i],
-                            'rating': data.businesses[i].rating
+                            'rating': data.businesses[i].rating,
+                            'image_url': businessImageUrls[i],
+                            'display_address': businessDisplayAddress[i],
+                            'city': businessCities[i],
+                            'country_code': businessCountryCodes[i]
                         };
                         
                         if (data.businesses[i].distance)
@@ -115,7 +132,6 @@
                       
                         suggestions.push(suggestion);
                     });
-                    
                     defer.resolve(suggestions);
                 }).fail(function(jqxhr, textStatus, error) {
                     $log.log('mmh.services:dataProvider:getSuggestions failed', textStatus, error);
