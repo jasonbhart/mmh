@@ -8,34 +8,50 @@
             require: 'ngModel',
             restrict: 'E',
             scope: {
-                timeFormat: '@'
+                format: '@'
             },
-            templateUrl: 'js/app/tmpl/dateTimePicker.html',
+            template: '<div class="box-inner"><div class="datetimepicker"></div><div class="clear"></div></div>',
             link: function(scope, elem, attrs, ngModelCtrl) {
-                var timepicker = jQuery(elem).find('.date').datetimepicker({
-                    format: scope.timeFormat,
-                    stepping: 15,
-                    showClose: true,
-                }).on('dp.change', function() {
-                    var date = timepicker.date().local();
-                    ngModelCtrl.$setViewValue(date);
+                var dateTimePicker;
+
+                // one time watch
+                var unwatchFormat = scope.$watch('format', function(value) {
+                    if (!value)
+                        return;
+                    dateTimePicker = elem.find('.datetimepicker').datetimepicker({
+                        format: value,
+                        inline: true,
+                        sideBySide: true,
+                        stepping: 15
+                    }).on('dp.change', function() {
+                        var date = dateTimePicker.date().local();
+                        ngModelCtrl.$setViewValue(date);
+                    });
+
+                    dateTimePicker = dateTimePicker.data('DateTimePicker');
+                    
+                    // initial set model value (date) (apply stepping and update model)
+                    dateTimePicker.date(ngModelCtrl.$viewValue);
+                    
+                    ngModelCtrl.$render = function() {
+                        console.log('render', ngModelCtrl.$viewValue);
+                        dateTimePicker.date(ngModelCtrl.$viewValue);
+                    };
+
+                    unwatchFormat();
                 });
-                
-                timepicker = timepicker.data('DateTimePicker');
 
                 // model -> view
                 ngModelCtrl.$formatters.push(function(modelValue) {
+                    console.log('DateTimePicker model -> view', modelValue);
                     return modelValue || moment().local();
                 });
                 
                 // view -> model
                 ngModelCtrl.$parsers.push(function(viewValue) {
+                    console.log('DateTimePicker view -> model', viewValue);
                     return viewValue;
                 });
-                
-                ngModelCtrl.$render = function() {
-                    timepicker.date(ngModelCtrl.$viewValue);
-                };
             }
         }
     });

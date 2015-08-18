@@ -9,6 +9,37 @@
                 return miles * 1.609344;
             },
             
+            getTerms: function() {
+                return [
+                    { id: 'restaurants', name: 'Restaurants' },
+                    { id: 'food', name: 'Food' },
+                    { id: 'nightlife', name: 'Nightlife' },
+                    { id: 'shopping', name: 'Shopping' },
+                    { id: 'bars', name: 'Bars' },
+                    { id: 'american-new', name: 'American (New)' },
+                    { id: 'breakfast-brunch', name: 'Breakfast & Brunch' },
+                    { id: 'coffee-tea', name: 'Coffee & Tea' },
+                    { id: 'beauty-spas', name: 'Beauty & Spas' },
+                    { id: 'health-medical', name: 'Health & Medical' },
+                    { id: 'home-services', name: 'Home Services' },
+                    { id: 'automotive', name: 'Automotive' },
+                    { id: 'local-services', name: 'Local Services' },
+                    { id: 'event-services', name: 'Event Planning & Services' },
+                    { id: 'arts-entertainment', name: 'Arts & Entertainment' },
+                    { id: 'active-life', name: 'Active Life' },
+                    { id: 'hotels-travel', name: 'Hotels & Travel' },
+                    { id: 'pets', name: 'Pets' },
+                    { id: 'professional-services', name: 'Professional Services' },
+                    { id: 'local-flavor', name: 'Local Flavor' },
+                    { id: 'education', name: 'Education' },
+                    { id: 'public-government', name: 'Public Services & Government' },
+                    { id: 'real-estate', name: 'Real Estate' },
+                    { id: 'financial-services', name: 'Financial Services' },
+                    { id: 'mass-media', name: 'Mass Media' },
+                    { id: 'religious-organizations', name: 'Religious Organizations' }
+                ];
+            },
+            
             /*
              * options = {
              *  location: "location name",
@@ -37,6 +68,9 @@
                         // convert to meters
                         searchOptions.radius = options.radius * 1000;
                     }
+                    
+                    if (options.term)
+                        searchOptions.term = options.term;
                     // search offset, default 0.
                     if (options.offset) {
                         searchOptions.offset = options.offset;
@@ -86,6 +120,7 @@
                             'name': businessNames[i],
                             'url': businessUrls[i],
                             'rating_url': businessRatingUrls[i],
+                            'rating': data.businesses[i].rating,
                             'image_url': businessImageUrls[i],
                             'display_address': businessDisplayAddress[i],
                             'city': businessCities[i],

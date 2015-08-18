@@ -1,24 +1,23 @@
-<div class="modal-header">
-    <button type="button" class="close" ng-click="cancel()"><span>&times;</span></button>
-    <h4 class="modal-title">Select your location</h4>
-</div>
-
-<div class="modal-body">
-    <input type="text" placeholder="Enter location" class="search-box" />
-    <div class="map-canvas" style="height: 350px; width: 100%"></div>
-    Position: {{ position.lat | number:2 }}/{{ position.lng | number:2 }}
-    <label>
-        Select radius (miles):
-        <select ng-model="radius" class="form-control">
-            <option value="1">1</option>
-            <option value="5">5</option>
-            <option value="20">20</option>
-        </select>
-    </label>
-    <!--<div class="col-md-1">miles</div>-->
-</div>
-
-<div class="modal-footer">
-    <button type="button" class="btn btn-default" ng-click="confirm()">Confirm</button>
-    <button type="button" class="btn btn-primary" ng-click="cancel()">Cancel</button>
+<div class="modal">
+    <div class="modal-content">
+        <h4 class="title">Select your location</h4>
+        <div class="pop-place">
+            <input type="text" placeholder="Enter location" class="search-box" />
+            <div class="map-canvas" style="height: 350px; width: 100%"></div>
+            Position: {{ position.lat | number:2 }}/{{ position.lng | number:2 }}
+            <label>
+                Select radius (miles):
+                <select ng-model="radius">
+                    <option value="1">1</option>
+                    <option value="5">5</option>
+                    <option value="20">20</option>
+                </select>
+            </label>
+        </div>
+        <a href="#none" class="modal-close icon-close"><i class="material-icons">close</i></a>
+    </div>
+    <div class="modal-footer">
+        <a href="#none" class="modal-close waves-effect waves-light btn grey" ng-click="cancel()">Close</a>
+        <a href="#none" class="modal-action modal-close waves-effect waves-light btn red" ng-click="confirm()">Confirm</a>
+    </div>
 </div>

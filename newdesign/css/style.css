@@ -1,0 +1,249 @@
+.icon-block{padding: 0 15px;}
+.icon-block .material-icons{font-size: inherit;}
+.icon{display:inline-block; vertical-align:middle;}
+.subtext{color: #9b9b9b;}
+.thumb{font-size:0; line-height:0;}
+h3.title{font-size:18px; font-weight:500;}
+.box-gray{background:#f8f4f0; padding:20px;}
+.box-gray a{color:#a2ab58;}
+.box-gray a:hover{color:#e44424;}
+.box-gray .btn{background:#a2ab58; color:#fff;}
+.box-gray .btn:hover{background:#e44424; color:#fff;}
+.title-page{font-size:28px;border-bottom:1px solid #ddd; padding:5px; margin:0 0 15px; font-weight:500;}
+.title-page .icon{display:inline-block; margin-right:10px; vertical-align:middle;}
+.home-page .reminder{margin-bottom:25px;}
+.home-page .reminder .date-time{display:inline-block; margin-right:5px; color:#67bcdb; font-size:24px;}
+.reminder .date-time .date{background:#67bcdb; color:#fff; padding:5px 3px 3px; font-size:9px; display:inline-block; vertical-align:middle;}
+.reminder .date-time .date .no{display:block; line-height:9px;}
+.reminder .date-time .date .day{font-size:24px; font-weight:500; line-height:26px;}
+.reminder .des{font-size:24px; display:inline-block;}
+.reminder .btn{font-size:11px;}
+.home-page .title-page{border-bottom:none;}
+.home-page .title-page .icon{width:25px; height:35px; background-position:0 -451px;}
+.best-places li{border-bottom:1px solid #ddd; padding-bottom:20px; font-size:12px; position:relative; padding-right:110px;}
+.best-places li:last-child{border-bottom:none; margin-bottom:0; padding-bottom:0;}
+.best-places .thumb{float:left; width:110px; overflow:hidden; border:1px solid #ddd; margin-right:15px;}
+.best-places .title{font-size:14px; margin:0 0 2px; font-weight:500;}
+.best-places .rate{margin:0; color:#e44424; font-size:12px;}
+.best-places .rate .material-icons{font-size:14px;}
+.address{margin:2px 0 0; color:#666; font-size:12px;}
+.address .subtext{display:block;}
+.address .icon{width:25px; height:25px; background-position:6px -487px; background-color:#ddd; float:left; margin-right:10px; margin-top:5px;}
+.best-places li .btn-area{position:absolute; top:35px; right:0;}
+.btn-large{font-size:22px; padding:0 1.7em; height:48px; line-height:50px;}
+.btn-bottom {margin-top:30px;}
+.contents{padding:0; margin:0;}
+.meetingLabel{display:inline-block; clear:both; border-radius:4px; font-style:italic; font-size:12px; color:#3b3738; height:25px; line-height:25px; padding:0 15px; background:#ddd;}
+.meeting-top .wrap{position:relative;}
+.meeting-top .title{font-size:24px;}
+.meeting-top .info{margin-right:140px; overflow:hidden;border-right:1px solid #ddd; padding-right:15px;}
+.meeting-top .info .thumb{float:left; width:166px; overflow:hidden; max-height:115px; border:1px solid #ddd; margin-right:15px;}
+.meeting-top .info .thumb img{max-width:100%; min-width:166px;}
+.meeting-top .info .des{display:table-cell; font-size:12px;}
+.meeting-top .info .member-list ul{overflow:hidden; width:100%; height:33px; margin-bottom:0;}
+.meeting-top .info .member-list li{display:inline-block; margin-right:3px;}
+.meeting-top .info .member-list .bordered{display:block; border:1px solid #ddd; width:38px; height:33px; overflow:hidden;}
+.rspvBox{position:absolute; top:0; font-size:14px;}
+.rspvBox .date{display:block; font-weight:700;}
+.rspvBox .time{color: #e44424}
+.meeting-top .rspvBox{right:0;}
+.rspvBox .rspv{margin-top:10px;}
+.rspvBox .rspv p{margin-top:5px;}
+.meeting-top .btn, .other-meetings .btn{font-size:18px; height:35px; line-height:37px;}
+.other-meetings li{overflow:hidden; border:1px solid #ddd; position:relative; margin-top:25px;}
+.other-meetings .info{padding:15px 20px;}
+.other-meetings .rspvBox{padding:15px 20px;}
+.other-meetings p{margin:0; margin-top:10px;}
+.your-location, .box-meeting .group, .meeting-top{margin-bottom:30px;}
+.your-location .map{height:210px; overflow:hidden;}
+.your-location .des{border:1px solid #ddd; padding:5px 10px; font-size:18px; margin-top:15px;}
+.your-location .des .icon{background-position:0 -514px; margin-right:10px; display:inline-block; width:21px; height:22px; vertical-align:middle;}
+.categories-nav a{display:block; padding:8px 0;}
+.categories-nav a .icon{margin-right:10px; width:5px; height:9px; background-position:0 -542px;}
+.categories-nav a:hover .icon, .categories-nav li.active a .icon, .categories-nav a:hover .icon, .categories-nav li.active a{background-position:-5px -542px; color:#e44424;}
+.box-meeting{border:1px solid #ddd; overflow:hidden;}
+.box-meeting .title-page{border-bottom:0; box-shadow:0 1px 5px #ddd; padding:15px; margin:0;}
+.box-meeting .title-page .icon{background-position:0 -995px; width:36px; height:30px;}
+.box-meeting .wrap{padding:20px 18px;}
+.box-meeting .group .title{margin:0; font-size:15px; margin-bottom:10px;}
+.box-meeting .group .location{font-size:18px; margin:0; margin-bottom:10px; font-weight:500;}
+.box-meeting .group .location .icon{background-position:-26px -514px; width:18px; height:18px; margin-right:6px;}
+.box-meeting .group .location .subtext{font-size:14px; color:#6b6b6b;}
+.box-meeting .group .time{font-size:24px; display:block; margin-bottom:10px; text-align:center;}
+.box-meeting .group .time b{font-size:30px;}
+.box-white{padding:15px; overflow:hidden; position:relative;}
+.box-meeting .group .btn{font-size:20px; height:38px; line-height:38px; display:block;}
+.have-chosen{margin:0;}
+.have-chosen li{display:inline-block; border-radius:4px; border:1px solid #cacaca; padding:3px 5px; font-size:12px;}
+.have-chosen .cfrmed .icon{background-position:0 -555px; width:10px; height:10px; margin-right:3px; vertical-align:baseline;}
+.have-chosen .not-cfrm .icon{background-position:-18px -555px; width:8px; height:10px; margin-right:3px; vertical-align:baseline;}
+.choose-setting .member{overflow:hidden; margin-bottom:10px;}
+.choose-setting .member .thumb{float:left; width:35px; height:35px; border:1px solid #ddd; overflow:hidden; margin-right:10px;}
+.choose-setting .member .thumb img{width:35px;}
+.choose-setting .member p{margin:0; font-size:12px; display:table-cell;}
+.choose-setting .box-gray{font-size:14px; padding:0 20px 20px}
+.choose-setting .box-gray .btn{margin:3px 0; background:#67bcdb;}
+.choose-setting .box-gray .btn:hover{background:#e44424;}
+.choose-setting .box-gray p{margin:0; padding-top:20px; font-weight:500;}
+.choose-list{display:inline-block; margin:0;}
+.choose-list li{display:inline-block; border-radius:4px; background:#ddd; padding:3px 5px 4px; color:#404040; font-weight:700; margin:3px 0}
+.choose-list li .icon{text-indent:-9999em; background-position:5px -570px; width:18px; height:18px;}
+.btn-add .icon{background-position:-14px -572px; width:12px; height:14px; margin-right:1px; vertical-align:middle;}
+.other-member li .thumb, .pop-user-detail .user .thumb{border:1px solid #ddd; width:100px; height:100px; overflow:hidden; margin-bottom:10px;}
+.other-member li .thumb img, .pop-user-detail .user .thumb img{width:100px;}
+.other-member li{display:inline-block; width:120px; padding:10px; font-size:11px;}
+.other-member li p,  .pop-user-detail .user p{margin:3px 0;}
+.other-member .link, .address a{text-decoration:underline;}
+#contRight .other-meetings li{padding-left:0; overflow:inherit;}
+#contRight .other-meetings .info{border:0; padding:15px 20px;}
+#contRight .rspvBox{position:inherit; margin-top:15px; border-top:1px solid #ddd; font-size:16px; padding:10px 0 20px; margin:0 20px; text-align:right;}
+#contRight .rspvBox .date{display:inline; margin-right:3px;}
+#contRight .rspvBox .date:after{content:","}
+#contRight .rspvBox .rspv p{display:inline-block; margin:0;}
+#contRight .rspvBox .rspv b{margin-right:10px;}
+#contRight .meetingLabel{position:absolute; top:-13px; left:10%;}
+.share dt{font-size:18px; display:inline-block; margin:5px 0; margin-right:10px;}
+.share dd{display:inline-block; margin:5px; vertical-align:middle;}
+.share .url{padding:20px; position:relative; background:#f8f4f0; overflow:hidden;}
+.share .url .link{color:#67bcdb;}
+.share .url .btn{font-size:12px; text-transform:uppercase; height:auto; line-height:normal; padding:4px 23px 3px 20px; position:absolute; top:-3px; right:-3px; text-transform:lowercase;}
+.creat-new{}
+.creat-new p.subtext{margin:0; font-size:11px; margin-top:-12px;}
+.creat-new .option>li{font-size:16px; padding:10px 0;}
+.creat-new .option>li label{font-size:16px;}
+.creat-new .frm-creat .row{padding:5px 0;}
+.creat-new .title{font-size:24px;}
+.modal{border-radius:6px; max-height:85%;}
+.lean-overlay{top:0;}
+.modal .icon-close{position:absolute; top:10px; right:10px; color: #ccc; width:30px; height:30px;}
+.timepicker-wrap .box-inner{display:inline-block; width:230px; height:38px; vertical-align:middle;}
+.timepicker-wrap .table-condensed .btn-area{position:relative;}
+.timepicker-wrap .table-condensed .btn-area .hour, .timepicker-wrap .table-condensed .btn-area .minute{position:absolute; left:50px; width:30px; height:19px; line-height:19px;}
+.timepicker-wrap .table-condensed .btn-area .hour .material-icons, .timepicker-wrap .table-condensed .btn-area .minute .material-icons{font-size:26px; display:block; line-height:19px;}
+.timepicker-wrap .middleRow .hour, .timepicker-wrap .middleRow .minute, .timepicker-wrap .middleRow .am-pm{display:inline-block; margin-right:8px;}
+.timepicker-wrap .middleRow .am-pm{margin-right:0;}
+.timepicker-wrap .middleRow .am-pm .btn{font-size:18px; height:38px; line-height:38px; float:left; background:none; border:1px solid #e5e5e5;color:#6b6b6b; padding:0 10px;}
+.timepicker-wrap .middleRow .hour .timepicker-hour, .timepicker-wrap .middleRow .minute .timepicker-minute{float:left; width:80px; height:38px; line-height:38px; background:#fff; border:1px solid #e5e5e5; padding:0 10px; border-radius:4px; font-size:18px; color:#6b6b6b; font-weight:500;}
+.timepicker-wrap .table-condensed .btn-area .minute{left:140px;}
+.timepicker-wrap .bottomRow.btn-area .material-icons{line-height:9px !important;}
+.timepicker-wrap .topRow.btn-area .material-icons{line-height:28px !important;}
+.timepicker-wrap .bottomRow.btn-area .hour, .timepicker-wrap .bottomRow.btn-area .minute{top:-24px;}
+.timepicker-wrap .bottomRow.btn-area a{display:block;}
+.timepicker-wrap .btn-area a:hover{text-decoration:none;}
+.timepicker-hours, .timepicker-minutes{position:absolute; width:160px; border:1px solid #e5e5e5; padding:10px; border-radius:4px; z-index:99; background:#fff;}
+.timepicker-hours td, .timepicker-minutes td{padding:10px; font-size:14px;}
+.timepicker-hours td:hover, .timepicker-minutes td:hover{background:#f1f1f1;}
+.timepicker-wrap .btn-add{font-size:16px; height:38px; line-height:36px; margin:5px 0}
+.modal .box-white{border:1px solid #e5e5e5; border-radius:4px; font-size:16px; padding:10px;}
+.modal .modal-footer{text-align:right; padding:10px 15px 0;}
+.modal .modal-footer .btn{float:none;}
+#modal-time.modal{max-width:500px}
+.modal .modal-content>.title{margin:0 -20px; padding:5px 20px 10px; border-bottom:1px solid #e5e5e5;margin-bottom:20px; font-size:24px;}
+.pop-place .select-area{font-size:14px;}
+.selectBox-dropdown{min-width:250px;font-size:15px;position:relative;border:solid 1px #e5e5e5;line-height:1.5;text-decoration:none;text-align:left;color:#000;outline:none;vertical-align:middle;background:#fff;border-radius:4px;display:inline-block;cursor:pointer;}
+.selectBox-dropdown.selectBox-menuShowing-bottom{-moz-border-radius-bottomleft:0;-moz-border-radius-bottomright:0;-webkit-border-bottom-left-radius:0;-webkit-border-bottom-right-radius:0;border-bottom-left-radius:0;border-bottom-right-radius:0}
+.selectBox-dropdown.selectBox-menuShowing-top{-moz-border-radius-topleft:0;-moz-border-radius-topright:0;-webkit-border-top-left-radius:0;-webkit-border-top-right-radius:0;border-top-left-radius:0;border-top-right-radius:0}
+.selectBox-dropdown .selectBox-label{padding:7px 8px 0;display:inline-block;white-space:nowrap;overflow:hidden; min-width:90%; margin-left:5px; padding-left:28px; overflow:hidden; white-space:nowrap;text-overflow:ellipsis;}
+.selectBox-dropdown .selectBox-arrow{position:absolute;top:0;right:0;width:23px;height:100%;}
+.selectBox-dropdown .selectBox-arrow .material-icons{line-height:33px;}
+.selectBox-dropdown-menu{position:absolute;z-index:99999;max-height:200px;min-height:1em;border:solid 1px #e5e5e5;background:#fff;overflow:auto;-webkit-overflow-scrolling:touch}
+.selectBox-inline{min-width:150px;outline:none;border:solid 1px #e5e5e5;background:#FFF;display:inline-block;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;overflow:auto}
+.selectBox-inline:focus{border-color:#666}
+.selectBox-options,.selectBox-options li,.selectBox-options li a{list-style:none;display:block;cursor:default;padding:0;margin:0}
+.selectBox-options.selectBox-options-top{border-bottom:none;margin-top:1px;-moz-border-radius-topleft:5px;-moz-border-radius-topright:5px;-webkit-border-top-left-radius:5px;-webkit-border-top-right-radius:5px;border-top-left-radius:5px;border-top-right-radius:5px}
+.selectBox-options.selectBox-options-bottom{border-top:none;-moz-border-radius-bottomleft:5px;-moz-border-radius-bottomright:5px;-webkit-border-bottom-left-radius:5px;-webkit-border-bottom-right-radius:5px;border-bottom-left-radius:5px;border-bottom-right-radius:5px}
+.selectBox-options li a{border-top:solid 1px #e5e5e5;line-height:1.5;padding:8px 5px 8px 35px;white-space:nowrap;overflow:hidden;}.selectBox-options li.selectBox-hover a{background-color:#EEE}
+.selectBox-options li.selectBox-disabled a{color:#888;background-color:transparent}.selectBox-options li.selectBox-selected a{background-color:#C8DEF4}.selectBox-options .selectBox-optgroup{color:#666;background:#EEE;font-weight:bold;line-height:1.5;padding:0 .3em;white-space:nowrap}
+.selectBox.selectBox-disabled{color:#888 !important}
+.selectBox-dropdown.selectBox-disabled .selectBox-arrow{opacity:.5;filter:alpha(opacity=50);border-color:#666}
+.selectBox-inline.selectBox-disabled{color:#888 !important}
+.selectBox-inline.selectBox-disabled .selectBox-options a{background-color:transparent !important}
+.select-areaa:hover{text-decoration:none;}
+.selectBox-options li a,.selectBox-dropdown .selectBox-label{background:url(../image/best_of_yelp.png) no-repeat 0 0;}
+.selectBox-dropdown .restaurants, .selectBox-options .restaurants a{background-position:-4px -1758px}
+.selectBox-dropdown .food, .selectBox-options .food a{background-position:-4px -718px}
+.selectBox-dropdown .nightlife, .selectBox-options .nightlife a{background-position:-4px -1278px}
+.selectBox-dropdown .shopping, .selectBox-options .shopping a{background-position:-4px -1838px}
+.selectBox-dropdown .bars, .selectBox-options .bars a{background-position:-4px -1278px}
+.selectBox-dropdown .american-new, .selectBox-options .american-new a{background-position:-4px -1758px}
+.selectBox-dropdown .breakfast-brunch, .selectBox-options .breakfast-brunch a{background-position:-4px -1758px}
+.selectBox-dropdown .coffee-tea, .selectBox-options .coffee-tea a{background-position:-4px -318px}
+.selectBox-dropdown .beauty-spas, .selectBox-options .beauty-spas a{background-position:-4px -238px}
+.selectBox-dropdown .health-medical, .selectBox-options .health-medical a{background-position:-4px -798px}
+.selectBox-dropdown .home-services, .selectBox-options .home-services a{background-position:-4px -878px}
+.selectBox-dropdown .automotive, .selectBox-options .automotive a{background-position:-4px -158px}
+.selectBox-dropdown .local-services, .selectBox-options .local-services a{background-position:-4px -1118px}
+.selectBox-dropdown .event-services, .selectBox-options .event-services a{background-position:-4px -558px}
+.selectBox-dropdown .arts-entertainment, .selectBox-options .arts-entertainment a{background-position:-4px -78px}
+.selectBox-dropdown .active-life, .selectBox-options .active-life a{background-position:-4px 2px}
+.selectBox-dropdown .hotels-travel, .selectBox-options .hotels-travel a{background-position:-4px -958px}
+.selectBox-dropdown .pets, .selectBox-options .pets a{background-position:-4px -1358px}
+.selectBox-dropdown .professional-services, .selectBox-options .professional-services a{background-position:-4px -1438px}
+.selectBox-dropdown .local-flavor, .selectBox-options .local-flavor a{background-position:-4px -1038px}
+.selectBox-dropdown .education, .selectBox-options .education a{background-position:-4px -478px}
+.selectBox-dropdown .public-government, .selectBox-options .public-government a{background-position:-4px -1518px}
+.selectBox-dropdown .real-estate, .selectBox-options .real-estate a{background-position:-4px -1598px}
+.selectBox-dropdown .financial-services, .selectBox-options .financial-services a{background-position:-4px -640px}
+.selectBox-dropdown .mass-media, .selectBox-options .mass-media a{background-position:-4px -1198px}
+.selectBox-dropdown .religious-organizations, .selectBox-options .religious-organizations a{background-position:-4px -1678px}
+[type="checkbox"].filled-in:not(:checked) + label:after{border:1px solid #c8c8c8;}
+[type="checkbox"].filled-in:checked + label:before{border-right: 4px solid #aad760;border-bottom: 3px solid #aad760;top: -8px;   left: 0;width: 12px;height: 21px;}
+[type="checkbox"].filled-in:checked + label:after{border: 1px solid #aad760;background-color: #fff;}
+.modal .best-places{overflow:auto; max-height:280px; border:1px solid #dcdcdc;overflow-x:hidden;}
+.modal .best-places li{padding:14px 40px 5px 14px; margin-bottom:0;}
+.modal .best-places .check-area{position: absolute;right: -5px;top: 20px;}
+.modal .best-places .title{font-weight:400;}
+.pop-user-detail{overflow:hidden;}
+.pop-user-detail .user{float:left; margin-right:15px; width:100px; font-size:11px;}
+.pop-user-detail .choose-info{width:1000000px; display:table-cell;}
+.pop-user-detail p{margin:0;}
+.pop-user-detail .user .not-cfrm .icon, .pop-user-detail .user .cfrmed .icon{background-position: -18px -555px;width: 10px;height: 10px;margin-right: 3px; vertical-align:baseline;}
+.pop-user-detail .user .cfrmed .icon{background-position: 0 -555px;}
+.pop-user-detail .user .not-cfrm, .pop-user-detail .user .cfrmed{display:block; font-weight:700;}
+.pop-user-detail .choose-list{opacity:0.7;}
+.pop-user-detail .box-white{margin-bottom:15px;}
+
+
+@media only screen and (min-width : 1280px){
+.meeting-top .info{margin-right:25%;}
+.meeting-top .rspvBox{width:22%; font-size:18px;}
+.meeting-top .rspvBox .date{display:inline; margin-right:3px;}
+.meeting-top .rspvBox .date-time{margin-bottom:25px; font-size:16px;}
+.meeting-top .rspvBox .date:after{content:","}
+.meeting-top .rspvBox .rspv p{display:inline-block;}
+.meeting-top .rspvBox .rspv b{margin-right:10px;}
+}
+@media only screen and (min-width : 993px){
+.other-meetings li{padding-left:160px;}
+.other-meetings .info{border-left:1px solid #ddd;}
+.other-meetings .rspvBox{position:absolute; left:0; top:0;}
+}
+@media only screen and (max-width : 992px){
+.meeting-top .info{margin-right:0;border:0}
+.rspvBox{position:inherit; margin-top:15px; border-top:1px solid #ddd; font-size:16px; padding-top:10px;}
+.rspvBox .date{display:inline; margin-right:3px;}
+.rspvBox .date:after{content:","}
+.rspvBox .rspv p{display:inline-block; margin:0;}
+.rspvBox .rspv b{margin-right:10px;}
+#contRight, #contLeft{float:none; width:100%;}
+#contRight{margin-top:30px;}
+#contRight .meetingLabel{position:inherit;}
+}
+@media only screen and (max-width : 768px){
+.best-places .thumb{display:none;}
+.share dd{display:block; margin:0;}
+.modal{width:98%;}
+}
+@media only screen and (min-width : 521px){
+.box-meeting .group .time{margin-bottom:0; text-align:left;}
+.box-meeting .group .btn{position:absolute; right:15px; top:20px;}
+}
+@media only screen and (max-width : 520px){
+.best-places li{padding-right:0}
+.best-places li .btn-area{position:relative; top:auto; right:auto; display:block; margin-top:5px;}
+#header .account .name{display:none;}
+#top-right{padding-right:0;}
+#logo a{background:none; padding-left:0;}
+.meeting-top .info .thumb{float:none; margin-bottom:15px; text-align:center; width:auto; border:none;}
+#contents{padding:15px 0 100px;}
+}
