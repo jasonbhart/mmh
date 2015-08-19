@@ -20,6 +20,7 @@
             }
 
             var userObj = {
+                id: id,
                 refs: refs,
                 user: $firebaseObject(refs.current),
                 getProfilePictureUrl: function() {
@@ -31,6 +32,11 @@
                     if (this.user.location)
                         return this.user.location.shortName;
                     return 'Unknown';
+                },
+                getLocation: function() {
+                    if (this.user.location)
+                        return this.user.location;
+                    return null;
                 }
             };
 
@@ -38,7 +44,7 @@
                 resultDefer.resolve(userObj);    
             })
         });
-        
+               
         return resultDefer.promise;
     }
 
@@ -46,6 +52,15 @@
         return {
             get: function(id) {
                 return new User(id, $q, appConfig, $firebaseObject, $firebaseArray, $log);
+            },
+            updateLocation: function (id, location) {
+                var ref = new Firebase(appConfig.firebaseUrl + '/users');
+                var userRef = ref.child(id);
+                userRef.update(
+                { location: location }, 
+                function(){
+                    $log.log("Change location success for user " + id);
+                });
             }
         };
     }]);

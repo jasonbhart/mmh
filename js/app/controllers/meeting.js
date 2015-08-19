@@ -328,6 +328,8 @@
         $scope.changeLocation = function() {
             // position map to current user location if we have such
             var location = null;
+            currentUser.location = $scope.currentUserInfo.user.getLocation();
+            
             if (currentUser.location) {
                 location = {
                     position: {
@@ -344,15 +346,13 @@
                     return;
                 
                 $log.log('Change location:', result);
-                return;
 
                 geoLocation.getLocality(result.position.lat, result.position.lng).then(
                     function(location) {
                         location.radius = result.radius;
-                        changeLocation(refs.users.child(userObject.$id), location);
-                        $log.log('geoLocation success', location);
+                        userService.updateLocation(currentUser.id, location);
+//                        $log.log('geoLocation success', location);
                     }, function(error) {
-                        $window.alert('Failed to change location: ' + error);
                         $log.log('geoLocation error', error);
                     }
                 );
