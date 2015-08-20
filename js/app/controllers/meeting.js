@@ -15,10 +15,17 @@
     app.controller('meetingController', ['$scope', '$q', '$log', '$firebaseArray', 'dialogs', 'dataProvider', 'meetingService', 'userService', 'geoLocation', 'userGroupBuilder','$window',
             function($scope, $q, $log, $firebaseArray, dialogs, dataProvider, meetingService, userService, geoLocation, userGroupBuilder, $window) {
 
+                // get from the session
+        var currentUser = {
+            id: '-JtnL-ITrHRaScQVjGeN'
+        };
+
         $scope.timeFormat = 'h:mmA';
         $scope.meetingId = null;
         if ($.urlParam('meet')) {
             $scope.meetingId = $.urlParam('meet');
+        } else {
+            $scope.meetingId = meetingService.create(currentUser.id);
         }
         
         $scope.meeting = null;
@@ -87,10 +94,6 @@
         $scope.otherUsersInfo = null;
         $scope.userGroups = null;
         
-        // get from the session
-        var currentUser = {
-            id: '-JtnL-ITrHRaScQVjGeN'
-        };
 
         // load meeting info
         meetingService.get($scope.meetingId).then(function(meeting) {

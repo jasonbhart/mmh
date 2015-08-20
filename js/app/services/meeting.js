@@ -264,8 +264,18 @@
     app.factory('meetingService', ['$q', '$firebaseObject', '$firebaseArray', '$log', 'appConfig',
             function($q, $firebaseObject, $firebaseArray, $log, appConfig, userService) {
         return {
-            create: function() {
-                
+            create: function(userId) {
+                var ref = new Firebase(appConfig.firebaseUrl + '/meets');
+                var newMeeting = {
+                    'name': 'New Meetup',
+                    'createdDate': moment().utc().toISOString(),
+                    'users': {}
+                };
+                newMeeting.users[userId] = {joined: true};
+
+                var postIdRef = ref.push(newMeeting);
+                $log.log("New meeting created", postIdRef.key());
+                return postIdRef.key();
             },
             get: function(id) {
                 return new Meeting(id, appConfig, $q, $firebaseObject, $firebaseArray, $log);
