@@ -12,8 +12,8 @@
         }
     };
     
-    app.controller('meetingController', ['$scope', '$q', '$log', '$firebaseArray', 'dialogs', 'dataProvider', 'meetingService', 'userService', 'geoLocation', 'userGroupBuilder',
-            function($scope, $q, $log, $firebaseArray, dialogs, dataProvider, meetingService, userService, geoLocation, userGroupBuilder) {
+    app.controller('meetingController', ['$scope', '$q', '$log', '$firebaseArray', 'dialogs', 'dataProvider', 'meetingService', 'userService', 'geoLocation', 'userGroupBuilder','$window',
+            function($scope, $q, $log, $firebaseArray, dialogs, dataProvider, meetingService, userService, geoLocation, userGroupBuilder, $window) {
 
         $scope.timeFormat = 'h:mmA';
         $scope.meetingId = null;
@@ -350,9 +350,11 @@
                 geoLocation.getLocality(result.position.lat, result.position.lng).then(
                     function(location) {
                         location.radius = result.radius;
-                        userService.updateLocation(currentUser.id, location);
+                        $scope.currentUserInfo.user.updateLocation(location);
+//                        userService.updateLocation(currentUser.id, location);
 //                        $log.log('geoLocation success', location);
                     }, function(error) {
+                        $window.alert('Failed to change location: ' + error);
                         $log.log('geoLocation error', error);
                     }
                 );

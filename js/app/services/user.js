@@ -37,6 +37,15 @@
                     if (this.user.location)
                         return this.user.location;
                     return null;
+                },
+                updateLocation: function(location) {
+                    this.user.location = location;
+                    $log.log(this.user);
+                    this.user.$save().then(function (ref) {
+                        $log.log("Change location success for user " + id);
+                    }, function (error) {
+                        $log.log("user.js - change location error");
+                    });
                 }
             };
 
@@ -52,15 +61,6 @@
         return {
             get: function(id) {
                 return new User(id, $q, appConfig, $firebaseObject, $firebaseArray, $log);
-            },
-            updateLocation: function (id, location) {
-                var ref = new Firebase(appConfig.firebaseUrl + '/users');
-                var userRef = ref.child(id);
-                userRef.update(
-                { location: location }, 
-                function(){
-                    $log.log("Change location success for user " + id);
-                });
             }
         };
     }]);
