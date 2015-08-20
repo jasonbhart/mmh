@@ -247,3 +247,6 @@ h3.title{font-size:18px; font-weight:500;}
 .meeting-top .info .thumb{float:none; margin-bottom:15px; text-align:center; width:auto; border:none;}
 #contents{padding:15px 0 100px;}
 }
+
+.choose-list li{cursor:pointer;}
+.choose-list li.selected{background:#a2ab58 none; color:#fff;}

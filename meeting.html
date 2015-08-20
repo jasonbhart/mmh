@@ -120,7 +120,7 @@
                                     <p>Places?</p>
                                     <div class="box-white white">
                                         <ul class="choose-list">
-                                            <li ng-style="{'background-color': where.selected ? 'green' : 'red'}" ng-repeat="where in currentUserInfo.where">
+                                            <li ng-class="where.selected ? 'selected' : ''" ng-repeat="where in currentUserInfo.where">
                                                 <a href="#none" class="icon" title="Delete" ng-click="removePlace(where)">Delete</a>
                                                 {{ where.name }}
                                             </li>
@@ -130,7 +130,7 @@
                                     <p>Times?</p>
                                     <div class="box-white white">
                                         <ul class="choose-list">
-                                            <li ng-style="{'background-color': when.selected ? 'green' : 'red'}" ng-repeat="when in currentUserInfo.when">
+                                            <li ng-class="when.selected ? 'selected' : ''" ng-repeat="when in currentUserInfo.when">
                                                 <a href="#none" class="icon" title="Delete" ng-click="removeTime(when)">Delete</a>
                                                 {{ when.whenFormatted }}
                                             </li>
