@@ -120,22 +120,22 @@
                                     <p>Places?</p>
                                     <div class="box-white white">
                                         <ul class="choose-list">
-                                            <li ng-style="{'background-color': where.selected ? 'green' : 'red'}" ng-repeat="where in currentUserInfo.where">
+                                            <li ng-class="where.selected ? 'selected' : ''" ng-repeat="where in currentUserInfo.where">
                                                 <a href="#none" class="icon" title="Delete" ng-click="removePlace(where)">Delete</a>
                                                 {{ where.name }}
                                             </li>
+                                            <li class="forbtn"><a class="btn btn-add waves-effect waves-light" ng-click="addPlaces()"><i class="icon"></i> Add</a></li>
                                         </ul>
-                                        <a class="btn btn-add waves-effect waves-light" ng-click="addPlaces()"><i class="icon"></i> Add</a>
                                     </div>
                                     <p>Times?</p>
                                     <div class="box-white white">
                                         <ul class="choose-list">
-                                            <li ng-style="{'background-color': when.selected ? 'green' : 'red'}" ng-repeat="when in currentUserInfo.when">
+                                            <li ng-class="when.selected ? 'selected' : ''" ng-repeat="when in currentUserInfo.when">
                                                 <a href="#none" class="icon" title="Delete" ng-click="removeTime(when)">Delete</a>
                                                 {{ when.whenFormatted }}
                                             </li>
+                                            <li class="forbtn"><a class="btn btn-add waves-effect waves-light" ng-click="addTimes()"><i class="icon"></i> Add</a></li>
                                         </ul>
-                                        <a class="btn btn-add waves-effect waves-light" ng-click="addTimes()"><i class="icon"></i> Add</a>
                                     </div>
                                 </div>
                             </div>

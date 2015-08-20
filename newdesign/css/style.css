@@ -74,7 +74,7 @@ h3.title{font-size:18px; font-weight:500;}
 .box-white{padding:15px; overflow:hidden; position:relative;}
 .box-meeting .group .btn{font-size:20px; height:38px; line-height:38px; display:block;}
 .have-chosen{margin:0;}
-.have-chosen li{display:inline-block; border-radius:4px; border:1px solid #cacaca; padding:3px 5px; font-size:12px;}
+.have-chosen li{display:inline-block; border-radius:4px; border:1px solid #cacaca; padding:3px 5px; font-size:12px; margin-right: 5px;}
 .have-chosen .cfrmed .icon{background-position:0 -555px; width:10px; height:10px; margin-right:3px; vertical-align:baseline;}
 .have-chosen .not-cfrm .icon{background-position:-18px -555px; width:8px; height:10px; margin-right:3px; vertical-align:baseline;}
 .choose-setting .member{overflow:hidden; margin-bottom:10px;}
@@ -86,9 +86,9 @@ h3.title{font-size:18px; font-weight:500;}
 .choose-setting .box-gray .btn:hover{background:#e44424;}
 .choose-setting .box-gray p{margin:0; padding-top:20px; font-weight:500;}
 .choose-list{display:inline-block; margin:0;}
-.choose-list li{display:inline-block; border-radius:4px; background:#ddd; padding:3px 5px 4px; color:#404040; font-weight:700; margin:3px 0}
+.choose-list li{display:inline-block; border-radius:4px; background:#ddd; padding:3px 5px 4px; color:#404040; font-weight:700; margin:3px;}
 .choose-list li .icon{text-indent:-9999em; background-position:5px -570px; width:18px; height:18px;}
-.btn-add .icon{background-position:-14px -572px; width:12px; height:14px; margin-right:1px; vertical-align:middle;}
+.btn-add .icon{background-position:-14px -572px !important; width:12px !important; height:14px !important; margin-right:1px; vertical-align:middle;}
 .other-member li .thumb, .pop-user-detail .user .thumb{border:1px solid #ddd; width:100px; height:100px; overflow:hidden; margin-bottom:10px;}
 .other-member li .thumb img, .pop-user-detail .user .thumb img{width:100px;}
 .other-member li{display:inline-block; width:120px; padding:10px; font-size:11px;}
@@ -117,6 +117,7 @@ h3.title{font-size:18px; font-weight:500;}
 .lean-overlay{top:0;}
 .modal .icon-close{position:absolute; top:10px; right:10px; color: #ccc; width:30px; height:30px;}
 .timepicker-wrap .box-inner{display:inline-block; width:230px; height:38px; vertical-align:middle;}
+.timepicker-wrap .box-inner .list-unstyled{margin: 0;}
 .timepicker-wrap .table-condensed .btn-area{position:relative;}
 .timepicker-wrap .table-condensed .btn-area .hour, .timepicker-wrap .table-condensed .btn-area .minute{position:absolute; left:50px; width:30px; height:19px; line-height:19px;}
 .timepicker-wrap .table-condensed .btn-area .hour .material-icons, .timepicker-wrap .table-condensed .btn-area .minute .material-icons{font-size:26px; display:block; line-height:19px;}
@@ -251,3 +252,16 @@ h3.title{font-size:18px; font-weight:500;}
 .pac-container {
     z-index: 999999;
 }
+.choose-list li{cursor:pointer;}
+.choose-list li.selected{background:#a2ab58 none; color:#fff;}
+.choose-list .forbtn{background: none; border-radius: 0; padding: 0;}
+.pop-place .search-box {
+    background-color: white;
+    border: none !important;
+    box-shadow: none !important;
+    margin: 15px 0px 0px 15px;
+    max-width: 350px;
+    width: 100%;
+}
+.pop-place .map-radius{display: block; margin-top: 10px;font-size: 13px}
+.pop-place .select-radius{font-size: 13px}
