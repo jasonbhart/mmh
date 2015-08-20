@@ -23,6 +23,7 @@
             };
 
             var meetingObj = {
+                name: snap.val().name || 'New Meetup',
                 refs: refs,
                 users: $firebaseArray(refs.users),
                 where: $firebaseArray(refs.where),
