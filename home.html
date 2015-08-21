@@ -42,6 +42,7 @@
     <script src="js/app/controllers.js"></script>
     <script src="js/app/controllers/locationMap.js"></script>
     <script src="js/app/controllers/homepage.js"></script>
+    <script src="js/app/controllers/googletag.js"></script>
     
     <script src="js/materialize.min.js"></script>
     <script src="js/prism.js"></script>
@@ -50,6 +51,9 @@
 </head>
 <body>
 	<div id="container" ng-app="mmh">
+            <div id="google-tag" ng-controller="GoogleTagCtr">
+                <div ng-bind-html="getTag()"></div>
+            </div>
 		<header>
 			<nav id="header" class="top-nav">
 				<h1 id="logo"><a href="#none">MEET ME HERE</a></h1>
