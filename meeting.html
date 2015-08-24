@@ -43,8 +43,12 @@
         <script src="js/app/controllers/userMeetingTimes.js"></script>
         <script src="js/app/controllers/meetingUserInfo.js"></script>
         <script src="js/app/controllers/meeting.js"></script>
+        <script src="js/app/controllers/googletag.js"></script>
     </head>
 <body ng-app="mmh">
+    <div id="google-tag" ng-controller="GoogleTagCtr">
+        <div ng-bind-html="getTag()"></div>
+    </div>
     <div id="container">
         <header>
             <nav id="header" class="top-nav">
