@@ -43,11 +43,11 @@
         <script src="js/app/controllers/userMeetingTimes.js"></script>
         <script src="js/app/controllers/meetingUserInfo.js"></script>
         <script src="js/app/controllers/meeting.js"></script>
-        <script src="js/app/controllers/googletag.js"></script>
+        <script src="js/app/controllers/snippet.js"></script>
     </head>
 <body ng-app="mmh">
-    <div id="google-tag" ng-controller="GoogleTagCtr">
-        <div ng-bind-html="getTag()"></div>
+    <div id="google-tag" ng-controller="Snippet">
+        <div ng-bind-html="getGoogleTag()"></div>
     </div>
     <div id="container">
         <header>
@@ -156,12 +156,15 @@
                         </div>
                     </div>
                     <div class="share">
-                        <dl>
-                            <dt>Share via socials</dt>
-                            <dd><a href="#none" title="Post to facebook"><img src="newdesign/image/icon-fb.gif" alt="Post to facebook"></a></dd>
-                            <dd><a href="#none" title="Post to Twitter"><img src="newdesign/image/icon-tw.gif" alt="Post to Twitter"></a></dd>
-                            <dd><a href="#none" title="Send an email"><img src="newdesign/image/icon-m.gif" alt="Send an email"></a></dd>
-                        </dl>
+                        <div class="label">Share via socials </div>
+                        <div class="fb-share-button" data-href="{{ getSharingUrl() }}" data-layout="button"></div>
+                        <div class="twitter-share">
+                            <a href="https://twitter.com/share" class="twitter-share-button" data-url="{{ getSharingUrl() }}" data-count="none">Tweet</a>
+                        </div>
+                        <div class="email-share">
+                            <a href="#none" title="Send an email"><img src="newdesign/image/icon-m.gif" alt="Send an email"></a>
+                        </div>
+                        <div style="clear:both;"></div>
                         <p>or give friends the link</p>
                         <div class="url">
                             <a class="link" href="{{ getSharingUrl() }}">{{ getSharingUrl() }}</a>
@@ -479,5 +482,9 @@
             });
         });
     </script>
+    <div id="facebook-sdk" ng-controller="Snippet">
+        <div ng-bind-html="getFacebookSDK()"></div>
+        <div ng-bind-html="getTwitterSDK()"></div>
+    </div>
 </body>
 </html>

@@ -102,7 +102,10 @@ h3.title{font-size:18px; font-weight:500;}
 #contRight .rspvBox .rspv p{display:inline-block; margin:0;}
 #contRight .rspvBox .rspv b{margin-right:10px;}
 #contRight .meetingLabel{position:absolute; top:-13px; left:10%;}
-.share dt{font-size:18px; display:inline-block; margin:5px 0; margin-right:10px;}
+.share {padding-top: 20px;}
+.share .label{font-size:18px; display:inline-block; margin:5px 0; margin-right:10px; float: left;}
+.share .fb-share-button, .share .twitter-share, .share .email-share {float: left; margin: 10px 5px 10px 5px;}
+.share .email-share img {height:20px;}
 .share dd{display:inline-block; margin:5px; vertical-align:middle;}
 .share .url{padding:20px; position:relative; background:#f8f4f0; overflow:hidden;}
 .share .url .link{color:#67bcdb;}

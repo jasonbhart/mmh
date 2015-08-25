@@ -34,7 +34,7 @@
         <script src="js/app/services/userGroupBuilder.js"></script>
         <script src="js/app/controllers.js"></script>
         <script src="js/app/controllers/locationMap.js"></script>
-        <script src="js/app/controllers/googletag.js"></script>
+        <script src="js/app/controllers/snippet.js"></script>
         <noscript>
         <link rel="stylesheet" href="css/skel.css" />
         <link rel="stylesheet" href="css/style.css" />
@@ -43,8 +43,8 @@
         <!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
     </head>
     <body>
-        <div id="google-tag" ng-controller="GoogleTagCtr">
-            <div ng-bind-html="getTag()"></div>
+        <div id="google-tag" ng-controller="Snippet">
+            <div ng-bind-html="getGoogleTag()"></div>
         </div>
         <!-- Header -->
         <header id="header">
