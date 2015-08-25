@@ -39,12 +39,16 @@
     <script src="js/app/controllers.js"></script>
     <script src="js/app/controllers/locationMap.js"></script>
     <script src="js/app/controllers/meetingList.js"></script>
+    <script src="js/app/controllers/googletag.js"></script>
     
     <script src="js/materialize.min.js"></script>
     <script src="js/prism.js"></script>
     <script src="js/initUI.js"></script>
 </head>
 <body>
+    <div id="google-tag" ng-controller="GoogleTagCtr">
+        <div ng-bind-html="getTag()"></div>
+    </div>
     <div id="container" ng-app="mmh">
 		<header>
 			<nav id="header" class="top-nav">
