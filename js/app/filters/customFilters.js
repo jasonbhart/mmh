@@ -1,4 +1,4 @@
 var app = angular.module('customFilters', []);
-app.filter('escape', function() {
-  return window.encodeURIComponent;
-});
+app.filter('escape', ['$window', function($window) {
+  return $window.encodeURIComponent;
+}]);
