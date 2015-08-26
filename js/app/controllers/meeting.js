@@ -1,7 +1,7 @@
 ;(function () {
     "use strict";
 
-    var app = angular.module('mmh.controllers', ['customFilters']);
+    var app = angular.module('mmh.controllers');
     $.urlParam = function(name) {
         var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
         if (results==null){

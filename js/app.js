@@ -11,7 +11,8 @@
             //'ui.bootstrap',
             'mmh.services',
             'mmh.directives',
-            'mmh.controllers'
+            'mmh.controllers',
+            'customFilters'
         ]
     );
     
