@@ -1,7 +1,7 @@
 ;(function () {
     "use strict";
 
-    var app = angular.module('mmh.controllers');
+    var app = angular.module('mmh.controllers', ['customFilters']);
     $.urlParam = function(name) {
         var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
         if (results==null){
@@ -322,11 +322,15 @@
                     whenId: group.when.when.id
                 }
             );
-        }
+        };
         
         $scope.getSharingUrl = function() {
             return meetingService.getSharingUrl($scope.meeting);
-        }
+        };
+        
+        $scope.getShareEmailSubject = function() {
+            return "MEET ME HERE";
+        };
 
         $scope.changeLocation = function() {
             // position map to current user location if we have such
