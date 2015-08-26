@@ -33,7 +33,6 @@
                             '}(document, \'script\', \'facebook-jssdk\'));</script>';
         
         $scope.getFacebookSDK = function() {
-            console.log('yyy');
             return $sce.trustAsHtml(facebookSDK);
         };
         
@@ -50,8 +49,6 @@
                             '}(document, \'script\', \'twitter-wjs\'));</script>';
         
         $scope.getTwitterSDK = function() {
-            console.log('xxx');
-            console.log($scope.getSharingUrl)
             return $sce.trustAsHtml(twitterSDK);
         };
     }]);
