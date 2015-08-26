@@ -37,6 +37,7 @@
         <script src="js/app/services/modal.js"></script>
         <script src="js/app/services/userGroupBuilder.js"></script>
         <script src="js/app/services/user.js"></script>
+        <script src="js/app/filters/customFilters.js"></script>
         <script src="js/app/controllers.js"></script>
         <script src="js/app/controllers/locationMap.js"></script>
         <script src="js/app/controllers/userMeetingPlaces.js"></script>
@@ -162,7 +163,7 @@
                             <a href="https://twitter.com/share" class="twitter-share-button" data-url="{{ getSharingUrl() }}" data-count="none">Tweet</a>
                         </div>
                         <div class="email-share">
-                            <a href="#none" title="Send an email"><img src="newdesign/image/icon-m.gif" alt="Send an email"></a>
+                            <a href="mailto:?subject={{getShareEmailSubject() | escape}}&body={{getSharingUrl() | escape}}" title="Send an email"><img src="newdesign/image/icon-m.gif" alt="Send an email"></a>
                         </div>
                         <div style="clear:both;"></div>
                         <p>or give friends the link</p>
