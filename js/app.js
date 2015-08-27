@@ -9,6 +9,7 @@
             'ngCookies',
             'firebase',
             //'ui.bootstrap',
+            'ui.materialize',
             'mmh.services',
             'mmh.directives',
             'mmh.controllers'
@@ -788,5 +789,9 @@
             meetUsersArray.$remove(record);
         });
 
+    }]);
+
+    mmhApp.run(['$rootScope', 'userService', 'sessionService', function($rootScope, userService, sessionService) {
+        sessionService.init();
     }]);
 })();

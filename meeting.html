@@ -22,6 +22,7 @@
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular-cookies.min.js"></script>
         <script src="//cdn.firebase.com/libs/angularfire/1.1.1/angularfire.js"></script>
+        <script src="js/angular-materialize.js"></script>
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDqyBR4bu0xg0l9ypkVNs61agcZ14eAJN4"></script>
         
         <script src="js/app.js"></script>
@@ -35,10 +36,12 @@
         <script src="js/app/services/geoLocation.js"></script>
         <script src="js/app/services/meeting.js"></script>
         <script src="js/app/services/modal.js"></script>
-        <script src="js/app/services/userGroupBuilder.js"></script>
         <script src="js/app/services/user.js"></script>
+        <script src="js/app/services/session.js"></script>
+        <script src="js/app/services/userGroupBuilder.js"></script>
         <script src="js/app/controllers.js"></script>
         <script src="js/app/controllers/locationMap.js"></script>
+        <script src="js/app/controllers/userAccount.js"></script>
         <script src="js/app/controllers/userMeetingPlaces.js"></script>
         <script src="js/app/controllers/userMeetingTimes.js"></script>
         <script src="js/app/controllers/meetingUserInfo.js"></script>
@@ -66,17 +69,25 @@
                             <span class="icon arow"></span>
                         </div>
                     </div>
-                    <div class="account">
-                        <a class="dropdown-button info" href="#" data-activates="account-info">
-                            <span class="thumb"><img src="newdesign/image/temp/avatar.jpg" alt=""></span><span class="name">tuandx<i class="icon"></i></span>
-                        </a>
-                        <div id="account-info" class="dropdown-content">
-                            <ul>
-                                <li><a href="#none">Profiled</a></li>
-                                <li><a href="#none">Settings</a></li>
-                                <li><a href="#none">Log out</a></li>
-                            </ul>
-                            <span class="icon arow"></span>
+                    <div class="account" ng-controller="userAccountController">
+                        <div ng-if="!isAuthenticated">
+                            <a href="#" ng-click="login()">Login</a>
+                        </div>
+                        <div ng-if="isAuthenticated">
+                            <a class="dropdown-button info" href="javascript:void(0)" data-activates="account-info" data-hover="true" dropdown>
+                                <span class="thumb"><img src="{{ user.getProfilePictureURL() }}" alt=""></span>
+                                <span class="name">
+                                    {{ user.fullName }}<i class="icon"></i>
+                                </span>
+                            </a>
+                            <div id="account-info" class="dropdown-content">
+                                <ul>
+                                    <li><a href="#none">Profile</a></li>
+                                    <li><a href="#none">Settings</a></li>
+                                    <li><a href="#none" ng-click="logout()">Log out</a></li>
+                                </ul>
+                                <span class="icon arow"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -94,7 +105,7 @@
                     <div class="box-meeting">
                         <h2 class="title-page"><span class="icon"></span>{{ meeting.name }}</h2>
                         <div class="wrap">
-                            <div class="group">
+                            <div class="group" ng-if="userGroups.groups.length">
                                 <h3 class="title">Group that suits you:</h3>
                                 <div class="box-gray" ng-repeat="group in userGroups.groups">
                                     <h4 class="location">
@@ -108,22 +119,22 @@
                                     <p>{{ group.users.length }} people have chosen:</p>
                                     <ul class="have-chosen">
                                         <li class="memberLabel" ng-class="group.hasJoined(user.user.id) ? 'cfrmed' : 'not-cfrm'" ng-repeat="user in group.users">
-                                            <i class="icon"></i>{{ user.user.name }}
+                                            <i class="icon"></i>{{ user.user.fullName }}
                                         </li>
                                     </ul>
                                 </div>
                             </div>
-                            <div class="choose-setting">
+                            <div class="choose-setting" ng-if="usersInfo.current">
                                 <div class="member">
-                                    <div class="thumb"><img ng-src="{{ currentUserInfo.user.getProfilePictureUrl() }}" alt=""></div>
-                                    <p><b>{{ currentUserInfo.user.user.name }}</b><br>
-                                        <b>Your Location:</b> {{ currentUserInfo.user.getLocationName() }} (<a href="#none" ng-click="changeLocation()">change</a>)</p>
+                                    <div class="thumb"><img ng-src="{{ usersInfo.current.user.getProfileImageUrl() }}" alt=""></div>
+                                    <p><b>{{ usersInfo.current.user.user.fullName }}</b><br>
+                                        <b>Your Location:</b> {{ usersInfo.current.user.getLocationName() }} (<a href="#none" ng-click="changeLocation()">change</a>)</p>
                                 </div>
                                 <div class="box-gray">
                                     <p>Places?</p>
                                     <div class="box-white white">
                                         <ul class="choose-list">
-                                            <li ng-class="where.selected ? 'selected' : ''" ng-repeat="where in currentUserInfo.where">
+                                            <li ng-class="where.selected ? 'selected' : ''" ng-repeat="where in usersInfo.current.where" ng-click="addPlace(where)">
                                                 <a href="#none" class="icon" title="Delete" ng-click="removePlace(where)">Delete</a>
                                                 {{ where.name }}
                                             </li>
@@ -133,7 +144,7 @@
                                     <p>Times?</p>
                                     <div class="box-white white">
                                         <ul class="choose-list">
-                                            <li ng-class="when.selected ? 'selected' : ''" ng-repeat="when in currentUserInfo.when">
+                                            <li ng-class="when.selected ? 'selected' : ''" ng-repeat="when in usersInfo.current.when" ng-click="addTime(when)">
                                                 <a href="#none" class="icon" title="Delete" ng-click="removeTime(when)">Delete</a>
                                                 {{ when.whenFormatted }}
                                             </li>
@@ -142,12 +153,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="other-member"> {{ otherUsersInfo.keys().length }}
-                                <h3 class="title">{{ otherUsersInfo.length }} people join this event:</h3>
+                            <div class="other-member">
+                                <h3 class="title">{{ usersInfo.othersCount }} people join this event:</h3>
                                 <ul class="list">
-                                    <li ng-repeat="userInfo in otherUsersInfo">
+                                    <li ng-repeat="(userId, userInfo) in usersInfo.others">
                                         <div class="thumb"><img ng-src="{{ userInfo.user.getProfilePictureUrl() }}" alt=""></div>
-                                        <p><b>{{ userInfo.user.user.name }}</b></p>
+                                        <p><b>{{ userInfo.user.user.fullName }}</b></p>
                                         <p class="subtext">Location: {{ userInfo.user.getLocationName() }} </p>
                                         <p class="link"><a ng-click="showUserInfo(userInfo)">View Detail &raquo;</a></p>
                                     </li>
@@ -155,7 +166,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="share">
+                    <div class="share" ng-if="usersInfo.current">
                         <dl>
                             <dt>Share via socials</dt>
                             <dd><a href="#none" title="Post to facebook"><img src="newdesign/image/icon-fb.gif" alt="Post to facebook"></a></dd>
@@ -247,237 +258,5 @@
             <div class="copyright">© Sociallivo - All rights reserved.</div>
         </footer><!--//footer-->
     </div>
-    <!-- Modal Place -->
-    <div id="modal-place" class="modal">
-        <div class="modal-content">
-            <h4 class="title">Where do you want to do this?</h4>
-            <div class="pop-place">
-                <div class="select-area row">
-                    <div class="right">
-                        <span>you can search for places by category:</span>
-                        <select class="select-jq browser-default">
-                            <option class="restaurants">Restaurants</option>
-                            <option class="food">Food</option>
-                            <option class="nightlife">Nightlife</option>
-                            <option class="shopping">Shopping</option>
-                            <option class="bars">Bars</option>
-                            <option class="american-new">American (New)</option>
-                            <option class="breakfast-brunch">Breakfast &amp; Brunch</option>
-                            <option class="coffee-tea">Coffee &amp; Tea</option>
-                            <option class="beauty-spas">Beauty &amp; Spas</option>
-                            <option class="health-medical">Health &amp; Medical</option>
-                            <option class="home-services">Home Services</option>
-                            <option class="automotive">Automotive</option>
-                            <option class="local-services">Local Services</option>
-                            <option class="event-services">Event Planning &amp; Services</option>
-                            <option class="arts-entertainment">arts &amp; Entertainment</option>
-                            <option class="active-life">Active Life</option>
-                            <option class="hotels-travel">Hotels &amp; Travel</option>
-                            <option class="pets">Pets</option>
-                            <option class="professional-services">Professional Services</option>
-                            <option class="local-flavor">Local Flavor</option>
-                            <option class="education">Education</option>
-                            <option class="public-government">Public Services &amp; Government</option>
-                            <option class="real-estate">Real Estate</option>
-                            <option class="financial-services">Financial Services</option>
-                            <option class="mass-media">Mass Media</option>
-                            <option class="religious-organizations">Religious Organizations</option>
-                        </select>
-                    </div>
-                </div>
-                <ul class="best-places">
-                    <li class="row">
-                        <div class="info">
-                            <h3 class="title"><a href="#none">The Flying Falafel</a></h3>
-                            <p class="rate">
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE839;</i>
-                            </p>
-                        </div>
-                        <span class="check-area">
-                            <input type="checkbox" class="filled-in" id="filled-in-box" />
-                            <label for="filled-in-box"></label>
-                        </span>
-                    </li>
-                    <li class="row">
-                        <div class="info">
-                            <h3 class="title"><a href="#none">The Flying Falafel</a></h3>
-                            <p class="rate">
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE839;</i>
-                            </p>
-                        </div>
-                        <span class="check-area">
-                            <input type="checkbox" class="filled-in" id="filled-in-box1" />
-                            <label for="filled-in-box1"></label>
-                        </span>
-                    </li>
-                    <li class="row">
-                        <div class="info">
-                            <h3 class="title"><a href="#none">The Flying Falafel</a></h3>
-                            <p class="rate">
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE839;</i>
-                            </p>
-                        </div>
-                        <span class="check-area">
-                            <input type="checkbox" class="filled-in" id="filled-in-box2" />
-                            <label for="filled-in-box2"></label>
-                        </span>
-                    </li>
-                    <li class="row">
-                        <div class="info">
-                            <h3 class="title"><a href="#none">The Flying Falafel</a></h3>
-                            <p class="rate">
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE83A;</i>
-                            </p>
-                        </div>
-                        <span class="check-area">
-                            <input type="checkbox" class="filled-in" id="filled-in-box3" />
-                            <label for="filled-in-box3"></label>
-                        </span>
-                    </li>
-                    <li class="row">
-                        <div class="info">
-                            <h3 class="title"><a href="#none">The Flying Falafel</a></h3>
-                            <p class="rate">
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE83A;</i>
-                            </p>
-                        </div>
-                        <span class="check-area">
-                            <input type="checkbox" class="filled-in" id="filled-in-box4" />
-                            <label for="filled-in-box4"></label>
-                        </span>
-                    </li>
-                    <li class="row">
-                        <div class="info">
-                            <h3 class="title"><a href="#none">The Flying Falafel</a></h3>
-                            <p class="rate">
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE83A;</i>
-                            </p>
-                        </div>
-                        <span class="check-area">
-                            <input type="checkbox" class="filled-in" id="filled-in-box6" />
-                            <label for="filled-in-box6"></label>
-                        </span>
-                    </li>
-                    <li class="row">
-                        <div class="info">
-                            <h3 class="title"><a href="#none">The Flying Falafel</a></h3>
-                            <p class="rate">
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE838;</i>
-                                <i class="material-icons">&#xE83A;</i>
-                            </p>
-                        </div>
-                        <span class="check-area">
-                            <input type="checkbox" class="filled-in" id="filled-in-box7" />
-                            <label for="filled-in-box7"></label>
-                        </span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <a href="#none" class="modal-close waves-effect waves-light btn grey">Close</a>
-            <a href="#none" class="modal-action modal-close waves-effect waves-light btn red">Add done</a>
-        </div>
-    </div>
-    <!-- Modal Time -->
-    <div id="modal-time" class="modal white">
-        <div class="modal-content">
-            <h4 class="title">When do you want to do this?</h4>
-            <div class="timepicker-wrap">
-                <div class="row">
-                    <div id="datetimepicker" class="box-inner"></div>
-                    <a class="btn btn-add waves-effect waves-light" href="#none"><i class="icon"></i> Add</a>
-                </div>
-                <div class="box-white">
-                    <ul class="choose-list">
-                        <li><a href="#none" class="icon" title="Delete">Delete</a>1:00AM</li>
-                        <li><a href="#none" class="icon" title="Delete">Delete</a>3:00AM</li>
-                        <li><a href="#none" class="icon" title="Delete">Delete</a>5:00AM</li>
-                    </ul>
-                </div>
-            </div>
-            <a href="#none" class="modal-close icon-close"><i class="material-icons">close</i></a>
-        </div>
-        <div class="modal-footer">
-            <a href="#none" class="modal-close waves-effect waves-light btn grey">Close</a>
-            <a href="#none" class="modal-action modal-close waves-effect waves-light btn red">Add done</a>
-        </div>
-    </div>
-    <!-- Modal Detail member -->
-    <div id="modal-detail01" class="modal">
-        <div class="modal-content">
-            <div class="pop-user-detail">
-                <div class="user">
-                    <div class="thumb"><img src="newdesign/image/temp/avatar_02.jpg" alt=""></div>
-                    <p><b>Tuandx</b></p>
-                    <p class="subtext">Location: Searingtown, US</p>
-                    <span class="cfrmed"><i class="icon"></i>Confirmed</span>
-                    <span class="not-cfrm"><i class="icon"></i>Not Confirmed</span>
-                </div>
-                <div class="choose-info">
-                    <p>Places?</p>
-                    <div class="box-white">
-                        <ul class="choose-list">
-                            <li>Toskana Pizzeria</li>
-                            <li>Mama Lee</li>
-                            <li>Pine State Biscuits</li>
-                        </ul>
-                    </div>
-                    <p>Times?</p>
-                    <div class="box-white">
-                        <ul class="choose-list">
-                            <li>1:00AM</li>
-                            <li>3:00AM</li>
-                            <li>5:00AM</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <a href="#none" class="modal-close icon-close"><i class="material-icons">close</i></a>
-        </div>
-        <div class="modal-footer">
-            <a href="#none" class="modal-close waves-effect waves-light btn grey">Close</a>
-        </div>
-    </div>
-    <script type="text/javascript">
-        $(function () {
-            $('#datetimepicker').datetimepicker({
-                    inline: true,
-                    sideBySide: true,
-                    stepping: 15,
-            });
-            $('#datetimepicker .datepicker').remove();
-            $('.select-jq').selectBox({
-                mobile: true
-            });
-        });
-    </script>
 </body>
 </html>

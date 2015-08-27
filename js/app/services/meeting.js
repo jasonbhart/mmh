@@ -3,14 +3,16 @@
 
     var app = angular.module('mmh.services');
 
-    function Meeting(id, appConfig, $q, $firebaseObject, $firebaseArray, $log) {
+    function Meeting(id, appConfig, $rootScope, $q, $firebaseObject, $firebaseArray, $log) {
         var resultDefer = $q.defer();
         
         var ref = new Firebase(appConfig.firebaseUrl + '/meets');
         ref = ref.child(id);
         ref.once('value', function (snap) {
             if (!snap.exists()) {
-                resultDefer.reject();
+                $rootScope.$applyAsync(function() {
+                    resultDefer.reject();
+                });
                 return;
             }
 
@@ -29,6 +31,20 @@
                 where: $firebaseArray(refs.where),
                 when: $firebaseArray(refs.when)
             };
+
+            meetingObj.addUser = function(id) {
+                var defer = $q.defer();
+
+                // search by url (as a key)
+                refs.users.child(id).update({ joined: true }, function(error) {
+                    if (error)
+                        defer.reject(error);
+                    else
+                        defer.resolve(id);
+                });
+
+                return defer.promise;
+            }
             
             // add/remove suggestion to/from available suggestions for meet
             meetingObj.toggleWhere = function (where, state) {
@@ -123,7 +139,9 @@
                 
                 refs.users.child(userId).once('value', function(snap) {
                     if (!snap.exists()) {
-                        resultDefer.reject();
+                        $rootScope.$applyAsync(function() {
+                            resultDefer.reject();
+                        });
                         return;
                     }
                     
@@ -250,36 +268,62 @@
                         });
                     };
                     
-                    resultDefer.resolve(userObj);
+                    $rootScope.$applyAsync(function() {
+                        resultDefer.resolve(userObj);
+                    });
                 });
                 
                 return resultDefer.promise;
             };
 
-            resultDefer.resolve(meetingObj);
+            $rootScope.$applyAsync(function() {
+                $log.log('Meeting loaded', meetingObj);
+                resultDefer.resolve(meetingObj);
+            });
         });
         
         return resultDefer.promise;
     }
 
-    app.factory('meetingService', ['$q', '$firebaseObject', '$firebaseArray', '$log', 'appConfig',
-            function($q, $firebaseObject, $firebaseArray, $log, appConfig, userService) {
-        return {
-            create: function(userId) {
+    app.factory('meetingService', ['$rootScope', '$q', '$firebaseObject', '$firebaseArray', '$log', 'appConfig',
+            function($rootScope, $q, $firebaseObject, $firebaseArray, $log, appConfig, userService) {
+        var service = {
+            create: function() {
+                var defer = $q.defer();
                 var ref = new Firebase(appConfig.firebaseUrl + '/meets');
                 var newMeeting = {
                     'name': 'New Meetup',
-                    'createdDate': moment().utc().toISOString(),
-                    'users': {}
+                    'createdDate': moment().utc().toISOString()
                 };
-                newMeeting.users[userId] = {joined: true};
 
-                var postIdRef = ref.push(newMeeting);
-                $log.log("New meeting created", postIdRef.key());
-                return postIdRef.key();
+                var postIdRef = ref.push(newMeeting, function(error) {
+                    if (error) {
+                        $rootScope.$applyAsync(function() {
+                            defer.reject(error);
+                        });
+                        return;
+                    }
+
+                    var meetingId = postIdRef.key();
+
+                    $log.log("New meeting created", meetingId);
+
+                    // load meeting data
+                    service.get(meetingId).then(function(meeting) {
+                        $rootScope.$applyAsync(function() {
+                            defer.resolve(meeting);            
+                        });
+                    }, function(error) {
+                        $rootScope.$applyAsync(function() {
+                            defer.reject(error);
+                        });
+                    });
+                });
+                
+                return defer.promise;
             },
             get: function(id) {
-                return new Meeting(id, appConfig, $q, $firebaseObject, $firebaseArray, $log);
+                return new Meeting(id, appConfig, $rootScope, $q, $firebaseObject, $firebaseArray, $log);
             },
             convertWhen: function(when) {
                 return moment.utc(when).local();
@@ -290,5 +334,7 @@
                 return null;
             }
         };
+
+        return service;
     }]);
 })();
