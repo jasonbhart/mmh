@@ -23,7 +23,10 @@
                 id: id,
                 refs: refs,
                 user: $firebaseObject(refs.current),
-                getProfilePictureUrl: function() {
+                isAnonymous: function() {
+                    return this.user.provider == 'anonymous';
+                },
+                getProfileImageUrl: function() {
                     if (this.user.facebookid)
                         return '//graph.facebook.com/' + this.user.facebookid + '/picture?width=100&height=100';
                     return null;
@@ -57,11 +60,62 @@
         return resultDefer.promise;
     }
 
-    app.factory('userService', ['$q', '$firebaseObject', '$firebaseArray', '$log', 'appConfig', function($q, $firebaseObject, $firebaseArray, $log, appConfig) {
-        return {
+    app.factory('userService', ['$rootScope', '$q', '$firebaseObject', '$firebaseArray', '$log', 'appConfig', function($rootScope, $q, $firebaseObject, $firebaseArray, $log, appConfig) {
+        var service = {
+            /*
+             * { provider: 'facebook', id: 'UID', fullName: 'Full name', profileImageURL: '...' }
+             */
+            createOrUpdate: function(data) {
+                var defer = $q.defer();
+                var ref = new Firebase(appConfig.firebaseUrl + '/users').child(data.id);
+
+                var userData = {
+                    id: data.id,
+                    provider: data.provider,
+                    fullName: data.fullName,
+                    profileImageURL: data.profileImageURL
+                };
+                
+                ref.once('value', function(snap) {
+                    if (!snap.exists()) {
+                        userData.createdDate = moment().utc().toISOString();
+                    }
+                    
+                    ref.update(userData, function(error) {
+                        if (error) {
+                            $rootScope.$applyAsync(function() {
+                                defer.reject(error);
+                            });
+                            return;
+                        }
+
+                        var userId = ref.key();
+
+                        if (userData.createdDate)
+                            $log.log("New User created", userId);
+                        else
+                            $log.log("User updated", userId);
+
+                        // load meeting data
+                        service.get(userId).then(function(user) {
+                            $rootScope.$applyAsync(function() {
+                                defer.resolve(user);
+                            });
+                        }, function(error) {
+                            $rootScope.$applyAsync(function() {
+                                defer.reject(error);
+                            });
+                        });
+                    });
+                });
+                
+                return defer.promise;
+            },
             get: function(id) {
                 return new User(id, $q, appConfig, $firebaseObject, $firebaseArray, $log);
             }
         };
+        
+        return service;
     }]);
 })();
