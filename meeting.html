@@ -76,7 +76,7 @@
                         </div>
                         <div ng-if="isAuthenticated">
                             <a class="dropdown-button info" href="javascript:void(0)" data-activates="account-info" data-hover="true" dropdown>
-                                <span class="thumb"><img src="{{ user.getProfilePictureURL() }}" alt=""></span>
+                                <span class="thumb"><img ng-src="{{ user.getProfilePictureURL() }}" alt=""></span>
                                 <span class="name">
                                     {{ user.fullName }}<i class="icon"></i>
                                 </span>
@@ -120,7 +120,7 @@
                                     <p>{{ group.users.length }} people have chosen:</p>
                                     <ul class="have-chosen">
                                         <li class="memberLabel" ng-class="group.hasJoined(user.user.id) ? 'cfrmed' : 'not-cfrm'" ng-repeat="user in group.users">
-                                            <i class="icon"></i>{{ user.user.fullName }}
+                                            <i class="icon"></i>{{ user.user.fullName }} <span ng-if="user.id == currentUser.id && userGroups.isMultiName(user.id)">(you)</span>
                                         </li>
                                     </ul>
                                 </div>

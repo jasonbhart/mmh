@@ -144,7 +144,14 @@
 
                 // try fuzzy match
                 if (group.userIds.length == 1) {
-                    var otherGroup = this.fuzzyMatchWhen(groups, usedUsers[0], whenMap);
+                    var user = usedUsers[0];
+                    
+                    // we need to match against only those groups having the same where as a user
+                    var groupsToMatch = _.filter(groups, function(g) {
+                        return user.whereIds.indexOf(g.where.id) >= 0;
+                    });
+                    
+                    var otherGroup = this.fuzzyMatchWhen(groupsToMatch, user, whenMap);
 
                     // add user to matching group
                     if (otherGroup) {
