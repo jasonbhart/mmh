@@ -76,7 +76,7 @@
                         </div>
                         <div ng-if="isAuthenticated">
                             <a class="dropdown-button info" href="javascript:void(0)" data-activates="account-info" data-hover="true" dropdown>
-                                <span class="thumb"><img ng-src="{{ user.getProfilePictureURL() }}" alt=""></span>
+                                <span class="thumb"><img ng-src="{{ user.getProfileImageURL() }}" alt=""></span>
                                 <span class="name">
                                     {{ user.fullName }}<i class="icon"></i>
                                 </span>
@@ -127,7 +127,7 @@
                             </div>
                             <div class="choose-setting" ng-if="usersInfo.current">
                                 <div class="member">
-                                    <div class="thumb"><img ng-src="{{ usersInfo.current.user.getProfileImageUrl() }}" alt=""></div>
+                                    <div class="thumb"><img ng-src="{{ usersInfo.current.user.getProfileImageURL() }}" alt=""></div>
                                     <p><b>{{ usersInfo.current.user.user.fullName }}</b><br>
                                         <b>Your Location:</b> {{ usersInfo.current.user.getLocationName() }} (<a href="#none" ng-click="changeLocation()">change</a>)</p>
                                 </div>
@@ -158,7 +158,7 @@
                                 <h3 class="title">{{ usersInfo.othersCount }} people join this event:</h3>
                                 <ul class="list">
                                     <li ng-repeat="(userId, userInfo) in usersInfo.others">
-                                        <div class="thumb"><img ng-src="{{ userInfo.user.getProfilePictureUrl() }}" alt=""></div>
+                                        <div class="thumb"><img ng-src="{{ userInfo.user.getProfilePictureURL() }}" alt=""></div>
                                         <p><b>{{ userInfo.user.user.fullName }}</b></p>
                                         <p class="subtext">Location: {{ userInfo.user.getLocationName() }} </p>
                                         <p class="link"><a ng-click="showUserInfo(userInfo)">View Detail &raquo;</a></p>

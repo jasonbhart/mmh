@@ -2,16 +2,21 @@
     "use strict";
 
     var app = angular.module('mmh.services');
+    
+    app.factory('authProviders', function() {
+        return {
+            ANONYMOUS: 'anonymous',
+            FACEBOOK: 'facebook'
+        };
+    });
 
-    app.factory('sessionService', ['$rootScope', '$q', '$log', '$firebaseAuth', 'appConfig', 'userService', function($rootScope, $q, $log, $firebaseAuth, appConfig, userService) {
+    app.factory('sessionService', ['$rootScope', '$q', '$log', '$firebaseAuth', 'appConfig', 'authProviders', 'userService', function($rootScope, $q, $log, $firebaseAuth, appConfig, authProviders, userService) {
         var ref = new Firebase(appConfig.firebaseUrl);
         var authObj = $firebaseAuth(ref);
         var readyDefer = $q.defer();
         var currentUser = null;
 
         var service = {
-            ANONYMOUS: 'anonymous',
-            FACEBOOK: 'facebook',
             ready: readyDefer.promise,
             init: function() {
                 authObj.$onAuth(function(authData) {
@@ -24,10 +29,10 @@
                             profileImageURL: null
                         };
                         
-                        if (authData.provider == 'facebook') {
+                        if (authData.provider == authProviders.FACEBOOK) {
                             userData.fullName = authData.facebook.displayName,
                             userData.profileImageURL = authData.facebook.profileImageURL;
-                        } else if (authData.provider == 'anonymous') {
+                        } else if (authData.provider == authProviders.ANONYMOUS) {
                             userData.fullName = 'Anonymous';
                             userData.profileImageURL = 'TODO_url_to_anonymous_picture';    // TODO:
                         }

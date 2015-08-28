@@ -3,7 +3,7 @@
 
     var app = angular.module('mmh.services');
 
-    function User(id, $q, appConfig, $firebaseObject, $firebaseArray, $log) {
+    function User(id, $q, appConfig, $firebaseObject, $firebaseArray, $log, authProviders) {
         var resultDefer = $q.defer();
         
         var ref = new Firebase(appConfig.firebaseUrl + '/users');
@@ -24,12 +24,13 @@
                 refs: refs,
                 user: $firebaseObject(refs.current),
                 isAnonymous: function() {
-                    return this.user.provider == 'anonymous';
+                    return this.user.provider == authProviders.ANONYMOUS;
                 },
-                getProfileImageUrl: function() {
-                    if (this.user.facebookid)
-                        return '//graph.facebook.com/' + this.user.facebookid + '/picture?width=100&height=100';
-                    return null;
+                getProfileImageURL: function() {
+                    return this.user.profileImageURL;
+//                    if (this.user.provider == authProviders.FACEBOOK)
+//                        return '//graph.facebook.com/' + this.user.serviceId + '/picture?width=100&height=100';
+//                    return null;
                 },
                 getLocationName: function() {
                     if (this.user.location)
@@ -60,7 +61,7 @@
         return resultDefer.promise;
     }
 
-    app.factory('userService', ['$rootScope', '$q', '$firebaseObject', '$firebaseArray', '$log', 'appConfig', function($rootScope, $q, $firebaseObject, $firebaseArray, $log, appConfig) {
+    app.factory('userService', ['$rootScope', '$q', '$firebaseObject', '$firebaseArray', '$log', 'appConfig', 'authProviders', function($rootScope, $q, $firebaseObject, $firebaseArray, $log, appConfig, authProviders) {
         var service = {
             /*
              * { provider: 'facebook', id: 'UID', fullName: 'Full name', profileImageURL: '...' }
@@ -112,7 +113,7 @@
                 return defer.promise;
             },
             get: function(id) {
-                return new User(id, $q, appConfig, $firebaseObject, $firebaseArray, $log);
+                return new User(id, $q, appConfig, $firebaseObject, $firebaseArray, $log, authProviders);
             }
         };
         
