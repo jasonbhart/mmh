@@ -12,26 +12,16 @@
         }
     };
     
-    app.controller('meetingController', ['$scope', '$q', '$log', '$firebaseArray', 'dialogs', 'dataProvider', 'meetingService', 'userService', 'geoLocation', 'userGroupBuilder','$window',
-            function($scope, $q, $log, $firebaseArray, dialogs, dataProvider, meetingService, userService, geoLocation, userGroupBuilder, $window) {
+    app.controller('meetingController', ['$scope', '$q', '$log', '$firebaseArray', 'dialogs', 'dataProvider', 'sessionService', 'meetingService', 'userService', 'geoLocation', 'userGroupBuilder','$window',
+            function($scope, $q, $log, $firebaseArray, dialogs, dataProvider, sessionService, meetingService, userService, geoLocation, userGroupBuilder, $window) {
 
-                // get from the session
-        var currentUser = {
-            id: '-JtnL-ITrHRaScQVjGeN'
-        };
-
+        // get from the session
         $scope.timeFormat = 'h:mmA';
         $scope.meetingId = null;
-        if ($.urlParam('meet')) {
-            $scope.meetingId = $.urlParam('meet');
-        } else {
-            $scope.meetingId = meetingService.create(currentUser.id);
-        }
-        
         $scope.meeting = null;
         $scope.meetingUser = null;
-        $scope.meetingWhere = [];
-        $scope.meetingWhen = [];
+        $scope.userGroups = null;
+
         
         var formattingData = {
             where: [],
@@ -87,176 +77,266 @@
                 return formatted;
             }
         };
-        var usersInfo = {};                 // formatted date
-        var usersWatchList = {};            // watches
-        
-        $scope.currentUserInfo = null;
-        $scope.otherUsersInfo = null;
-        $scope.userGroups = null;
-        
 
-        // load meeting info
-        meetingService.get($scope.meetingId).then(function(meeting) {
+        var usersWatchList = {};            // watches
+
+        // formatted data
+        $scope.usersInfo = {
+            currentId: null,
+            current: null,
+            others: {},
+            all: {},
+            othersCount: 0,
+            add: function(id, info) {
+                this.all[id] = info;
+                if (id == this.currentId) {
+                    this.current = info;
+                } else {
+                    this.others[id] = info;
+                    this.othersCount++;
+                }
+            },
+            remove: function(id) {
+                if (id == this.currentId) {
+                    this.current = null;
+                    this.currentId = null;
+                }
+                
+                delete this.others[id];
+                this.othersCount--;
+                delete this.all[id];
+            },
+            setCurrentId: function(id) {
+                if (id == this.currentId)
+                    return;
+
+                if (this.currentId !== null && this.current) {
+                    this.others[this.currentId] = this.current;
+                    this.othersCount++;
+                }
+                
+                this.current = this.others[id];
+                delete this.others[id];
+                this.othersCount--;
+                this.currentId = id;
+            }
+        };
+
+        // this will set/change meetingUser when both user auth and meeting will be available
+        var meetingUserSentinel = (function() {
+            var user = null,
+                meeting = null;
+
+            var setMeetingUser = function(meetingUser) {
+                $scope.$applyAsync(function() {
+                    $scope.meetingUser = meetingUser;
+                });
+            }
+
+            var trySet = function() {
+                if (user && meeting) {
+                    meeting.addUser(user.id).then(function() {
+                        meeting.getUser(user.id).then(function(meetingUser) {
+                            setMeetingUser(meetingUser)
+                        });
+                    });
+                } else {
+                    setMeetingUser(null);
+                }
+            };
+
+            return {
+                setUser: function(u) {
+                    user = u;
+                    trySet();
+                },
+                setMeeting: function(m) {
+                    meeting = m;
+                    trySet();
+                }
+            };
+        })();
+
+        sessionService.ready.then(function() {
+            var initAuth = function(user) {
+                meetingUserSentinel.setUser(user);
+                $scope.usersInfo.setCurrentId(user.id);
+            }
+            
+            initAuth(sessionService.getCurrentUser())
+
+            // listen for the future auth change events
+            $scope.$on('auth.changed', function(evt, user) {
+                initAuth(user);
+            });        
+        });
+
+        // load/create meeting
+        var meetingPromise;
+        if ($.urlParam('meet')) {
+            meetingPromise = meetingService.get($.urlParam('meet'));
+        } else {
+            meetingPromise = meetingService.create();
+        }
+
+        meetingPromise.then(function(meeting) {
             $scope.meeting = meeting;
 
-            meeting.getUser(currentUser.id).then(function(user) {
-                $scope.meetingUser = user;
+            meetingUserSentinel.setMeeting(meeting);
 
-                var whereDefer = $q.defer();
-                var whenDefer = $q.defer();
-                
-                // prepare formatting data
-                $scope.meeting.where.$loaded(function(event) {
+            var whereDefer = $q.defer();
+            var whenDefer = $q.defer();
+
+            // prepare formatting data
+            $scope.meeting.where.$loaded(function(event) {
+                formattingData.setWhere($scope.meeting.where);
+                $scope.meeting.where.$watch(function(event) {
                     formattingData.setWhere($scope.meeting.where);
-                    $scope.meeting.where.$watch(function(event) {
-                        formattingData.setWhere($scope.meeting.where);
-                    });
-
-                    whereDefer.resolve();
                 });
 
-                $scope.meeting.when.$loaded(function(event) {
+                whereDefer.resolve();
+            });
+
+            $scope.meeting.when.$loaded(function(event) {
+                formattingData.setWhen($scope.meeting.when);
+                $scope.meeting.when.$watch(function(event) {
                     formattingData.setWhen($scope.meeting.when);
-                    $scope.meeting.when.$watch(function(event) {
-                        formattingData.setWhen($scope.meeting.when);
-                    });
-
-                    whenDefer.resolve();
                 });
 
-                $q.all([whereDefer.promise, whenDefer.promise]).then(function() {
-                    $scope.meeting.users.$ref().on('child_added', function(snap) {
-                        var userId = snap.key();
-                        $log.log('User added to the meeting');
+                whenDefer.resolve();
+            });
 
-                        var childRef = snap.ref();
-                        var watch = {
-                            where: $firebaseArray(childRef.child('where')),
-                            when: $firebaseArray(childRef.child('when')),
-                            group: $firebaseArray(childRef.child('group'))
-                        };
-                        var info = {};
+            $q.all([whereDefer.promise, whenDefer.promise]).then(function() {
+                $scope.meeting.users.$ref().on('child_added', function(snap) {
+                    var userId = snap.key();
+                    $log.log('meeting.js: Participant added to the meeting');
 
-                        usersWatchList[userId] = watch;
-                        usersInfo[userId] = info;
+                    var childRef = snap.ref();
+                    var watch = {
+                        where: $firebaseArray(childRef.child('where')),
+                        when: $firebaseArray(childRef.child('when')),
+                        group: $firebaseArray(childRef.child('group'))
+                    };
+                    var info = {
+                        isReady: function() {
+                            return this.where && this.when && this.user;
+                        }
+                    };
 
-                        var whereDefered = $q.defer();
-                        var whenDefered = $q.defer();
-                        var userDefered = $q.defer();
+                    usersWatchList[userId] = watch;
+                    $scope.usersInfo.add(userId, info);
 
-                        watch.where.$loaded(function() {
-                            // format user's where data
-                            info.where = formattingData.formatWhere(watch.where);
+                    var whereDefered = $q.defer();
+                    var whenDefered = $q.defer();
+                    var userDefered = $q.defer();
 
-                            watch.where.$watch(function(event) {
-                                if (event.event == 'child_added' || event.event == 'child_removed') {
-                                    info.where = formattingData.formatWhere(watch.where);
-                                    $scope.userGroups = buildUserGroups(formattingData);
-                                }
-                            });
-                            
-                            whereDefered.resolve();
-                        });
+                    watch.where.$loaded(function() {
+                        // format user's where data
+                        info.where = formattingData.formatWhere(watch.where);
 
-                        watch.when.$loaded(function() {
-                            // format user's when data
-                            info.when = formattingData.formatWhen(watch.when, $scope.timeFormat);
-
-                            watch.when.$watch(function(event) {
-                                if (event.event == 'child_added' || event.event == 'child_removed') {
-                                    info.when = formattingData.formatWhen(watch.when, $scope.timeFormat);
-                                    $scope.userGroups = buildUserGroups(formattingData);
-                                }
-                            });
-
-                            whenDefered.resolve();
-                        });
-                        
-                        watch.group.$watch(function(event) {
-                            $scope.userGroups = buildUserGroups(formattingData);
-                        });
-
-                        // get user's info
-                        userService.get(userId).then(function(userObj) {
-                            usersInfo[userId].user = userObj;
-                            userDefered.resolve();
-                        });
-
-                        // build groups after we have all data
-                        $q.all([whereDefered.promise, whenDefered.promise, userDefered.promise]).then(function() {
-                            $scope.$evalAsync(function() {
+                        watch.where.$watch(function(event) {
+                            if (event.event == 'child_added' || event.event == 'child_removed') {
+                                info.where = formattingData.formatWhere(watch.where);
                                 $scope.userGroups = buildUserGroups(formattingData);
-                            });
+                            }
                         });
+
+                        whereDefered.resolve();
                     });
-                    
-                    $scope.meeting.users.$ref().on('child_removed', function(snap) {
-                        $log.log('User removed from the meeting');
-                        var userId = snap.key();
-                        usersWatchList[userId].where.$destroy();
-                        usersWatchList[userId].when.$destroy();
-                        usersWatchList[userId].group.$destroy();
-                        delete usersWatchList[userId];
-                        delete usersInfo[userId];
-                        
+
+                    watch.when.$loaded(function() {
+                        // format user's when data
+                        info.when = formattingData.formatWhen(watch.when, $scope.timeFormat);
+
+                        watch.when.$watch(function(event) {
+                            if (event.event == 'child_added' || event.event == 'child_removed') {
+                                info.when = formattingData.formatWhen(watch.when, $scope.timeFormat);
+                                $scope.userGroups = buildUserGroups(formattingData);
+                            }
+                        });
+
+                        whenDefered.resolve();
+                    });
+
+                    watch.group.$watch(function(event) {
+                        $scope.userGroups = buildUserGroups(formattingData);
+                    });
+
+                    // get user's info
+                    userService.get(userId).then(function(userObj) {
+                        info.user = userObj;
+                        userDefered.resolve();
+                    });
+
+                    // build groups after we have all data
+                    $q.all([whereDefered.promise, whenDefered.promise, userDefered.promise]).then(function() {
                         $scope.$evalAsync(function() {
                             $scope.userGroups = buildUserGroups(formattingData);
                         });
                     });
-
-                    $scope.currentUserInfo = getCurrentUserInfo();
-                    $scope.otherUsersInfo = getOtherUsersInfo();
                 });
-            }, function() {
-                $log.log('No such user');
+
+                $scope.meeting.users.$ref().on('child_removed', function(snap) {
+                    $log.log('User removed from the meeting');
+                    var userId = snap.key();
+                    usersWatchList[userId].where.$destroy();
+                    usersWatchList[userId].when.$destroy();
+                    usersWatchList[userId].group.$destroy();
+                    delete usersWatchList[userId];
+                    $scope.usersInfo.remove(userId);
+
+                    $scope.$evalAsync(function() {
+                        $scope.userGroups = buildUserGroups(formattingData);
+                    });
+                });
             });
         }, function() {
             $log.log('No such meeting');
         });
-        
-        function getCurrentUserInfo() {
-            return usersInfo[currentUser.id];
-        }
-        
-        function getOtherUsersInfo() {
-            return _.values(_.omit(usersInfo, currentUser.id));
-        }
-
         
         function buildUserGroups(formattingData) {
             var whenMap = {};
             _.forEach(formattingData.when, function(w) {
                 whenMap[w.id] = w.when;
             });
-            
-            var users = _.filter(_.values(usersInfo), function(user) {
-                return user.where && user.when && user.user;        // only loaded objects
-            });
 
+            // collection user's info for group builder
+            var users = [];
+            _.forOwn($scope.usersInfo.all, function(info, key) {
+                // collect only fully loaded objects
+                if (!info.isReady())
+                    return;
+                
+                users.push(info);
+            });
+            
+            var builderUsers = [];
+            _.forEach(users, function(info) {
+                var location = info.user.user.location || null;
+                var user = {
+                    userId: info.user.user.id,
+                    location: location,
+                    whereIds: _.pluck(_.filter(info.where, 'selected'), 'id'),
+                    whenIds: _.pluck(_.filter(info.when, 'selected'), 'id')
+                }
+                
+                builderUsers.push(user);
+            });
+            
             // build groups
-            var groups = userGroupBuilder.build(
-                _.map(users, function(userInfo) {
-                    var location = userInfo.user.user.location || null;
-                    return {
-                        userId: userInfo.user.user.id,
-                        location: location,
-                        whereIds: _.pluck(userInfo.where, 'id'),
-                        whenIds: _.pluck(userInfo.when, 'id')
-                    }
-                }),
-                whenMap
-            );
+            var groups = userGroupBuilder.build(builderUsers, whenMap);
     
             // format groups
             var result = [];
             _.forEach(groups, function(group) {
 
+                // FIXME: commented for the testing purpose
                 // we want groups with more then 1 participant
 //                if (group.userIds.length < 2)
 //                    return;
 
                 var users = _.map(group.userIds, function(id) {
-                    return usersInfo[id].user;
+                    return $scope.usersInfo.all[id].user;
                 });
                     
                 var where = _.find(formattingData.where, function(w) {
@@ -293,10 +373,10 @@
             // find names that occur more than once
             var userNames = {};
             _.forOwn(users, function(u) {
-                if (!userNames[u.user.name]) {
-                    userNames[u.user.name] = [];
+                if (!userNames[u.user.fullName]) {
+                    userNames[u.user.fullName] = [];
                 }
-                userNames[u.user.name].push(u.user.id);
+                userNames[u.user.fullName].push(u.user.id);
             });
             
             var multiNames = [];
@@ -335,7 +415,7 @@
         $scope.changeLocation = function() {
             // position map to current user location if we have such
             var location = null;
-            currentUser.location = $scope.currentUserInfo.user.getLocation();
+            var currentUser = sessionService.getCurrentUser();
             
             if (currentUser.location) {
                 location = {
@@ -357,9 +437,8 @@
                 geoLocation.getLocality(result.position.lat, result.position.lng).then(
                     function(location) {
                         location.radius = result.radius;
-                        $scope.currentUserInfo.user.updateLocation(location);
-//                        userService.updateLocation(currentUser.id, location);
-//                        $log.log('geoLocation success', location);
+                        currentUser.updateLocation(location);
+                        $log.log('geoLocation success', location);
                     }, function(error) {
                         $window.alert('Failed to change location: ' + error);
                         $log.log('geoLocation error', error);
@@ -399,6 +478,10 @@
             });
         };
         
+        $scope.addPlace = function(place) {
+            $scope.meetingUser.toggleWhere(place.id, true);
+        }
+        
         $scope.removePlace = function(place) {
             $scope.meetingUser.toggleWhere(place.id, false);
         };
@@ -432,6 +515,10 @@
             });
         };
         
+        $scope.addTime = function(place) {
+            $scope.meetingUser.toggleWhen(place.id, true);
+        }
+        
         $scope.removeTime = function(time) {
             $scope.meetingUser.toggleWhen(time.id, false);
         }
@@ -441,5 +528,3 @@
         }
     }]);
 })();
-
-
