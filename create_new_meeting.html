@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <title>Meet Me Here</title>
+    <!-- CSS  -->
+    <link href="newdesign/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="newdesign/css/layout.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="newdesign/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <!--  Scripts-->
+    <script src="newdesign/js/jquery-2.1.1.min.js"></script>
+    <script src="newdesign/js/materialize.min.js"></script>
+    <script src="js/moment-with-locales.js"></script>        
+    <script src="newdesign/js/bootstrap-datetimepicker.js"></script>
+    <script src="newdesign/js/jquery.selectBox.js"></script>
+    <script src="newdesign/js/prism.js"></script>
+    <script src="newdesign/js/init.js"></script>
+
+</head>
+<body>
+	<div id="container">
+		<header>
+			<nav id="header" class="top-nav">
+				<h1 id="logo"><a href="#none">MEET ME HERE</a></h1>
+				<div id="top-right" class="pull-right">
+					<div class="notifications">
+						<a class="dropdown-button info on" href="#" data-activates="notifications-info" title="Notifications">
+							<i class="icon"></i><span class="alert-bubble">123</span>
+						</a>
+						<div id="notifications-info" class="dropdown-content">
+							<p class="notifLabel">Notifications</p>
+							<ul>
+								<li><a href="#none">
+									<b class="red-text">Reminder:</b> Meetup with <b>Meditation Hanoi Meetup</b> on Wednesday
+								</a></li>
+								<li><a href="#none">
+									<b class="red-text">Reminder:</b> You have received an invitation to join the meeting <b>wine Drinkers</b> on Wednesday
+								</a></li>
+							</ul>
+							<span class="icon arow"></span>
+						</div>
+					</div>
+					<div class="account">
+						<a class="dropdown-button info" href="#" data-activates="account-info">
+							<span class="thumb"><img src="images/temp/avatar.jpg" alt=""></span><span class="name">tuandx<i class="icon"></i></span>
+						</a>
+						<div id="account-info" class="dropdown-content">
+							<ul>
+								<li><a href="#none">Profiled</a></li>
+								<li><a href="#none">Settings</a></li>
+								<li><a href="#none">Log out</a></li>
+							</ul>
+							<span class="icon arow"></span>
+						</div>
+					</div>
+				</div>
+			</nav>
+			<div class="container"><a href="#" data-activates="nav-mobile" class="button-collapse top-nav waves-effect waves-light circle hide-on-large-only"><i class="mdi-navigation-menu"></i></a></div>
+			<ul id="nav-mobile" class="side-nav fixed">
+				<li class="active"><a href="index.html" class="waves-effect waves-ripple"><span class="icon icon-home"></span>Home</a></li>
+				<li><a href="create_new_meeting.html" class="waves-effect waves-ripple"><span class="icon icon-new"></span>New Meet</a></li>
+				<!--<li><a href="#none" class="waves-effect waves-ripple"><span class="icon icon-history"></span>History</a></li>-->
+			</ul>
+		</header><!--//header-->
+		<div id="contents">
+			<div class="row creat-new">
+				<div class="col s12">
+					<h2 class="title-page">Create a new meeting</h2>
+					<div class="checkout-wrap">
+						<ul class="checkout-bar">
+						
+							<li class="visited first"><a href="#none">What do</a></li>
+							<li class="visited"><a href="#none">When do</a></li>
+							<li class="active">Where do</li>
+							<li class="next">Here are</li>
+							<li class="">Do you want</li>
+							<li class="">Do you wish</li>
+						</ul>
+					</div>
+					<div class="frm-creat">
+						<div class="row">
+							<h3 class="title">Title of the meeting</h3>
+							<input type="text" placeholder="placeholder" style="max-width:600px;" />
+							<p class="subtext">( Lorem Ipsum is simply dummy text of the printing and typesetting industry )</p>
+						</div>
+						<div class="row">
+							<h3 class="title">What do you want to do? </h3>
+							<p class="subtext">( Lorem Ipsum is simply dummy text of the printing and typesetting industry )</p>
+							<ul class="option">
+								<li><input class="with-gap" name="group1" type="radio" id="01" checked />
+								<label for="01">Have a meal</label></li>
+								<li><input class="with-gap" name="group1" type="radio" id="02" />
+								<label for="02">Get drinks</label></li>
+								<li><input class="with-gap" name="group1" type="radio" id="03" />
+								<label for="03">Other (pops up category list from Yelp)</label></li>
+							</ul>
+						</div>
+					</div>
+					<div class="btn-bottom row">
+						<a href="#none" class="btn red btn-large waves-effect waves-light left">Next</a>
+						<a href="#none" class="btn grey btn-large waves-effect waves-light right">Back</a>
+					</div>
+				</div>
+			</div>
+		</div><!--//contents-->
+		<footer class="page-footer white">
+			<div class="social">
+				<span class="title">FOLLOW US</span>
+				<ul>
+					<li class="fb"><a class="icon waves-effect waves-light" href="#none" title="Facebook">Facebook</a></li>
+					<li class="youtube"><a class="icon waves-effect waves-light" href="#none" title="Youtube">Youtube</a></li>
+					<li class="twitter"><a class="icon waves-effect waves-light" href="#none" title="Twitter">Twitter</a></li>
+					<li class="google-plus"><a class="icon waves-effect waves-light" href="#none" title="Google Plus">Google Plus</a></li>
+					<li class="linkedin"><a class="icon waves-effect waves-light" href="#none" title="Linkedin">Linkedin</a></li>
+				</ul>
+			</div>
+			<div class="copyright">© Whatever Our Name Will Be. All rights reserved.</div>
+		</footer><!--//footer-->
+	</div>
+</body>
+</html>
