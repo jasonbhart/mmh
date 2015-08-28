@@ -3,7 +3,7 @@
 
     var app = angular.module('mmh.services');
 
-    function User(id, $q, appConfig, $firebaseObject, $firebaseArray, $log, authProviders) {
+    function User(id, $q, appConfig, $firebaseObject, $firebaseArray, $log, authProviders, util) {
         var resultDefer = $q.defer();
         
         var ref = new Firebase(appConfig.firebaseUrl + '/users');
@@ -28,7 +28,7 @@
                 },
                 getProfileImageURL: function() {
                     if (!this.user.profileImageURL)
-                        return '/images/no-profile.jpg';
+                        return util.getPath('/images/no-profile.jpg');
 
                     return this.user.profileImageURL;
 //                    if (this.user.provider == authProviders.FACEBOOK)
@@ -64,7 +64,9 @@
         return resultDefer.promise;
     }
 
-    app.factory('userService', ['$rootScope', '$q', '$firebaseObject', '$firebaseArray', '$log', 'appConfig', 'authProviders', function($rootScope, $q, $firebaseObject, $firebaseArray, $log, appConfig, authProviders) {
+    app.factory('userService',
+        ['$rootScope', '$q', '$firebaseObject', '$firebaseArray', '$log', 'appConfig', 'authProviders', 'util',
+            function($rootScope, $q, $firebaseObject, $firebaseArray, $log, appConfig, authProviders, util) {
         var service = {
             /*
              * { provider: 'facebook', id: 'UID', fullName: 'Full name', profileImageURL: '...' }
@@ -116,7 +118,7 @@
                 return defer.promise;
             },
             get: function(id) {
-                return new User(id, $q, appConfig, $firebaseObject, $firebaseArray, $log, authProviders);
+                return new User(id, $q, appConfig, $firebaseObject, $firebaseArray, $log, authProviders, util);
             }
         };
         
