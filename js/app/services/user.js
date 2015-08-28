@@ -27,6 +27,9 @@
                     return this.user.provider == authProviders.ANONYMOUS;
                 },
                 getProfileImageURL: function() {
+                    if (!this.user.profileImageURL)
+                        return '/images/no-profile.jpg';
+
                     return this.user.profileImageURL;
 //                    if (this.user.provider == authProviders.FACEBOOK)
 //                        return '//graph.facebook.com/' + this.user.serviceId + '/picture?width=100&height=100';
