@@ -34,7 +34,6 @@
                             userData.profileImageURL = authData.facebook.profileImageURL;
                         } else if (authData.provider == authProviders.ANONYMOUS) {
                             userData.fullName = 'Anonymous';
-                            userData.profileImageURL = 'TODO_url_to_anonymous_picture';    // TODO:
                         }
 
                         userService.createOrUpdate(userData).then(function(user) {
