@@ -21,6 +21,7 @@
         $scope.meeting = null;
         $scope.meetingUser = null;
         $scope.userGroups = null;
+        $scope.currentUser = null;
 
         
         var formattingData = {
@@ -161,6 +162,7 @@
             var initAuth = function(user) {
                 meetingUserSentinel.setUser(user);
                 $scope.usersInfo.setCurrentId(user.id);
+                $scope.currentUser = user;
             }
             
             initAuth(sessionService.getCurrentUser())
@@ -372,11 +374,11 @@
 
             // find names that occur more than once
             var userNames = {};
-            _.forOwn(users, function(u) {
-                if (!userNames[u.user.fullName]) {
-                    userNames[u.user.fullName] = [];
+            _.forOwn(users, function(info) {
+                if (!userNames[info.user.user.fullName]) {
+                    userNames[info.user.user.fullName] = [];
                 }
-                userNames[u.user.fullName].push(u.user.id);
+                userNames[info.user.user.fullName].push(info.user.user.id);
             });
             
             var multiNames = [];
