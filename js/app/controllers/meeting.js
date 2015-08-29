@@ -470,7 +470,9 @@
                     $scope.meeting.toggleWhere({
                         name: place.name,
                         rating_url: place.rating_url,
-                        url: place.url
+                        url: place.url,
+                        city: place.city,
+                        country_code: place.country_code
                     }, true).then(function(whereId) {
                         // select place for user
                         $scope.meetingUser.toggleWhere(whereId, true);
@@ -527,6 +529,15 @@
         
         $scope.showUserInfo = function(userInfo) {
             dialogs.meetingUserInfo(userInfo);
+        }
+        $scope.getMeetingLocation = function(location) {
+            if (location.city) {
+                return '(' +  location.city + ')';
+            } else if (location.country_code) {
+                return '(' +  location.country_code + ')';
+            }
+            
+            return '';
         }
     }]);
 })();

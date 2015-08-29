@@ -111,7 +111,7 @@
                                 <div class="box-gray" ng-repeat="group in userGroups.groups">
                                     <h4 class="location">
                                         <span class="icon"></span>
-                                        <span class="subtext">At:</span> {{ group.where.name }}
+                                        <span class="subtext">At:</span> {{ group.where.name }} {{getMeetingLocation(group.where)}}
                                     </h4>
                                     <div class="box-white white">
                                         <span class="time">Start: <b class="red-text">{{ group.when.formatted }}</b></span>
