@@ -267,15 +267,15 @@ h3.title{font-size:18px; font-weight:500;}
 }
 .pop-place .map-radius{display: block; margin-top: 10px;font-size: 13px}
 .pop-place .select-radius{font-size: 13px}
-.login-modal #login-form:before {content: 'or';color: gray;position: absolute;top: 0;right: 0;left: 0;bottom: 0;margin: auto;z-index: 900;left: 2.8em; top: -1em; z-index: 900; border-radius: 50%;background-color: #f1f1f1; width: 25px;height: 25px;text-align: center;line-height: 25px;font-weight: 700;font-size: 15px;}
+/*.login-modal #login-form:before {content: 'or';color: gray;position: absolute;top: 0;right: 0;left: 0;bottom: 0;margin: auto;z-index: 900;left: 2.8em; top: -1em; z-index: 900; border-radius: 50%;background-color: #f1f1f1; width: 25px;height: 25px;text-align: center;line-height: 25px;font-weight: 700;font-size: 15px;}*/
 .login-modal{max-width:600px;}
 .login-modal .frm{position:relative; overflow:hidden;}
 .user-link .btn{border:1px solid #dedede; padding:0 12px; text-transform:none;}
 .user-link .btn:hover{border-color:#e44424;}
 .user-link .btn .fa{font-size:12px;}
-.login-modal .input-user{width: 53%; float: left;padding:0 25px 10px 0;box-sizing: border-box;}
-.login-modal .other-connect{    width: 45%;float: right;padding:0 0 10px 25px;box-sizing: border-box;}
-.login-modal #login-form:after {content: '';position: absolute;background: rgba(128, 128, 128, 0.3);top: 0;right: 0;left: 0;bottom: 0; margin: auto; height: 7.25em; width: 0.1em; left: 3.18em; top: -9.8em; -moz-box-shadow: 0 8.8em 0 0 rgba(128, 128, 128, 0.3);
+.login-modal .input-user{display: none; width: 53%; float: left;padding:0 25px 10px 0;box-sizing: border-box;}
+.login-modal .other-connect{padding:0 0 10px 0px;box-sizing: border-box;}
+/*.login-modal #login-form:after {content: '';position: absolute;background: rgba(128, 128, 128, 0.3);top: 0;right: 0;left: 0;bottom: 0; margin: auto; height: 7.25em; width: 0.1em; left: 3.18em; top: -9.8em; -moz-box-shadow: 0 8.8em 0 0 rgba(128, 128, 128, 0.3);*/
   -webkit-box-shadow: 0 8.8em 0 0 rgba(128, 128, 128, 0.3); box-shadow: 0 8.8em 0 0 rgba(128, 128, 128, 0.3);}
 .login-modal input{box-sizing:border-box; height:3.5rem}
 .login-modal .input-user label{font-size:14px; font-weight:700;}
@@ -283,9 +283,9 @@ h3.title{font-size:18px; font-weight:500;}
 .login-modal .other-connect .connect{font-size: 15px;font-weight: 700;margin-bottom: 10px;}
 .login-modal .other-connect a{display:block;text-decoration: none; color: white;height:40px; line-height:40px; font-size:18px; border-radius:4px; padding:0 10px; margin-top:8px; text-align:center;}
 .login-modal .other-connect a.facebook { background: #3a589a;}
-.login-modal .other-connect a.twitter { background: #4099ff;}
-.login-modal .other-connect a.google-plus { background: #e9544f;}
-.login-modal .other-connect a.linkedin{ background: #007bb6;}
+.login-modal .other-connect a.twitter {display: none; background: #4099ff;}
+.login-modal .other-connect a.google-plus {display: none; background: #e9544f;}
+.login-modal .other-connect a.linkedin{display: none; background: #007bb6;}
 .login-modal .modal-content>.title{margin: 0 -24px 20px;background-color: #3b3738; border-bottom:none;color: #fff; padding: 20px 25px;}
 .login-modal .modal-content{padding-top:0;overflow:hidden;}
 .login-modal .icon-close .material-icons{font-size:18px;}
