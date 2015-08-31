@@ -10,11 +10,12 @@
         };
     });
 
-    app.factory('sessionService', ['$rootScope', '$q', '$log', '$firebaseAuth', 'appConfig', 'authProviders', 'userService', function($rootScope, $q, $log, $firebaseAuth, appConfig, authProviders, userService) {
+    app.factory('sessionService', ['$rootScope', '$q', '$log', '$firebaseAuth', 'appConfig', 'authProviders', 'userService', 'meetingService', function($rootScope, $q, $log, $firebaseAuth, appConfig, authProviders, userService, meetingService) {
         var ref = new Firebase(appConfig.firebaseUrl);
         var authObj = $firebaseAuth(ref);
         var readyDefer = $q.defer();
         var currentUser = null;
+        var lastAnonymousId = null;
 
         var service = {
             ready: readyDefer.promise,
@@ -34,10 +35,12 @@
                             userData.profileImageURL = authData.facebook.profileImageURL;
                         } else if (authData.provider == authProviders.ANONYMOUS) {
                             userData.fullName = 'Anonymous';
+                            lastAnonymousId = authData.uid;
                         }
 
                         userService.createOrUpdate(userData).then(function(user) {
                             currentUser = user;
+                            service.migrate();
                             $rootScope.$broadcast('auth.changed', user);                
                             readyDefer.resolve();
                         }, function() {
@@ -45,9 +48,10 @@
                         });
                     } else {
                         // no auth data? try authenticate anonymously
-                        authObj.$authAnonymously().catch(function() {
-                            readyDefer.reject('Can\'t authenticate anonmously');
-                        });
+                        authObj.$authAnonymously()
+                            .catch(function() {
+                                readyDefer.reject('Can\'t authenticate anonmously');
+                            });
                     }
                 });
             },
@@ -80,6 +84,18 @@
             },
             getCurrentUser: function() {
                 return currentUser;
+            },
+            /**
+             * Migrate data from anonymous user to current user
+             */
+            migrate: function() {
+                if (!lastAnonymousId || !currentUser || currentUser.user.provider == authProviders.ANONYMOUS)
+                    return;
+
+                meetingService.copyData(lastAnonymousId, currentUser.id, true).then(function() {
+                    userService.delete(lastAnonymousId);
+                    lastAnonymousId = null;
+                });
             }
         };
         

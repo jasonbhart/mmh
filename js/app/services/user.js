@@ -119,6 +119,18 @@
             },
             get: function(id) {
                 return new User(id, $q, appConfig, $firebaseObject, $firebaseArray, $log, authProviders, util);
+            },
+            delete: function(id) {
+                var defer = $q.defer();
+                var ref = new Firebase(appConfig.firebaseUrl + '/users').child(id);
+                ref.remove(function(error) {
+                    if (error)
+                        defer.reject(error);
+                    else
+                        defer.resolve();
+                });
+                
+                return defer.promise;
             }
         };
         
