@@ -118,13 +118,16 @@
                             <div class="row">
                                 <h3 class="title">What do you want to do? </h3>
                                 <ul class="option">
-                                    <li><input class="with-gap" ng-model="what" value="1" id="what01" type="radio" />
+                                    <li><input class="with-gap" ng-model="what" value="restaurants" id="what01" type="radio"/>
                                         <label for="what01">Have a meal</label></li>
-                                    <li><input class="with-gap" ng-model="what" value="2" id="what02" type="radio"  />
-                                        <label for="what02">Get drinks</label></li>
-                                    <li><input class="with-gap" ng-model="what" value="3" id="what03" type="radio"  />
-                                        <label for="what03">Other (pops up category list from Yelp)</label></li>
+                                    <li><input class="with-gap" ng-model="what" value="shopping" id="what02" type="radio"  />
+                                        <label for="what02">Take a shopping</label></li>
+                                    <li><input class="with-gap" ng-model="what" value="other" id="what03" type="radio"  />
+                                        <label for="what03">Other (select from categories)</label></li>
                                 </ul>
+                                <select class="select-jq browser-default" style="width: auto;" ng-model="term" ng-show="what == 'other'">
+                                    <option value="{{ item.id }}" class="{{ item.id }}" ng-repeat="item in terms" ng-selected="item.id == term">{{ item.name }}</option>
+                                </select>
                                 $scope.what = {{what}}
                             </div>
                         </div>
