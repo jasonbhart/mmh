@@ -2,7 +2,7 @@
     "use strict";
     var app = angular.module('mmh.controllers');
     app.controller('CreateMeetingController', ['$scope',function($scope) {
-        $scope.MAX_STAGE = 6;
+        $scope.MAX_STAGE = 5;
         $scope.stage = 1; 
         $scope.what = 1;
         $scope.when = 1;
@@ -19,6 +19,10 @@
             if ($scope.stage > 1) {
                 $scope.stage --;
             }  
+        }
+        
+        $scope.finish = function() {
+            alert('finish');
         }
         
         $scope.getVisitedStatus = function (elementIndex) {
