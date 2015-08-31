@@ -45,6 +45,13 @@
                         location: location
                     }
                 });
+            },
+            
+            auth: function() {
+                return modal.open({
+                    templateUrl: 'js/app/tmpl/authModal.html',
+                    controller: 'AuthModalController'
+                });
             }
         }
      }]);

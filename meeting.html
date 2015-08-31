@@ -6,6 +6,7 @@
         <title>Meet Me Here</title>
         <!-- CSS  -->
         <link href="newdesign/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+        <link href="css/font-awesome.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
         <link href="newdesign/css/layout.css" type="text/css" rel="stylesheet" media="screen,projection"/>
         <link href="newdesign/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
         <!--  Scripts-->
@@ -42,6 +43,7 @@
         <script src="js/app/services/userGroupBuilder.js"></script>
         <script src="js/app/services/util.js"></script>
         <script src="js/app/controllers.js"></script>
+        <script src="js/app/controllers/authModal.js"></script>
         <script src="js/app/controllers/locationMap.js"></script>
         <script src="js/app/controllers/userAccount.js"></script>
         <script src="js/app/controllers/userMeetingPlaces.js"></script>
@@ -71,9 +73,11 @@
                             <span class="icon arow"></span>
                         </div>
                     </div>
-                    <div class="account" ng-controller="userAccountController">
-                        <div ng-if="!isAuthenticated">
-                            <a href="#" ng-click="login()">Login</a>
+                    <div class="account" ng-controller="UserAccountController">
+                        <div class="user-link" ng-if="!isAuthenticated">
+                            <a class="btn btn-flat waves-effect waves-ripple modal-trigger" href="#user-login" ng-click="login()">
+                                <i class="fa fa-user"></i> Login/Signup
+                            </a>
                         </div>
                         <div ng-if="isAuthenticated">
                             <a class="dropdown-button info" href="javascript:void(0)" data-activates="account-info" data-hover="true" dropdown>
