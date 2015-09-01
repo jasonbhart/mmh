@@ -42,7 +42,11 @@
         <script src="js/app/services/session.js"></script>
         <script src="js/app/services/userGroupBuilder.js"></script>
         <script src="js/app/controllers.js"></script>
-
+        <script src="js/app/controllers/locationMap.js"></script>
+        <script src="js/app/controllers/userAccount.js"></script>
+        <script src="js/app/controllers/userMeetingPlaces.js"></script>
+        <script src="js/app/controllers/userMeetingTimes.js"></script>
+        <script src="js/app/controllers/meetingUserInfo.js"></script>
         <script src="js/app/controllers/snippet.js"></script>
         <script src="js/app/controllers/createMeeting.js"></script>
 
@@ -134,6 +138,15 @@
                         <div class="frm-creat" ng-show="stage == 2">
                             <div class="row">
                                 <h3 class="title">When do you want to do this? </h3>
+                                <div class="box-white white">
+                                    <ul class="choose-list">
+                                        <li ng-class="when.selected ? 'selected' : ''" ng-repeat="when in usersInfo.current.when" ng-click="addTime(when)">
+                                            <a href="#none" class="icon" title="Delete" ng-click="removeTime(when)">Delete</a>
+                                            {{ when.whenFormatted }}
+                                        </li>
+                                        <li class="forbtn"><a class="btn btn-add waves-effect waves-light" ng-click="addTimes()"><i class="icon"></i> Add</a></li>
+                                    </ul>
+                                </div>
                                 <ul class="option">
                                     <li><input class="with-gap" ng-model="when" id="when01" value="1" type="radio" checked />
                                         <label for="when01">Now</label></li>
