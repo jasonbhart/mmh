@@ -6,6 +6,6 @@
     app.service('appConfig', function() {
         this.basePath = '';
         this.firebaseUrl = 'https://radiant-heat-9175.firebaseio.com';
-        this.shareUrlBase = 'https://radiant-heat-9175.firebaseapp.com/meeting.html';
+        this.shareUrlBase = 'https://www.socialivo.com/meeting.html';
     });
 })();
