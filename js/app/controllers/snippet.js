@@ -23,13 +23,14 @@
         // facebook sdk for share on facebook function
         var facebookSDK =   '<div id="fb-root"></div>' + 
                             '<script>(function(d, s, id) {' +
-                                'setTimeout(function(){' + 
+                                'var fbjs = setInterval(function(){' + 
+                                    'if (d.getElementsByClassName("fb-share-button").length == 0) return;' +
                                     'var js, fjs = d.getElementsByTagName(s)[0];' +
-                                    'if (d.getElementById(id)) return;' +
+                                    'if (d.getElementById(id)) {clearInterval(fbjs);return;}' +
                                     'js = d.createElement(s); js.id = id;' +
                                     'js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4";'+
                                     'fjs.parentNode.insertBefore(js, fjs);'+
-                                '}, 3000);' +
+                                '}, 500);' +
                             '}(document, \'script\', \'facebook-jssdk\'));</script>';
         
         $scope.getFacebookSDK = function() {
@@ -38,14 +39,15 @@
         
         // twitter sdk for sharing on twitter
         var twitterSDK =    '<script>(function(d,s,id){ ' + 
-                                'setTimeout(function(){' +
+                                'var ttjs = setInterval(function(){' +
+                                    'if (d.getElementsByClassName("twitter-share-button").length == 0) return;' +
                                     'var js,fjs=d.getElementsByTagName(s)[0],' + 
                                     'p=/^http:/.test(d.location)?\'http\':\'https\'; '+ 
                                     'if(!d.getElementById(id)){' + 
                                         'js=d.createElement(s);js.id=id;js.src=p+\'://platform.twitter.com/widgets.js\';'+
                                         'fjs.parentNode.insertBefore(js,fjs);'+
-                                    '}' +
-                                '}, 3000);' +
+                                    '} else { clearInterval(ttjs);}' +
+                                '}, 500);' +
                             '}(document, \'script\', \'twitter-wjs\'));</script>';
         
         $scope.getTwitterSDK = function() {
