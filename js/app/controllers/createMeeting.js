@@ -1,7 +1,8 @@
 ;(function () {
     "use strict";
     var app = angular.module('mmh.controllers');
-    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', function($scope, dataProvider, dialogs, $log, meetingService) {
+    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 
+        function($scope, dataProvider, dialogs, $log, meetingService) {
         $scope.MAX_STAGE = 5;
         $scope.stage = 1; 
         $scope.what = 'restaurants';
@@ -14,6 +15,8 @@
         $scope.term = 'restaurants';
         
         $scope.next = function() {
+            // test create meeting, will move to finish later
+            //($scope.stage != 1) || createMeeting();
             $scope.stage ++;
         };
         
@@ -162,6 +165,18 @@
                         $scope.meetingUser.toggleWhen(whenId, true);
                     });
                 });
+            });
+        };
+        
+        var createMeeting = function() {
+            var data = {
+                name: $scope.meeting_name,
+                createdDate: moment().utc().toISOString()
+            };
+            var meetingPromise = meetingService.create(data);
+            meetingPromise.then(function(meeting) {
+                var meetingId = meeting.refs.current.key();
+                console.log(meetingId);
             });
         };
     }]);

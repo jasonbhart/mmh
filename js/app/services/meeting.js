@@ -288,10 +288,10 @@
     app.factory('meetingService', ['$rootScope', '$q', '$firebaseObject', '$firebaseArray', '$log', 'appConfig',
             function($rootScope, $q, $firebaseObject, $firebaseArray, $log, appConfig, userService) {
         var service = {
-            create: function() {
+            create: function(meetingDataObject) {
                 var defer = $q.defer();
                 var ref = new Firebase(appConfig.firebaseUrl + '/meets');
-                var newMeeting = {
+                var newMeeting = meetingDataObject || {
                     'name': 'New Meetup',
                     'createdDate': moment().utc().toISOString()
                 };
