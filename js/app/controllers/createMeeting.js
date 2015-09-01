@@ -164,6 +164,18 @@
             });   
         };
         
+        $scope.$watch('when', function (newValue, oldValue) {
+            if (newValue === 'one_hour_later') {
+                $scope.times = [moment().add(1, 'hours').startOf('hour')]
+            } else if (newValue === 'two_hours_later') {
+                 $scope.times = [moment().add(2, 'hours').startOf('hour')]
+            } else if (newValue === 'four_hours_later') {
+                 $scope.times = [moment().add(4, 'hours').startOf('hour')]
+            } else if (newValue === 'other') {
+                $scope.addTimes();
+            }
+        });
+        
         var createMeeting = function() {
             var data = {
                 name: $scope.meeting_name,
