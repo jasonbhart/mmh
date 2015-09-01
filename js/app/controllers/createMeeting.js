@@ -13,6 +13,8 @@
         $scope.publish = 1;
         $scope.terms = dataProvider.getTerms();
         $scope.term = 'restaurants';
+        $scope.timeFormat = 'h:mmA';
+        $scope.times = [];
         
         $scope.next = function() {
             // test create meeting, will move to finish later
@@ -141,10 +143,7 @@
         
         var timesProvider = {
             getTimes: function() {
-                var formatted = formattingData.formatWhen($scope.meetingUser.when, $scope.timeFormat);
-                return _.map(formatted, function(time) {
-                    return time.when;
-                });
+                return $scope.times;
             },
             format: function(time) {
                 return time.format($scope.timeFormat);
@@ -155,17 +154,14 @@
             var dialog = dialogs.userMeetingTimes(timesProvider);
             dialog.result.then(function(times) {
                 $log.log('Show times result:', times);
-                // remove times
-                $scope.meetingUser.removeAllWhen();
-                
-                // add times
-                _.forEach(times, function(time) {
-                    $scope.meeting.toggleWhen(time, true).then(function(whenId) {
-                        // select time for user
-                        $scope.meetingUser.toggleWhen(whenId, true);
-                    });
-                });
+                $scope.times = times;
             });
+        };
+        
+        $scope.removeTime = function (time) {
+            _.remove($scope.times, function(t) {
+                return t.isSame(time);
+            });   
         };
         
         var createMeeting = function() {

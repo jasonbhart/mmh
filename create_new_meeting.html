@@ -140,9 +140,9 @@
                                 <h3 class="title">When do you want to do this? </h3>
                                 <div class="box-white white">
                                     <ul class="choose-list">
-                                        <li ng-class="when.selected ? 'selected' : ''" ng-repeat="when in usersInfo.current.when" ng-click="addTime(when)">
-                                            <a href="#none" class="icon" title="Delete" ng-click="removeTime(when)">Delete</a>
-                                            {{ when.whenFormatted }}
+                                        <li ng-repeat="time in times">
+                                            <a href="#none" class="icon" title="Delete" ng-click="removeTime(time)">Delete</a>
+                                            {{ time.format(timeFormat) }}
                                         </li>
                                         <li class="forbtn"><a class="btn btn-add waves-effect waves-light" ng-click="addTimes()"><i class="icon"></i> Add</a></li>
                                     </ul>
