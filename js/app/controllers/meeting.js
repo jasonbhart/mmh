@@ -101,10 +101,11 @@
                 if (id == this.currentId) {
                     this.current = null;
                     this.currentId = null;
+                } else {
+                    delete this.others[id];
+                    this.othersCount--;
                 }
                 
-                delete this.others[id];
-                this.othersCount--;
                 delete this.all[id];
             },
             setCurrentId: function(id) {
@@ -281,9 +282,9 @@
                 $scope.meeting.users.$ref().on('child_removed', function(snap) {
                     $log.log('User removed from the meeting');
                     var userId = snap.key();
-                    usersWatchList[userId].where.$destroy();
-                    usersWatchList[userId].when.$destroy();
-                    usersWatchList[userId].group.$destroy();
+//                    usersWatchList[userId].where.$destroy();
+//                    usersWatchList[userId].when.$destroy();
+//                    usersWatchList[userId].group.$destroy();
                     delete usersWatchList[userId];
                     $scope.usersInfo.remove(userId);
 

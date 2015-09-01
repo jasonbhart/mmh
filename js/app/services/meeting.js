@@ -5,7 +5,7 @@
 
     function Meeting(id, appConfig, $rootScope, $q, $firebaseObject, $firebaseArray, $log) {
         var resultDefer = $q.defer();
-        
+
         var ref = new Firebase(appConfig.firebaseUrl + '/meets');
         ref = ref.child(id);
         ref.once('value', function (snap) {
@@ -287,10 +287,12 @@
 
     app.factory('meetingService', ['$rootScope', '$q', '$firebaseObject', '$firebaseArray', '$log', 'appConfig',
             function($rootScope, $q, $firebaseObject, $firebaseArray, $log, appConfig, userService) {
+
+        var meetsUrl = appConfig.firebaseUrl + '/meets';
         var service = {
             create: function() {
                 var defer = $q.defer();
-                var ref = new Firebase(appConfig.firebaseUrl + '/meets');
+                var ref = new Firebase(meetsUrl);
                 var newMeeting = {
                     'name': 'New Meetup',
                     'createdDate': moment().utc().toISOString()
@@ -332,6 +334,59 @@
                 if (meeting && meeting.refs)
                     return appConfig.shareUrlBase + '?meet=' + meeting.refs.current.key();
                 return null;
+            },
+            copyData: function(srcUserId, dstUserId, removeSrcRecords) {
+                var defer = $q.defer();
+
+                // TODO: this is very inefficient. Refactoring needed
+                // we don't need to fetch all meeting, data volume can be very huge
+                // 1. need to store meet ids where user participates (so we won't iterate all meetings)
+                // 2. need to store where/when values on user nodes like whereId: true (currently it is someKey: whereId)
+                var meetingsRef = new Firebase(meetsUrl);
+                meetingsRef.once('value', function(snap) {
+                    if (!snap.exists()) {
+                        defer.resolve();
+                        return;
+                    }
+
+                    // check each meeting
+                    _.forEach(snap.val(), function(meeting, meetingId) {
+                        if (!meeting.users)
+                            return;
+                        if (!(srcUserId in meeting.users))
+                            return;
+
+                        var dstRef = meetingsRef.child(meetingId + '/users/' + dstUserId);
+                        // update nodes
+                        var data = meeting.users[srcUserId];
+
+                        // TODO: this needs to be changed accordingly description above (2.)
+                        _.forEach(['where', 'when'], function(node) {
+                            var ref = dstRef.child(node);
+                            ref.once('value', function(snap) {
+                                var existing = snap.exists() ? _.values(snap.val()) : [];
+
+                                var notExisting = _.difference(
+                                    _.values(data[node]),
+                                    existing
+                                );
+                                _.forEach(notExisting, function(id) {
+                                    ref.push(id);
+                                });
+                            });
+                        });
+
+                        if (data.group)
+                            dstRef.child('group').push(data.group);
+
+                        if (removeSrcRecords)
+                            meetingsRef.child(meetingId + '/users/' + srcUserId).remove();
+                    });
+
+                    defer.resolve();
+                });
+
+                return defer.promise;
             }
         };
 

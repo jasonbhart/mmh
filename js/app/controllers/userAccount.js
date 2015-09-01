@@ -2,12 +2,12 @@
     "use strict";
 
     var app = angular.module('mmh.controllers');
-    app.controller('userAccountController', ['$scope', '$log', 'authProviders', 'sessionService', function($scope, $log, authProviders, sessionService) {
+    app.controller('UserAccountController', ['$scope', '$log', 'sessionService', 'dialogs', function($scope, $log, sessionService, dialogs) {
         $scope.isAuthenticated = false;
         $scope.user = null;
 
         $scope.login = function() { 
-            sessionService.login(authProviders.FACEBOOK);
+            dialogs.auth();
         }
 
         $scope.logout = function() {
