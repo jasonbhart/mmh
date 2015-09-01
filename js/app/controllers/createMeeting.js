@@ -8,15 +8,33 @@
         $scope.what = 'restaurants';
         $scope.when = 1;
         $scope.where = 1;
-        $scope.establishment = 1;
-        $scope.invite = 1;
+        $scope.establishment = 'other';
         $scope.publish = 1;
         $scope.terms = dataProvider.getTerms();
         $scope.term = 'restaurants';
+        $scope.suggestions = {};
         
         $scope.next = function() {
             // test create meeting, will move to finish later
             //($scope.stage != 1) || createMeeting();
+            if ($scope.stage === 3) {
+                var options = {
+                    'term' : ($scope.what !== 'other') ? $scope.what : $scope.term,
+                    'sort' : '2',
+                    'limit': '3'
+                };
+                
+                if ($scope.where !== 'other') {
+                    options.radius = dataProvider.convertMilesToKms($scope.where) * 1000;
+                } else {
+                    options.location = $scope.other_location;
+                }
+
+                dataProvider.getSuggestions(options).then(function(suggestions) {
+                    $scope.suggestions = suggestions;
+                });
+            }
+            
             $scope.stage ++;
         };
         

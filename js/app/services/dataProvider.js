@@ -79,6 +79,11 @@
                     if (options.limit) {
                         searchOptions.limit = options.limit;
                     }
+                    
+                    // sort result
+                    if (options.sort) {
+                        searchOptions.sort = options.sort;
+                    }
                 }
 
 //                var xhr = $.getJSON('http://localhost:8080/', searchOptions);
