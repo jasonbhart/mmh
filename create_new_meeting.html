@@ -100,7 +100,6 @@
                 </ul>
             </header><!--//header-->
             <div id="contents" ng-controller="CreateMeetingController">
-                {{stage}}
                 <div class="row creat-new">
                     <div class="col s12">
                         <h2 class="title-page">Create a new meeting</h2>
@@ -132,7 +131,6 @@
                                 <select class="select-jq browser-default" style="width: auto;" ng-model="term" ng-show="what == 'other'">
                                     <option value="{{ item.id }}" class="{{ item.id }}" ng-repeat="item in terms" ng-selected="item.id == term">{{ item.name }}</option>
                                 </select>
-                                $scope.what = {{what}}
                             </div>
                         </div>
                         <div class="frm-creat" ng-show="stage == 2">
@@ -158,7 +156,6 @@
                                         <li class="forbtn"><a class="btn btn-add waves-effect waves-light" ng-click="addTimes()"><i class="icon"></i> Add</a></li>
                                     </ul>
                                 </div>
-                                $scope.when = {{when}}
                             </div>
                         </div>
                         <div class="frm-creat" ng-show="stage == 3">
@@ -175,7 +172,6 @@
                                 <div class="row">
                                     <input type="text" placeholder="Enter Neighborhood, Address, City, State or Zip" ng-model="other_location" ng-show="where=='other'"style="max-width:300px;" />
                                 </div>
-                                $scope.where = {{where}}
                             </div>
                         </div>
                         <div class="frm-creat" ng-show="stage == 4">
@@ -191,7 +187,6 @@
                                         <label for="help_me_decide">Help me decide</label>
                                     </li>
                                 </ul>
-                                $scope.establishment = {{establishment}}
                             </div>
                         </div>
                         <div class="frm-creat" ng-show="stage == 5">
@@ -205,7 +200,6 @@
                                     <li><input class="with-gap" ng-model="publish" id="publish03" value="3" type="radio" />
                                         <label for="publish03">Send an email</label></li>
                                 </ul>
-                                $scope.publish = {{publish}}
                             </div>
                         </div>
                         <div class="btn-bottom row">

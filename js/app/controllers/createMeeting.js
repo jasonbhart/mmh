@@ -25,8 +25,10 @@
                     'sort' : '2',
                     'limit': '3'
                 };
+                var timeout = 0;
                 
                 if ($scope.where !== 'other') {
+                    timeout = 1000;
                     var currentLocation = geoLocation.getLocation();
                     currentLocation.then(function(position) {
                         if (position.coords.latitude && position.coords.longitude) {
@@ -43,11 +45,12 @@
                     options.location = $scope.other_location;
                 }
                 
+                
                 setTimeout(function(){
                     dataProvider.getSuggestions(options).then(function(suggestions) {
                         $scope.suggestions = suggestions;
                     });
-                }, 1000);
+                }, timeout);
                 
             }
             
