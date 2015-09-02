@@ -1,8 +1,8 @@
 ;(function () {
     "use strict";
     var app = angular.module('mmh.controllers');
-    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 
-        function($scope, dataProvider, dialogs, $log, meetingService) {
+    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation',
+        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation) {
         $scope.MAX_STAGE = 5;
         $scope.stage = 1; 
         $scope.what = 'restaurants';
@@ -27,14 +27,28 @@
                 };
                 
                 if ($scope.where !== 'other') {
-                    options.radius = dataProvider.convertMilesToKms($scope.where) * 1000;
+                    var currentLocation = geoLocation.getLocation();
+                    currentLocation.then(function(position) {
+                        if (position.coords.latitude && position.coords.longitude) {
+//                            options.coords = {lat: position.coords.latitude, lng: position.coords.longitude};
+                            // Boston location for testing purpose
+                            options.coords = {lat: '42.3133735', lng: '-71.0571571,12'};
+                        }
+                    }, function() {
+                        $log.log('Can not find current location');
+                    });
+                    
+                    options.radius = dataProvider.convertMilesToKms($scope.where);
                 } else {
                     options.location = $scope.other_location;
                 }
-
-                dataProvider.getSuggestions(options).then(function(suggestions) {
-                    $scope.suggestions = suggestions;
-                });
+                
+                setTimeout(function(){
+                    dataProvider.getSuggestions(options).then(function(suggestions) {
+                        $scope.suggestions = suggestions;
+                    });
+                }, 1000);
+                
             }
             
             $scope.stage ++;

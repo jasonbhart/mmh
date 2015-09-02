@@ -172,7 +172,7 @@
                                         <label for="where03">Other</label></li>
                                 </ul>
                                 <div class="row">
-                                    <input type="text" placeholder="Enter City or State or Zipcode" ng-model="other_location" ng-show="where=='other'"style="max-width:300px;" />
+                                    <input type="text" placeholder="Enter Neighborhood, Address, City, State or Zip" ng-model="other_location" ng-show="where=='other'"style="max-width:300px;" />
                                 </div>
                                 $scope.where = {{where}}
                             </div>
@@ -182,13 +182,11 @@
                                 <h3 class="title">Here are the highest rated establishments (in the search area) </h3>
                                 <ul class="option">
                                     <li ng-repeat="place in suggestions">
-                                        <input class="with-gap" ng-model="establishment" value="{{place.name}}" id="{{place.name}}" type="radio" />
+                                        <input class="with-gap" ng-model="$parent.establishment" value="{{place}}" name="establishment" id="{{place.name}}" type="radio" />
                                         <label for="{{place.name}}">{{place.name}} </label>
                                     </li>
-<!--                                    <li><input class="with-gap" ng-model="establishment" id="establishment03" value="3" type="radio" />
-                                        <label for="establishment03">Other (filter/search box)</label></li>-->
                                     <li>
-                                        <input class="with-gap" ng-model="establishment" value="other" id="help_me_decide" type="radio" />
+                                        <input class="with-gap" ng-model="establishment" value="other" name="establishment" id="help_me_decide" type="radio" />
                                         <label for="help_me_decide">Help me decide</label>
                                     </li>
                                 </ul>
