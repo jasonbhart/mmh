@@ -62,7 +62,7 @@
     <div id="container">
         <header>
             <nav id="header" class="top-nav">
-                <h1 id="logo"><a href="#none">MEET ME HERE</a></h1>
+                <h1 id="logo"><a>MEET ME HERE</a></h1>
                 <div id="top-right" class="pull-right">
                     <div class="notifications">
                         <a class="dropdown-button info" href="#" data-activates="notifications-info" title="Notifications">
@@ -93,7 +93,7 @@
                                 <ul>
                                     <li><a href="#none">Profile</a></li>
                                     <li><a href="#none">Settings</a></li>
-                                    <li><a href="#none" ng-click="logout()">Log out</a></li>
+                                    <li><a ng-click="logout()">Log out</a></li>
                                 </ul>
                                 <span class="icon arow"></span>
                             </div>
@@ -123,7 +123,7 @@
                                     </h4>
                                     <div class="box-white white">
                                         <span class="time">Start: <b class="red-text">{{ group.when.formatted }}</b></span>
-                                        <a href="#none" class="btn waves-effect waves-light" ng-click="joinGroup(group)">{{ group.hasJoined(currentUserInfo.user.id) ? 'Leave' : 'Jump in' }}</a>
+                                        <a class="btn waves-effect waves-light" ng-click="joinGroup(group)">{{ group.hasJoined(currentUserInfo.user.id) ? 'Leave' : 'Jump in' }}</a>
                                     </div>
                                     <p>{{ group.users.length }} people have chosen:</p>
                                     <ul class="have-chosen">
@@ -137,14 +137,14 @@
                                 <div class="member">
                                     <div class="thumb"><img ng-src="{{ usersInfo.current.user.getProfileImageURL() }}" alt=""></div>
                                     <p><b>{{ usersInfo.current.user.user.fullName }}</b><br>
-                                        <b>Your Location:</b> {{ usersInfo.current.user.getLocationName() }} (<a href="#none" ng-click="changeLocation()">change</a>)</p>
+                                        <b>Your Location:</b> {{ usersInfo.current.user.getLocationName() }} (<a ng-click="changeLocation()">change</a>)</p>
                                 </div>
                                 <div class="box-gray">
                                     <p>Places?</p>
                                     <div class="box-white white">
                                         <ul class="choose-list">
                                             <li ng-class="where.selected ? 'selected' : ''" ng-repeat="where in usersInfo.current.where" ng-click="addPlace(where)">
-                                                <a href="#none" class="icon" title="Delete" ng-click="removePlace(where)">Delete</a>
+                                                <a class="icon" title="Delete" ng-click="removePlace(where)">Delete</a>
                                                 {{ where.name }}
                                             </li>
                                             <li class="forbtn"><a class="btn btn-add waves-effect waves-light" ng-click="addPlaces()"><i class="icon"></i> Add</a></li>
@@ -154,7 +154,7 @@
                                     <div class="box-white white">
                                         <ul class="choose-list">
                                             <li ng-class="when.selected ? 'selected' : ''" ng-repeat="when in usersInfo.current.when" ng-click="addTime(when)">
-                                                <a href="#none" class="icon" title="Delete" ng-click="removeTime(when)">Delete</a>
+                                                <a class="icon" title="Delete" ng-click="removeTime(when)">Delete</a>
                                                 {{ when.whenFormatted }}
                                             </li>
                                             <li class="forbtn"><a class="btn btn-add waves-effect waves-light" ng-click="addTimes()"><i class="icon"></i> Add</a></li>
@@ -191,7 +191,7 @@
                         <p>or give friends the link</p>
                         <div class="url">
                             <a class="link" href="{{ getSharingUrl() }}">{{ getSharingUrl() }}</a>
-                            <a href="#none" class="btn waves-effect waves-light">Copy</a>
+                            <a class="btn waves-effect waves-light">Copy</a>
                         </div>
                     </div>
                 </div>
