@@ -25,6 +25,7 @@
             };
 
             var meetingObj = {
+                id: id,
                 name: snap.val().name || 'New Meetup',
                 refs: refs,
                 users: $firebaseArray(refs.users),

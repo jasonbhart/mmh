@@ -185,6 +185,9 @@
         meetingPromise.then(function(meeting) {
             $scope.meeting = meeting;
 
+            if (!$.urlParam('meet')) {
+                $window.location = $window.location.href + '?meet=' + meeting.id;
+            }
             meetingUserSentinel.setMeeting(meeting);
 
             var whereDefer = $q.defer();
