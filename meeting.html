@@ -163,7 +163,10 @@
                                 </div>
                             </div>
                             <div class="other-member">
-                                <h3 class="title">{{ usersInfo.othersCount }} people join this event:</h3>
+                                <h3 class="title">
+                                    <span ng-show="usersInfo.count == 1">1 person is participating in this event</span>
+                                    <span ng-show="usersInfo.count > 1">{{ usersInfo.count }} people are participating in this event:</span>
+                                </h3>
                                 <ul class="list">
                                     <li ng-repeat="(userId, userInfo) in usersInfo.others">
                                         <div class="thumb"><img ng-src="{{ userInfo.user.getProfileImageURL() }}" alt=""></div>
