@@ -87,15 +87,15 @@
             current: null,
             others: {},
             all: {},
-            othersCount: 0,
+            count: 0,
             add: function(id, info) {
                 this.all[id] = info;
                 if (id == this.currentId) {
                     this.current = info;
                 } else {
                     this.others[id] = info;
-                    this.othersCount++;
                 }
+                this.count++;
             },
             remove: function(id) {
                 if (id == this.currentId) {
@@ -103,23 +103,20 @@
                     this.currentId = null;
                 } else {
                     delete this.others[id];
-                    this.othersCount--;
                 }
                 
                 delete this.all[id];
+                this.count--;
             },
             setCurrentId: function(id) {
                 if (id == this.currentId)
                     return;
 
-                if (this.currentId !== null && this.current) {
+                if (this.currentId !== null && this.current)
                     this.others[this.currentId] = this.current;
-                    this.othersCount++;
-                }
                 
                 this.current = this.others[id];
                 delete this.others[id];
-                this.othersCount--;
                 this.currentId = id;
             }
         };
