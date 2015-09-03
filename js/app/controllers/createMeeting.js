@@ -69,8 +69,7 @@
         };
         
         $scope.finish = function() {
-            $window.location = $scope.redirectUrl;
-            //redirectToMeetingPage();
+            redirectToMeetingPage();
         };
         
         $scope.getVisitedStatus = function (elementIndex) {
@@ -180,7 +179,7 @@
         }
         
         var redirectToMeetingPage = function() {
-            window.location.href = $scope.redirectUrl;
+            $window.location = $scope.redirectUrl;
         }
         
         var getSharingUrl = function() {
