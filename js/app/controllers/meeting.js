@@ -17,7 +17,6 @@
 
         // get from the session
         $scope.timeFormat = 'h:mmA';
-        $scope.meetingId = null;
         $scope.meeting = null;
         $scope.meetingUser = null;
         $scope.userGroups = null;
@@ -405,7 +404,7 @@
         };
         
         $scope.getSharingUrl = function() {
-            return meetingService.getSharingUrl($scope.meeting);
+            return meetingService.getSharingUrl($scope.meeting.id);
         };
         
         $scope.getShareEmailSubject = function() {
@@ -452,9 +451,13 @@
                 return dataProvider.getTerms();
             },
             getPlaces: function(term) {
-                return dataProvider.getSuggestions({
-                    term: term
-                });
+                var options = { term: term, limit: 10 };
+                if ($scope.currentUser.user.location) {
+                    options.coords = $scope.currentUser.user.location.coords;
+                    options.radius = $scope.currentUser.user.location.radius;
+
+                }
+                return dataProvider.getSuggestions(options);
             }
         }
 
@@ -464,14 +467,8 @@
             dialog.result.then(function(places) {
                 $log.log('Show places result:', places);
                 _.forEach(places, function(place) {
-                    
-                    $scope.meeting.toggleWhere({
-                        name: place.name,
-                        rating_url: place.rating_url,
-                        url: place.url,
-                        city: place.city,
-                        country_code: place.country_code
-                    }, true).then(function(whereId) {
+
+                    $scope.meeting.toggleWhere(place, true).then(function(whereId) {
                         // select place for user
                         $scope.meetingUser.toggleWhere(whereId, true);
                     });
@@ -484,7 +481,8 @@
             $scope.meetingUser.toggleWhere(place.id, true);
         }
         
-        $scope.removePlace = function(place) {
+        $scope.removePlace = function($event, place) {
+            $event.stopPropagation();
             $scope.meetingUser.toggleWhere(place.id, false);
         };
         
@@ -517,7 +515,8 @@
             });
         };
         
-        $scope.addTime = function(place) {
+        $scope.addTime = function($event, place) {
+            $event.stopPropagation();
             $scope.meetingUser.toggleWhen(place.id, true);
         }
         

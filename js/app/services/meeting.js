@@ -3,11 +3,11 @@
 
     var app = angular.module('mmh.services');
 
-    function Meeting(id, appConfig, $rootScope, $q, $firebaseObject, $firebaseArray, $log) {
+    function Meeting(meetingId, appConfig, $rootScope, $q, $firebaseObject, $firebaseArray, $log, localMeetingService) {
         var resultDefer = $q.defer();
 
         var ref = new Firebase(appConfig.firebaseUrl + '/meets');
-        ref = ref.child(id);
+        ref = ref.child(meetingId);
         ref.once('value', function (snap) {
             if (!snap.exists()) {
                 $rootScope.$applyAsync(function() {
@@ -25,6 +25,7 @@
             };
 
             var meetingObj = {
+                id: ref.key(),
                 name: snap.val().name || 'New Meetup',
                 refs: refs,
                 users: $firebaseArray(refs.users),
@@ -45,7 +46,20 @@
 
                 return defer.promise;
             }
-            
+
+            /**
+             * {
+             *   type: '',
+             *   name: '',
+             *   url: '',
+             *   city: '',
+             *   country_code: '',
+             *   location: { display_address: '', coordinate: { lat: 1, lng: 1 } }
+             * }
+             * @param {Object} where
+             * @param {bool} state
+             * @returns {promise}
+             */
             // add/remove suggestion to/from available suggestions for meet
             meetingObj.toggleWhere = function (where, state) {
                 var defer = $q.defer();
@@ -65,10 +79,28 @@
                     if (exists && !state) {      // remove
                         $log.log('toggleWhere Remove: ', snap.ref().toString(), snap.val());
                         var id = _.keys(snap.val())[0];
-                        snap.ref().child(id).remove(function() { defer.resolve(); });
+                        snap.ref().child(id).remove(function() {
+                            // remove place from the local Events
+                            localMeetingService.remove(meetingId, id).then(function() {
+                                defer.resolve(id);
+                            });
+                        });
                     } else if (!exists && state) {      // add
                         $log.log('toggleWhere Add: ', snap.ref().toString(), snap.val());
-                        var whereRef = snap.ref().push(where, function() { defer.resolve(whereRef.key()); });
+                        var whereRef = snap.ref().push({
+                            type: where.type,
+                            name: where.name,
+                            city: where.city,
+                            country_code: where.country_code,
+                            url: where.url,
+                            location: where.location
+                        }, function() {
+                            var id = whereRef.key();
+                            // add place to the local Events
+                            localMeetingService.add(meetingId, id, where.location.coordinate).then(function() {
+                                defer.resolve(id);
+                            });
+                        });
                     } else if (exists) {
                         defer.resolve(_.keys(snap.val())[0]);
                     } else {
@@ -285,8 +317,8 @@
         return resultDefer.promise;
     }
 
-    app.factory('meetingService', ['$rootScope', '$q', '$firebaseObject', '$firebaseArray', '$log', 'appConfig',
-            function($rootScope, $q, $firebaseObject, $firebaseArray, $log, appConfig, userService) {
+    app.factory('meetingService', ['$rootScope', '$q', '$firebaseObject', '$firebaseArray', '$log', 'appConfig', 'localMeetingService',
+            function($rootScope, $q, $firebaseObject, $firebaseArray, $log, appConfig, localMeetingService) {
 
         var meetsUrl = appConfig.firebaseUrl + '/meets';
         var service = {
@@ -325,15 +357,13 @@
                 return defer.promise;
             },
             get: function(id) {
-                return new Meeting(id, appConfig, $rootScope, $q, $firebaseObject, $firebaseArray, $log);
+                return new Meeting(id, appConfig, $rootScope, $q, $firebaseObject, $firebaseArray, $log, localMeetingService);
             },
             convertWhen: function(when) {
                 return moment.utc(when).local();
             },
-            getSharingUrl: function(meeting) {
-                if (meeting && meeting.refs)
-                    return appConfig.shareUrlBase + '?meet=' + meeting.refs.current.key();
-                return null;
+            getSharingUrl: function(meetingId) {
+                return appConfig.shareUrlBase + '?meet=' + meetingId;
             },
             copyData: function(srcUserId, dstUserId, removeSrcRecords) {
                 var defer = $q.defer();
@@ -387,6 +417,58 @@
                 });
 
                 return defer.promise;
+            },
+            /**
+             * @param {Array} meetings array of { meetingId:, whereId: }
+             * @returns {Array}
+             */
+            getInfo: function(meetings) {
+                var ref = new Firebase(meetsUrl);
+                var deferreds = [];
+
+                _.forEach(meetings, function(descr) {
+                    var meetDefer = $q.defer();
+                    deferreds.push(meetDefer.promise);
+
+                    ref.child(descr.meetingId).once('value', function(snap) {
+                        if (!snap.exists()) {
+                            $rootScope.$applyAsync(function() {
+                                meetDefer.resolve();
+                            });
+                            return;
+                        }
+
+                        var meeting = snap.val();
+                        if (!meeting.where || !meeting.where[descr.whereId]) {
+                            $rootScope.$applyAsync(function() {
+                                meetDefer.resolve();
+                            });
+                            return;
+                        }
+
+                        var info = {
+                            id: snap.key(),
+                            name: meeting.name,
+                            usersCount: _.keys(meeting.users).length,
+                            where: meeting.where[descr.whereId]
+                        };
+                        
+                        $rootScope.$applyAsync(function() {
+                            meetDefer.resolve(info);
+                        });
+                    });
+                });
+
+                return $q.all(deferreds).then(function(results) {
+                    var map = {};
+                    results = _.filter(results);
+                    $log.log('meetingService: getInfo:', results);
+                    _.forEach(results, function(info) {
+                        map[info.id] = info;
+                    });
+                    
+                    return map;
+                });
             }
         };
 
