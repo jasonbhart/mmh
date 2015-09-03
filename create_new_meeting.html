@@ -193,16 +193,22 @@
                         <div class="frm-creat" ng-show="stage == 5">
                             <div class="row">
                                 <h3 class="title">Do you wish to publish your activity on social media? </h3>
-                                <ul class="option">
-                                    <li><input class="with-gap" ng-model="share" id="share01" value="1" type="radio" checked />
-                                        <label for="share01">Post to facebook </label></li>
-                                    <li><input class="with-gap" ng-model="share" id="share02" value="2" type="radio" />
-                                        <label for="share02"> Post to Twitter</label></li>
-                                    <li><input class="with-gap" ng-model="share" id="share03" value="3" type="radio" />
-                                        <label for="share03">Send an email</label></li>
-                                    <li><input class="with-gap" ng-model="share" id="share00" value="0" type="radio" />
-                                        <label for="share00">Will do later</label></li>
-                                </ul>
+                                <div class="share">
+                                    <div class="label">Share via socials </div>
+                                    <div class="fb-share-button" data-href="{{ shareUrl }}"  data-layout="button"></div>
+                                    <div class="twitter-share">
+                                        <a href="https://twitter.com/share" class="twitter-share-button" data-url="{{ shareUrl }}" data-count="none">Tweet</a>
+                                    </div>
+                                    <div class="email-share">
+                                        <a href="mailto:?subject={{getShareEmailSubject() | escape}}&body={{shareUrl | escape}}" title="Send an email"><img src="newdesign/image/icon-m.gif" alt="Send an email"></a>
+                                    </div>
+                                    <div style="clear:both;"></div>
+                                    <p>or give friends the link</p>
+                                    <div class="url">
+                                        <a class="link" href="{{ shareUrl }}">{{ shareUrl }}</a>
+                                        <a class="btn waves-effect waves-light">Copy</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="btn-bottom row">
