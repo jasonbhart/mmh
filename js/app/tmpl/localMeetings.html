@@ -1,0 +1,25 @@
+<div class="other-meetings">
+    <h2 class="title-page">Other Local Events</h2>
+    <ul>
+        <div ng-show="meetings.length == 0">No events yet</div>
+        <li ng-repeat="meeting in meetings">
+            <div class="info">
+                <span class="meetingLabel">{{ meeting.type }}</span>
+                <h3 class="title"><a href="#none">{{ meeting.name }} @ {{ meeting.where.name }}</a></h3>
+                <p class="address"><span class="icon"></span>{{ meeting.where.location.display_address }}<span class="subtext" style="display: none">Southeast Portland, Hawthorne, Sunnyside (<a href="#none">map</a>)</span></p>
+                <p ng-if="meeting.usersCount == 1">1 person going</p>
+                <p ng-if="meeting.usersCount > 1">{{ meeting.usersCount }} people going</p>
+            </div>
+            <div class="rspvBox">
+                <div class="date-time" style="display: none">
+                    <span class="date">Sun Jun 28</span>
+                    <span class="time">2:00 PM</span>
+                </div>
+                <div class="rspv">
+                    <b>Want to go?</b>
+                    <p><a ng-href="{{ meeting.url }}" class="btn waves-effect waves-light">Jump in</a></p>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

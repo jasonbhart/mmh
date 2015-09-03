@@ -28,18 +28,7 @@
         });
         
         $scope.confirm = function() {
-            var places = _.map(
-                _.filter($scope.places, function(place) {
-                    return place.selected;
-                }), function(place) {
-                    return {
-                        name: place.name,
-                        rating_url: place.rating_url,
-                        url: place.url,
-                        city: place.city,
-                        country_code: place.country_code
-                    };
-                });
+            var places = angular.copy(_.filter($scope.places, 'selected'));
             modalInstance.close(places);
         }
         
