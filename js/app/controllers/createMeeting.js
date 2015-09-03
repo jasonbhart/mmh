@@ -18,7 +18,7 @@
         
         $scope.next = function() {
             // test create meeting, will move to finish later
-            //($scope.stage != 1) || createMeeting();
+            ($scope.stage != $scope.MAX_STAGE - 1) || createMeeting();
             if ($scope.stage === 3) {
                 var options = {
                     'term' : ($scope.what !== 'other') ? $scope.what : $scope.term,
@@ -116,10 +116,42 @@
             }
         });
         
+        function getISOFormatedTimes() {
+            return $scope.times.map(function(time){
+                return time.utc().toISOString();
+            });
+        }
+        
+        function getFormatedEstablishment() {
+            var establishment = $scope.establishment;
+            if ($scope.establishment === 'other') {
+                if (typeof $scope.suggestions[0] === 'object') {
+                    establishment = JSON.stringify($scope.suggestions[0]);
+                } else {
+                    return [];
+                }
+            }
+            try {
+                establishment = JSON.parse(establishment);
+                return [{
+                    name: establishment.name || "Unknown",
+                    url: establishment.url || "Unknown",
+                    rating_url: establishment.rating_url || "Unknown",
+                    city: establishment.city || "Unknown",
+                    country_code: establishment.country_code || "Unknown",
+                }];
+            } catch (e) {
+                return [];
+            }
+        }
+        
+        
         var createMeeting = function() {
             var data = {
-                name: $scope.meeting_name,
-                createdDate: moment().utc().toISOString()
+                name: $scope.meeting_name || "New Meeting",
+                createdDate: moment().utc().toISOString(),
+                when: getISOFormatedTimes(),
+                where: getFormatedEstablishment()
             };
             var meetingPromise = meetingService.create(data);
             meetingPromise.then(function(meeting) {
