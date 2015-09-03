@@ -87,38 +87,36 @@
             current: null,
             others: {},
             all: {},
-            othersCount: 0,
+            count: 0,
             add: function(id, info) {
                 this.all[id] = info;
                 if (id == this.currentId) {
                     this.current = info;
                 } else {
                     this.others[id] = info;
-                    this.othersCount++;
                 }
+                this.count++;
             },
             remove: function(id) {
                 if (id == this.currentId) {
                     this.current = null;
                     this.currentId = null;
+                } else {
+                    delete this.others[id];
                 }
                 
-                delete this.others[id];
-                this.othersCount--;
                 delete this.all[id];
+                this.count--;
             },
             setCurrentId: function(id) {
                 if (id == this.currentId)
                     return;
 
-                if (this.currentId !== null && this.current) {
+                if (this.currentId !== null && this.current)
                     this.others[this.currentId] = this.current;
-                    this.othersCount++;
-                }
                 
                 this.current = this.others[id];
                 delete this.others[id];
-                this.othersCount--;
                 this.currentId = id;
             }
         };
@@ -184,6 +182,9 @@
         meetingPromise.then(function(meeting) {
             $scope.meeting = meeting;
 
+            if (!$.urlParam('meet')) {
+                $window.location = $window.location.href + '?meet=' + meeting.id;
+            }
             meetingUserSentinel.setMeeting(meeting);
 
             var whereDefer = $q.defer();
@@ -281,9 +282,9 @@
                 $scope.meeting.users.$ref().on('child_removed', function(snap) {
                     $log.log('User removed from the meeting');
                     var userId = snap.key();
-                    usersWatchList[userId].where.$destroy();
-                    usersWatchList[userId].when.$destroy();
-                    usersWatchList[userId].group.$destroy();
+//                    usersWatchList[userId].where.$destroy();
+//                    usersWatchList[userId].when.$destroy();
+//                    usersWatchList[userId].group.$destroy();
                     delete usersWatchList[userId];
                     $scope.usersInfo.remove(userId);
 
@@ -470,7 +471,9 @@
                     $scope.meeting.toggleWhere({
                         name: place.name,
                         rating_url: place.rating_url,
-                        url: place.url
+                        url: place.url,
+                        city: place.city,
+                        country_code: place.country_code
                     }, true).then(function(whereId) {
                         // select place for user
                         $scope.meetingUser.toggleWhere(whereId, true);
@@ -527,6 +530,15 @@
         
         $scope.showUserInfo = function(userInfo) {
             dialogs.meetingUserInfo(userInfo);
+        }
+        $scope.getMeetingLocation = function(location) {
+            if (location.city) {
+                return '(' +  location.city + ')';
+            } else if (location.country_code) {
+                return '(' +  location.country_code + ')';
+            }
+            
+            return '';
         }
     }]);
 })();
