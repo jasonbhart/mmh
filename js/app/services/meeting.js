@@ -322,10 +322,10 @@
 
         var meetsUrl = appConfig.firebaseUrl + '/meets';
         var service = {
-            create: function() {
+            create: function(meetingDataObject) {
                 var defer = $q.defer();
                 var ref = new Firebase(meetsUrl);
-                var newMeeting = {
+                var newMeeting = meetingDataObject || {
                     'name': 'New Meetup',
                     'createdDate': moment().utc().toISOString()
                 };
