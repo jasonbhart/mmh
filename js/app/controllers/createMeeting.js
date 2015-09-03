@@ -9,7 +9,7 @@
         $scope.when = 1;
         $scope.where = 1;
         $scope.establishment = 'other';
-        $scope.publish = 1;
+        $scope.share = 1;
         $scope.terms = dataProvider.getTerms();
         $scope.term = 'restaurants';
         $scope.suggestions = {};
@@ -30,9 +30,9 @@
                     var currentLocation = geoLocation.getLocation();
                     currentLocation.then(function(position) {
                         if (position.coords.latitude && position.coords.longitude) {
-//                            options.coords = {lat: position.coords.latitude, lng: position.coords.longitude};
+                            options.coords = {lat: position.coords.latitude, lng: position.coords.longitude};
                             // Boston location for testing purpose
-                            options.coords = {lat: '42.3133735', lng: '-71.0571571,12'};
+//                            options.coords = {lat: '42.3133735', lng: '-71.0571571,12'};
                         }
                     }, function() {
                         $log.log('Can not find current location');

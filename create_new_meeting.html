@@ -41,6 +41,7 @@
         <script src="js/app/filters/customFilters.js"></script>
         <script src="js/app/services/session.js"></script>
         <script src="js/app/services/userGroupBuilder.js"></script>
+        <script src="js/app/services/util.js"></script>
         <script src="js/app/controllers.js"></script>
         <script src="js/app/controllers/locationMap.js"></script>
         <script src="js/app/controllers/userAccount.js"></script>
@@ -193,14 +194,14 @@
                             <div class="row">
                                 <h3 class="title">Do you wish to publish your activity on social media? </h3>
                                 <ul class="option">
-                                    <li><input class="with-gap" ng-model="publish" id="publish01" value="1" type="radio" checked />
-                                        <label for="publish01">Post to facebook </label></li>
-                                    <li><input class="with-gap" ng-model="publish" id="publish02" value="2" type="radio" />
-                                        <label for="publish02"> Post to Twitter</label></li>
-                                    <li><input class="with-gap" ng-model="publish" id="publish03" value="3" type="radio" />
-                                        <label for="publish03">Send an email</label></li>
-                                    <li><input class="with-gap" ng-model="publish" id="publish00" value="0" type="radio" />
-                                        <label for="publish00">Will do later</label></li>
+                                    <li><input class="with-gap" ng-model="share" id="share01" value="1" type="radio" checked />
+                                        <label for="share01">Post to facebook </label></li>
+                                    <li><input class="with-gap" ng-model="share" id="share02" value="2" type="radio" />
+                                        <label for="share02"> Post to Twitter</label></li>
+                                    <li><input class="with-gap" ng-model="share" id="share03" value="3" type="radio" />
+                                        <label for="share03">Send an email</label></li>
+                                    <li><input class="with-gap" ng-model="share" id="share00" value="0" type="radio" />
+                                        <label for="share00">Will do later</label></li>
                                 </ul>
                             </div>
                         </div>
