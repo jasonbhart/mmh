@@ -163,7 +163,7 @@
                 var meetingId = meeting.refs.current.key();
                 $scope.meeting = meeting;
                 $scope.redirectUrl = 'meeting.html?meet=' + meetingId;
-                $scope.shareUrl = getSharingUrl(meeting);
+                $scope.shareUrl = meetingService.getSharingUrl(meetingId)
                 activateFacebookSDK();
                 activateTwitterSDK();
             });
@@ -182,9 +182,6 @@
             $window.location = $scope.redirectUrl;
         }
         
-        var getSharingUrl = function() {
-            return meetingService.getSharingUrl($scope.meeting);
-        };
         $scope.getShareEmailSubject = function() {
             return "MEET ME HERE";
         };
