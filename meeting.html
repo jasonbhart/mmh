@@ -180,11 +180,11 @@
                     </div>
                     <div class="share" ng-if="usersInfo.current">
                         <div class="label">Share via socials </div>
-                        <div class="fb-share-button" data-href="{{ getSharingUrl() }}"  ng-click="{{share == 1}}" data-layout="button"></div>
-                        <div class="twitter-share"  ng-click="{{share == 2}}">
+                        <div class="fb-share-button" data-href="{{ getSharingUrl() }}" data-layout="button"></div>
+                        <div class="twitter-share">
                             <a href="https://twitter.com/share" class="twitter-share-button" data-url="{{ getSharingUrl() }}" data-count="none">Tweet</a>
                         </div>
-                        <div class="email-share" ng-click="{{share == 3}}">
+                        <div class="email-share">
                             <a href="mailto:?subject={{getShareEmailSubject() | escape}}&body={{getSharingUrl() | escape}}" title="Send an email"><img src="newdesign/image/icon-m.gif" alt="Send an email"></a>
                         </div>
                         <div style="clear:both;"></div>

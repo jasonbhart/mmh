@@ -69,7 +69,8 @@
         };
         
         $scope.finish = function() {
-            redirectToMeetingPage();
+            $window.location = $scope.redirectUrl;
+            //redirectToMeetingPage();
         };
         
         $scope.getVisitedStatus = function (elementIndex) {
@@ -164,12 +165,22 @@
                 $scope.meeting = meeting;
                 $scope.redirectUrl = 'meeting.html?meet=' + meetingId;
                 $scope.shareUrl = getSharingUrl(meeting);
-                console.log('xxx');
+                activateFacebookSDK();
+                activateTwitterSDK();
             });
         };
         
+        var activateFacebookSDK = function () {
+            $window.$('body').append('<script src="//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4"></script>');
+        };
+        
+        var activateTwitterSDK = function() {
+            $window.$('body').append('<script src="//platform.twitter.com/widgets.js"></script>');
+            
+        }
+        
         var redirectToMeetingPage = function() {
-            $window.location = $scope.redirectUrl;
+            window.location.href = $scope.redirectUrl;
         }
         
         var getSharingUrl = function() {
