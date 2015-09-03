@@ -53,6 +53,10 @@
             }
             
             $scope.stage ++;
+            
+            if ($scope.stage === $scope.MAX_STAGE) {
+                createMeeting();
+            }
         };
         
         $scope.back = function() {
@@ -62,7 +66,7 @@
         };
         
         $scope.finish = function() {
-            createMeetingAndRedirect();
+            redirectToMeetingPage();
         };
         
         $scope.getVisitedStatus = function (elementIndex) {
@@ -144,7 +148,7 @@
         }
         
         
-        var createMeetingAndRedirect = function() {
+        var createMeeting = function() {
             var data = {
                 name: $scope.meeting_name || "New Meeting",
                 createdDate: moment().utc().toISOString(),
@@ -154,12 +158,12 @@
             var meetingPromise = meetingService.create(data);
             meetingPromise.then(function(meeting) {
                 var meetingId = meeting.refs.current.key();
-                var redirectUrl = $window.location.protocol + '//' + $window.location.host + '/meeting.html?meet=' + meetingId;
-                if (parseInt($scope.publish)) {
-                    redirectUrl += '&publish=' + $scope.publish;
-                }
-                $window.location = redirectUrl;
+                $scope.redirectUrl = 'meeting.html?meet=' + meetingId;
             });
         };
+        
+        var redirectToMeetingPage = function() {
+            $window.location = $scope.redirectUrl;
+        }
     }]);
 })();
