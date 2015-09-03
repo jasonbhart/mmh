@@ -1,8 +1,8 @@
 ;(function () {
     "use strict";
     var app = angular.module('mmh.controllers');
-    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation',
-        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation) {
+    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window',
+        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window) {
         $scope.MAX_STAGE = 5;
         $scope.stage = 1; 
         $scope.what = 'restaurants';
@@ -17,8 +17,6 @@
         $scope.times = [];
         
         $scope.next = function() {
-            // test create meeting, will move to finish later
-            ($scope.stage != $scope.MAX_STAGE - 1) || createMeeting();
             if ($scope.stage === 3) {
                 var options = {
                     'term' : ($scope.what !== 'other') ? $scope.what : $scope.term,
@@ -64,7 +62,7 @@
         };
         
         $scope.finish = function() {
-            alert('finish');
+            createMeetingAndRedirect();
         };
         
         $scope.getVisitedStatus = function (elementIndex) {
@@ -146,7 +144,7 @@
         }
         
         
-        var createMeeting = function() {
+        var createMeetingAndRedirect = function() {
             var data = {
                 name: $scope.meeting_name || "New Meeting",
                 createdDate: moment().utc().toISOString(),
@@ -156,7 +154,11 @@
             var meetingPromise = meetingService.create(data);
             meetingPromise.then(function(meeting) {
                 var meetingId = meeting.refs.current.key();
-                console.log(meetingId);
+                var redirectUrl = $window.location.protocol + '//' + $window.location.host + '/meeting.html?meet=' + meetingId;
+                if (parseInt($scope.publish)) {
+                    redirectUrl += '&publish=' + $scope.publish;
+                }
+                $window.location = redirectUrl;
             });
         };
     }]);
