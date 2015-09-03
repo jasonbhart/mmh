@@ -123,7 +123,7 @@
                                     </h4>
                                     <div class="box-white white">
                                         <span class="time">Start: <b class="red-text">{{ group.when.formatted }}</b></span>
-                                        <a class="btn waves-effect waves-light" ng-click="joinGroup(group)">{{ group.hasJoined(currentUserInfo.user.id) ? 'Leave' : 'Jump in' }}</a>
+                                        <a class="btn waves-effect waves-light" ng-click="joinGroup(group)">{{ group.hasJoined(currentUser.id) ? 'Leave' : 'Jump in' }}</a>
                                     </div>
                                     <p>{{ group.users.length }} people have chosen:</p>
                                     <ul class="have-chosen">
