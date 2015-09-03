@@ -179,6 +179,12 @@
             meetingPromise = meetingService.create();
         }
 
+        if ($.urlParam('share')) {
+            $scope.share = $.urlParam('share');
+        } else {
+            $scope.share = 0;
+        }
+
         meetingPromise.then(function(meeting) {
             $scope.meeting = meeting;
 
