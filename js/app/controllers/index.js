@@ -28,6 +28,7 @@
                     })
                     
                     $q.all(deferreds).then(function(images) {
+                        images = _.filter(images);
                         $scope.meeting = meeting;
                         $scope.meeting.usersCount = images.length;
                         $scope.meeting.userImages = images;
