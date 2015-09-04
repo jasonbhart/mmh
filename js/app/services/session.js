@@ -41,7 +41,7 @@
                         userService.createOrUpdate(userData).then(function(user) {
                             currentUser = user;
                             service.migrate();
-                            $rootScope.$broadcast('auth.changed', user);                
+                            $rootScope.$broadcast('auth.changed', user);
                             readyDefer.resolve();
                         }, function() {
                             readyDefer.reject('Can\'t create or update user');

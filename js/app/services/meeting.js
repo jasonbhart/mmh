@@ -449,7 +449,7 @@
                         var info = {
                             id: snap.key(),
                             name: meeting.name,
-                            usersCount: _.keys(meeting.users).length,
+                            users: _.keys(meeting.users),
                             where: meeting.where[descr.whereId]
                         };
                         
