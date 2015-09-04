@@ -78,6 +78,11 @@
                     if (options.limit) {
                         searchOptions.limit = options.limit;
                     }
+                    
+                    // sort result
+                    if (options.sort) {
+                        searchOptions.sort = options.sort;
+                    }
                 }
                 
                 $log.log('dataProvider: getSuggestions: searchOptions', searchOptions);

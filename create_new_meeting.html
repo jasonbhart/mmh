@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+        <title>Meet Me Here</title>
+        <!-- CSS  -->
+        <link href="newdesign/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+        <link href="newdesign/css/layout.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+        <link href="newdesign/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+        <!--  Scripts-->
+        <script src="newdesign/js/jquery-2.1.1.min.js"></script>
+        <script src="newdesign/js/materialize.min.js"></script>
+        <script src="js/moment-with-locales.js"></script>        
+        <script src="newdesign/js/bootstrap-datetimepicker.js"></script>
+        <script src="newdesign/js/jquery.selectBox.js"></script>
+        <script src="newdesign/js/prism.js"></script>
+        <script src="newdesign/js/init.js"></script>
+        
+        <script src="//cdn.firebase.com/js/client/2.2.7/firebase.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/3.9.0/lodash.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular-cookies.min.js"></script>
+        <script src="//cdn.firebase.com/libs/angularfire/1.1.1/angularfire.js"></script>
+        <script src="js/geofire.js"></script>
+        <script src="js/angular-materialize.js"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDqyBR4bu0xg0l9ypkVNs61agcZ14eAJN4"></script>
+        
+        
+        <script src="js/app.js"></script>
+        <script src="js/app/directives.js"></script>
+        <script src="js/app/directives/dateTimePicker.js"></script>
+        <script src="js/app/directives/starsRating.js"></script>
+        <script src="js/app/services.js"></script>
+        <script src="js/app/services/appConfig.js"></script>
+        <script src="js/app/services/dataProvider.js"></script>
+        <script src="js/app/services/dialogs.js"></script>
+        <script src="js/app/services/geoLocation.js"></script>
+        <script src="js/app/services/localMeeting.js"></script>
+        <script src="js/app/services/meeting.js"></script>
+        <script src="js/app/services/modal.js"></script>
+        <script src="js/app/services/user.js"></script>
+        <script src="js/app/filters/customFilters.js"></script>
+        <script src="js/app/services/session.js"></script>
+        <script src="js/app/services/userGroupBuilder.js"></script>
+        <script src="js/app/services/util.js"></script>
+        <script src="js/app/controllers.js"></script>
+        <script src="js/app/controllers/locationMap.js"></script>
+        <script src="js/app/controllers/userAccount.js"></script>
+        <script src="js/app/controllers/userMeetingPlaces.js"></script>
+        <script src="js/app/controllers/userMeetingTimes.js"></script>
+        <script src="js/app/controllers/meetingUserInfo.js"></script>
+        <script src="js/app/controllers/snippet.js"></script>
+        <script src="js/app/controllers/createMeeting.js"></script>
+
+    </head>
+    <body ng-app="mmh">
+        <div id="google-tag" ng-controller="Snippet">
+            <div ng-bind-html="getGoogleTag()"></div>
+        </div>
+        <div id="container">
+            <header>
+                <nav id="header" class="top-nav">
+                    <h1 id="logo"><a href="#none">MEET ME HERE</a></h1>
+                    <div id="top-right" class="pull-right">
+                        <div class="notifications">
+                            <a class="dropdown-button info on" href="#" data-activates="notifications-info" title="Notifications">
+                                <i class="icon"></i><span class="alert-bubble">123</span>
+                            </a>
+                            <div id="notifications-info" class="dropdown-content">
+                                <p class="notifLabel">Notifications</p>
+                                <ul>
+                                    <li><a href="#none">
+                                            <b class="red-text">Reminder:</b> Meetup with <b>Meditation Hanoi Meetup</b> on Wednesday
+                                        </a></li>
+                                    <li><a href="#none">
+                                            <b class="red-text">Reminder:</b> You have received an invitation to join the meeting <b>wine Drinkers</b> on Wednesday
+                                        </a></li>
+                                </ul>
+                                <span class="icon arow"></span>
+                            </div>
+                        </div>
+                        <div class="account">
+                            <a class="dropdown-button info" href="#" data-activates="account-info">
+                                <span class="thumb"><img src="images/temp/avatar.jpg" alt=""></span><span class="name">tuandx<i class="icon"></i></span>
+                            </a>
+                            <div id="account-info" class="dropdown-content">
+                                <ul>
+                                    <li><a href="#none">Profiled</a></li>
+                                    <li><a href="#none">Settings</a></li>
+                                    <li><a href="#none">Log out</a></li>
+                                </ul>
+                                <span class="icon arow"></span>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+                <div class="container"><a href="#" data-activates="nav-mobile" class="button-collapse top-nav waves-effect waves-light circle hide-on-large-only"><i class="mdi-navigation-menu"></i></a></div>
+                <ul id="nav-mobile" class="side-nav fixed">
+                    <li class="active"><a href="index.html" class="waves-effect waves-ripple"><span class="icon icon-home"></span>Home</a></li>
+                    <li><a href="create_new_meeting.html" class="waves-effect waves-ripple"><span class="icon icon-new"></span>New Meet</a></li>
+                    <!--<li><a href="#none" class="waves-effect waves-ripple"><span class="icon icon-history"></span>History</a></li>-->
+                </ul>
+            </header><!--//header-->
+            <div id="contents" ng-controller="CreateMeetingController">
+                <div class="row creat-new">
+                    <div class="col s12">
+                        <h2 class="title-page">Create a new meeting</h2>
+                        <div class="checkout-wrap">
+                            <ul class="checkout-bar">
+
+                                <li class="{{getVisitedStatus(1)}} first"><a href="#none">What do</a></li>
+                                <li class="{{getVisitedStatus(2)}}"><a href="#none">When do</a></li>
+                                <li class="{{getVisitedStatus(3)}}">Where do</li>
+                                <li class="{{getVisitedStatus(4)}}">Here are</li>
+                                <li class="{{getVisitedStatus(5)}}">Do you wish</li>
+                            </ul>
+                        </div>
+                        <div class="frm-creat" ng-show="stage == 1">
+                            <div class="row">
+                                <h3 class="title">Title of the meeting</h3>
+                                <input type="text" placeholder="Meeting title" ng-model="meeting_name" style="max-width:600px;" />
+                            </div>
+                            <div class="row">
+                                <h3 class="title">What do you want to do? </h3>
+                                <ul class="option">
+                                    <li><input class="with-gap" ng-model="what" value="restaurants" id="what01" type="radio"/>
+                                        <label for="what01">Have a meal</label></li>
+                                    <li><input class="with-gap" ng-model="what" value="shopping" id="what02" type="radio"  />
+                                        <label for="what02">Go shopping</label></li>
+                                    <li><input class="with-gap" ng-model="what" value="other" id="what03" type="radio"  />
+                                        <label for="what03">Other (select from categories)</label></li>
+                                </ul>
+                                <select class="select-jq browser-default" style="width: auto;" ng-model="term" ng-show="what == 'other'">
+                                    <option value="{{ item.id }}" class="{{ item.id }}" ng-repeat="item in terms" ng-selected="item.id == term">{{ item.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="frm-creat" ng-show="stage == 2">
+                            <div class="row">
+                                <h3 class="title">When do you want to do this? </h3>
+                                
+                                <ul class="option">
+                                    <li><input class="with-gap" ng-model="when" id="when01" value="one_hour_later" type="radio" checked />
+                                        <label for="when01">1 hour from now</label></li>
+                                    <li><input class="with-gap" ng-model="when" id="when02" value="two_hours_later" type="radio" />
+                                        <label for="when02">2 hours from now</label></li>
+                                    <li><input class="with-gap" ng-model="when" id="when03" value="four_hours_later" type="radio" />
+                                        <label for="when03">4 hours from now</label></li>
+                                    <li><input class="with-gap" ng-model="when" id="when04" value="other" type="radio" />
+                                        <label for="when04">Other (time/date picker)</label></li>
+                                </ul>
+                                <div class="box-white white">
+                                    <ul class="choose-list">
+                                        <li ng-repeat="time in times">
+                                            <a href="#none" class="icon" title="Delete" ng-click="removeTime(time)">Delete</a>
+                                            {{ time.format(timeFormat) }}
+                                        </li>
+                                        <li class="forbtn"><a class="btn btn-add waves-effect waves-light" ng-click="addTimes()"><i class="icon"></i> Add</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="frm-creat" ng-show="stage == 3">
+                            <div class="row">
+                                <h3 class="title">Where do you want to do this? </h3>
+                                <ul class="option">
+                                    <li><input class="with-gap" ng-model="where" id="where01" value="1" type="radio" checked />
+                                        <label for="where01">Within 1 miles of my current location (default; walkable) </label></li>
+                                    <li><input class="with-gap" ng-model="where" id="where02" value="10" type="radio" />
+                                        <label for="where02">Within 10 miles of my current location (driveable)</label></li>
+                                    <li><input class="with-gap" ng-model="where" id="where03" value="other" type="radio" />
+                                        <label for="where03">Other</label></li>
+                                </ul>
+                                <div class="row">
+                                    <input type="text" placeholder="Enter Neighborhood, Address, City, State or Zip" ng-model="other_location" ng-show="where=='other'"style="max-width:300px;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="frm-creat" ng-show="stage == 4">
+                            <div class="row">
+                                <h3 class="title">Here are the highest rated establishments (in the search area) </h3>
+                                <ul class="option">
+                                    <li ng-repeat="place in suggestions">
+                                        <input class="with-gap" ng-model="$parent.establishment" value="{{place}}" name="establishment" id="{{place.name}}" type="radio" />
+                                        <label for="{{place.name}}">{{place.name}} </label>
+                                    </li>
+                                    <li>
+                                        <input class="with-gap" ng-model="establishment" value="other" name="establishment" id="help_me_decide" type="radio" />
+                                        <label for="help_me_decide">Help me decide</label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="frm-creat" ng-show="stage == 5">
+                            <div class="row">
+                                <h3 class="title">Do you wish to publish your activity on social media? </h3>
+                                <div class="share">
+                                    <div class="label">Share via socials </div>
+                                    <div class="fb-share-button" data-href="{{ shareUrl }}"  data-layout="button"></div>
+                                    <div class="twitter-share">
+                                        <a href="https://twitter.com/share" class="twitter-share-button" data-url="{{ shareUrl }}" data-count="none">Tweet</a>
+                                    </div>
+                                    <div class="email-share">
+                                        <a href="mailto:?subject={{getShareEmailSubject() | escape}}&body={{shareUrl | escape}}" title="Send an email"><img src="newdesign/image/icon-m.gif" alt="Send an email"></a>
+                                    </div>
+                                    <div style="clear:both;"></div>
+                                    <p>or give friends the link</p>
+                                    <div class="url">
+                                        <a class="link" href="{{ shareUrl }}">{{ shareUrl }}</a>
+                                        <a class="btn waves-effect waves-light">Copy</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn-bottom row">
+                            <a class="btn red btn-large waves-effect waves-light left" ng-hide="stage == MAX_STAGE" ng-click="next()">Next</a>
+                            <a class="btn green btn-large waves-effect waves-light left" ng-show="stage == MAX_STAGE" ng-click="finish()">Finish</a>
+                            <a class="btn grey btn-large waves-effect waves-light right" ng-hide="stage == 1 || stage == MAX_STAGE" ng-click="back()">Back</a>
+                        </div>
+                    </div>
+                </div>
+            </div><!--//contents-->
+            <footer class="page-footer white">
+                <div class="social">
+                    <span class="title">FOLLOW US</span>
+                    <ul>
+                        <li class="fb"><a class="icon waves-effect waves-light" href="#none" title="Facebook">Facebook</a></li>
+                        <li class="youtube"><a class="icon waves-effect waves-light" href="#none" title="Youtube">Youtube</a></li>
+                        <li class="twitter"><a class="icon waves-effect waves-light" href="#none" title="Twitter">Twitter</a></li>
+                        <li class="google-plus"><a class="icon waves-effect waves-light" href="#none" title="Google Plus">Google Plus</a></li>
+                        <li class="linkedin"><a class="icon waves-effect waves-light" href="#none" title="Linkedin">Linkedin</a></li>
+                    </ul>
+                </div>
+                <div class="copyright">© Whatever Our Name Will Be. All rights reserved.</div>
+            </footer><!--//footer-->
+        </div>
+    </body>
+</html>
