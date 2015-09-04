@@ -47,6 +47,9 @@
                         return this.user.location;
                     return null;
                 },
+                /**
+                 * @param {Object} location { coords: {lat:, lng:}, radius:, shortName: }
+                 */
                 updateLocation: function(location) {
                     this.user.location = location;
                     $log.log(this.user);

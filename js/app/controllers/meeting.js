@@ -12,8 +12,8 @@
         }
     };
     
-    app.controller('meetingController', ['$scope', '$q', '$log', '$firebaseObject', '$firebaseArray', 'dialogs', 'dataProvider', 'sessionService', 'meetingService', 'userService', 'geoLocation', 'userGroupBuilder','$window',
-            function($scope, $q, $log, $firebaseObject, $firebaseArray, dialogs, dataProvider, sessionService, meetingService, userService, geoLocation, userGroupBuilder, $window) {
+    app.controller('meetingController', ['$scope', '$q', '$log', '$firebaseObject', '$firebaseArray', 'dialogs', 'dataProvider', 'sessionService', 'meetingService', 'userService', 'geoLocation', 'userGroupBuilder','$window', 'util',
+            function($scope, $q, $log, $firebaseObject, $firebaseArray, dialogs, dataProvider, sessionService, meetingService, userService, geoLocation, userGroupBuilder, $window, util) {
 
         // get from the session
         $scope.timeFormat = 'h:mmA';
@@ -448,13 +448,10 @@
             var location = null;
             var currentUser = sessionService.getCurrentUser();
             
-            if (currentUser.location) {
+            if (currentUser.user.location) {
                 location = {
-                    position: {
-                        lat: currentUser.location.coords.lat,
-                        lng: currentUser.location.coords.lng
-                    },
-                    radius: currentUser.location.radius
+                    position: currentUser.user.location.coords,
+                    radius: currentUser.user.location.radius
                 };
             }
             
@@ -466,8 +463,12 @@
                 $log.log('Change location:', result);
 
                 geoLocation.getLocality(result.position.lat, result.position.lng).then(
-                    function(location) {
-                        location.radius = result.radius;
+                    function(locality) {
+                        location = {
+                            coords: locality.coords,
+                            radius: result.radius,
+                            shortName: locality.shortName
+                        };
                         currentUser.updateLocation(location);
                         $log.log('geoLocation success', location);
                     }, function(error) {
@@ -486,7 +487,7 @@
                 var options = { term: term, limit: 10 };
                 if ($scope.currentUser.user.location) {
                     options.coords = $scope.currentUser.user.location.coords;
-                    options.radius = $scope.currentUser.user.location.radius;
+                    options.radius = util.convertMilesToKms($scope.currentUser.user.location.radius);
 
                 }
                 return dataProvider.getSuggestions(options);

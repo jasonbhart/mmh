@@ -10,7 +10,8 @@
         };
     });
 
-    app.factory('sessionService', ['$rootScope', '$q', '$log', '$firebaseAuth', 'appConfig', 'authProviders', 'userService', 'meetingService', function($rootScope, $q, $log, $firebaseAuth, appConfig, authProviders, userService, meetingService) {
+    app.factory('sessionService', ['$rootScope', '$q', '$log', '$firebaseAuth', 'appConfig', 'authProviders', 'userService', 'meetingService', 'geoLocation',
+            function($rootScope, $q, $log, $firebaseAuth, appConfig, authProviders, userService, meetingService, geoLocation) {
         var ref = new Firebase(appConfig.firebaseUrl);
         var authObj = $firebaseAuth(ref);
         var readyDefer = $q.defer();
@@ -41,6 +42,18 @@
                         userService.createOrUpdate(userData).then(function(user) {
                             currentUser = user;
                             service.migrate();
+                            if (!user.user.location) {
+                                geoLocation.getCurrentLocation()
+                                    .then(
+                                        function(location) {
+                                            location.radius = appConfig.defaultRadius;
+                                            user.updateLocation(location);
+                                            $log.log('geoLocation success', location);
+                                        }, function(error) {
+                                            $log.log('geoLocation error', error);
+                                        }
+                                    );
+                            }
                             $rootScope.$broadcast('auth.changed', user);
                             readyDefer.resolve();
                         }, function() {

@@ -1,8 +1,8 @@
 ;(function () {
     "use strict";
     var app = angular.module('mmh.controllers');
-    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService',
-        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService) {
+    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util',
+        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService, util) {
         $scope.MAX_STAGE = 5;
         $scope.stage = 1; 
         $scope.what = 'restaurants';
@@ -59,7 +59,7 @@
                         $log.log('Can not find current location');
                     });
                     
-                    options.radius = dataProvider.convertMilesToKms($scope.where);
+                    options.radius = util.convertMilesToKms($scope.where);
                 } else {
                     options.location = $scope.other_location;
                 }
