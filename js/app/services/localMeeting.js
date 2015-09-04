@@ -35,18 +35,16 @@
                 return $q.when(localMeetsGEO.remove(key));
             },
             /**
-             * 
-             * @param {Object} center { lat: float, lng: float }
-             * @param {float} radius in km
+             * @param {Object} options {coord: {lat: float, lng: float}, radius: (in km), count: int, exclude: []}
              * @returns {promise}
              */
-            search: function(center, radius, limit) {
+            search: function(options) {
                 var defer = $q.defer();
                 var deferreds = [];
                 var ids = {};
                 var query = localMeetsGEO.query({
-                    center: [center.lat, center.lng],
-                    radius: radius
+                    center: [options.coord.lat, options.coord.lng],
+                    radius: options.radius
                 });
 
                 query.on('ready', function() {
@@ -54,14 +52,14 @@
                     $rootScope.$applyAsync(function() {
                         $q.all(deferreds).then(function(meetings) {
                             meetings = _.filter(meetings);                  // filter out empty values produces by resolve()
-                            defer.resolve(meetings.slice(0, limit));        // we can have more than limit because of deferreds
+                            defer.resolve(meetings.slice(0, options.count));        // we can have more than limit because of deferreds
                         });
                     });
                     query.cancel();
                 });
 
                 query.on('key_entered', function(key, location, distance) {
-                    if (_.keys(ids).length >= limit)
+                    if (_.keys(ids).length >= options.count)
                         return;
 
                     var meetDefer = $q.defer();
@@ -74,7 +72,7 @@
                             });
                             return;
                         }
-                        
+
                         var value = snap.val();
 
                         // we already know about this meeting
@@ -92,13 +90,13 @@
                             location: location,
                             distance: distance
                         };
-                        
+
                         $rootScope.$applyAsync(function() {
                             meetDefer.resolve(meeting);
                         });
                     });
                 });
-                
+
                 return defer.promise;
             }
         };

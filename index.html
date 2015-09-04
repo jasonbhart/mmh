@@ -10,12 +10,53 @@
     <link href="newdesign/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <!--  Scripts-->
     <script src="newdesign/js/jquery-2.1.1.min.js"></script>
-    <script src="newdesign/js/materialize.min.js"></script>
-    <script src="js/moment-with-locales.js"></script>        
-    <script src="newdesign/js/bootstrap-datetimepicker.js"></script>
-    <script src="newdesign/js/jquery.selectBox.js"></script>
-    <script src="newdesign/js/prism.js"></script>
-    <script src="newdesign/js/init.js"></script>
+        <script src="newdesign/js/materialize.min.js"></script>
+        <script src="js/moment-with-locales.js"></script>
+        <script src="newdesign/js/bootstrap-datetimepicker.js"></script>
+        <script src="newdesign/js/jquery.selectBox.js"></script>
+        <script src="newdesign/js/prism.js"></script>
+        <script src="newdesign/js/init.js"></script>
+
+        <script src="//cdn.firebase.com/js/client/2.2.9/firebase.js"></script>
+        <script src="js/lodash.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular-cookies.min.js"></script>
+        <script src="//cdn.firebase.com/libs/angularfire/1.1.2/angularfire.js"></script>
+        <script src="js/rsvp.js"></script>
+        <script src="js/geofire.js"></script>
+        <script src="js/angular-materialize.js"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDqyBR4bu0xg0l9ypkVNs61agcZ14eAJN4"></script>
+
+        <script src="js/app.js"></script>
+        <script src="js/app/directives.js"></script>
+        <script src="js/app/directives/dateTimePicker.js"></script>
+        <script src="js/app/directives/localMeetings.js"></script>
+        <script src="js/app/directives/starsRating.js"></script>
+        <script src="js/app/services.js"></script>
+        <script src="js/app/services/appConfig.js"></script>
+        <script src="js/app/services/dataProvider.js"></script>
+        <script src="js/app/services/dialogs.js"></script>
+        <script src="js/app/services/geoLocation.js"></script>
+        <script src="js/app/services/localMeeting.js"></script>
+        <script src="js/app/services/localMeetingsInfo.js"></script>
+        <script src="js/app/services/meeting.js"></script>
+        <script src="js/app/services/modal.js"></script>
+        <script src="js/app/services/user.js"></script>
+        <script src="js/app/filters/customFilters.js"></script>
+        <script src="js/app/services/session.js"></script>
+        <script src="js/app/services/userGroupBuilder.js"></script>
+        <script src="js/app/services/util.js"></script>
+        <script src="js/app/controllers.js"></script>
+        <script src="js/app/controllers/authModal.js"></script>
+        <script src="js/app/controllers/index.js"></script>
+        <script src="js/app/controllers/locationMap.js"></script>
+        <script src="js/app/controllers/userAccount.js"></script>
+        <script src="js/app/controllers/userMeetingPlaces.js"></script>
+        <script src="js/app/controllers/userMeetingTimes.js"></script>
+        <script src="js/app/controllers/meetingUserInfo.js"></script>
+        <script src="js/app/controllers/userAccount.js"></script>
+        <script src="js/app/controllers/meeting.js"></script>
+        <script src="js/app/controllers/snippet.js"></script>
 </head>
 <body>
     <div id="google-tag" ng-controller="Snippet">
@@ -60,104 +101,67 @@
 				<!--<li><a href="#none" class="waves-effect waves-ripple"><span class="icon icon-history"></span>History</a></li>-->
 			</ul>
 		</header><!--//header-->
-		<div id="contents" ng-controller="MeetingListCtrl">
+		<div id="contents" ng-controller="IndexController">
 			<div class="row contents">
-				<div id="contLeft" class="col l9 s12">
-					<div class="box-gray meeting-top">
-						<span class="meetingLabel">Business</span>
-						<h3 class="title"><a href="#none">The Italian Homemade Company</a></h3>
-						<div class="wrap">
-							<div class="info">
-								<div class="thumb"><img src="images/temp/img_02.jpg" alt=""></div>
-								<div class="des">
-									<p class="address"><span class="icon"></span>484 Ellis St San Francisco, CA 94102<span class="subtext">Southeast Portland, Hawthorne, Sunnyside (<a href="#none">map</a>)</span></p>
-									<div class="member-list">
-										<p><b>7 going</b></p>
-										<ul>
-											<li><span class="bordered"><img src="images/temp/img_03.jpg" alt=""></span></li>
-											<li><span class="bordered"><img src="images/temp/img_03.jpg" alt=""></span></li>
-											<li><span class="bordered"><img src="images/temp/img_03.jpg" alt=""></span></li>
-											<li><span class="bordered"><img src="images/temp/img_03.jpg" alt=""></span></li>
-											<li><span class="bordered"><img src="images/temp/img_03.jpg" alt=""></span></li>
-											<li><span class="bordered"><img src="images/temp/img_03.jpg" alt=""></span></li>
-											<li><span class="bordered"><img src="images/temp/img_03.jpg" alt=""></span></li>
-										</ul>
-									</div>
-								</div>
-							</div>
-							<div class="rspvBox">
-								<div class="date-time">
-									<span class="date">Sun Jun 28</span>
-									<span class="time">2:00 PM</span>
-								</div>
-								<div class="rspv">
-									<b>Want to go?</b>
-									<p><a href="#none" class="btn waves-effect waves-light">Jump in</a></p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="other-meetings">
-
-						<h2 class="title-page">Other Local Events</h2>
-						<ul>
-							<li>
-								<div class="info">
-									<span class="meetingLabel">Food &amp; drink</span>
-									<h3 class="title"><a href="#none">EdTech in Asia: Challenges & Opportunities</a></h3>
-									<p class="address"><span class="icon"></span>484 Ellis St San Francisco, CA 94102<span class="subtext">Southeast Portland, Hawthorne, Sunnyside (<a href="#none">map</a>)</span></p>
-									<p >2 persons going</p>
-								</div>
-								<div class="rspvBox">
-									<div class="date-time">
-										<span class="date">Sun Jun 28</span>
-										<span class="time">2:00 PM</span>
-									</div>
-									<div class="rspv">
-										<b>Want to go?</b>
-										<p><a href="#none" class="btn waves-effect waves-light">Jump in</a></p>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="info">
-									<span class="meetingLabel">Food &amp; drink</span>
-									<h3 class="title"><a href="#none">EdTech in Asia: Challenges & Opportunities</a></h3>
-									<p class="address"><span class="icon"></span>484 Ellis St San Francisco, CA 94102<span class="subtext">Southeast Portland, Hawthorne, Sunnyside (<a href="#none">map</a>)</span></p>
-									<p >2 persons going</p>
-								</div>
-								<div class="rspvBox">
-									<div class="date-time">
-										<span class="date">Sun Jun 28</span>
-										<span class="time">2:00 PM</span>
-									</div>
-									<div class="rspv">
-										<b>Want to go?</b>
-										<p><a href="#none" class="btn waves-effect waves-light">Jump in</a></p>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div class="info">
-									<span class="meetingLabel">Food &amp; drink</span>
-									<h3 class="title"><a href="#none">EdTech in Asia: Challenges & Opportunities</a></h3>
-									<p class="address"><span class="icon"></span>484 Ellis St San Francisco, CA 94102<span class="subtext">Southeast Portland, Hawthorne, Sunnyside (<a href="#none">map</a>)</span></p>
-									<p >2 persons going</p>
-								</div>
-								<div class="rspvBox">
-									<div class="date-time">
-										<span class="date">Sun Jun 28</span>
-										<span class="time">2:00 PM</span>
-									</div>
-									<div class="rspv">
-										<b>Want to go?</b>
-										<p><a href="#none" class="btn waves-effect waves-light">Jump in</a></p>
-									</div>
-								</div>
-							</li>
-						</ul>
-					</div>
-				</div>
+                            <div id="contLeft" class="col l9 s12">
+                                <div class="box-gray meeting-top" ng-if="meeting">
+                                    <span class="meetingLabel">{{ meeting.type }}</span>
+                                    <h3 class="title"><a href="#none">{{ meeting.name }} @ {{ meeting.where.name }}</a></h3>
+                                    <div class="wrap">
+                                        <div class="info">
+                                            <div class="thumb"><img src="images/temp/img_02.jpg" alt=""></div>
+                                            <div class="des">
+                                                <p class="address"><span class="icon"></span>{{ meeting.where.location.display_address }}<span class="subtext" style="display: none">Southeast Portland, Hawthorne, Sunnyside (<a href="#none">map</a>)</span></p>
+                                                <div class="member-list">
+                                                    <p ng-if="meeting.usersCount == 1"><b>1 person going</b></p>
+                                                    <p ng-if="meeting.usersCount > 1"><b>{{ meeting.usersCount }} people going</b></p>
+                                                    <ul>
+                                                        <li ng-repeat="image in meeting.userImages">
+                                                            <span class="bordered">
+                                                                <img ng-src="{{ image }}" alt="" style="height: 33px; width: 38px">
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="rspvBox">
+                                            <div class="date-time" style="display: none">
+                                                <span class="date">Sun Jun 28</span>
+                                                <span class="time">2:00 PM</span>
+                                            </div>
+                                            <div class="rspv">
+                                                <b>Want to go?</b>
+                                                <p><a ng-href="{{ meeting.url }}" class="btn waves-effect waves-light">Jump in</a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="other-meetings">
+                                    <h2 class="title-page">Other Local Events</h2>
+                                    <ul>
+                                        <li ng-repeat="meeting in otherMeetings">
+                                            <div class="info">
+                                                <span class="meetingLabel">{{ meeting.type }}</span>
+                                                <h3 class="title"><a href="#none">{{ meeting.name }} @ {{ meeting.where.name }}</a></h3>
+                                                <p class="address"><span class="icon"></span>{{ meeting.where.location.display_address }}<span class="subtext" style="display: none">Southeast Portland, Hawthorne, Sunnyside (<a href="#none">map</a>)</span></p>
+                                                <p ng-if="meeting.users.length == 1">1 person going</p>
+                                                <p ng-if="meeting.users.length > 1">{{ meeting.users.length }} people going</p>
+                                            </div>
+                                            <div class="rspvBox">
+                                                <div class="date-time" style="display: none">
+                                                    <span class="date">Sun Jun 28</span>
+                                                    <span class="time">2:00 PM</span>
+                                                </div>
+                                                <div class="rspv">
+                                                    <b>Want to go?</b>
+                                                    <p><a ng-href="{{ meeting.url }}" class="btn waves-effect waves-light">Jump in</a></p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
 				<div id="contRight" class="col l3 s12">
 					<div class="your-location">
 						<h2 class="title-page">Your location</h2>

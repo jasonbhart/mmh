@@ -3,14 +3,16 @@
 
     var app = angular.module('mmh.services');
 
-    function User(id, $q, appConfig, $firebaseObject, $firebaseArray, $log, authProviders, util) {
+    function User(id, $rootScope, $q, appConfig, $firebaseObject, $firebaseArray, $log, authProviders, util) {
         var resultDefer = $q.defer();
         
         var ref = new Firebase(appConfig.firebaseUrl + '/users');
         ref = ref.child(id);
         ref.once('value', function (snap) {
             if (!snap.exists()) {
-                resultDefer.reject();
+                $rootScope.$applyAsync(function() {
+                    resultDefer.reject();
+                });
                 return;
             }
 
@@ -57,7 +59,9 @@
             };
 
             userObj.user.$loaded(function() {
-                resultDefer.resolve(userObj);    
+                $rootScope.$applyAsync(function() {
+                    resultDefer.resolve(userObj);
+                });
             })
         });
                
@@ -118,7 +122,7 @@
                 return defer.promise;
             },
             get: function(id) {
-                return new User(id, $q, appConfig, $firebaseObject, $firebaseArray, $log, authProviders, util);
+                return new User(id, $rootScope, $q, appConfig, $firebaseObject, $firebaseArray, $log, authProviders, util);
             },
             delete: function(id) {
                 var defer = $q.defer();
