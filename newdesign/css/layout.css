@@ -15,8 +15,8 @@ html, body{height:100%;}
 .side-nav .icon-history{background-position:0 -312px;}
 .side-nav a:hover .icon-history, .side-nav li.active a .icon-history{background-position:0 -364px;}
 #header{background:#fff; margin-left:80px; line-height:normal; height:62px; position:relative; width:auto;}
-#logo{position:absolute; left:20px; top:14px; margin:0; padding:0;}
-#logo a{display:block; height:30px; line-height:30px; background:url(../image/logo.png) no-repeat 0 0; padding-left:42px; font-size:22px; color:#404040;}
+#logo{position:absolute; left:20px; top:10px; margin:0; padding:0;}
+#logo a{display:block; height:40px; line-height:30px; background:url(../image/logo.png) no-repeat 0 0;font-size:22px; color:#404040; width:175px; text-indent:-9999em}
 #logo a:hover{text-decoration:none;}
 #top-right{float:right; padding-top:20px; padding-right:20px;}
 .dropdown-content .arow{position:absolute;width:24px; height:13px; top:-13px; right:20px; background-position:0 -975px;}

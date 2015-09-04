@@ -1,8 +1,8 @@
 ;(function () {
     "use strict";
     var app = angular.module('mmh.controllers');
-    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window',
-        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window) {
+    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService',
+        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService) {
         $scope.MAX_STAGE = 5;
         $scope.stage = 1; 
         $scope.what = 'restaurants';
@@ -18,6 +18,24 @@
         $scope.meeting = null;
         $scope.redirectUrl = '';
         $scope.shareUrl = '';
+        $scope.currentUser = null;
+        
+        sessionService.ready.then(function() {
+            var initAuth = function(user) {
+                $scope.currentUser = user;
+                console.log('CURRENT USER:');
+                console.log($scope.currentUser);
+            };
+            
+            initAuth(sessionService.getCurrentUser());
+
+            // listen for the future auth change events
+            $scope.$on('auth.changed', function(evt, user) {
+                initAuth(user);
+            });        
+        });
+        
+        
         
         $scope.next = function() {
             if ($scope.stage === 3) {

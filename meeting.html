@@ -54,9 +54,8 @@
         <script src="js/app/controllers/userMeetingPlaces.js"></script>
         <script src="js/app/controllers/userMeetingTimes.js"></script>
         <script src="js/app/controllers/meetingUserInfo.js"></script>
-        <script src="js/app/controllers/userAccount.js"></script>
-        <script src="js/app/controllers/meeting.js"></script>
         <script src="js/app/controllers/snippet.js"></script>
+        <script src="js/app/controllers/meeting.js"></script>
     </head>
 <body ng-app="mmh">
     <div id="google-tag" ng-controller="Snippet">
@@ -67,9 +66,9 @@
     <div id="container">
         <header>
             <nav id="header" class="top-nav">
-                <h1 id="logo"><a>MEET ME HERE</a></h1>
+                <h1 id="logo"><a href="/">Socailivo</a></h1>
                 <div id="top-right" class="pull-right">
-                    <div class="notifications">
+<!--                    <div class="notifications">
                         <a class="dropdown-button info" href="#" data-activates="notifications-info" title="Notifications">
                             <i class="icon"></i><span class="alert-bubble">123</span>
                         </a>
@@ -80,12 +79,12 @@
                             </ul>
                             <span class="icon arow"></span>
                         </div>
-                    </div>
+                    </div>-->
                     <div class="account" ng-controller="UserAccountController">
                         <div class="user-link" ng-if="!isAuthenticated">
-                            <a class="btn btn-flat waves-effect waves-ripple modal-trigger" href="#user-login" ng-click="login()">
-                                <i class="fa fa-user"></i> Login/Signup
-                            </a>
+                                <a class="btn btn-flat waves-effect waves-ripple modal-trigger" ng-click="login()">
+                                    <i class="fa fa-user"></i> Login/Signup
+                                </a>
                         </div>
                         <div ng-if="isAuthenticated">
                             <a class="dropdown-button info" href="javascript:void(0)" data-activates="account-info" data-hover="true" dropdown>
