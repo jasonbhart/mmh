@@ -162,6 +162,8 @@
                     rating_url: establishment.rating_url || "Unknown",
                     city: establishment.city || "Unknown",
                     country_code: establishment.country_code || "Unknown",
+                    type: establishment.type || "Unknown",
+                    location: establishment.location || {},
                 }];
             } catch (e) {
                 return [];
@@ -170,11 +172,22 @@
         
         
         var createMeeting = function() {
+            var times   = getISOFormatedTimes();
+            var places  = getFormatedEstablishment();
+            var users = {};
+            if ($scope.currentUser && $scope.currentUser.id) {
+                users[$scope.currentUser.id] = {
+                    joined: true,
+                    where: Object.keys(places),
+                    when: Object.keys(times)
+                };
+            }
             var data = {
                 name: $scope.meeting_name || "New Meeting",
                 createdDate: moment().utc().toISOString(),
-                when: getISOFormatedTimes(),
-                where: getFormatedEstablishment()
+                when: times,
+                where: places,
+                users: users
             };
             var meetingPromise = meetingService.create(data);
             meetingPromise.then(function(meeting) {
