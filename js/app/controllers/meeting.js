@@ -12,8 +12,8 @@
         }
     };
     
-    app.controller('meetingController', ['$scope', '$q', '$log', '$firebaseArray', 'dialogs', 'dataProvider', 'sessionService', 'meetingService', 'userService', 'geoLocation', 'userGroupBuilder','$window',
-            function($scope, $q, $log, $firebaseArray, dialogs, dataProvider, sessionService, meetingService, userService, geoLocation, userGroupBuilder, $window) {
+    app.controller('meetingController', ['$scope', '$q', '$log', '$firebaseObject', '$firebaseArray', 'dialogs', 'dataProvider', 'sessionService', 'meetingService', 'userService', 'geoLocation', 'userGroupBuilder','$window',
+            function($scope, $q, $log, $firebaseObject, $firebaseArray, dialogs, dataProvider, sessionService, meetingService, userService, geoLocation, userGroupBuilder, $window) {
 
         // get from the session
         $scope.timeFormat = 'h:mmA';
@@ -117,6 +117,20 @@
                 this.current = this.others[id];
                 delete this.others[id];
                 this.currentId = id;
+            },
+            updateWhere: function(formattingData, userId) {
+                var users = userId ? [{ userId: this.all[userId] }] : this.all;
+                _.forEach(this.all, function(info, id) {
+                    var watch = usersWatchList[id];
+                    info.where = formattingData.formatWhere(watch.where);
+                });
+            },
+            updateWhen: function(formattingData, userId) {
+                var users = userId ? [{ userId: this.all[userId] }] : this.all;
+                _.forEach(this.all, function(info, id) {
+                    var watch = usersWatchList[id];
+                    info.when = formattingData.formatWhen(watch.when, $scope.timeFormat);
+                });
             }
         };
 
@@ -200,6 +214,7 @@
                 formattingData.setWhere($scope.meeting.where);
                 $scope.meeting.where.$watch(function(event) {
                     formattingData.setWhere($scope.meeting.where);
+                    $scope.usersInfo.updateWhere(formattingData);
                 });
 
                 whereDefer.resolve();
@@ -209,6 +224,7 @@
                 formattingData.setWhen($scope.meeting.when);
                 $scope.meeting.when.$watch(function(event) {
                     formattingData.setWhen($scope.meeting.when);
+                    $scope.usersInfo.updateWhen(formattingData);
                 });
 
                 whenDefer.resolve();
@@ -223,7 +239,7 @@
                     var watch = {
                         where: $firebaseArray(childRef.child('where')),
                         when: $firebaseArray(childRef.child('when')),
-                        group: $firebaseArray(childRef.child('group'))
+                        group: $firebaseObject(childRef.child('group'))
                     };
                     var info = {
                         isReady: function() {
@@ -240,11 +256,11 @@
 
                     watch.where.$loaded(function() {
                         // format user's where data
-                        info.where = formattingData.formatWhere(watch.where);
+                        $scope.usersInfo.updateWhere(formattingData, userId);
 
                         watch.where.$watch(function(event) {
                             if (event.event == 'child_added' || event.event == 'child_removed') {
-                                info.where = formattingData.formatWhere(watch.where);
+                                $scope.usersInfo.updateWhere(formattingData, userId);
                                 $scope.userGroups = buildUserGroups(formattingData);
                             }
                         });
@@ -254,11 +270,11 @@
 
                     watch.when.$loaded(function() {
                         // format user's when data
-                        info.when = formattingData.formatWhen(watch.when, $scope.timeFormat);
+                        $scope.usersInfo.updateWhen(formattingData, userId);
 
                         watch.when.$watch(function(event) {
                             if (event.event == 'child_added' || event.event == 'child_removed') {
-                                info.when = formattingData.formatWhen(watch.when, $scope.timeFormat);
+                                $scope.usersInfo.updateWhen(formattingData, userId);
                                 $scope.userGroups = buildUserGroups(formattingData);
                             }
                         });
@@ -267,6 +283,15 @@
                     });
 
                     watch.group.$watch(function(event) {
+                        if (watch.group.where && watch.group.when) {
+                            info.group = {
+                                where: watch.group.where,
+                                when: watch.group.when
+                            };
+                        } else {
+                            info.group = null;
+                        }
+
                         $scope.userGroups = buildUserGroups(formattingData);
                     });
 
@@ -301,7 +326,7 @@
         }, function() {
             $log.log('No such meeting');
         });
-        
+
         function buildUserGroups(formattingData) {
             var whenMap = {};
             _.forEach(formattingData.when, function(w) {
@@ -320,10 +345,9 @@
             
             var builderUsers = [];
             _.forEach(users, function(info) {
-                var location = info.user.user.location || null;
                 var user = {
                     userId: info.user.user.id,
-                    location: location,
+                    group: info.group,
                     whereIds: _.pluck(_.filter(info.where, 'selected'), 'id'),
                     whenIds: _.pluck(_.filter(info.when, 'selected'), 'id')
                 }
@@ -333,7 +357,7 @@
             
             // build groups
             var groups = userGroupBuilder.build(builderUsers, whenMap);
-    
+
             // format groups
             var result = [];
             _.forEach(groups, function(group) {
@@ -365,7 +389,6 @@
                 if (where && when) {
                     result.push({
                         users: users,
-                        location: group.location,
                         where: where,
                         when: {
                             when: when,

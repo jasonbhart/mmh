@@ -407,7 +407,7 @@
                         });
 
                         if (data.group)
-                            dstRef.child('group').push(data.group);
+                            dstRef.child('group').set(data.group);
 
                         if (removeSrcRecords)
                             meetingsRef.child(meetingId + '/users/' + srcUserId).remove();

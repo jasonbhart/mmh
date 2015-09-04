@@ -3,30 +3,32 @@
 
     function UserGroupBuilder() {
 
-        function buildMap(users, field) {
+        function buildMap(users, field, groupField) {
             var valuesMap = {};
 
+            // if user selected group and such "where/when" exists among items selected by him
+            // user will stick to that "where/when"
+            // in other case he will be processed normally
             for (var i=0; i<users.length; i++) {
-                var values = users[i][field];
+                var values = users[i].group ? [users[i].group[groupField]] : users[i][field];
+                
                 for (var j=0; j<values.length; j++) {
                     var item = values[j];
                     if (valuesMap[item] === undefined) {
-                        valuesMap[item] = 0;
+                        valuesMap[item] = {
+                            id: item,
+                            users: [],
+                            count: 0
+                        };
                     }
 
-                    valuesMap[item]++;
+                    valuesMap[item].count++;
+                    valuesMap[item].users.push(users[i]);
                 }
             }
 
             // convert map to list
-            var result = [];
-            _.forOwn(valuesMap, function(value, key) {
-                result.push({
-                    id: key,
-                    count: value
-                });
-            });
-
+            var result = _.values(valuesMap);
             result.sort(function(a, b) {
                 return b.count - a.count;     // desc sort
             });
@@ -36,25 +38,22 @@
 
         // build group with the biggest number of members
         function buildGroup(users) {
-            var whereMap = buildMap(users, 'whereIds');
             var where = {
-                id: undefined,
-                count: 0
-            };
-            var when = {
-                id: undefined,
-                count: 0
-            };
+                    id: undefined,
+                    count: 0
+                },
+                when = {
+                    id: undefined,
+                    count: 0
+                },
+                groupUsers = null;
+            
+            var whereMap = buildMap(users, 'whereIds', 'where');
 
             // loop through whereMap in desc order
             for (var i=0; i<whereMap.length; i++) {
 
-                // get users for the current where value
-                var whenUsers = _.filter(users, function(u) {
-                    return u.whereIds.indexOf(whereMap[i].id) >= 0;
-                });
-
-                var whenMap = buildMap(whenUsers, 'whenIds');
+                var whenMap = buildMap(whereMap[i].users, 'whenIds', 'when');
 
                 // the biggest count is at 0 index
                 if (whenMap.length > 0 && whenMap[0].count > when.count) {
@@ -62,6 +61,7 @@
                     where.count = whereMap[i].count;
                     when.id = whenMap[0].id;
                     when.count = whenMap[0].count;
+                    groupUsers = whenMap[0].users;
                 }
             }
 
@@ -69,21 +69,11 @@
 
             // here we have ids
             if (where.id && when.id) {
-                var group = {
-                    userIds: [],
-                    location: users[0].location,
+                group = {
+                    userIds: _.pluck(groupUsers, 'userId'),
                     where: where,
                     when: when
                 }
-
-                group.userIds = _.map(
-                    _.filter(users, function(u) {
-                        return u.whereIds.indexOf(where.id) >= 0
-                            && u.whenIds.indexOf(when.id) >= 0;
-                    }), function(u) {
-                        return u.userId;
-                    }
-                );
             }
 
             return  group;
@@ -92,8 +82,11 @@
         this.fuzzyMatchWhen = function(groups, user, whenMap) {
             var secondsLimit = 15 * 60;     // 15 minutes
 
+            // if user selected group need to use only it's value
+            var whenIds = user.group ? [user.group.when] : user.whenIds;
+
             // convert user's when to durations
-            var userWhen = _.map(user.whenIds, function(id) {
+            var userWhen = _.map(whenIds, function(id) {
                 return moment.duration(whenMap[id]);
             });
 
@@ -119,9 +112,32 @@
             return null;
         }
 
+        /**
+         * Validates and cleanups user selected groups
+         * @param {Array} users
+         */
+        this.cleanup = function(users) {
+            // validate selected groups
+            _.forEach(users, function(user) {
+                if (!user.group)
+                    return;
+                
+                var whereId = user.group.where;
+                var whenId = user.group.when;
+
+                // user selected group is invalid
+                if (user.whereIds.indexOf(whereId) == -1
+                    || user.whenIds.indexOf(whenId) == -1) {
+                    user.group = null;
+                }
+            });
+        }
+
         // build all groups
         this.build = function (users, whenMap) {
             var groups = [];
+
+            this.cleanup(users);
 
             while (users.length > 0) {
                 var group = buildGroup(users);
@@ -148,6 +164,8 @@
                     
                     // we need to match against only those groups having the same where as a user
                     var groupsToMatch = _.filter(groups, function(g) {
+                        if (user.group)
+                            return user.group.where == g.where.id;
                         return user.whereIds.indexOf(g.where.id) >= 0;
                     });
                     
