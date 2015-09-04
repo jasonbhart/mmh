@@ -283,7 +283,6 @@
                     });
 
                     watch.group.$watch(function(event) {
-                        console.log('GROUP', watch.group);
                         if (watch.group.where && watch.group.when) {
                             info.group = {
                                 where: watch.group.where,
@@ -358,8 +357,6 @@
             
             // build groups
             var groups = userGroupBuilder.build(builderUsers, whenMap);
-
-            console.log('ZZZ', groups);
 
             // format groups
             var result = [];
