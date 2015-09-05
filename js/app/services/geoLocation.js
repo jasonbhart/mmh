@@ -3,9 +3,10 @@
 
     var app = angular.module('mmh.services');
 
-    app.factory('geoLocation', ['$rootScope', '$window', '$q', '$log', function($rootScope, $window, $q, $log) {
-        return {
-            getLocation: function(options) {
+    app.factory('geoLocation', ['$rootScope', '$window', '$q', '$log', '$http', '$timeout', 'appConfig', 'util',
+            function($rootScope, $window, $q, $log, $http, $timeout, appConfig, util) {
+        var service = {
+            getPosition: function(options) {
                 var defer = $q.defer();
                 if ($window.navigator.geolocation) {
                     $window.navigator.geolocation.getCurrentPosition(
@@ -26,6 +27,64 @@
                 
                 return defer.promise;
             },
+
+            getPositionByIP: function() {
+                var defer = $q.defer();
+                $http.get(
+                    util.joinPaths(appConfig.dataUrl, '/geoip'),
+                    {
+                        responseType: 'json'
+                    })
+                    .then(function(response) {
+                        if (response.data == null) {
+                            defer.reject('Unknown position');
+                            return;
+                        }
+                        defer.resolve(response.data);
+                    }, function(response) {
+                        defer.reject(response.statusText);
+                    });
+                return defer.promise;
+            },
+
+            getCurrentPosition: function() {
+                var defer = $q.defer();
+
+                // will be resolved on timeout or on error (user denied browser detection)
+                var errorDefer = $q.defer();
+
+                var tmoutPromise = $timeout(angular.noop, appConfig.geoLocationTimeout);
+                tmoutPromise.then(function() {
+                    errorDefer.resolve('geoLocation timeout');
+                });
+
+                // first check browser detection
+                this.getPosition().then(function(position) {
+                    $timeout.cancel(tmoutPromise);
+                    defer.resolve(position.coords);
+                }, function(error) {
+                    $timeout.cancel(tmoutPromise);
+                    errorDefer.resolve(error);
+                });
+
+                // try to get position by ip
+                errorDefer.promise.then(function() {
+                    service.getPositionByIP()
+                        .then(function(position) {
+                            defer.resolve(position);
+                        }, function(error) {
+                            defer.reject(error);
+                        });
+                });
+
+                defer.promise.then(function(position) {
+                    $log.log('getCurrentPosition success', position);
+                }, function(error) {
+                    $log.log('getCurrentPosition error', error);
+                });
+
+                return defer.promise;
+            },
             
             geoDecode: function(lat, lng) {
                 var defer = $q.defer();
@@ -34,7 +93,7 @@
                 geocoder.geocode({
                     latLng: latLng,
                 }, function(result, status) {
-                    console.log('geoDecode', lat, lng, result, status);
+                    $log.log('geoDecode', lat, lng, result, status);
                     $rootScope.$applyAsync(function() {
                         if (status == google.maps.GeocoderStatus.OK) {
                             defer.resolve(result);
@@ -92,29 +151,27 @@
             },
             
             getCurrentLocation: function(options) {
-                var service = this;
                 var defer = $q.defer();
-                this.getLocation(options).then(function(position) {
-                    service
-                        .getLocality(position.coords.latitude, position.coords.longitude)
+
+                this.getCurrentPosition().then(function(position) {
+                    // get locality by position
+                    service.getLocality(position.latitude, position.longitude)
                         .then(function(locality) {
-                            $rootScope.$applyAsync(function() {
-                                defer.resolve({
-                                    coords: locality.coords,
-                                    shortName: locality.shortName
-                                });
+                            defer.resolve({
+                                coords: locality.coords,
+                                shortName: locality.shortName
                             });
                         }, function() {
-                            defer.reject();
+                            defer.reject('Can\'t get locality info');
                         });
-                }, function() {
-                    $rootScope.$applyAsync(function() {
-                        defer.reject();
-                    });
+                }, function(error) {
+                    defer.reject(error);
                 });
                 
                 return defer.promise;
             }
         };
+
+        return service;
     }]);
 })();

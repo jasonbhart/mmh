@@ -9,5 +9,6 @@
         this.firebaseUrl = 'https://radiant-heat-9175.firebaseio.com';
         this.shareUrlBase = 'https://www.socialivo.com/meeting.html';
         this.defaultRadius = 1;     // km
+        this.geoLocationTimeout = 20000;    // (20 sec)
     });
 })();

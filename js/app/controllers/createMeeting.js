@@ -48,7 +48,7 @@
                 
                 if ($scope.where !== 'other') {
                     timeout = 1000;
-                    var currentLocation = geoLocation.getLocation();
+                    var currentLocation = geoLocation.getPosition();
                     currentLocation.then(function(position) {
                         if (position.coords.latitude && position.coords.longitude) {
                             options.coords = {lat: position.coords.latitude, lng: position.coords.longitude};
