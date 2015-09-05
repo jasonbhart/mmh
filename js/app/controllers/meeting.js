@@ -569,5 +569,10 @@
             
             return '';
         }
+        
+        $scope.copy = function() {
+            document.getElementById("sharing_url").select();
+            document.execCommand('copy');
+        }
     }]);
 })();
