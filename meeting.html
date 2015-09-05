@@ -193,9 +193,11 @@
                         </div>
                         <div style="clear:both;"></div>
                         <p>or give friends the link</p>
-                        <div class="url">
-                            <a class="link" href="{{ getSharingUrl() }}">{{ getSharingUrl() }}</a>
-                            <a class="btn waves-effect waves-light">Copy</a>
+                        <div class="url" style="height:66px;">
+                            <a href="{{ getSharingUrl() }}">
+                                <textarea class="link" id="sharing_url" style="cursor: pointer; border:none; outline: none; resize:none;">{{ getSharingUrl() }}</textarea>
+                            </a>
+                            <a class="btn waves-effect waves-light" ng-click="copy()">Copy</a>
                         </div>
                     </div>
                 </div>
