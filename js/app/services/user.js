@@ -30,7 +30,7 @@
                 },
                 getProfileImageURL: function() {
                     if (!this.user.profileImageURL)
-                        return util.getPath('/images/no-profile.jpg');
+                        return util.getAbsPath('/images/no-profile.jpg');
 
                     return this.user.profileImageURL;
 //                    if (this.user.provider == authProviders.FACEBOOK)
