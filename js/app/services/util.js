@@ -9,13 +9,14 @@
              * @param string path
              * @returns absolute path (including app path)
              */
-            getPath: function(path) {
+            getAbsPath: function(path) {
                 if (!path || typeof(path) !== 'string')
                     return null;
                 
                 var absPath = appConfig.basePath;
-                if (!appConfig.basePath.endsWith('/') && !path.startsWith('/'))
-                    absPath += '/';
+                if ((!absPath || absPath[absPath.length-1] != '/')
+                        && path[0] != '/')
+                    absPath = absPath ? absPath + '/' : '/';
                 absPath += path;
                 return absPath;
             },
