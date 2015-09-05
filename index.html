@@ -43,6 +43,7 @@
         <script src="js/app/services/meeting.js"></script>
         <script src="js/app/services/modal.js"></script>
         <script src="js/app/services/user.js"></script>
+        <script src="js/app/services/googleMap.js"></script>
         <script src="js/app/filters/customFilters.js"></script>
         <script src="js/app/services/session.js"></script>
         <script src="js/app/services/userGroupBuilder.js"></script>
@@ -59,10 +60,11 @@
         <script src="js/app/controllers/snippet.js"></script>
 </head>
 <body>
-    <div id="google-tag" ng-controller="Snippet">
-        <div ng-bind-html="getGoogleTag()"></div>
-    </div>
+    
     <div id="container" ng-app="mmh">
+        <div id="google-tag" ng-controller="Snippet">
+            <div ng-bind-html="getGoogleTag()"></div>
+        </div>
 		<header>
 			<nav id="header" class="top-nav">
                 <h1 id="logo"><a href="/">Socailivo</a></h1>
@@ -180,8 +182,9 @@
 				<div id="contRight" class="col l3 s12">
 					<div class="your-location">
 						<h2 class="title-page">Your location</h2>
-						<div class="map"><img src="images/temp/map.jpg" style="min-height:100%; min-width:100%;" alt=""></div>
-						<div class="des"><span class="icon"></span>Hanoi, Vietnam</div>
+                                                <input type="text" class="search-box" placeholder="Enter location"> 
+						<div class="map map-canvas"></div>
+						<div class="des"><span class="icon"></span>{{locationName}}</div>
 					</div>
 					<div class="categories-nav">
 						<h2 class="title-page">Browse by Categories</h2>
