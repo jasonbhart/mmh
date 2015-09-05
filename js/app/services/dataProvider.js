@@ -5,10 +5,6 @@
     
     app.factory('dataProvider', ['$q', '$http', '$log', 'appConfig', function($q, $http, $log, appConfig) {
         return {
-            convertMilesToKms: function(miles) {
-                return miles * 1.609344;
-            },
-            
             getTerms: function() {
                 return [
                     { id: 'restaurants', name: 'Restaurants' },
@@ -95,7 +91,7 @@
                         return;
                     }
 
-                    // TODO:
+                    // TODO: do we need this ?
                     if (typeof(data) == 'string') {
                         try {
                             data = JSON.parse(data);

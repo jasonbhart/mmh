@@ -14,7 +14,7 @@
         return {
             /**
              * Returns information about [count] local meetings [coord, radius] excluding ids [exclude]
-             * @param {Object} options {coord: {lat: float, lng: float}, radius:, count: int, exclude: []}
+             * @param {Object} options {coord: {lat: float, lng: float}, radius: (in km), count: int, exclude: []}
              * @returns {promise}
              */
             get: function(options) {

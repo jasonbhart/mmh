@@ -18,6 +18,9 @@
                     absPath += '/';
                 absPath += path;
                 return absPath;
+            },
+            convertMilesToKms: function(miles) {
+                return miles * 1.609344;
             }
         };
     }]);

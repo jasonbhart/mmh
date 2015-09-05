@@ -6,8 +6,8 @@
     // Location map popup controller
     app.controller(
         'LocationMapController',
-        ['$scope', 'modalInstance', 'location', 'dataProvider',
-        function ($scope, modalInstance, location, dataProvider) {
+        ['$scope', 'modalInstance', 'location', 'util',
+        function ($scope, modalInstance, location, util) {
 
         // default position: Boston, MA
         $scope.position = { lat: 42.3133735, lng: -71.0571571 };
@@ -36,7 +36,7 @@
         });
         
         function getAreaRadius(radiusInMiles) {
-            return dataProvider.convertMilesToKms(radiusInMiles) * 1000;
+            return util.convertMilesToKms(radiusInMiles) * 1000;
         }
         
         function saveCurrentPosition(position) {

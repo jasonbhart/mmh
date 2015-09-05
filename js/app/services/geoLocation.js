@@ -3,21 +3,25 @@
 
     var app = angular.module('mmh.services');
 
-    app.factory('geoLocation', ['$window', '$q', '$log', function($window, $q, $log) {
+    app.factory('geoLocation', ['$rootScope', '$window', '$q', '$log', function($rootScope, $window, $q, $log) {
         return {
             getLocation: function(options) {
                 var defer = $q.defer();
-                
                 if ($window.navigator.geolocation) {
                     $window.navigator.geolocation.getCurrentPosition(
-                        function(position) {        // success
-                            defer.resolve(position);
-                        }, function(error) {     // error
-                            defer.reject(error);
-                        }, options
-                    );
+                        function(result) {
+                            $rootScope.$applyAsync(function() {
+                                defer.resolve(result);
+                            });
+                        }, function(error) {
+                            $rootScope.$applyAsync(function() {
+                                defer.reject(error);
+                            });
+                        }, options);
                 } else {
-                    defer.reject('GeoLocation is not available');
+                    $rootScope.$applyAsync(function() {
+                        defer.reject('GeoLocation is not available');
+                    });
                 }
                 
                 return defer.promise;
@@ -31,11 +35,13 @@
                     latLng: latLng,
                 }, function(result, status) {
                     console.log('geoDecode', lat, lng, result, status);
-                    if (status == google.maps.GeocoderStatus.OK) {
-                        defer.resolve(result);
-                    } else {
-                        defer.reject(status);
-                    }
+                    $rootScope.$applyAsync(function() {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            defer.resolve(result);
+                        } else {
+                            defer.reject(status);
+                        }
+                    });
                 });
                 
                 return defer.promise;
@@ -67,29 +73,45 @@
                                 }
                             }
                         }
-                        
-                        if (locality) {
-                            defer.resolve(locality);
-                        } else {
-                            defer.reject('Locality doesn\'t exist');
-                        }
-                        
+
+                        $rootScope.$applyAsync(function() {
+                            if (locality) {
+                                defer.resolve(locality);
+                            } else {
+                                defer.reject('Locality doesn\'t exist');
+                            }
+                        });
                     }, function(error) {
-                        defer.reject(error);
+                        $rootScope.$applyAsync(function() {
+                            defer.reject(error);
+                        });
                     }
                 );
         
                 return defer.promise;
             },
             
-            getCurrentLocation: function() {
+            getCurrentLocation: function(options) {
                 var service = this;
                 var defer = $q.defer();
-                this.getLocation().then(function(position) {
+                this.getLocation(options).then(function(position) {
                     service
                         .getLocality(position.coords.latitude, position.coords.longitude)
-                        .then(defer.resolve, defer.reject);
-                }, defer.reject);
+                        .then(function(locality) {
+                            $rootScope.$applyAsync(function() {
+                                defer.resolve({
+                                    coords: locality.coords,
+                                    shortName: locality.shortName
+                                });
+                            });
+                        }, function() {
+                            defer.reject();
+                        });
+                }, function() {
+                    $rootScope.$applyAsync(function() {
+                        defer.reject();
+                    });
+                });
                 
                 return defer.promise;
             }

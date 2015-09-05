@@ -4,7 +4,8 @@
     var app = angular.module('mmh.controllers');
 
     // get data from yelp
-    app.controller('IndexController', ['$q', '$scope', 'localMeetingsInfo', 'userService', 'sessionService', function ($q, $scope, localMeetingsInfo, userService, sessionService) {
+    app.controller('IndexController', ['$q', '$scope', 'localMeetingsInfo', 'userService', 'sessionService', 'util',
+            function ($q, $scope, localMeetingsInfo, userService, sessionService, util) {
         $scope.currentUser = null;
         
         sessionService.ready.then(function() {
@@ -18,8 +19,8 @@
             if (userLocation) {
                 var options = {
                     coord: userLocation.coords, 
-                    radius: userLocation.radius, 
-                    limit: 5
+                    radius: util.convertMilesToKms(userLocation.radius),
+                    count: 5
                 };
                 
                 localMeetingsInfo.get(options).then(function(results) {
