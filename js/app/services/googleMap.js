@@ -37,7 +37,7 @@
                     draggable: true
                 });
 
-                area = new google.maps.Circle({
+                var area = new google.maps.Circle({
                     strokeColor: '#5555AA',
                     strokeOpacity: 1,
                     strokeWeight: 2,
