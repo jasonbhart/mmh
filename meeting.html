@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
+<html lang="en" ng-app="mmh">
+    <head ng-controller="meetingController">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
         <title>Meet Me Here</title>
+        <meta property="og:description" content="{{meeting.name}}">
         <!-- CSS  -->
         <link href="newdesign/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
         <link href="css/font-awesome.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
@@ -57,7 +58,7 @@
         <script src="js/app/controllers/snippet.js"></script>
         <script src="js/app/controllers/meeting.js"></script>
     </head>
-<body ng-app="mmh">
+<body>
     <div id="google-tag" ng-controller="Snippet">
         <div ng-bind-html="getGoogleTag()"></div>
         <div ng-bind-html="getFacebookSDK()"></div>

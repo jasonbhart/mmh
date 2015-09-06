@@ -440,7 +440,7 @@
         };
         
         $scope.getShareEmailSubject = function() {
-            return "MEET ME HERE";
+            return "MEET ME HERE: " + $scope.meeting.name;
         };
 
         $scope.changeLocation = function() {
