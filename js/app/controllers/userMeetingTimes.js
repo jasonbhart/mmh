@@ -34,6 +34,9 @@
             }
 
             $scope.confirm = function() {
+                if ($scope.times.length === 0) {
+                    $scope.addTime();
+                }
                 modalInstance.close($scope.times);
             }
 
