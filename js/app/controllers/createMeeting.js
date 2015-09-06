@@ -216,5 +216,24 @@
         $scope.getShareEmailSubject = function() {
             return "MEET ME HERE";
         };
+        
+        $scope.showHideProgressBar = function() {
+            if ($window.$(window).width() < 800) {
+                $window.$(".checkout-wrap").fadeOut();
+            }else{
+                $window.$(".checkout-wrap").fadeIn();
+            }
+        }
+
+        $window.$(document).ready(function () {
+            //on load
+            $scope.showHideProgressBar();
+
+            //on resize
+            $(window).resize(function(){
+                $scope.showHideProgressBar();
+            });
+        });
+
     }]);
 })();
