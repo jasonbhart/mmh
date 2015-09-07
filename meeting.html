@@ -187,7 +187,7 @@
                         <div class="label">Share via socials </div>
                         <div class="fb-share-button" data-href="{{ getSharingUrl() }}" data-layout="button"></div>
                         <div class="twitter-share">
-                            <a href="https://twitter.com/share" class="twitter-share-button" data-url="{{ getSharingUrl() }}" data-count="none">Tweet</a>
+                            <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{getShareEmailSubject()}}" data-url="{{ getSharingUrl() }}" data-count="none">Tweet</a>
                         </div>
                         <div class="email-share">
                             <a href="mailto:?subject={{getShareEmailSubject() | escape}}&body={{getSharingUrl() | escape}}" title="Send an email"><img src="newdesign/image/icon-m.gif" alt="Send an email"></a>
