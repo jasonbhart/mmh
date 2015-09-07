@@ -133,7 +133,7 @@
                                     <p>{{ group.users.length }} people have chosen:</p>
                                     <ul class="have-chosen">
                                         <li class="memberLabel" ng-class="group.hasJoined(user.user.id) ? 'cfrmed' : 'not-cfrm'" ng-repeat="user in group.users">
-                                            <i class="icon"></i>{{ user.user.fullName }} <span ng-if="user.id == currentUser.id && userGroups.isMultiName(user.id)">(you)</span>
+                                            <i class="icon"></i>{{ user.user.fullName }} <span ng-if="needsGroupUserDetails(userGroups, user)">(you)</span>
                                         </li>
                                     </ul>
                                 </div>

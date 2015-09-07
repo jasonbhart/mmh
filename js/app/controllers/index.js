@@ -22,7 +22,7 @@
                 var options = {
                     coord: userLocation.coords, 
                     radius: util.convertMilesToKms(userLocation.radius),
-                    count: 5
+                    count: 3
                 };
                 
                 localMeetingsInfo.get(options).then(function(results) {
