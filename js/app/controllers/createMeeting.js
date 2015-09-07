@@ -32,7 +32,7 @@
             // listen for the future auth change events
             $scope.$on('auth.changed', function(evt, user) {
                 initAuth(user);
-            });        
+            });     
         });
         
         
@@ -233,6 +233,7 @@
             $(window).resize(function(){
                 $scope.showHideProgressBar();
             });
+            $window.$('#contents').show();
         });
 
     }]);
