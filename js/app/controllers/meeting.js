@@ -418,8 +418,8 @@
             
             var userGroups = {
                 groups: result,
-                isMultiName: function(id) {
-                    return multiNames.indexOf(id) >= 0;
+                isMultiName: function(userId) {
+                    return multiNames.indexOf(userId);
                 }
             };
             
@@ -435,6 +435,14 @@
             );
         };
         
+        $scope.needsGroupUserDetails = function(userGroups, user) {
+            if (!$scope.currentUser)
+                return false;
+
+            return user.id == $scope.currentUser.id
+                && (userGroups.isMultiName(user.id) || user.isAnonymous());
+        }
+
         $scope.getSharingUrl = function() {
             return meetingService.getSharingUrl($scope.meeting.id);
         };
