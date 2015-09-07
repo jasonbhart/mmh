@@ -121,7 +121,7 @@
                             'city': buss.location.city,                         //
                             'country_code': buss.location.country_code,         //
                             'location': {
-                                'display_address': buss.location.display_address[0] + ', ' + buss.location.display_address[2],
+                                'display_address': buss.location.display_address.join(', '),
                                 'coordinate': {
                                     lat: buss.location.coordinate.latitude,
                                     lng: buss.location.coordinate.longitude
