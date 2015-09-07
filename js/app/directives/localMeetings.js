@@ -3,7 +3,7 @@
 
     var app = angular.module('mmh.directives');
     
-    app.directive('localMeetings', ['localMeetingsInfo', 'util', function(localMeetingsInfo, util) {
+    app.directive('localMeetings', ['meetingInfo', 'util', function(meetingInfo, util) {
         return {
             restrict: 'E',
             scope: {
@@ -24,8 +24,8 @@
                     if (!values[0] || !values[1])
                         return;
 
-                    localMeetingsInfo
-                        .get({
+                    meetingInfo
+                        .getLocal({
                             coord: scope.location,
                             radius: util.convertMilesToKms(scope.radius),
                             count: scope.count,
