@@ -122,11 +122,10 @@
                         <div class="checkout-wrap">
                             <ul class="checkout-bar">
 
-                                <li class="{{getVisitedStatus(1)}} first"><a href="#none">What do</a></li>
-                                <li class="{{getVisitedStatus(2)}}"><a href="#none">When do</a></li>
-                                <li class="{{getVisitedStatus(3)}}">Where do</li>
-                                <li class="{{getVisitedStatus(4)}}">Here are</li>
-                                <li class="{{getVisitedStatus(5)}}">Do you wish</li>
+                                <li class="{{getVisitedStatus(1)}} first"><a href="#none">What</a></li>
+                                <li class="{{getVisitedStatus(2)}}"><a href="#none">When</a></li>
+                                <li class="{{getVisitedStatus(3)}}">Where</li>
+                                <li class="{{getVisitedStatus(4)}}">Who</li>
                             </ul>
                         </div>
                         <div class="frm-creat" ng-show="stage == 1">
@@ -178,20 +177,16 @@
                             <div class="row">
                                 <h3 class="title">Where do you want to do this? </h3>
                                 <ul class="option">
-                                    <li><input class="with-gap" ng-model="where" id="where01" value="1" type="radio" checked />
+                                    <li><input class="with-gap" ng-model="where" ng-change="updatePlaceSuggestion()" id="where01" value="1" type="radio"  checked />
                                         <label for="where01">Within 1 miles of my current location (default; walkable) </label></li>
-                                    <li><input class="with-gap" ng-model="where" id="where02" value="10" type="radio" />
+                                    <li><input class="with-gap" ng-model="where" ng-change="updatePlaceSuggestion()" id="where02" value="10" type="radio" />
                                         <label for="where02">Within 10 miles of my current location (driveable)</label></li>
-                                    <li><input class="with-gap" ng-model="where" id="where03" value="other" type="radio" />
+                                    <li><input class="with-gap" ng-model="where" ng-change="updatePlaceSuggestion()" id="where03" value="other" type="radio" />
                                         <label for="where03">Other</label></li>
                                 </ul>
                                 <div class="row">
-                                    <input type="text" placeholder="Enter Neighborhood, Address, City, State or Zip" ng-model="other_location" ng-show="where=='other'"style="max-width:300px;" />
+                                    <input type="text" placeholder="Enter Neighborhood, Address, City, State or Zip" ng-model="other_location" ng-keyup="updatePlaceSuggestion()" ng-show="where=='other'"style="max-width:300px;" />
                                 </div>
-                            </div>
-                        </div>
-                        <div class="frm-creat" ng-show="stage == 4">
-                            <div class="row">
                                 <h3 class="title">Here are the highest rated establishments (in the search area) </h3>
                                 <ul class="option">
                                     <li ng-repeat="place in suggestions">
@@ -205,9 +200,24 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="frm-creat" ng-show="stage == 5">
+<!--                        <div class="frm-creat" ng-show="stage == 4">
                             <div class="row">
-                                <h3 class="title">Do you wish to publish your activity on social media? </h3>
+                                <h3 class="title">Here are the highest rated establishments (in the search area) </h3>
+                                <ul class="option">
+                                    <li ng-repeat="place in suggestions">
+                                        <input class="with-gap" ng-model="$parent.establishment" value="{{place}}" name="establishment" id="{{place.name}}" type="radio" />
+                                        <label for="{{place.name}}">{{place.name}} </label>
+                                    </li>
+                                    <li>
+                                        <input class="with-gap" ng-model="establishment" value="other" name="establishment" id="help_me_decide" type="radio" />
+                                        <label for="help_me_decide">Help me decide</label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>-->
+                        <div class="frm-creat" ng-show="stage == 4">
+                            <div class="row">
+                                <h3 class="title">How do you wish to share your gathering? </h3>
                                 <div class="share">
                                     <div class="label">Share via socials </div>
                                     <div class="fb-share-button" data-href="{{ shareUrl }}"  data-layout="button"></div>

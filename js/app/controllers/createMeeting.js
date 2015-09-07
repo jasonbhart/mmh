@@ -3,7 +3,7 @@
     var app = angular.module('mmh.controllers');
     app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util',
         function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService, util) {
-        $scope.MAX_STAGE = 5;
+        $scope.MAX_STAGE = 4;
         $scope.stage = 1; 
         $scope.what = 'restaurants';
         $scope.when = 1;
@@ -38,42 +38,11 @@
         
         
         $scope.next = function() {
-            if ($scope.stage === 3) {
-                var options = {
-                    'term' : ($scope.what !== 'other') ? $scope.what : $scope.term,
-                    'sort' : '2',
-                    'limit': '3'
-                };
-                var timeout = 0;
-                
-                if ($scope.where !== 'other') {
-                    timeout = 1000;
-                    var currentLocation = geoLocation.getPosition();
-                    currentLocation.then(function(position) {
-                        if (position.coords.latitude && position.coords.longitude) {
-                            options.coords = {lat: position.coords.latitude, lng: position.coords.longitude};
-                            // Boston location for testing purpose
-//                            options.coords = {lat: '42.3133735', lng: '-71.0571571,12'};
-                        }
-                    }, function() {
-                        $log.log('Can not find current location');
-                    });
-                    
-                    options.radius = util.convertMilesToKms($scope.where);
-                } else {
-                    options.location = $scope.other_location;
-                }
-                
-                
-                setTimeout(function(){
-                    dataProvider.getSuggestions(options).then(function(suggestions) {
-                        $scope.suggestions = suggestions;
-                    });
-                }, timeout);
-                
-            }
-            
             $scope.stage ++;
+            
+            if ($scope.stage === 3) {
+                $scope.updatePlaceSuggestion();
+            }
             
             if ($scope.stage === $scope.MAX_STAGE) {
                 createMeeting();
@@ -170,6 +139,39 @@
             }
         }
         
+        $scope.updatePlaceSuggestion = function() {
+            var options = {
+                'term' : ($scope.what !== 'other') ? $scope.what : $scope.term,
+                'sort' : '2',
+                'limit': '3'
+            };
+            var timeout = 0;
+
+            if ($scope.where !== 'other') {
+                timeout = 1000;
+                var currentLocation = geoLocation.getPosition();
+                currentLocation.then(function(position) {
+                    if (position.coords.latitude && position.coords.longitude) {
+                            options.coords = {lat: position.coords.latitude, lng: position.coords.longitude};
+                        // Boston location for testing purpose
+//                        options.coords = {lat: '42.3133735', lng: '-71.0571571,12'};
+                    }
+                }, function() {
+                    $log.log('Can not find current location');
+                });
+
+                options.radius = util.convertMilesToKms($scope.where);
+            } else {
+                options.location = $scope.other_location;
+            }
+
+
+            setTimeout(function(){
+                dataProvider.getSuggestions(options).then(function(suggestions) {
+                    $scope.suggestions = suggestions;
+                });
+            }, timeout);
+        };
         
         var createMeeting = function() {
             var times   = getISOFormatedTimes();
