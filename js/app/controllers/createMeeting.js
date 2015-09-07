@@ -214,7 +214,7 @@
         }
         
         $scope.getShareEmailSubject = function() {
-            return "MEET ME HERE";
+            return "MEET ME HERE: " + ($scope.meeting_name || "New Meeting");
         };
         
         $scope.showHideProgressBar = function() {
