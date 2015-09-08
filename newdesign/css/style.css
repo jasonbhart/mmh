@@ -91,7 +91,7 @@ h3.title{font-size:18px; font-weight:500;}
 .btn-add .icon{background-position:-14px -572px !important; width:12px !important; height:14px !important; margin-right:1px; vertical-align:middle;}
 .other-member li .thumb, .pop-user-detail .user .thumb{border:1px solid #ddd; width:100px; height:100px; overflow:hidden; margin-bottom:10px;}
 .other-member li .thumb img, .pop-user-detail .user .thumb img{width:100px;}
-.other-member li{display:inline-block; width:120px; padding:10px; font-size:11px;}
+.other-member li{display:inline-block; width:120px; padding:10px; font-size:11px; vertical-align:top;}
 .other-member li p,  .pop-user-detail .user p{margin:3px 0;}
 .other-member .link, .address a{text-decoration:underline;}
 #contRight .other-meetings li{padding-left:0; overflow:inherit;}
@@ -142,7 +142,8 @@ h3.title{font-size:18px; font-weight:500;}
 .modal .modal-footer{text-align:right; padding:10px 15px 0;}
 .modal .modal-footer .btn{float:none;}
 #modal-time.modal{max-width:500px}
-.modal .modal-content>.title{margin:0 -20px; padding:5px 20px 10px; border-bottom:1px solid #e5e5e5;margin-bottom:20px; font-size:24px;}
+.modal .modal-content>.title{margin:0 -20px; padding:5px 20px 10px; border-bottom:1px solid #e5e5e5;margin-bottom:20px; font-size:24px; position:relative;}
+.modal .modal-content>.title .icon-close{top:-18px; right:-3px;}
 .pop-place .select-area{font-size:14px;}
 .selectBox-dropdown{min-width:250px;font-size:15px;position:relative;border:solid 1px #e5e5e5;line-height:1.5;text-decoration:none;text-align:left;color:#000;outline:none;vertical-align:middle;background:#fff;border-radius:4px;display:inline-block;cursor:pointer;}
 .selectBox-dropdown.selectBox-menuShowing-bottom{-moz-border-radius-bottomleft:0;-moz-border-radius-bottomright:0;-webkit-border-bottom-left-radius:0;-webkit-border-bottom-right-radius:0;border-bottom-left-radius:0;border-bottom-right-radius:0}
@@ -206,6 +207,7 @@ h3.title{font-size:18px; font-weight:500;}
 .pop-user-detail .user .not-cfrm, .pop-user-detail .user .cfrmed{display:block; font-weight:700;}
 .pop-user-detail .choose-list{opacity:0.7;}
 .pop-user-detail .box-white{margin-bottom:15px;}
+.modal .modal-content{background:#fff;}
 
 
 @media only screen and (min-width : 1280px){
@@ -233,10 +235,16 @@ h3.title{font-size:18px; font-weight:500;}
 #contRight{margin-top:30px;}
 #contRight .meetingLabel{position:inherit;}
 }
+@media only screen and (max-height : 500px){
+.modal{height:90%;overflow:inherit; padding-bottom:56px;}
+.modal .modal-footer{position:absolute; bottom:0; left:0;}
+.modal .modal-content{overflow-y:auto; height:100%;}
+.modal .best-places{max-height:none; overflow:inherit;}
+	}
 @media only screen and (max-width : 768px){
 .best-places .thumb{display:none;}
 .share dd{display:block; margin:0;}
-.modal{width:98%;}
+.modal{height:90%;}
 }
 @media only screen and (min-width : 521px){
 .box-meeting .group .time{margin-bottom:0; text-align:left;}
