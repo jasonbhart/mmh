@@ -20,10 +20,10 @@
              */
             getLatest: function() {
                 var defer = $q.defer();
-                meetingService.getLatestId().then(function(id) {
-                    $log.log('meetingInfo: latest event id', id);
-                    meetingService.getInfo({ meetingId: id }).then(function(meetingInfo) {
-                        meetingInfo = meetingInfo[id];
+                localMeetingService.getLatest().then(function(meeting) {
+                    $log.log('meetingInfo: latest event id', meeting);
+                    meetingService.getInfo(meeting).then(function(meetingInfo) {
+                        meetingInfo = meetingInfo[meeting.meetingId];
 
                         if (!meetingInfo) {
                             defer.reject();

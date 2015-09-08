@@ -359,20 +359,6 @@
             get: function(id) {
                 return new Meeting(id, appConfig, $rootScope, $q, $firebaseObject, $firebaseArray, $log, localMeetingService);
             },
-            getLatestId: function() {
-                var defer = $q.defer();
-                var ref = new Firebase(meetsUrl);
-                ref.limitToLast(1).once('value', function(snap) {
-                    if (!snap.exists()) {
-                        defer.reject();
-                        return;
-                    }
-
-                    defer.resolve(_.keys(snap.val())[0]);
-                });
-
-                return defer.promise;
-            },
             convertWhen: function(when) {
                 return moment.utc(when).local();
             },

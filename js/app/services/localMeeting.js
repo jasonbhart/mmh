@@ -35,6 +35,35 @@
                 return $q.when(localMeetsGEO.remove(key));
             },
             /**
+             * @returns {Object} latest added meeting/place
+             */
+            getLatest: function() {
+                var defer = $q.defer();
+                localMeets.limitToLast(1).once('value', function(snap) {
+                    if (!snap.exists()) {
+                        defer.reject();
+                        return;
+                    }
+
+                    // get first value (meeting)
+                    var value = snap.val();
+                    var meeting;
+                    for (var i in value) {
+                        if (value.hasOwnProperty(i)) {
+                            meeting = {
+                                meetingId: value[i].meeting,
+                                whereId: value[i].where
+                            }
+                            break;
+                        }
+                    }
+
+                    defer.resolve(meeting);
+                });
+
+                return defer.promise;
+            },
+            /**
              * @param {Object} options {coord: {lat: float, lng: float}, radius: (in km), count: int, exclude: []}
              * @returns {promise}
              */
