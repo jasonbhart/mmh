@@ -156,6 +156,7 @@
                                 </div>
                                 <div class="other-meetings">
                                     <h2 class="title-page">Other Local Events</h2>
+                                    <div ng-show="otherMeetings.length == 0">No event found</div>
                                     <ul>
                                         <li ng-repeat="meeting in otherMeetings">
                                             <div class="info">
