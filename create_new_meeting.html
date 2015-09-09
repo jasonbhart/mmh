@@ -33,6 +33,8 @@
         <script src="js/app/directives.js"></script>
         <script src="js/app/directives/dateTimePicker.js"></script>
         <script src="js/app/directives/starsRating.js"></script>
+        <script src="js/app/directives/header.js"></script>
+        <script src="js/app/directives/footer.js"></script>
         <script src="js/app/services.js"></script>
         <script src="js/app/services/appConfig.js"></script>
         <script src="js/app/services/dataProvider.js"></script>
@@ -62,59 +64,7 @@
             <div ng-bind-html="getGoogleTag()"></div>
         </div>
         <div id="container">
-            <header>
-                <nav id="header" class="top-nav">
-                    <h1 id="logo"><a href="/">Socailivo</a></h1>
-                    <div id="top-right" class="pull-right">
-<!--                        <div class="notifications">
-                            <a class="dropdown-button info on" href="#" data-activates="notifications-info" title="Notifications">
-                                <i class="icon"></i><span class="alert-bubble">123</span>
-                            </a>
-                            <div id="notifications-info" class="dropdown-content">
-                                <p class="notifLabel">Notifications</p>
-                                <ul>
-                                    <li><a href="#none">
-                                            <b class="red-text">Reminder:</b> Meetup with <b>Meditation Hanoi Meetup</b> on Wednesday
-                                        </a></li>
-                                    <li><a href="#none">
-                                            <b class="red-text">Reminder:</b> You have received an invitation to join the meeting <b>wine Drinkers</b> on Wednesday
-                                        </a></li>
-                                </ul>
-                                <span class="icon arow"></span>
-                            </div>
-                        </div>-->
-                        <div class="account" ng-controller="UserAccountController">
-                            <div class="user-link" ng-if="!isAuthenticated">
-                                    <a class="btn btn-flat waves-effect waves-ripple modal-trigger" ng-click="login()">
-                                        <i class="fa fa-user"></i> Login/Signup
-                                    </a>
-                            </div>
-                            <div ng-if="isAuthenticated">
-                                <a class="dropdown-button info" href="javascript:void(0)" data-activates="account-info" data-hover="true" dropdown>
-                                    <span class="thumb"><img ng-src="{{ user.getProfileImageURL() }}" alt=""></span>
-                                    <span class="name">
-                                        {{ user.fullName }}<i class="icon"></i>
-                                    </span>
-                                </a>
-                                <div id="account-info" class="dropdown-content">
-                                    <ul>
-                                        <!--<li><a href="#none">Profile</a></li>-->
-                                        <!--<li><a href="#none">Settings</a></li>-->
-                                        <li><a ng-click="logout()">Log out</a></li>
-                                    </ul>
-                                    <span class="icon arow"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-                <div class="container"><a href="#" data-activates="nav-mobile" class="button-collapse top-nav waves-effect waves-light circle hide-on-large-only"><i class="mdi-navigation-menu"></i></a></div>
-                <ul id="nav-mobile" class="side-nav fixed">
-                    <li class="active"><a href="index.html" class="waves-effect waves-ripple"><span class="icon icon-home"></span>Home</a></li>
-                    <li><a href="create_new_meeting.html" class="waves-effect waves-ripple"><span class="icon icon-new"></span>New Meet</a></li>
-                    <!--<li><a href="#none" class="waves-effect waves-ripple"><span class="icon icon-history"></span>History</a></li>-->
-                </ul>
-            </header><!--//header-->
+            <header></header><!--//header-->
             <div id="contents" ng-controller="CreateMeetingController" style="display: none;">
                 <div class="row creat-new">
                     <div class="col s12">
@@ -229,19 +179,7 @@
                     </div>
                 </div>
             </div><!--//contents-->
-            <footer class="page-footer white">
-                <div class="social">
-                    <span class="title">FOLLOW US</span>
-                    <ul>
-                        <li class="fb"><a class="icon waves-effect waves-light" href="#none" title="Facebook">Facebook</a></li>
-                        <li class="youtube"><a class="icon waves-effect waves-light" href="#none" title="Youtube">Youtube</a></li>
-                        <li class="twitter"><a class="icon waves-effect waves-light" href="#none" title="Twitter">Twitter</a></li>
-                        <li class="google-plus"><a class="icon waves-effect waves-light" href="#none" title="Google Plus">Google Plus</a></li>
-                        <li class="linkedin"><a class="icon waves-effect waves-light" href="#none" title="Linkedin">Linkedin</a></li>
-                    </ul>
-                </div>
-                <div class="copyright">© Socialivo. All rights reserved.</div>
-            </footer><!--//footer-->
+            <footer class="page-footer white"></footer><!--//footer-->
         </div>
     </body>
 </html>
