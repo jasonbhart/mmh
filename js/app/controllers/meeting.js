@@ -170,17 +170,17 @@
         })();
 
         sessionService.ready.then(function() {
-            var initAuth = function(user) {
+            // listen for the future auth change events
+            $scope.$on('auth.changed', function(evt, user, state) {
+                // redirect if state == auth -> anonymous
+                if (state == sessionService.states.LOGOUT) {
+                    console.log('controller:meeting: User logout');
+                    $window.location = '/index.html';
+                    return;
+                }
                 meetingUserSentinel.setUser(user);
                 $scope.usersInfo.setCurrentId(user.id);
                 $scope.currentUser = user;
-            }
-            
-            initAuth(sessionService.getCurrentUser())
-
-            // listen for the future auth change events
-            $scope.$on('auth.changed', function(evt, user) {
-                initAuth(user);
             });        
         });
 
