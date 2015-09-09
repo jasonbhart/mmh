@@ -37,6 +37,7 @@ header .button-collapse{position:absolute; top:10px; left:10px; width:50px; heig
 #header .notifications .notifLabel{border-bottom:1px solid #dcdcdc; padding:10px; text-transform:uppercase; margin:0;}
 #header .notifications li a{color:#9b9b9b; font-size:13px;}
 #header .notifications li b{color:#404040;}
+#header .account .thumb img {width:100%;}
 footer.page-footer{position:absolute; bottom:0; left:0; width:100%; min-height:70px; box-shadow:inset 0 1px 5px #ccc; overflow:hidden; padding-top:10px; color:#a9a9a9;}
 .page-footer .social{float:left; padding-left:100px; padding-top:15px;}
 .page-footer .social ul, .page-footer .social ul li, .page-footer .social .title{display:inline-block; vertical-align:middle; margin:0}
