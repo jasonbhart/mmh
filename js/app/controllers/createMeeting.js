@@ -15,6 +15,7 @@
         $scope.suggestions = {};
         $scope.timeFormat = 'h:mmA';
         $scope.times = [];
+        $scope.meeingId = '';
         $scope.meeting = null;
         $scope.redirectUrl = '';
         $scope.shareUrl = '';
@@ -194,6 +195,7 @@
             var meetingPromise = meetingService.create(data);
             meetingPromise.then(function(meeting) {
                 var meetingId = meeting.refs.current.key();
+                $scope.meetingId = meetingId;
                 $scope.meeting = meeting;
                 $scope.redirectUrl = 'meeting.html?meet=' + meetingId;
                 $scope.shareUrl = meetingService.getSharingUrl(meetingId)
@@ -216,7 +218,7 @@
         }
         
         $scope.getFacebookSharingUrl = function() {
-            return meetingService.getFacebookSharingUrl($scope.shareUrl, $scope.meeting_name || "New Meeting")
+            return meetingService.getFacebookSharingUrl($scope.meetingId, $scope.meeting_name || "New Meeting")
         };
         
         $scope.getShareEmailSubject = function() {
