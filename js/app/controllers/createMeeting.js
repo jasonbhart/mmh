@@ -215,6 +215,10 @@
             $window.location = $scope.redirectUrl;
         }
         
+        $scope.getFacebookSharingUrl = function() {
+            return meetingService.getFacebookSharingUrl($scope.shareUrl, $scope.meeting_name || "New Meeting")
+        };
+        
         $scope.getShareEmailSubject = function() {
             return "MEET ME HERE: " + ($scope.meeting_name || "New Meeting");
         };

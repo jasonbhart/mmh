@@ -365,6 +365,9 @@
             getSharingUrl: function(meetingId) {
                 return appConfig.shareUrlBase + '?meet=' + meetingId;
             },
+            getFacebookSharingUrl: function(meetingId, meetingName) {
+                return appConfig.dataUrl + 'shareFacebook?id=' + meetingId + '&name=' + meetingName;
+            },
             copyData: function(srcUserId, dstUserId, removeSrcRecords) {
                 var defer = $q.defer();
 

@@ -447,6 +447,10 @@
             return meetingService.getSharingUrl($scope.meeting.id);
         };
         
+        $scope.getFacebookSharingUrl = function() {
+            return meetingService.getFacebookSharingUrl($scope.meeting.id, $scope.meeting.name);
+        };
+        
         $scope.getShareEmailSubject = function() {
             return "MEET ME HERE: " + $scope.meeting.name;
         };
