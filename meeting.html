@@ -103,8 +103,8 @@
                                     <p>Places?</p>
                                     <div class="box-white white">
                                         <ul class="choose-list">
-                                            <li ng-class="where.selected ? 'selected' : ''" ng-repeat="where in usersInfo.current.where" ng-click="addPlace(where)">
-                                                <a class="icon" title="Delete" ng-click="removePlace($event, where)">Delete</a>
+                                            <li ng-class="where.selected ? 'selected' : ''" ng-repeat="where in usersInfo.current.where" ng-click="togglePlace(where)">
+                                                <a class="icon" title="Delete">Delete</a>
                                                 {{ where.name }}
                                             </li>
                                             <li class="forbtn"><a class="btn btn-add waves-effect waves-light" ng-click="addPlaces()"><i class="icon"></i> Add</a></li>
@@ -113,8 +113,8 @@
                                     <p>Times?</p>
                                     <div class="box-white white">
                                         <ul class="choose-list">
-                                            <li ng-class="when.selected ? 'selected' : ''" ng-repeat="when in usersInfo.current.when" ng-click="addTime($event, when)">
-                                                <a class="icon" title="Delete" ng-click="removeTime(when)">Delete</a>
+                                            <li ng-class="when.selected ? 'selected' : ''" ng-repeat="when in usersInfo.current.when" ng-click="toggleTime(when)">
+                                                <a class="icon" title="Delete">Delete</a>
                                                 {{ when.whenFormatted }}
                                             </li>
                                             <li class="forbtn"><a class="btn btn-add waves-effect waves-light" ng-click="addTimes()"><i class="icon"></i> Add</a></li>

@@ -522,14 +522,14 @@
             });
         };
         
-        $scope.addPlace = function(place) {
-            $scope.meetingUser.toggleWhere(place.id, true);
+        $scope.togglePlace = function(place) {
+            if (place.selected) {
+                $scope.meetingUser.toggleWhere(place.id, false);
+            } else {
+                $scope.meetingUser.toggleWhere(place.id, true);
+            }
         }
         
-        $scope.removePlace = function($event, place) {
-            $event.stopPropagation();
-            $scope.meetingUser.toggleWhere(place.id, false);
-        };
         
         var timesProvider = {
             getTimes: function() {
@@ -559,6 +559,14 @@
                 });
             });
         };
+        
+        $scope.toggleTime = function (time) {
+            if (time.selected) {
+                $scope.meetingUser.toggleWhen(time.id, false);
+            } else {
+                $scope.meetingUser.toggleWhen(time.id, true);
+            }
+        }
         
         $scope.addTime = function($event, place) {
             $event.stopPropagation();
