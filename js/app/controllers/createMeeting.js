@@ -36,9 +36,12 @@
             });     
         });
         
-        
-        
         $scope.next = function() {
+            if ($scope.stage === 2 && $scope.times.length === 0) {
+                alert('Please select a time');
+                return;
+            }
+            
             $scope.stage ++;
             
             if ($scope.stage === 3) {
