@@ -36,9 +36,12 @@
             });     
         });
         
-        
-        
         $scope.next = function() {
+            if ($scope.stage === 2 && $scope.times.length === 0) {
+                alert('Please select a time');
+                return;
+            }
+            
             $scope.stage ++;
             
             if ($scope.stage === 3) {
@@ -93,7 +96,15 @@
         $scope.removeTime = function (time) {
             _.remove($scope.times, function(t) {
                 return t.isSame(time);
-            });   
+            });
+            
+            if ($scope.times.length === 0) {
+                if ($scope.when === 'other') {
+                    $scope.addTimes();
+                } else {
+                    $scope.when = 'other';
+                }
+            }
         };
         
         $scope.$watch('when', function (newValue, oldValue) {
