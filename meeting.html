@@ -74,25 +74,6 @@
                     <div class="box-meeting">
                         <h2 class="title-page"><span class="icon"></span>{{ meeting.name }}</h2>
                         <div class="wrap">
-                            <div class="group" ng-if="userGroups.groups.length">
-                                <h3 class="title">Group that suits you:</h3>
-                                <div class="box-gray" ng-repeat="group in userGroups.groups">
-                                    <h4 class="location">
-                                        <span class="icon"></span>
-                                        <span class="subtext">At:</span> {{ group.where.name }} {{getMeetingLocation(group.where)}}
-                                    </h4>
-                                    <div class="box-white white">
-                                        <span class="time">Start: <b class="red-text">{{ group.when.formatted }}</b></span>
-                                        <a class="btn waves-effect waves-light" ng-click="joinGroup(group)">{{ group.hasJoined(currentUser.id) ? 'Leave' : 'RSVP' }}</a>
-                                    </div>
-                                    <p>{{ group.users.length }} people have chosen:</p>
-                                    <ul class="have-chosen">
-                                        <li class="memberLabel" ng-class="group.hasJoined(user.user.id) ? 'cfrmed' : 'not-cfrm'" ng-repeat="user in group.users">
-                                            <i class="icon"></i>{{ user.user.fullName }} <span ng-if="needsGroupUserDetails(userGroups, user)">(you)</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
                             <div class="choose-setting" ng-if="usersInfo.current">
                                 <div class="member">
                                     <div class="thumb"><img ng-src="{{ usersInfo.current.user.getProfileImageURL() }}" alt=""></div>
@@ -121,6 +102,32 @@
                                         </ul>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="group" ng-if="userGroups.groups.length">
+                                <h3 class="title">Group that suits you:</h3>
+                                <div class="box-gray" ng-repeat="group in userGroups.groups">
+                                    <h4 class="location">
+                                        <span class="icon"></span>
+                                        <span class="subtext">At:</span> {{ group.where.name }} {{getMeetingLocation(group.where)}}
+                                    </h4>
+                                    <div class="box-white white">
+                                        <span class="time">Start: <b class="red-text">{{ group.when.formatted }}</b></span>
+                                        <a class="btn waves-effect waves-light" ng-click="joinGroup(group)">{{ group.hasJoined(currentUser.id) ? 'Leave' : 'RSVP' }}</a>
+                                    </div>
+                                    <p>{{ group.users.length }} people have chosen:</p>
+                                    <ul class="have-chosen">
+                                        <li class="memberLabel" ng-class="group.hasJoined(user.user.id) ? 'cfrmed' : 'not-cfrm'" ng-repeat="user in group.users">
+                                            <i class="icon"></i>{{ user.user.fullName }} <span ng-if="needsGroupUserDetails(userGroups, user)">(you)</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="group" ng-if="!userGroups.groups.length">
+                                <h3 class="title">Group that suits you:</h3>
+								<div class="box-gray">
+									<div class="box-white white"><strong>No available group! Please add more <a class="add-more-text" ng-click="addTimes()">times</a> and <a class="add-more-text" ng-click="addPlaces()">places</a>, or invite more friends</strong></div>
+								</div>
+                                <h3 class="title"></h3>
                             </div>
                             <div class="other-member">
                                 <h3 class="title">

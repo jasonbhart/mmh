@@ -54,7 +54,7 @@ h3.title{font-size:18px; font-weight:500;}
 .other-meetings .info{padding:15px 20px;}
 .other-meetings .rspvBox{padding:15px 20px;}
 .other-meetings p{margin:0; margin-top:10px;}
-.your-location, .box-meeting .group, .meeting-top{margin-bottom:30px;}
+.your-location, .box-meeting .group, .meeting-top, .choose-setting{margin-bottom:30px;}
 .your-location .map{height:210px; overflow:hidden;}
 .your-location .des{border:1px solid #ddd; padding:5px 10px; font-size:18px; margin-top:15px;}
 .your-location .des .icon{background-position:0 -514px; margin-right:10px; display:inline-block; width:21px; height:22px; vertical-align:middle;}
@@ -65,6 +65,8 @@ h3.title{font-size:18px; font-weight:500;}
 .box-meeting .title-page{border-bottom:0; box-shadow:0 1px 5px #ddd; padding:15px; margin:0;}
 .box-meeting .title-page .icon{background-position:0 -995px; width:36px; height:30px;}
 .box-meeting .wrap{padding:20px 18px;}
+.box-meeting .group .box-gray{background:#fff none; border:1px solid #ddd;}
+.box-meeting .group .box-white{background:#f8f4f0 none !important;}
 .box-meeting .group .title{margin:0; font-size:15px; margin-bottom:10px;}
 .box-meeting .group .location{font-size:18px; margin:0; margin-bottom:10px; font-weight:500;}
 .box-meeting .group .location .icon{background-position:-26px -514px; width:18px; height:18px; margin-right:6px;}
@@ -88,7 +90,6 @@ h3.title{font-size:18px; font-weight:500;}
 .choose-list{display:inline-block; margin:0;}
 .choose-list li{display:inline-block; border-radius:4px; background:#ddd; padding:3px 5px 4px; color:#404040; font-weight:700; margin:3px;}
 .choose-list li .icon{text-indent:-9999em; background-position:5px -570px; width:18px; height:18px;}
-.choose-list li.selected .icon{background-position:5px -552px;}
 .btn-add .icon{background-position:-14px -572px !important; width:12px !important; height:14px !important; margin-right:1px; vertical-align:middle;}
 .other-member li .thumb, .pop-user-detail .user .thumb{border:1px solid #ddd; width:100px; height:100px; overflow:hidden; margin-bottom:10px;}
 .other-member li .thumb img, .pop-user-detail .user .thumb img{width:100px;}
@@ -119,12 +120,13 @@ h3.title{font-size:18px; font-weight:500;}
 .creat-new .title{font-size:24px;}
 .modal{border-radius:6px; max-height:85%;}
 .lean-overlay{top:0;}
-.modal .icon-close{position:absolute; top:10px; right:10px; color: #ccc; width:30px; height:30px;}
+.modal .icon-close{position:absolute; top:10px; right:2px; color: #ccc; width:30px; height:30px;}
+.modal .icon-close .fa{font-size:18px;}
 .timepicker-wrap .box-inner{display:inline-block; width:230px; height:38px; vertical-align:middle;}
 .timepicker-wrap .box-inner .list-unstyled{margin: 0;}
 .timepicker-wrap .table-condensed .btn-area{position:relative;}
-.timepicker-wrap .table-condensed .btn-area .hour, .timepicker-wrap .table-condensed .btn-area .minute{position:absolute; left:50px; width:30px; height:19px; line-height:19px;}
-.timepicker-wrap .table-condensed .btn-area .hour .material-icons, .timepicker-wrap .table-condensed .btn-area .minute .material-icons{font-size:26px; display:block; line-height:19px;}
+.timepicker-wrap .table-condensed .btn-area .hour, .timepicker-wrap .table-condensed .btn-area .minute{position:absolute; left:50px; width:30px; height:19px; line-height:19px; padding-top:4px;}
+.timepicker-wrap .table-condensed .btn-area .hour .fa, .timepicker-wrap .table-condensed .btn-area .minute .fa{font-size:17px; display:block; line-height:19px; text-align:center;}
 .timepicker-wrap .middleRow .hour, .timepicker-wrap .middleRow .minute, .timepicker-wrap .middleRow .am-pm{display:inline-block; margin-right:8px;}
 .timepicker-wrap .middleRow .am-pm{margin-right:0;}
 .timepicker-wrap .middleRow .am-pm .btn{font-size:18px; height:38px; line-height:38px; float:left; background:none; border:1px solid #e5e5e5;color:#6b6b6b; padding:0 10px;}
@@ -132,7 +134,8 @@ h3.title{font-size:18px; font-weight:500;}
 .timepicker-wrap .table-condensed .btn-area .minute{left:140px;}
 .timepicker-wrap .bottomRow.btn-area .material-icons{line-height:9px !important;}
 .timepicker-wrap .topRow.btn-area .material-icons{line-height:28px !important;}
-.timepicker-wrap .bottomRow.btn-area .hour, .timepicker-wrap .bottomRow.btn-area .minute{top:-24px;}
+.timepicker-wrap .bottomRow.btn-area .hour, .timepicker-wrap .bottomRow.btn-area .minute{top:-24px; padding:0 0 4px;}
+.timepicker-wrap .bottomRow.btn-area .hour .fa, .timepicker-wrap .bottomRow.btn-area .minute .fa{line-height:12px;}
 .timepicker-wrap .bottomRow.btn-area a{display:block;}
 .timepicker-wrap .btn-area a:hover{text-decoration:none;}
 .timepicker-hours, .timepicker-minutes{position:absolute; width:160px; border:1px solid #e5e5e5; padding:10px; border-radius:4px; z-index:99; background:#fff;}
@@ -151,7 +154,7 @@ h3.title{font-size:18px; font-weight:500;}
 .selectBox-dropdown.selectBox-menuShowing-top{-moz-border-radius-topleft:0;-moz-border-radius-topright:0;-webkit-border-top-left-radius:0;-webkit-border-top-right-radius:0;border-top-left-radius:0;border-top-right-radius:0}
 .selectBox-dropdown .selectBox-label{padding:7px 8px 0;display:inline-block;white-space:nowrap;overflow:hidden; min-width:90%; margin-left:5px; padding-left:28px; overflow:hidden; white-space:nowrap;text-overflow:ellipsis;}
 .selectBox-dropdown .selectBox-arrow{position:absolute;top:0;right:0;width:23px;height:100%;}
-.selectBox-dropdown .selectBox-arrow .material-icons{line-height:33px;}
+.selectBox-dropdown .selectBox-arrow .fa{line-height:33px;}
 .selectBox-dropdown-menu{position:absolute;z-index:99999;max-height:200px;min-height:1em;border:solid 1px #e5e5e5;background:#fff;overflow:auto;-webkit-overflow-scrolling:touch}
 .selectBox-inline{min-width:150px;outline:none;border:solid 1px #e5e5e5;background:#FFF;display:inline-block;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;overflow:auto}
 .selectBox-inline:focus{border-color:#666}
@@ -195,7 +198,7 @@ h3.title{font-size:18px; font-weight:500;}
 [type="checkbox"].filled-in:not(:checked) + label:after{border:1px solid #c8c8c8;}
 [type="checkbox"].filled-in:checked + label:before{border-right: 4px solid #aad760;border-bottom: 3px solid #aad760;top: -8px;   left: 0;width: 12px;height: 21px;}
 [type="checkbox"].filled-in:checked + label:after{border: 1px solid #aad760;background-color: #fff;}
-.modal .best-places{overflow:auto; max-height:280px; border:1px solid #dcdcdc;overflow-x:hidden;}
+.modal .best-places{overflow:auto; max-height:276px; border:1px solid #dcdcdc;overflow-x:hidden;}
 .modal .best-places li{padding:14px 40px 5px 14px; margin-bottom:0;}
 .modal .best-places .check-area{position: absolute;right: -5px;top: 20px;}
 .modal .best-places .title{font-weight:400;}
@@ -265,6 +268,7 @@ h3.title{font-size:18px; font-weight:500;}
 }
 .choose-list li{cursor:pointer;}
 .choose-list li.selected{background:#a2ab58 none; color:#fff;}
+.choose-list li.selected .icon{background-position: -39px -552px;}
 .choose-list .forbtn{background: none; border-radius: 0; padding: 0;}
 .pop-place .search-box {
     background-color: white;
@@ -307,3 +311,4 @@ h3.title{font-size:18px; font-weight:500;}
 .login-modal #login-form:after{left:26%;}
 .login-modal #login-form:before{left:25%;}
 }
+.add-more-text {cursor: pointer; color: #67bcdb;}
