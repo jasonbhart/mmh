@@ -109,11 +109,11 @@
         
         $scope.$watch('when', function (newValue, oldValue) {
             if (newValue === 'one_hour_later') {
-                $scope.times = [moment().add(1, 'hours').startOf('hour')]
+                $scope.times = [moment({hour: moment().hour() + 1, minute: moment().minute() - moment().minute() % 15})]
             } else if (newValue === 'two_hours_later') {
-                 $scope.times = [moment().add(2, 'hours').startOf('hour')]
+                $scope.times = [moment({hour: moment().hour() + 2, minute: moment().minute() - moment().minute() % 15})]
             } else if (newValue === 'four_hours_later') {
-                 $scope.times = [moment().add(4, 'hours').startOf('hour')]
+                $scope.times = [moment({hour: moment().hour() + 4, minute: moment().minute() - moment().minute() % 15})]
             } else if (newValue === 'other') {
                 $scope.times = [];
                 $scope.addTimes();
