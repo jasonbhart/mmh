@@ -118,7 +118,7 @@
                                             <a class="icon" title="Delete" ng-click="removeTime(time)">Delete</a>
                                             {{ time.format(timeFormat) }}
                                         </li>
-                                        <li class="forbtn"><a class="btn btn-add waves-effect waves-light" ng-click="addTimes()"><i class="icon"></i> Add</a></li>
+                                        <li class="forbtn" ng-hide="times.length == 0"><a class="btn btn-add waves-effect waves-light" ng-click="addTimes()"><i class="icon"></i> Add</a></li>
                                     </ul>
                                 </div>
                             </div>

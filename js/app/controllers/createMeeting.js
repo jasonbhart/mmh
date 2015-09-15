@@ -6,7 +6,7 @@
         $scope.MAX_STAGE = 4;
         $scope.stage = 1; 
         $scope.what = 'restaurants';
-        $scope.when = 1;
+        $scope.when = 'one_hour_later';
         $scope.where = 1;
         $scope.establishment = 'other';
         $scope.share = 1;
@@ -14,7 +14,7 @@
         $scope.term = 'restaurants';
         $scope.suggestions = {};
         $scope.timeFormat = 'h:mmA';
-        $scope.times = [];
+        $scope.times = [moment({hour: moment().hour() + 1, minute: moment().minute() - moment().minute() % 15})];
         $scope.meeingId = '';
         $scope.meeting = null;
         $scope.redirectUrl = '';
