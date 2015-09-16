@@ -197,7 +197,7 @@
                 };
             }
             var data = {
-                name: $scope.meeting_name || "New Meeting",
+                name: getMeetingName(),
                 createdDate: moment().utc().toISOString(),
                 when: times,
                 where: places,
@@ -214,6 +214,50 @@
                 activateTwitterSDK();
             });
         };
+        
+        var getMeetingName = function () {
+            if ($scope.meeting_name) {
+                return $scope.meeting_name;
+            }
+            
+            var name = '';
+            
+            //what
+            if ($scope.what === 'restaurants') {
+                name += "Having a meal ";
+            } else if ($scope.what === 'shopping') {
+                name += "Go shopping ";
+            } else {
+                name += toTitleCase($scope.term) + ' ';
+            }
+            
+            // where
+            if ($scope.establishment !== 'other') {
+                try {
+                    name += 'at ' + JSON.parse($scope.establishment).name + ' ';
+                } catch (e) {
+                    console.log('unable to parse establishment');
+                }
+            } else if ($scope.where == '1') {
+                name += 'within 1 mile ';
+            } else if ($scope.where == '10') {
+                name += 'within 10 miles ';
+            } else if ($scope.other_location) {
+                name += 'in ' + $scope.other_location + ' ';
+            }
+            
+            // when
+            if (typeof $scope.times[0] === 'object') {
+                name += 'at ' + $scope.times[0].format($scope.timeFormat);
+            }
+            
+            return name;
+        };
+        
+        var toTitleCase = function (str)
+        {
+            return str.replace(/\w+/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        }
         
         var activateFacebookSDK = function () {
             $window.$('body').append('<script src="//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4"></script>');
