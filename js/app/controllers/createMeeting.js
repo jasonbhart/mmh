@@ -273,11 +273,11 @@
         }
         
         $scope.getFacebookSharingUrl = function() {
-            return meetingService.getFacebookSharingUrl($scope.meetingId, $scope.meeting_name || "New Meeting")
+            return meetingService.getFacebookSharingUrl($scope.meetingId, getMeetingName())
         };
         
         $scope.getShareEmailSubject = function() {
-            return "MEET ME HERE: " + ($scope.meeting_name || "New Meeting");
+            return "MEET ME HERE: " + getMeetingName();
         };
         
         $scope.showHideProgressBar = function() {
