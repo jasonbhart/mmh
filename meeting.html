@@ -102,30 +102,50 @@
                                         </ul>
                                     </div>
                                 </div>
+                                <div class="share" ng-if="usersInfo.current">
+                                    <div class="label">Share via socials </div>
+                                    <div class="fb-share-button" data-href="{{ getFacebookSharingUrl() }}" data-layout="button"></div>
+                                    <div class="twitter-share">
+                                        <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{getShareEmailSubject()}}" data-url="{{ getSharingUrl() }}" data-count="none">Tweet</a>
+                                    </div>
+                                    <div class="email-share">
+                                        <a href="mailto:?subject={{getShareEmailSubject() | escape}}&body={{getSharingUrl() | escape}}" title="Send an email"><img src="newdesign/image/icon-m.gif" alt="Send an email"></a>
+                                    </div>
+                                    <div style="clear:both;"></div>
+                                    <p>or give friends the link</p>
+                                    <div class="url" style="height:66px;">
+                                        <a href="{{ getSharingUrl() }}">
+                                            <textarea class="link" id="sharing_url" style="cursor: pointer; border:none; outline: none; resize:none;">{{ getSharingUrl() }}</textarea>
+                                        </a>
+                                        <a class="btn waves-effect waves-light" ng-click="copy()">Copy</a>
+                                    </div>
+                                </div>
                             </div>
                             <div class="group" ng-if="userGroups.groups.length">
                                 <h3 class="title">Group that suits you:</h3>
-                                <div class="box-gray" ng-repeat="group in userGroups.groups">
-                                    <h4 class="location">
-                                        <span class="icon"></span>
-                                        <span class="subtext">At:</span> {{ group.where.name }} {{getMeetingLocation(group.where)}}
-                                    </h4>
-                                    <div class="box-white white">
-                                        <span class="time">Start: <b class="red-text">{{ group.when.formatted }}</b></span>
-                                        <a class="btn waves-effect waves-light" ng-click="joinGroup(group)">{{ group.hasJoined(currentUser.id) ? 'Leave' : 'RSVP' }}</a>
+                                <div class="box-gray">
+                                    <div class="block" ng-repeat="group in userGroups.groups">
+                                        <h4 class="location">
+                                            <span class="icon"></span>
+                                            <span class="subtext">At:</span> {{ group.where.name }} {{getMeetingLocation(group.where)}}
+                                        </h4>
+                                        <div class="box-white white">
+                                            <span class="time">Start: <b class="red-text">{{ group.when.formatted }}</b></span>
+                                            <a class="btn waves-effect waves-light" ng-click="joinGroup(group)">{{ group.hasJoined(currentUser.id) ? 'Leave' : 'RSVP' }}</a>
+                                        </div>
+                                        <p>{{ group.users.length }} people have chosen:</p>
+                                        <ul class="have-chosen">
+                                            <li class="memberLabel" ng-class="group.hasJoined(user.user.id) ? 'cfrmed' : 'not-cfrm'" ng-repeat="user in group.users">
+                                                <i class="icon"></i>{{ user.user.fullName }} <span ng-if="needsGroupUserDetails(userGroups, user)">(you)</span>
+                                            </li>
+                                        </ul>
                                     </div>
-                                    <p>{{ group.users.length }} people have chosen:</p>
-                                    <ul class="have-chosen">
-                                        <li class="memberLabel" ng-class="group.hasJoined(user.user.id) ? 'cfrmed' : 'not-cfrm'" ng-repeat="user in group.users">
-                                            <i class="icon"></i>{{ user.user.fullName }} <span ng-if="needsGroupUserDetails(userGroups, user)">(you)</span>
-                                        </li>
-                                    </ul>
                                 </div>
                             </div>
                             <div class="group" ng-if="!userGroups.groups.length">
                                 <h3 class="title">Group that suits you:</h3>
 								<div class="box-gray">
-									<div class="box-white white"><strong>No available group! Please add more <a class="add-more-text" ng-click="addTimes()">times</a> and <a class="add-more-text" ng-click="addPlaces()">places</a>, or invite more friends</strong></div>
+									<div class="box-white white"><strong>No available group! Please add more <a ng-click="addTimes()">times</a> and <a ng-click="addPlaces()">places</a>, or invite more friends</strong></div>
 								</div>
                                 <h3 class="title"></h3>
                             </div>
@@ -143,24 +163,6 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div>
-                    </div>
-                    <div class="share" ng-if="usersInfo.current">
-                        <div class="label">Share via socials </div>
-                        <div class="fb-share-button" data-href="{{ getFacebookSharingUrl() }}" data-layout="button"></div>
-                        <div class="twitter-share">
-                            <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{getShareEmailSubject()}}" data-url="{{ getSharingUrl() }}" data-count="none">Tweet</a>
-                        </div>
-                        <div class="email-share">
-                            <a href="mailto:?subject={{getShareEmailSubject() | escape}}&body={{getSharingUrl() | escape}}" title="Send an email"><img src="newdesign/image/icon-m.gif" alt="Send an email"></a>
-                        </div>
-                        <div style="clear:both;"></div>
-                        <p>or give friends the link</p>
-                        <div class="url" style="height:66px;">
-                            <a href="{{ getSharingUrl() }}">
-                                <textarea class="link" id="sharing_url" style="cursor: pointer; border:none; outline: none; resize:none;">{{ getSharingUrl() }}</textarea>
-                            </a>
-                            <a class="btn waves-effect waves-light" ng-click="copy()">Copy</a>
                         </div>
                     </div>
                 </div>

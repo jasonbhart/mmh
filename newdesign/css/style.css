@@ -5,7 +5,7 @@
 .thumb{font-size:0; line-height:0;}
 h3.title{font-size:18px; font-weight:500;}
 .box-gray{background:#f8f4f0; padding:20px;}
-.box-gray a{color:#a2ab58;}
+.box-gray a{color:#a2ab58;cursor:pointer;}
 .box-gray a:hover{color:#e44424;}
 .box-gray .btn{background:#a2ab58; color:#fff;}
 .box-gray .btn:hover{background:#e44424; color:#fff;}
@@ -65,6 +65,8 @@ h3.title{font-size:18px; font-weight:500;}
 .box-meeting .title-page{border-bottom:0; box-shadow:0 1px 5px #ddd; padding:15px; margin:0;}
 .box-meeting .title-page .icon{background-position:0 -995px; width:36px; height:30px;}
 .box-meeting .wrap{padding:20px 18px;}
+.box-meeting .group .block{border-bottom:1px solid #ddd; margin-bottom:20px; padding-bottom:20px;}
+.box-meeting .group .block:last-child{border-bottom:0; padding-bottom:0; margin-bottom:0;}
 .box-meeting .group .box-gray{background:#fff none; border:1px solid #ddd;}
 .box-meeting .group .box-white{background:#f8f4f0 none !important;}
 .box-meeting .group .title{margin:0; font-size:15px; margin-bottom:10px;}
@@ -104,12 +106,14 @@ h3.title{font-size:18px; font-weight:500;}
 #contRight .rspvBox .rspv p{display:inline-block; margin:0;}
 #contRight .rspvBox .rspv b{margin-right:10px;}
 #contRight .meetingLabel{position:absolute; top:-13px; left:10%;}
-.share {padding-top: 20px;}
+.share {margin-bottom:30px; background: #f8f4f0; padding:15px; border-top:1px solid #ddd}
+.share:before{border-top:1px solid #fff; content:"line"; display:block; text-indent:-9999em; margin:-15px -15px 0;}
 .share .label{font-size:18px; display:inline-block; margin:5px 0; margin-right:10px; float: left;}
 .share .fb-share-button, .share .twitter-share, .share .email-share {float: left; margin: 10px 5px 10px 5px;}
+.share p{margin-top:0;}
 .share .email-share img {height:20px;}
 .share dd{display:inline-block; margin:5px; vertical-align:middle;}
-.share .url{padding:20px; position:relative; background:#f8f4f0; overflow:hidden;}
+.share .url{padding:20px; position:relative; background:#fff; overflow:hidden; margin:0;}
 .share .url .link{color:#67bcdb;}
 .share .url .btn{font-size:12px; text-transform:uppercase; height:auto; line-height:normal; padding:4px 23px 3px 20px; position:absolute; top:-3px; right:-3px; text-transform:lowercase;}
 .creat-new{}
@@ -311,4 +315,3 @@ h3.title{font-size:18px; font-weight:500;}
 .login-modal #login-form:after{left:26%;}
 .login-modal #login-form:before{left:25%;}
 }
-.add-more-text {cursor: pointer; color: #67bcdb;}
