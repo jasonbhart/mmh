@@ -1,8 +1,8 @@
 ;(function () {
     "use strict";
     var app = angular.module('mmh.controllers');
-    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util',
-        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService, util) {
+    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util','categoryService',
+        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService, util, categoryService) {
         $scope.MAX_STAGE = 4;
         $scope.stage = 1; 
         $scope.what = 'restaurants';
@@ -286,6 +286,10 @@
             }else{
                 $window.$(".checkout-wrap").fadeIn();
             }
+        }
+        
+        $scope.addToCategory = function () {
+            categoryService.addToCategory('xxxx', 'yyyy');
         }
 
         $window.$(document).ready(function () {
