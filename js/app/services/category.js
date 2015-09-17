@@ -4,27 +4,27 @@
     var app = angular.module('mmh.services');
 
     app.factory('categoryService', ['appConfig', '$firebaseObject', function(appConfig, $firebaseObject) {
-        var ref = new Firebase(appConfig.firebaseUrl);
-        var createCategoryRef = function() {
-            var categoryRef = ref.child('categories');
-            categoryRef.on('value', function(snapshot) {
+        var ref = new Firebase(appConfig.firebaseUrl + '/categories');
+        
+        var addMeetingToCategory = function (categoryId, categoryName, meeting) {
+            var categoryRef = ref.child(categoryId);
+            categoryRef.child('name').once('value', function(snapshot) {
+                // if category does not exist
                 if (snapshot.val() === null) {
-                    categoryRef.set({});
+                    categoryRef.set({id: categoryId, name: categoryName, meetings: [meeting]});
+                } else {
+                    categoryRef.child('meetings').push(meeting);
                 }
-            });
+            }); 
         };
         
-        var createCategory = function(id, name) {
-            var categoryRef = ref.child('categories');
-            var childRef = categoryRef.child(id);
-            childRef.set({name: name, meetings: []});
-        }
+        var getCategories = function() {
+            return $firebaseObject(ref);
+        };
         
         return {
-            addToCategory: function (category, id) {
-                createCategory('bbb', 'BBB');
-                return 'xxx';
-            }
+            addMeetingToCategory: addMeetingToCategory,
+            getCategories: getCategories
         }
     }]);
 })();
