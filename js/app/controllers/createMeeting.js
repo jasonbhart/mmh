@@ -288,11 +288,7 @@
             }else{
                 $window.$(".checkout-wrap").fadeIn();
             }
-        }
-        
-        $scope.addToCategory = function () {
-            categoryService.addToCategory('xxxx', 'yyyy');
-        }
+        }    
         
         var addMeetingToCategory = function(data) {
             var categoryId = ($scope.what !== 'other') ? $scope.what : $scope.term;

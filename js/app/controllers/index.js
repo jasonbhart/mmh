@@ -4,10 +4,11 @@
     var app = angular.module('mmh.controllers');
 
     // get data from yelp
-    app.controller('IndexController', ['$scope', 'meetingInfo', 'sessionService', 'util', 'geoLocation','$window', 'googleMap',
-            function ($scope, meetingInfo, sessionService, util, geoLocation, $window, googleMap) {
+    app.controller('IndexController', ['$scope', 'meetingInfo', 'sessionService', 'util', 'geoLocation','$window', 'googleMap','categoryService',
+            function ($scope, meetingInfo, sessionService, util, geoLocation, $window, googleMap, categoryService) {
         $scope.currentUser = null;
         $scope.locationName = '';
+        $scope.categories = [];
 
         sessionService.ready.then(function() {
 
@@ -64,6 +65,9 @@
             });        
         });
         
-        
+        var categories = categoryService.getCategories();
+        categories.$loaded().then(function(data) {
+            $scope.categories = data;
+        });
     }]);
 })();

@@ -50,6 +50,7 @@
         <script src="js/app/services/session.js"></script>
         <script src="js/app/services/userGroupBuilder.js"></script>
         <script src="js/app/services/util.js"></script>
+        <script src="js/app/services/category.js"></script>
         <script src="js/app/controllers.js"></script>
         <script src="js/app/controllers/authModal.js"></script>
         <script src="js/app/controllers/index.js"></script>
@@ -140,19 +141,9 @@
 					<div class="categories-nav">
 						<h2 class="title-page">Browse by Categories</h2>
 						<ul>
-							<li class="active"><a href="#none"><i class="icon"></i>Business</a></li>
-							<li><a href="#none"><i class="icon"></i>Other</a></li>
-							<li><a href="#none"><i class="icon"></i>Science &amp; Tech</a></li>
-							<li><a href="#none"><i class="icon"></i>Travel &amp; Outdoor</a></li>
-							<li><a href="#none"><i class="icon"></i>Family &amp; Education</a></li>
-							<li><a href="#none"><i class="icon"></i>Music</a></li>
-							<li><a href="#none"><i class="icon"></i>Fashion</a></li>
-							<li><a href="#none"><i class="icon"></i>Health</a></li>
-							<li><a href="#none"><i class="icon"></i>Sports &amp; Fitness</a></li>
-							<li><a href="#none"><i class="icon"></i>Food &amp; Drink</a></li>
-							<li><a href="#none"><i class="icon"></i>Community</a></li>
-							<li><a href="#none"><i class="icon"></i>Holiday</a></li>
-							<li><a href="#none"><i class="icon"></i>Auto, Boat &amp; Air</a></i></li>
+                                                    <li ng-repeat="category in categories">
+                                                        <a><i class="icon"></i>{{category.name}}</a>
+                                                    </li>
 						</ul>
 					</div>
 				</div>
