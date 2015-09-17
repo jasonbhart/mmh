@@ -34,7 +34,7 @@
         <script src="js/app/directives/dateTimePicker.js"></script>
         <script src="js/app/directives/localMeetings.js"></script>
         <script src="js/app/directives/starsRating.js"></script>
-        <script src="js/app/directives/header.js"></script>
+        
         <script src="js/app/directives/footer.js"></script>
         <script src="js/app/services.js"></script>
         <script src="js/app/services/appConfig.js"></script>
@@ -59,6 +59,7 @@
         <script src="js/app/controllers/meetingUserInfo.js"></script>
         <script src="js/app/controllers/snippet.js"></script>
         <script src="js/app/controllers/meeting.js"></script>
+        <script src="js/app/directives/header.js"></script>
     </head>
 <body>
     <div id="google-tag" ng-controller="Snippet">
@@ -70,7 +71,7 @@
         <header></header><!--//header-->
         <div id="contents" ng-controller="meetingController">
             <div class="row contents">
-                <div id="contLeft" class="col l9 s12">
+                <div id="contLeft" class="col l8 s12">
                     <div class="box-meeting">
                         <h2 class="title-page"><span class="icon"></span>{{ meeting.name }}</h2>
                         <div class="wrap">
@@ -166,7 +167,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="contRight" class="col l3 s12">
+                <div id="contRight" class="col l4 s12">
                     <local-meetings location="currentUser.user.location.coords" radius="currentUser.user.location.radius" exclude-meeting="{{ meeting.id }}" count="3"></local-meetings>
                 </div>
             </div>

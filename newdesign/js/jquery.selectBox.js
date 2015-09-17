@@ -158,7 +158,7 @@
         } else {
             // Dropdown controls
             var label = $('<span class="selectBox-label" />'),
-                arrow = $('<span class="selectBox-arrow"> <i class="material-icons">arrow_drop_down </i>');
+                arrow = $('<span class="selectBox-arrow"> <i class="fa fa-caret-down"></i>');
 
             // Update label
             label.attr('class', this.getLabelClass()).text(this.getLabelText());
