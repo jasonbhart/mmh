@@ -58,11 +58,17 @@ h3.title{font-size:18px; font-weight:500;}
 .your-location .map{height:210px; overflow:hidden;}
 .your-location .des{border:1px solid #ddd; padding:5px 10px; font-size:18px; margin-top:15px;}
 .your-location .des .icon{background-position:0 -514px; margin-right:10px; display:inline-block; width:21px; height:22px; vertical-align:middle;}
-.categories-nav a{display:block; padding:8px 0;}
+.categories-nav a{display:block; padding:10px 15px;}
 .categories-nav a .icon{margin-right:10px; width:5px; height:9px; background-position:0 -542px;}
-.categories-nav a:hover .icon, .categories-nav li.active a .icon, .categories-nav a:hover .icon, .categories-nav li.active a{background-position:-5px -542px; color:#e44424;}
-.box-meeting{border:1px solid #ddd; overflow:hidden;}
-.box-meeting .title-page{border-bottom:0; box-shadow:0 1px 5px #ddd; padding:15px; margin:0;}
+.categories-nav a:hover .icon, .categories-nav li.active a .icon,.categories-nav li.active a{background-position:-5px -542px; color:#e44424;}
+.categories-nav>ul>li.active>a{background-color:#f8f4f0; font-weight:700;}
+.categories-nav>ul>li>a:hover{background-color:#f8f4f0; text-decoration:none;}
+.categories-nav li ul{display:none; padding-left:15px; background:#fcfcfc;}
+.categories-nav li.active li a{color:#404040;}
+.categories-nav li li.active a, .categories-nav li li a:hover{color:#e44424;}
+.categories-nav li.active ul{display:block;}
+.box-meeting{border:1px solid #ddd; overflow:hidden; position:relative;}
+.box-meeting .title-page{border-bottom:0; box-shadow:0 1px 5px #ddd; padding:15px 265px 15px 15px; margin:0;}
 .box-meeting .title-page .icon{background-position:0 -995px; width:36px; height:30px;}
 .box-meeting .wrap{padding:20px 18px;}
 .box-meeting .group .block{border-bottom:1px solid #ddd; margin-bottom:20px; padding-bottom:20px;}
@@ -78,7 +84,7 @@ h3.title{font-size:18px; font-weight:500;}
 .box-white{padding:15px; overflow:hidden; position:relative;}
 .box-meeting .group .btn{font-size:20px; height:38px; line-height:38px; display:block;}
 .have-chosen{margin:0;}
-.have-chosen li{display:inline-block; border-radius:4px; border:1px solid #cacaca; padding:3px 5px; font-size:12px; margin-right: 5px;}
+.have-chosen li{display:inline-block; border-radius:4px; border:1px solid #cacaca; padding:3px 5px; font-size:12px; margin-right: 5px;margin-bottom:5px;}
 .have-chosen .cfrmed .icon{background-position:0 -555px; width:10px; height:10px; margin-right:3px; vertical-align:baseline;}
 .have-chosen .not-cfrm .icon{background-position:-18px -555px; width:8px; height:10px; margin-right:3px; vertical-align:baseline;}
 .choose-setting .member{overflow:hidden; margin-bottom:10px;}
@@ -106,12 +112,13 @@ h3.title{font-size:18px; font-weight:500;}
 #contRight .rspvBox .rspv p{display:inline-block; margin:0;}
 #contRight .rspvBox .rspv b{margin-right:10px;}
 #contRight .meetingLabel{position:absolute; top:-13px; left:10%;}
-.share {margin-bottom:30px; background: #f8f4f0; padding:15px; border-top:1px solid #ddd}
-.share:before{border-top:1px solid #fff; content:"line"; display:block; text-indent:-9999em; margin:-15px -15px 0;}
-.share .label{font-size:18px; display:inline-block; margin:5px 0; margin-right:10px; float: left;}
-.share .fb-share-button, .share .twitter-share, .share .email-share {float: left; margin: 10px 5px 10px 5px;}
+.share {margin-bottom:10px;padding:5px 10px;position:absolute; top:17px; right:0;}
+.share .btn{padding:0 5px; text-transform:capitalize; line-height:20px; font-size:11px; height:auto; vertical-align:top; margin-left:5px;}
+.share .label{font-size:15px;text-align:right;margin-bottom:5px;}
+.share .fb-share-button, .share .twitter-share, .share .email-share {display:inline-block; margin: 0 0 10px 5px;}
 .share p{margin-top:0;}
 .share .email-share img {height:20px;}
+.share *{vertical-align:top;}
 .share dd{display:inline-block; margin:5px; vertical-align:middle;}
 .share .url{padding:20px; position:relative; background:#fff; overflow:hidden; margin:0;}
 .share .url .link{color:#67bcdb;}
@@ -254,6 +261,12 @@ h3.title{font-size:18px; font-weight:500;}
 .share dd{display:block; margin:0;}
 .modal{height:90%;}
 }
+@media only screen and (max-width : 650px){
+.box-meeting .title-page{padding:15px;}
+.share{position:relative; text-align:right; margin-right:-10px; top:0;}
+.share .fb-share-button, .share .twitter-share, .share .email-share, .share .label{margin:0 2px; vertical-align:top}
+.share .label{display:inline-block;margin-top:-3px;}
+}
 @media only screen and (min-width : 521px){
 .box-meeting .group .time{margin-bottom:0; text-align:left;}
 .box-meeting .group .btn{position:absolute; right:15px; top:20px;}
@@ -315,3 +328,4 @@ h3.title{font-size:18px; font-weight:500;}
 .login-modal #login-form:after{left:26%;}
 .login-modal #login-form:before{left:25%;}
 }
+@media only screen and (max-width : 450px){.share .label{display:block; margin-bottom:3px;}}
