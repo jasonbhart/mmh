@@ -74,7 +74,7 @@
         $window.$(document).ready(function() {
             $window.$('.categories-nav ul').on('click', 'li.level-0', function() {
                 $window.$('.categories-nav ul li.level-0.active').removeClass('active');
-                $(this).addClass('active');
+                $window.$(this).addClass('active');
             });
         });
     }]);
