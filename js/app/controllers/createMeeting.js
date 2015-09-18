@@ -1,8 +1,8 @@
 ;(function () {
     "use strict";
     var app = angular.module('mmh.controllers');
-    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util',
-        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService, util) {
+    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util','categoryService',
+        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService, util, categoryService) {
         $scope.MAX_STAGE = 4;
         $scope.stage = 1; 
         $scope.what = 'restaurants';
@@ -15,7 +15,7 @@
         $scope.suggestions = {};
         $scope.timeFormat = 'h:mmA';
         $scope.times = [moment({hour: moment().hour() + 1, minute: moment().minute() - moment().minute() % 15})];
-        $scope.meeingId = '';
+        $scope.meetingId = '';
         $scope.meeting = null;
         $scope.redirectUrl = '';
         $scope.shareUrl = '';
@@ -212,6 +212,8 @@
                 $scope.shareUrl = meetingService.getSharingUrl(meetingId)
                 activateFacebookSDK();
                 activateTwitterSDK();
+                
+                addMeetingToCategory(data);
             });
         };
         
@@ -286,6 +288,27 @@
             }else{
                 $window.$(".checkout-wrap").fadeIn();
             }
+        }    
+        
+        var addMeetingToCategory = function(data) {
+            var categoryId = ($scope.what !== 'other') ? $scope.what : $scope.term;
+            var categoryName = getCategoryName(categoryId);
+            
+            var meetingData = {
+                id: $scope.meetingId,
+                name: data.name,
+                createdDate: data.createdDate
+            } ;
+            categoryService.addMeetingToCategory(categoryId, categoryName, meetingData);
+        }
+        
+        var getCategoryName = function (categoryId) {
+            for (var i in $scope.terms) {
+                if ($scope.terms[i].id == categoryId) {
+                    return $scope.terms[i].name;
+                }
+            }
+            return 'No category';
         }
 
         $window.$(document).ready(function () {

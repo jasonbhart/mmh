@@ -4,10 +4,12 @@
     var app = angular.module('mmh.controllers');
 
     // get data from yelp
-    app.controller('IndexController', ['$scope', 'meetingInfo', 'sessionService', 'util', 'geoLocation','$window', 'googleMap',
-            function ($scope, meetingInfo, sessionService, util, geoLocation, $window, googleMap) {
+    app.controller('IndexController', ['$scope', 'meetingInfo', 'sessionService', 'util', 'geoLocation','$window', 'googleMap','categoryService',
+            function ($scope, meetingInfo, sessionService, util, geoLocation, $window, googleMap, categoryService) {
         $scope.currentUser = null;
         $scope.locationName = '';
+        $scope.categories = [];
+        $scope.baseUrl = 'https://www.socialivo.com/';
 
         sessionService.ready.then(function() {
 
@@ -64,6 +66,16 @@
             });        
         });
         
+        var categories = categoryService.getCategories();
+        categories.$loaded().then(function(data) {
+            $scope.categories = data;
+        });
         
+        $window.$(document).ready(function() {
+            $window.$('.categories-nav ul').on('click', 'li.level-0', function() {
+                $window.$('.categories-nav ul li.level-0.active').removeClass('active');
+                $window.$(this).addClass('active');
+            });
+        });
     }]);
 })();
