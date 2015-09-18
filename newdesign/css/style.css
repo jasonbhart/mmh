@@ -112,18 +112,26 @@ h3.title{font-size:18px; font-weight:500;}
 #contRight .rspvBox .rspv p{display:inline-block; margin:0;}
 #contRight .rspvBox .rspv b{margin-right:10px;}
 #contRight .meetingLabel{position:absolute; top:-13px; left:10%;}
-.share {margin-bottom:10px;padding:5px 10px;position:absolute; top:17px; right:0;}
-.share .btn{padding:0 5px; text-transform:capitalize; line-height:20px; font-size:11px; height:auto; vertical-align:top; margin-left:5px;}
-.share .label{font-size:15px;text-align:right;margin-bottom:5px;}
-.share .fb-share-button, .share .twitter-share, .share .email-share {display:inline-block; margin: 0 0 10px 5px;}
-.share p{margin-top:0;}
-.share .email-share img {height:20px;}
-.share *{vertical-align:top;}
-.share dd{display:inline-block; margin:5px; vertical-align:middle;}
-.share .url{padding:20px; position:relative; background:#fff; overflow:hidden; margin:0;}
-.share .url .link{color:#67bcdb;}
-.share .url .btn{font-size:12px; text-transform:uppercase; height:auto; line-height:normal; padding:4px 23px 3px 20px; position:absolute; top:-3px; right:-3px; text-transform:lowercase;}
+.box-meeting .share {margin-bottom:10px;padding:5px 10px;position:absolute; top:17px; right:0;}
+.box-meeting .share .btn{padding:0 5px; text-transform:capitalize; line-height:20px; font-size:11px; height:auto; vertical-align:top; margin-left:5px;}
+.box-meeting .share .label{font-size:15px;text-align:right;margin-bottom:5px;}
+.box-meeting .share .fb-share-button, .box-meeting .share .twitter-share, .box-meeting .share .email-share {display:inline-block; margin: 0 0 10px 5px;}
+.box-meeting .share p{margin-top:0;}
+.box-meeting .share .email-share img {height:20px;}
+.box-meeting .share *{vertical-align:top;}
+.box-meeting .share dd{display:inline-block; margin:5px; vertical-align:middle;}
+.box-meeting .share .url{padding:20px; position:relative; background:#fff; overflow:hidden; margin:0;}
+.box-meeting .share .url .link{color:#67bcdb;}
+.box-meeting .share .url .btn{font-size:12px; text-transform:uppercase; height:auto; line-height:normal; padding:4px 23px 3px 20px; position:absolute; top:-3px; right:-3px; text-transform:lowercase;}
 .creat-new{}
+.creat-new .share {padding-top: 20px;}
+.creat-new .share .label{font-size:18px; display:inline-block; margin:5px 0; margin-right:10px; float: left;}
+.creat-new .share .fb-share-button, .creat-new .share .twitter-share, .creat-new .share .email-share {float: left; margin: 10px 5px 10px 5px;}
+.creat-new .share .email-share img {height:20px;}
+.creat-new .share dd{display:inline-block; margin:5px; vertical-align:middle;}
+.creat-new .share .url{padding:20px; position:relative; background:#f8f4f0; overflow:hidden;}
+.creat-new .share .url .link{color:#67bcdb;}
+.creat-new .share .url .btn{font-size:12px; text-transform:uppercase; height:auto; line-height:normal; padding:4px 23px 3px 20px; position:absolute; top:-3px; right:-3px; text-transform:lowercase;}
 .creat-new p.subtext{margin:0; font-size:11px; margin-top:-12px;}
 .creat-new .option>li{font-size:16px; padding:10px 0;}
 .creat-new .option>li label{font-size:16px;}
@@ -258,14 +266,14 @@ h3.title{font-size:18px; font-weight:500;}
 	}
 @media only screen and (max-width : 768px){
 .best-places .thumb{display:none;}
-.share dd{display:block; margin:0;}
+.box-meeting .share dd{display:block; margin:0;}
 .modal{height:90%;}
 }
 @media only screen and (max-width : 650px){
 .box-meeting .title-page{padding:15px;}
-.share{position:relative; text-align:right; margin-right:-10px; top:0;}
-.share .fb-share-button, .share .twitter-share, .share .email-share, .share .label{margin:0 2px; vertical-align:top}
-.share .label{display:inline-block;margin-top:-3px;}
+.box-meeting .share{position:relative; text-align:right; margin-right:-10px; top:0;}
+.box-meeting .share .fb-share-button, .box-meeting .share .twitter-share, .box-meeting .share .email-share, .box-meeting .share .label{margin:0 2px; vertical-align:top}
+.box-meeting .share .label{display:inline-block;margin-top:-3px;}
 }
 @media only screen and (min-width : 521px){
 .box-meeting .group .time{margin-bottom:0; text-align:left;}
@@ -328,4 +336,4 @@ h3.title{font-size:18px; font-weight:500;}
 .login-modal #login-form:after{left:26%;}
 .login-modal #login-form:before{left:25%;}
 }
-@media only screen and (max-width : 450px){.share .label{display:block; margin-bottom:3px;}}
+@media only screen and (max-width : 450px){.box-meeting .share .label{display:block; margin-bottom:3px;}}
