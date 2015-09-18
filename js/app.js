@@ -23,16 +23,6 @@
         }
     });
 
-    $.urlParam = function(name) {
-        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-        if (results==null){
-                return null;
-        }
-        else{
-                return results[1] || 0;
-        }
-    };
-
     // used to get new places and times
     function getObjectValuesDiff(obj, excludeObj) {
         // merge places
@@ -86,8 +76,8 @@
         console.log('mergeUserDataBySnapshots: done');
     }
 
-    mmhApp.controller('main', ['$scope', '$q', '$window', '$log', '$cookies', '$firebaseObject', '$firebaseArray', 'geoLocation', 'userGroupBuilder', '$modal', 'dataProvider',
-                        function($scope, $q, $window, $log, $cookies, $firebaseObject, $firebaseArray, geoLocation, userGroupBuilder, $modal, dataProvider) {
+    mmhApp.controller('main', ['$scope', '$q', '$window', '$log', '$cookies', '$firebaseObject', '$firebaseArray', 'geoLocation', 'userGroupBuilder', '$modal', 'dataProvider', 'util',
+                        function($scope, $q, $window, $log, $cookies, $firebaseObject, $firebaseArray, geoLocation, userGroupBuilder, $modal, dataProvider, util) {
 
         var anonymousIdCookie = 'anonymousId';
         var USER_TYPE_ANONYMOUS = 1;
@@ -108,8 +98,8 @@
         refs.meet = new Firebase(firebaseUrl + '/meets');
 
         // load or create meeting
-        if ($.urlParam('meet')) {
-            meetId = $.urlParam('meet');
+        if (util.getUrlParams('meet')) {
+            meetId = util.getUrlParams('meet');
         } else {
             var postIdRef = refs.meet.push({
                 'name': 'New Meetup',

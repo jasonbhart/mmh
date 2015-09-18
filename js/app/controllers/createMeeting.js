@@ -1,8 +1,8 @@
 ;(function () {
     "use strict";
     var app = angular.module('mmh.controllers');
-    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util','categoryService',
-        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService, util, categoryService) {
+    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util', 'categoryService', 'userService',
+        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService, util, categoryService, userService) {
         $scope.MAX_STAGE = 4;
         $scope.stage = 1; 
         $scope.what = 'restaurants';
@@ -20,6 +20,7 @@
         $scope.redirectUrl = '';
         $scope.shareUrl = '';
         $scope.currentUser = null;
+        $scope.meetingList = {};
         
         sessionService.ready.then(function() {
             var initAuth = function(user) {
@@ -209,11 +210,12 @@
                 $scope.meetingId = meetingId;
                 $scope.meeting = meeting;
                 $scope.redirectUrl = 'meeting.html?meet=' + meetingId;
-                $scope.shareUrl = meetingService.getSharingUrl(meetingId)
+                $scope.shareUrl = meetingService.getSharingUrl(meetingId);
                 activateFacebookSDK();
                 activateTwitterSDK();
                 
                 addMeetingToCategory(data);
+                addMeetingToUser(data);
             });
         };
         
@@ -289,6 +291,22 @@
                 $window.$(".checkout-wrap").fadeIn();
             }
         }    
+        
+        var addMeetingToUser = function(data) {
+            var userId = $scope.currentUser.id;
+            var meetingData = {
+                id: $scope.meetingId,
+                name: data.name,
+                createdDate: data.createdDate
+            };
+            userService.addMeetingToUser(userId, meetingData).then(function(error){
+                if (error) {
+                    console.log('Can not add meeting to User. Error: ' + error);
+                } else {
+                    console.log('Meeting added to User: ' + userId);
+                }
+            });
+        }
         
         var addMeetingToCategory = function(data) {
             var categoryId = ($scope.what !== 'other') ? $scope.what : $scope.term;

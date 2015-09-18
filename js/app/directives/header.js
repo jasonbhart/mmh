@@ -3,10 +3,11 @@
 
     var app = angular.module('mmh.directives');
     
-    app.directive('header', ['util', function(util) {
+    app.directive('header', ['util', 'userService', 'sessionService', function(util, userService, sessionService) {
         return {
             restrict: 'E',
             scope: {
+                meetingList: {}
             },
             templateUrl: 'js/app/tmpl/header.html',
             link: function(scope) {
@@ -17,6 +18,17 @@
                 } else {
                     scope.currentPage = 1;              // homepage
                 }
+                
+                sessionService.ready.then(function() {
+                    var currentUser = sessionService.getCurrentUser();
+                    userService.get(currentUser.id).then(function(user) {
+                        user.meetingList.$loaded().then(function(data) {
+                            scope.meetingList = data;
+                        });
+                    });
+                });
+                
+                scope.currentMeetingId = util.getUrlParams('meet');
             }
         };
     }]);

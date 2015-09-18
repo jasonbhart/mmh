@@ -2,15 +2,6 @@
     "use strict";
 
     var app = angular.module('mmh.controllers');
-    $.urlParam = function(name) {
-        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-        if (results==null){
-            return null;
-        }
-        else{
-            return results[1] || 0;
-        }
-    };
     
     app.controller('meetingController', ['$scope', '$q', '$log', '$firebaseObject', '$firebaseArray', 'dialogs', 'dataProvider', 'sessionService', 'meetingService', 'userService', 'geoLocation', 'userGroupBuilder','$window', 'util',
             function($scope, $q, $log, $firebaseObject, $firebaseArray, dialogs, dataProvider, sessionService, meetingService, userService, geoLocation, userGroupBuilder, $window, util) {
@@ -186,14 +177,14 @@
 
         // load/create meeting
         var meetingPromise;
-        if ($.urlParam('meet')) {
-            meetingPromise = meetingService.get($.urlParam('meet'));
+        if (util.getUrlParams('meet')) {
+            meetingPromise = meetingService.get(util.getUrlParams('meet'));
         } else {
             meetingPromise = meetingService.create();
         }
 
-        if ($.urlParam('share')) {
-            $scope.share = $.urlParam('share');
+        if (util.getUrlParams('share')) {
+            $scope.share = util.getUrlParams('share');
         } else {
             $scope.share = 0;
         }
@@ -201,7 +192,7 @@
         meetingPromise.then(function(meeting) {
             $scope.meeting = meeting;
 
-            if (!$.urlParam('meet')) {
+            if (!util.getUrlParams('meet')) {
                 $window.location = $window.location.href + '?meet=' + meeting.id;
             }
             meetingUserSentinel.setMeeting(meeting);

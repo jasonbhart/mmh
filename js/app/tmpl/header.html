@@ -48,10 +48,13 @@
     <li ng-class="currentPage == 1 ? 'active' : ''"><a href="index.html" class="waves-effect waves-ripple"><span class="icon icon-home"></span>Home</a></li>
     <li ng-class="currentPage == 3 ? 'active' : ''"><a href="create_new_meeting.html" class="waves-effect waves-ripple"><span class="icon icon-new"></span>New Meet</a></li>
     <li ng-class="currentPage == 2 ? 'active' : ''"><a class="waves-effect waves-ripple" ng-click="currentPage = 2"><span class="icon icon-invite"></span>Meetings</a>
-<!--        <ul class="subtab-left">
-            <li><a href="#none" class="waves-effect waves-ripple active"><i class="fa fa fa-angle-right"></i> Dinner with seafood</a></li>
-            <li class="active"><a href="#none" class="waves-effect waves-ripple"><i class="fa fa fa-angle-right"></i> EdTech in Asia: Challenges &amp; Opportunities</a></li>
-            <li><a href="#none" class="waves-effect waves-ripple"><i class="fa fa fa-angle-right"></i> Subtab 03</a></li>
-        </ul>-->
+        <ul class="subtab-left">
+            <li ng-repeat="meeting in meetingList"  ng-class="(meeting.id == currentMeetingId) ? 'active' : ''">
+                <a ng-href="{{'/meeting.html?meet=' + meeting.id}}" class="waves-effect waves-ripple active">
+                    <i class="fa fa fa-angle-right"></i>
+                    {{meeting.name}}
+                </a>
+            </li>
+        </ul>
     </li>
 </ul>

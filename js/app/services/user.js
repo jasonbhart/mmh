@@ -25,6 +25,7 @@
                 id: id,
                 refs: refs,
                 user: $firebaseObject(refs.current),
+                meetingList: $firebaseObject(ref.child('meetings')),
                 isAnonymous: function() {
                     return this.user.provider == authProviders.ANONYMOUS;
                 },
@@ -122,6 +123,17 @@
                     });
                 });
                 
+                return defer.promise;
+            },
+            addMeetingToUser: function(userId, meetingData) {
+                var defer = $q.defer();
+                var ref = new Firebase(appConfig.firebaseUrl + '/users').child(userId);
+                ref.child('meetings').push(meetingData, function(error) {
+                    if (error)
+                        defer.reject(error);
+                    else
+                        defer.resolve();
+                });
                 return defer.promise;
             },
             get: function(id) {
