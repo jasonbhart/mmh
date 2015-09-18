@@ -7,7 +7,6 @@
         return {
             restrict: 'E',
             scope: {
-                meetingList: {}
             },
             templateUrl: 'js/app/tmpl/header.html',
             link: function(scope) {
