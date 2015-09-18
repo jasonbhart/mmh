@@ -6,6 +6,7 @@
     app.service('appConfig', function() {
         this.basePath = '';
         this.dataUrl = 'https://edgeprod.com:8081/';
+        this.shareFacebookUrl = 'http://socialivo.com:8080/shareFacebook';
         this.firebaseUrl = 'https://radiant-heat-9175.firebaseio.com';
         this.shareUrlBase = 'https://www.socialivo.com/meeting.html';
         this.defaultRadius = 1;     // km

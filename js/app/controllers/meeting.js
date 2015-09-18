@@ -591,8 +591,10 @@
         }
         
         $scope.copy = function() {
+            document.getElementById("sharing_url").style.display = 'block';
             document.getElementById("sharing_url").select();
             document.execCommand('copy');
+            document.getElementById("sharing_url").style.display = 'none';
         }
     }]);
 })();

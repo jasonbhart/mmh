@@ -209,11 +209,11 @@
 
                 if (isEnabled('h')) {
                     topRow.append($('<div class="hour">')
-                        .append($('<a>').attr({href: '#', tabindex: '-1', 'title':'Increment Hour'}).addClass('arrow').html('<i class="material-icons">&#xE5C7;</i>').attr('data-action', 'incrementHours')));
+                        .append($('<a>').attr({href: '#', tabindex: '-1', 'title':'Increment Hour'}).addClass('arrow').html('<i class="fa fa-caret-up"></i>').attr('data-action', 'incrementHours')));
                     middleRow.append($('<div class="hour">')
                         .append($('<span>').addClass('timepicker-hour').attr({'data-time-component':'hours', 'title':'Pick Hour'}).attr('data-action', 'showHours')));
                     bottomRow.append($('<div class="hour">')
-                        .append($('<a>').attr({href: '#', tabindex: '-1', 'title':'Decrement Hour'}).addClass('arrow').html('<i class="material-icons">&#xE5C5;</i>').attr('data-action', 'decrementHours')));
+                        .append($('<a>').attr({href: '#', tabindex: '-1', 'title':'Decrement Hour'}).addClass('arrow').html('<i class="fa fa-caret-down"></i>').attr('data-action', 'decrementHours')));
                 }
                 if (isEnabled('m')) {
                     if (isEnabled('h')) {
@@ -222,11 +222,11 @@
                         //bottomRow.append($('<div>').addClass('separator'));
                     }
                     topRow.append($('<div class="minute">')
-                        .append($('<a>').attr({href: '#', tabindex: '-1', 'title':'Increment Minute'}).addClass('arrow').html('<i class="material-icons">&#xE5C7;</i>').attr('data-action', 'incrementMinutes')));
+                        .append($('<a>').attr({href: '#', tabindex: '-1', 'title':'Increment Minute'}).addClass('arrow').html('<i class="fa fa-caret-up"></i>').attr('data-action', 'incrementMinutes')));
                     middleRow.append($('<div class="minute">')
                         .append($('<span>').addClass('timepicker-minute').attr({'data-time-component': 'minutes', 'title':'Pick Minute'}).attr('data-action', 'showMinutes')));
                     bottomRow.append($('<div class="minute">')
-                        .append($('<a>').attr({href: '#', tabindex: '-1', 'title':'Decrement Minute'}).addClass('arrow').html('<i class="material-icons">&#xE5C5;</i>').attr('data-action', 'decrementMinutes')));
+                        .append($('<a>').attr({href: '#', tabindex: '-1', 'title':'Decrement Minute'}).addClass('arrow').html('<i class="fa fa-caret-down"></i>').attr('data-action', 'decrementMinutes')));
                 }
                 if (isEnabled('s')) {
                     if (isEnabled('m')) {
@@ -235,11 +235,11 @@
                         //bottomRow.append($('<div>').addClass('separator'));
                     }
                     topRow.append($('<div>')
-                        .append($('<a>').attr({href: '#', tabindex: '-1', 'title':'Increment Second'}).addClass('arrow').html('<i class="material-icons">&#xE5C7;</i>').attr('data-action', 'incrementSeconds')));
+                        .append($('<a>').attr({href: '#', tabindex: '-1', 'title':'Increment Second'}).addClass('arrow').html('<i class="fa fa-caret-up"></i>').attr('data-action', 'incrementSeconds')));
                     middleRow.append($('<div>')
                         .append($('<span>').addClass('timepicker-second').attr({'data-time-component': 'seconds', 'title':'Pick Second'}).attr('data-action', 'showSeconds')));
                     bottomRow.append($('<div>')
-                        .append($('<a>').attr({href: '#', tabindex: '-1', 'title':'Decrement Second'}).addClass('arrow').html('<i class="material-icons">&#xE5C5;</i>').attr('data-action', 'decrementSeconds')));
+                        .append($('<a>').attr({href: '#', tabindex: '-1', 'title':'Decrement Second'}).addClass('arrow').html('<i class="fa fa-caret-down"></i>').attr('data-action', 'decrementSeconds')));
                 }
 
                 if (!use24Hours) {

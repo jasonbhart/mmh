@@ -70,11 +70,22 @@
         <header></header><!--//header-->
         <div id="contents" ng-controller="meetingController">
             <div class="row contents">
-                <div id="contLeft" class="col l9 s12">
+                <div id="contLeft" class="col l8 s12">
                     <div class="box-meeting">
                         <h2 class="title-page"><span class="icon"></span>{{ meeting.name }}</h2>
                         <div class="wrap">
                             <div class="choose-setting" ng-if="usersInfo.current">
+                                <div class="share" ng-if="usersInfo.current">
+                                    <div class="fb-share-button fb_iframe_widget" data-href="{{ getFacebookSharingUrl() }}" data-layout="button"></div>
+                                    <div class="twitter-share">
+                                        <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{getShareEmailSubject()}}" data-url="{{ getSharingUrl() }}" data-count="none">Tweet</a>
+                                    </div>
+                                    <div class="email-share">
+                                        <a href="mailto:?subject={{getShareEmailSubject() | escape}}&body={{getSharingUrl() | escape}}" title="Send an email"><img src="newdesign/image/icon-m.gif" alt="Send an email"></a>
+                                    </div>
+                                    <textarea class="link" id="sharing_url" style="display:none;">{{ getSharingUrl() }}</textarea>
+                                    <a class="btn waves-effect waves-light" ng-click="copy()">Copy link</a>
+                                </div>
                                 <div class="member">
                                     <div class="thumb"><img ng-src="{{ usersInfo.current.user.getProfileImageURL() }}" alt=""></div>
                                     <p><b>{{ usersInfo.current.user.user.fullName }}</b><br>
@@ -100,24 +111,6 @@
                                             </li>
                                             <li class="forbtn"><a class="btn btn-add waves-effect waves-light" ng-click="addTimes()"><i class="icon"></i> Add</a></li>
                                         </ul>
-                                    </div>
-                                </div>
-                                <div class="share" ng-if="usersInfo.current">
-                                    <div class="label">Share via socials </div>
-                                    <div class="fb-share-button" data-href="{{ getFacebookSharingUrl() }}" data-layout="button"></div>
-                                    <div class="twitter-share">
-                                        <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{getShareEmailSubject()}}" data-url="{{ getSharingUrl() }}" data-count="none">Tweet</a>
-                                    </div>
-                                    <div class="email-share">
-                                        <a href="mailto:?subject={{getShareEmailSubject() | escape}}&body={{getSharingUrl() | escape}}" title="Send an email"><img src="newdesign/image/icon-m.gif" alt="Send an email"></a>
-                                    </div>
-                                    <div style="clear:both;"></div>
-                                    <p>or give friends the link</p>
-                                    <div class="url" style="height:66px;">
-                                        <a href="{{ getSharingUrl() }}">
-                                            <textarea class="link" id="sharing_url" style="cursor: pointer; border:none; outline: none; resize:none;">{{ getSharingUrl() }}</textarea>
-                                        </a>
-                                        <a class="btn waves-effect waves-light" ng-click="copy()">Copy</a>
                                     </div>
                                 </div>
                             </div>
@@ -166,7 +159,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="contRight" class="col l3 s12">
+                <div id="contRight" class="col l4 s12">
                     <local-meetings location="currentUser.user.location.coords" radius="currentUser.user.location.radius" exclude-meeting="{{ meeting.id }}" count="3"></local-meetings>
                 </div>
             </div>

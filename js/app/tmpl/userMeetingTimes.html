@@ -1,6 +1,6 @@
 <div id="modal-time" class="modal white">
     <div class="modal-content">
-        <h4 class="title">When do you want to do this?</h4>
+        <h4 class="title">When do you want to do this?<a class="modal-close icon-close"><i class="fa fa-close"></i></a></h4>
         <div class="timepicker-wrap">
             <div class="row">
                 <date-time-picker ng-model="time" format="{{ timeFormat }}"></date-time-picker>
@@ -14,7 +14,6 @@
                 </ul>
             </div>
         </div>
-        <a class="modal-close icon-close"><i class="material-icons">close</i></a>
     </div>
     <div class="modal-footer">
         <a class="modal-close waves-effect waves-light btn grey" ng-click="cancel()">Close</a>

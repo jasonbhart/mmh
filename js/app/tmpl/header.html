@@ -46,7 +46,12 @@
 <div class="container"><a href="#" data-activates="nav-mobile" class="button-collapse top-nav waves-effect waves-light circle hide-on-large-only"><i class="mdi-navigation-menu"></i></a></div>
 <ul id="nav-mobile" class="side-nav fixed">
     <li ng-class="currentPage == 1 ? 'active' : ''"><a href="index.html" class="waves-effect waves-ripple"><span class="icon icon-home"></span>Home</a></li>
-    <li ng-class="currentPage == 2 ? 'active' : ''"><a href="meeting.html" class="waves-effect waves-ripple"><span class="icon icon-invite"></span>Meeting</a></li>
     <li ng-class="currentPage == 3 ? 'active' : ''"><a href="create_new_meeting.html" class="waves-effect waves-ripple"><span class="icon icon-new"></span>New Meet</a></li>
-    <!--<li><a href="#none" class="waves-effect waves-ripple"><span class="icon icon-history"></span>History</a></li>-->
+    <li ng-class="currentPage == 2 ? 'active' : ''"><a class="waves-effect waves-ripple" ng-click="currentPage = 2"><span class="icon icon-invite"></span>Meetings</a>
+<!--        <ul class="subtab-left">
+            <li><a href="#none" class="waves-effect waves-ripple active"><i class="fa fa fa-angle-right"></i> Dinner with seafood</a></li>
+            <li class="active"><a href="#none" class="waves-effect waves-ripple"><i class="fa fa fa-angle-right"></i> EdTech in Asia: Challenges &amp; Opportunities</a></li>
+            <li><a href="#none" class="waves-effect waves-ripple"><i class="fa fa fa-angle-right"></i> Subtab 03</a></li>
+        </ul>-->
+    </li>
 </ul>
