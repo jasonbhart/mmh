@@ -141,8 +141,13 @@
 					<div class="categories-nav">
 						<h2 class="title-page">Browse by Categories</h2>
 						<ul>
-                                                    <li ng-repeat="category in categories">
+                                                    <li ng-repeat="category in categories" class="level-0" ng-show="category.meetings">
                                                         <a><i class="icon"></i>{{category.name}}</a>
+                                                        <ul class="subtab">
+                                                            <li ng-repeat="meeting in category.meetings">
+                                                                <a href="{{baseUrl}}meeting.html?meet={{meeting.id}}">{{meeting.name}}</a>
+                                                            </li>
+                                                        </ul>
                                                     </li>
 						</ul>
 					</div>

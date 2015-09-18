@@ -9,6 +9,7 @@
         $scope.currentUser = null;
         $scope.locationName = '';
         $scope.categories = [];
+        $scope.baseUrl = 'https://www.socialivo.com/';
 
         sessionService.ready.then(function() {
 
@@ -68,6 +69,13 @@
         var categories = categoryService.getCategories();
         categories.$loaded().then(function(data) {
             $scope.categories = data;
+        });
+        
+        $window.$(document).ready(function() {
+            $window.$('.categories-nav ul').on('click', 'li.level-0', function() {
+                $window.$('.categories-nav ul li.level-0.active').removeClass('active');
+                $(this).addClass('active');
+            });
         });
     }]);
 })();
