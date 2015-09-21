@@ -57,6 +57,7 @@
         <script src="js/app/controllers/userMeetingPlaces.js"></script>
         <script src="js/app/controllers/userMeetingTimes.js"></script>
         <script src="js/app/controllers/meetingUserInfo.js"></script>
+        <script src="js/app/controllers/manualBusiness.js"></script>
         <script src="js/app/controllers/snippet.js"></script>
         <script src="js/app/controllers/createMeeting.js"></script>
 
@@ -150,6 +151,10 @@
                                     <li ng-repeat="place in suggestions">
                                         <input class="with-gap" ng-model="$parent.establishment" value="{{place}}" name="establishment" id="{{place.name}}" type="radio" />
                                         <label for="{{place.name}}">{{place.name}} </label>
+                                    </li>
+                                    <li>
+                                        <input class="with-gap" ng-model="establishment" value="manual" name="establishment" id="manual" type="radio" />
+                                        <label for="manual">{{manualBusinessLabel}}</label>
                                     </li>
                                     <li>
                                         <input class="with-gap" ng-model="establishment" value="other" name="establishment" id="help_me_decide" type="radio" />

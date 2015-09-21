@@ -25,6 +25,10 @@
         $scope.gatheringType = '';
         $scope.useGatheringTypeToSearch = 0;
         
+        var defaultManualBusinessLabel = 'Manual business';
+        $scope.manualBusinessLabel = defaultManualBusinessLabel;
+        $scope.manualBusinessInfo = {};
+        
         sessionService.ready.then(function() {
             var initAuth = function(user) {
                 $scope.currentUser = user;
@@ -43,6 +47,12 @@
         $scope.next = function() {
             if ($scope.stage === 2 && $scope.times.length === 0) {
                 alert('Please select a time');
+                return;
+            }
+            
+            if ($scope.stage === 3 && $scope.establishment === 'manual' && !$scope.manualBusinessInfo.name) {
+                alert('Please enter business name');
+                $scope.addManualBusiness();
                 return;
             }
             
@@ -135,6 +145,39 @@
             }
         });
         
+        $scope.$watch('establishment', function (newValue, oldValue) {
+            if (newValue === 'manual') {
+                $scope.addManualBusiness();
+            }
+        });
+        
+        $scope.addManualBusiness = function() {
+            var dialog = dialogs.addManualBusiness($scope.manualBusinessInfo);
+            dialog.result.then(function(business) {
+                if (!business.name) {
+                    alert('Please enter business name');
+                    $scope.addManualBusiness();
+                }
+                $scope.manualBusinessLabel = defaultManualBusinessLabel + getBusinessPlace(business);
+                $scope.manualBusinessInfo = business;
+            });
+        };
+        
+        function getBusinessPlace(business) {
+            var place = '';
+            if (business.name) {
+                place = business.name;
+                if (business.city) {
+                    place += ', ' + business.city;
+                }
+            }
+            
+            if (place) {
+                place = ' (' + place + ')'; 
+            }
+            return place;
+        }
+        
         function getISOFormatedTimes() {
             return $scope.times.map(function(time){
                 return time.utc().toISOString();
@@ -149,7 +192,10 @@
                 } else {
                     return [];
                 }
+            } else if ($scope.establishment === 'manual') {
+                establishment = JSON.stringify($scope.manualBusinessInfo);
             }
+            
             try {
                 establishment = JSON.parse(establishment);
                 return [{
@@ -250,7 +296,10 @@
             }
             
             // where
-            if ($scope.establishment !== 'other') {
+            if ($scope.establishment === 'manual' && getBusinessPlace($scope.manualBusinessInfo)) {
+                name += 'at ' + getBusinessPlace($scope.manualBusinessInfo) + ' ';
+            }
+            else if ($scope.establishment !== 'other') {
                 try {
                     name += 'at ' + JSON.parse($scope.establishment).name + ' ';
                 } catch (e) {

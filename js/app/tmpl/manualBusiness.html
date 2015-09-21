@@ -1,0 +1,27 @@
+<div id="manual-business" class="modal white">
+    <div class="modal-content">
+        <h4 class="title">Enter new establishment<a class="modal-close icon-close"><i class="fa fa-close"></i></a></h4>
+        <div class="timepicker-wrap">
+            <div class="row">
+                <label  class="col s12 m3">Name </label>
+                <div class="col s12 m8"><input type="text" placeholder="Name" value="{{name}}" ng-model="name" name="name" class="validate"/></div>
+            </div>
+            <div class="row">
+                <label  class="col s12 m3">City </label>
+                <div class="col s12 m8"><input type="text" placeholder="City" value="{{city}}" ng-model="city" name="city" class="validate"/></div>
+            </div>
+            <div class="row">
+                <label  class="col s12 m3">Country Code </label>
+                <div class="col s12 m8"><input type="text" placeholder="Country Code" value="{{country_code}}" ng-model="country_code"  name="country_code" class="validate"/></div>
+            </div>
+            <div class="row">
+                <label  class="col s12 m3">URL </label>
+                <div class="col s12 m8"><input type="text" placeholder="URL" value="{{country_code}}" ng-model="url" name="url" class="validate"/></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-close waves-effect waves-light btn grey" ng-click="cancel()">Close</a>
+        <a class="modal-action modal-close waves-effect waves-light btn red" ng-click="confirm()">Add done</a>
+    </div>
+</div>
