@@ -216,7 +216,8 @@
             var options = {
                 'term' : ($scope.what !== 'other') ? $scope.what : $scope.term,
                 'sort' : '2',
-                'limit': '3'
+                'limit': '3',
+                'category_filter': $scope.gatheringType
             };
             var timeout = 0;
 

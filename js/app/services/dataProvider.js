@@ -79,6 +79,11 @@
                     if (options.sort) {
                         searchOptions.sort = options.sort;
                     }
+                    
+                    //category filter
+                    if (options.category_filter) {
+                        searchOptions.category_filter = options.category_filter;
+                    }
                 }
                 
                 $log.log('dataProvider: getSuggestions: searchOptions', searchOptions);
