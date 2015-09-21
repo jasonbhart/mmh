@@ -52,6 +52,16 @@
                     templateUrl: 'js/app/tmpl/authModal.html',
                     controller: 'AuthModalController'
                 });
+            },
+            
+            addManualBusiness: function(business) {
+                return modal.open({
+                    templateUrl: 'js/app/tmpl/manualBusiness.html',
+                    controller: 'ManualBusinessController',
+                    resolve: {
+                        business: business
+                    }
+                });
             }
         }
      }]);
