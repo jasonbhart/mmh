@@ -1,8 +1,8 @@
 ;(function () {
     "use strict";
     var app = angular.module('mmh.controllers');
-    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util', 'categoryService', 'userService',
-        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService, util, categoryService, userService) {
+    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util', 'categoryService', 'userService','gatheringService',
+        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService, util, categoryService, userService, gatheringService) {
         $scope.MAX_STAGE = 4;
         $scope.stage = 1; 
         $scope.what = 'restaurants';
@@ -21,6 +21,7 @@
         $scope.shareUrl = '';
         $scope.currentUser = null;
         $scope.meetingList = {};
+        $scope.gatheringTypes = [];
         
         var defaultManualBusinessLabel = 'Manual business';
         $scope.manualBusinessLabel = defaultManualBusinessLabel;
@@ -118,6 +119,28 @@
             }
         };
         
+        var resetSelectedCategory = function () {
+            $scope.selectedCategory = {};
+            for (var i in $scope.gatheringTypes) {
+                $scope.selectedCategory[$scope.gatheringTypes[i].alias] = true;
+            }
+        };
+        
+        var getSelectedCategory = function () {
+            return Object.keys($scope.selectedCategory).filter(function(value){return $scope.selectedCategory[value];}).join(',');
+        }
+        
+        $scope.$watch('what', function (newValue, oldValue) {
+            var term = ($scope.what !== 'other') ? $scope.what : $scope.term;
+            $scope.gatheringTypes = gatheringService.getCommonGatheringTypes(term);
+            resetSelectedCategory();
+        });
+        $scope.$watch('term', function (newValue, oldValue) {
+            var term = ($scope.what !== 'other') ? $scope.what : $scope.term;
+            $scope.gatheringTypes = gatheringService.getCommonGatheringTypes(term);
+            resetSelectedCategory();
+        });
+        
         $scope.$watch('when', function (newValue, oldValue) {
             if (newValue === 'one_hour_later') {
                 $scope.times = [moment({hour: moment().hour() + 1, minute: moment().minute() - moment().minute() % 15})]
@@ -202,7 +225,8 @@
             var options = {
                 'term' : ($scope.what !== 'other') ? $scope.what : $scope.term,
                 'sort' : '2',
-                'limit': '3'
+                'limit': '3',
+                'category_filter': getSelectedCategory()
             };
             var timeout = 0;
 

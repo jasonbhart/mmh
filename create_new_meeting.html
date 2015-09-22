@@ -49,6 +49,7 @@
         <script src="js/app/services/userGroupBuilder.js"></script>
         <script src="js/app/services/util.js"></script>
         <script src="js/app/services/category.js"></script>
+        <script src="js/app/services/gatheringType.js"></script>
         <script src="js/app/controllers.js"></script>
         <script src="js/app/controllers/authModal.js"></script>
         <script src="js/app/controllers/locationMap.js"></script>
@@ -89,15 +90,36 @@
                                 <h3 class="title">What do you want to do? </h3>
                                 <ul class="option">
                                     <li><input class="with-gap" ng-model="what" value="restaurants" id="what01" type="radio"/>
-                                        <label for="what01">Have a meal</label></li>
+                                        <label for="what01">Have a meal</label>
+                                        <div ng-if="what=='restaurants'">
+                                            <span ng-repeat="item in gatheringTypes" style="margin-left: 30px;">
+                                                <input type="checkbox" id="category_{{item.alias}}" ng-model="$parent.selectedCategory[item.alias]" value="{{item.alias}}"> 
+                                                <label for="category_{{item.alias}}">{{item.title}}</label> 
+                                            </span>
+                                        </div>
+                                    </li>
                                     <li><input class="with-gap" ng-model="what" value="shopping" id="what02" type="radio"  />
-                                        <label for="what02">Go shopping</label></li>
+                                        <label for="what02">Go shopping</label>
+                                        <div ng-if="what=='shopping'">
+                                            <span ng-repeat="item in gatheringTypes" style="margin-left: 30px;">
+                                                <input type="checkbox" id="category_{{item.alias}}" ng-model="$parent.selectedCategory[item.alias]" value="{{item.alias}}"> 
+                                                <label for="category_{{item.alias}}">{{item.title}}</label> 
+                                            </span>
+                                        </div>
+                                    </li>
                                     <li><input class="with-gap" ng-model="what" value="other" id="what03" type="radio"  />
-                                        <label for="what03">Other (select from categories)</label></li>
+                                        <label for="what03">Other (select from categories)</label>  
+                                    </li>
                                 </ul>
                                 <select class="select-jq browser-default" style="width: auto;" ng-model="term" ng-show="what == 'other'">
-                                    <option value="{{ item.id }}" class="{{ item.id }}" ng-repeat="item in terms" ng-selected="item.id == term">{{ item.name }}</option>
+                                    <option value="{{ item.id }}" class="{{ item.id }}" ng-repeat="item in terms | filter:{id:'!restaurants'} | filter:{id:'!shopping'}" ng-selected="item.id == term">{{ item.name }}</option>
                                 </select>
+                                <div ng-if="what=='other'">
+                                    <span ng-repeat="item in gatheringTypes" style="margin-left: 30px;">
+                                        <input type="checkbox" id="category_{{item.alias}}" ng-model="$parent.selectedCategory[item.alias]" value="{{item.alias}}"> 
+                                        <label for="category_{{item.alias}}">{{item.title}}</label> 
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <div class="frm-creat" ng-show="stage == 2">
