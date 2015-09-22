@@ -22,8 +22,6 @@
         $scope.currentUser = null;
         $scope.meetingList = {};
         $scope.gatheringTypes = [];
-        $scope.gatheringType = '';
-        $scope.useGatheringTypeToSearch = 0;
         
         var defaultManualBusinessLabel = 'Manual business';
         $scope.manualBusinessLabel = defaultManualBusinessLabel;
@@ -135,7 +133,6 @@
         $scope.$watch('what', function (newValue, oldValue) {
             var term = ($scope.what !== 'other') ? $scope.what : $scope.term;
             $scope.gatheringTypes = gatheringService.getCommonGatheringTypes(term);
-//            $scope.gatheringType = $scope.gatheringTypes[0] ? $scope.gatheringTypes[0].alias : '';
             resetSelectedCategory();
         });
         $scope.$watch('term', function (newValue, oldValue) {
