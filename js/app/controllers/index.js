@@ -4,13 +4,14 @@
     var app = angular.module('mmh.controllers');
 
     // get data from yelp
-    app.controller('IndexController', ['$scope', 'meetingInfo', 'sessionService', 'util', 'geoLocation','$window', 'googleMap','categoryService',
-            function ($scope, meetingInfo, sessionService, util, geoLocation, $window, googleMap, categoryService) {
+    app.controller('IndexController', ['$scope', 'meetingInfo', 'sessionService', 'util', 'geoLocation','$window', 'googleMap','categoryService', 'appConfig',
+            function ($scope, meetingInfo, sessionService, util, geoLocation, $window, googleMap, categoryService, appConfig) {
         $scope.currentUser = null;
         $scope.locationName = '';
         $scope.categories = [];
         $scope.baseUrl = 'https://www.socialivo.com/';
-
+        var ref = new Firebase(appConfig.firebaseUrl + '/meets');
+        
         sessionService.ready.then(function() {
 
             var initAuth = function(user) {
@@ -30,6 +31,15 @@
 
                 meetingInfo.getLatest().then(function(info) {
                     $scope.meeting = info;
+                    var userGroupRef = ref.child($scope.meeting.id).child('users').child($scope.currentUser.id).child('group');
+                    $scope.meeting.joinedGroup = false;
+                    
+                    userGroupRef.once('value', function(snapshot) {
+                        if (snapshot.val() !== null) {
+                            $scope.meeting.joinedGroup = true;
+                        }
+                        $scope.$apply();
+                    });
                 });
 
                 meetingInfo.getLocal(options).then(function(results) {

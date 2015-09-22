@@ -99,8 +99,8 @@
                                                 <span class="time">2:00 PM</span>
                                             </div>
                                             <div class="rspv">
-                                                <b>Want to go?</b>
-                                                <p><a ng-href="{{ meeting.url }}" class="btn waves-effect waves-light">Jump in</a></p>
+                                                <b ng-hide="meeting.joinedGroup">Want to go?</b>
+                                                <p><a ng-href="{{ meeting.url }}" class="btn waves-effect waves-light">{{meeting.joinedGroup ? 'Going' : 'Jump in'}}</a></p>
                                             </div>
                                         </div>
                                     </div>
