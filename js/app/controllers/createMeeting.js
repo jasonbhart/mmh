@@ -121,15 +121,27 @@
             }
         };
         
+        var resetSelectedCategory = function () {
+            $scope.selectedCategory = {};
+            for (var i in $scope.gatheringTypes) {
+                $scope.selectedCategory[$scope.gatheringTypes[i].alias] = true;
+            }
+        };
+        
+        var getSelectedCategory = function () {
+            return Object.keys($scope.selectedCategory).filter(function(value){return $scope.selectedCategory[value];}).join(',');
+        }
+        
         $scope.$watch('what', function (newValue, oldValue) {
             var term = ($scope.what !== 'other') ? $scope.what : $scope.term;
-            $scope.gatheringTypes = gatheringService.getGatheringTypes(term);
-            $scope.gatheringType = $scope.gatheringTypes[0] ? $scope.gatheringTypes[0].alias : '';
+            $scope.gatheringTypes = gatheringService.getCommonGatheringTypes(term);
+//            $scope.gatheringType = $scope.gatheringTypes[0] ? $scope.gatheringTypes[0].alias : '';
+            resetSelectedCategory();
         });
         $scope.$watch('term', function (newValue, oldValue) {
             var term = ($scope.what !== 'other') ? $scope.what : $scope.term;
-            $scope.gatheringTypes = gatheringService.getGatheringTypes(term);
-            $scope.gatheringType = $scope.gatheringTypes[0] ? $scope.gatheringTypes[0].alias : '';
+            $scope.gatheringTypes = gatheringService.getCommonGatheringTypes(term);
+            resetSelectedCategory();
         });
         
         $scope.$watch('when', function (newValue, oldValue) {
@@ -217,7 +229,7 @@
                 'term' : ($scope.what !== 'other') ? $scope.what : $scope.term,
                 'sort' : '2',
                 'limit': '3',
-                'category_filter': $scope.gatheringType
+                'category_filter': getSelectedCategory()
             };
             var timeout = 0;
 

@@ -50,12 +50,12 @@
                 {"alias":"karaoke", "parents":["nightlife"], "title":"Karaoke"}
             ],
             "restaurants":[
+                {"alias":"newamerican", "country_whitelist":["IE", "GB", "US"], "parents":["restaurants"], "title":"American (New)"},
                 {"alias":"asianfusion", "parents":["restaurants"], "title":"Asian Fusion"},
                 {"alias":"bbq", "country_blacklist":["AU", "BR", "ES"], "parents":["restaurants"], "title":"Barbeque"},
                 {"alias":"beergarden", "country_whitelist":["CH", "DE", "AT"], "parents":["restaurants"], "title":"Beer Garden"},
                 {"alias":"breakfast_brunch", "parents":["restaurants"], "title":"Breakfast & Brunch"},
-                {"alias":"buffets", "parents":["restaurants"], "title":"Buffets"},
-                {"alias":"newamerican", "country_whitelist":["IE", "GB", "US"], "parents":["restaurants"], "title":"American (New)"}
+                {"alias":"buffets", "parents":["restaurants"], "title":"Buffets"}
             ],
             "auto":[
                 {"alias":"autocustomization", "country_whitelist":["SG", "PT", "US"], "parents":["auto"], "title":"Auto Customization"},
@@ -166,7 +166,7 @@
             getGatheringTypes: function (alias) {
                 return allCategories[alias] || [];
             },
-            getCommonGatheringType: function (alias) {
+            getCommonGatheringTypes: function (alias) {
                 return commonCategories[alias] || [];
             },
         }
