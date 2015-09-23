@@ -23,7 +23,7 @@
         $scope.meetingList = {};
         $scope.gatheringTypes = [];
         
-        var defaultManualBusinessLabel = 'Manual business';
+        var defaultManualBusinessLabel = 'Enter a specific business';
         $scope.manualBusinessLabel = defaultManualBusinessLabel;
         $scope.manualBusinessInfo = {};
         
