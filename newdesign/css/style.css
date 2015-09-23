@@ -1,4 +1,4 @@
-.icon-block{padding: 0 15px;}
+fdsfds.icon-block{padding: 0 15px;}
 .icon-block .material-icons{font-size: inherit;}
 .icon{display:inline-block; vertical-align:middle;}
 .subtext{color: #9b9b9b;}
@@ -135,6 +135,8 @@ h3.title{font-size:18px; font-weight:500;}
 .creat-new p.subtext{margin:0; font-size:11px; margin-top:-12px;}
 .creat-new .option>li{font-size:16px; padding:10px 0;}
 .creat-new .option>li label{font-size:16px;}
+.creat-new .option .check-area{margin-top:10px;}
+.creat-new .option .check-area span{display:inline-block; margin:5px 0; min-width:230px;}
 .creat-new .frm-creat .row{padding:5px 0;}
 .creat-new .title{font-size:24px;}
 .modal{border-radius:6px; max-height:85%;}
