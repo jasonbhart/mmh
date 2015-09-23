@@ -4,13 +4,15 @@
     var app = angular.module('mmh.controllers');
 
     // get data from yelp
-    app.controller('IndexController', ['$scope', 'meetingInfo', 'sessionService', 'util', 'geoLocation','$window', 'googleMap','categoryService', 'appConfig',
-            function ($scope, meetingInfo, sessionService, util, geoLocation, $window, googleMap, categoryService, appConfig) {
+    app.controller('IndexController', ['$scope', 'meetingInfo', 'sessionService', 'util', 'geoLocation','$window', 'googleMap','categoryService', 'appConfig', 'userService', 'meetingService', '$firebaseObject',
+            function ($scope, meetingInfo, sessionService, util, geoLocation, $window, googleMap, categoryService, appConfig, userService, meetingService, $firebaseObject) {
         $scope.currentUser = null;
         $scope.locationName = '';
         $scope.categories = [];
         $scope.baseUrl = 'https://www.socialivo.com/';
         var ref = new Firebase(appConfig.firebaseUrl + '/meets');
+        $scope.rsvpMeetingList = [];
+        $scope.otherMeetings = {};
         
         sessionService.ready.then(function() {
 
@@ -20,6 +22,28 @@
             
             initAuth(sessionService.getCurrentUser());
 
+            userService.get($scope.currentUser.id).then(function(user) {
+                user.meetingList.$loaded().then(function(data) {
+                    angular.forEach(data, function (meeting, key) {
+                        var userGroupRef = ref.child(meeting.id).child('users').child($scope.currentUser.id).child('group');
+                        userGroupRef.once('value', function(snapshot) {
+                            if (snapshot.val() !== null) {
+                                var meetingRef = new Firebase(appConfig.firebaseUrl + '/meets/' + meeting.id);
+                                var rsvpMeeting = $firebaseObject(meetingRef);
+                                rsvpMeeting.$loaded().then(function(data) {
+                                    var firstWhereId = Object.keys(data.where)[0];
+                                    var passingData = {meetingId: meeting.id, whereId: firstWhereId};
+                                    
+                                    meetingInfo.getMeetingInfo(passingData).then(function(meetingInfo) {
+                                        $scope.rsvpMeetingList.push(meetingInfo);
+                                    });
+                                });
+                            }
+                        });
+                    });
+                });
+            });
+                    
             $scope.locationName = $scope.currentUser.getLocationName();
             var userLocation = $scope.currentUser.getLocation();
             if (userLocation) {
@@ -29,21 +53,34 @@
                     count: 3
                 };
 
-                meetingInfo.getLatest().then(function(info) {
-                    $scope.meeting = info;
-                    var userGroupRef = ref.child($scope.meeting.id).child('users').child($scope.currentUser.id).child('group');
-                    $scope.meeting.joinedGroup = false;
-                    
-                    userGroupRef.once('value', function(snapshot) {
-                        if (snapshot.val() !== null) {
-                            $scope.meeting.joinedGroup = true;
-                        }
-                        $scope.$apply();
-                    });
-                });
+//                meetingInfo.getLatest().then(function(info) {
+//                    $scope.meeting = info;
+//                    var userGroupRef = ref.child($scope.meeting.id).child('users').child($scope.currentUser.id).child('group');
+//                    $scope.meeting.joinedGroup = false;
+//                    
+//                    userGroupRef.once('value', function(snapshot) {
+//                        if (snapshot.val() !== null) {
+//                            $scope.meeting.joinedGroup = true;
+//                        }
+//                        $scope.$apply();
+//                    });
+//                });
 
                 meetingInfo.getLocal(options).then(function(results) {
-                    $scope.otherMeetings = results;
+                    var finalResult = [];
+                    if (results.length > 0) {
+                        for (var i = 0; i < results.length; i ++) {
+                            var meeting = results[i];
+                            var userGroupRef = ref.child(meeting.id).child('users').child($scope.currentUser.id).child('group');
+                            userGroupRef.once('value', function(snapshot) {
+                                if (snapshot.val() === null) {
+                                    finalResult.push(meeting);
+                                    $scope.otherMeetings = finalResult;
+                                    $scope.$apply();
+                                }
+                            });
+                        }
+                    }
                 });
                 
                 var mapElement = $window.$('.your-location');

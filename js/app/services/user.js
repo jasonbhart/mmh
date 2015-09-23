@@ -128,12 +128,21 @@
             addMeetingToUser: function(userId, meetingData) {
                 var defer = $q.defer();
                 var ref = new Firebase(appConfig.firebaseUrl + '/users').child(userId);
-                ref.child('meetings').push(meetingData, function(error) {
-                    if (error)
-                        defer.reject(error);
-                    else
-                        defer.resolve();
-                });
+
+                ref.child('meetings').child(meetingData.id).once('value', function(snapshot) {
+                    // if meeting does not exist
+                    if (snapshot.val() === null) {
+                        ref.child('meetings').child(meetingData.id).set(meetingData, function(error) {
+                            if (error)
+                                defer.reject(error);
+                            else
+                                defer.resolve();
+                        });
+                    }
+                    
+                    defer.resolve();
+                }); 
+                
                 return defer.promise;
             },
             get: function(id) {

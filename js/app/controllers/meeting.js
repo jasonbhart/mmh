@@ -172,6 +172,20 @@
                 meetingUserSentinel.setUser(user);
                 $scope.usersInfo.setCurrentId(user.id);
                 $scope.currentUser = user;
+                
+                // add meeting to user if not added yet
+                var meetingData = {
+                    id: $scope.meeting.id,
+                    name: $scope.meeting.name,
+                    createdDate: moment().utc().toISOString()
+                };
+                userService.addMeetingToUser($scope.currentUser.id, meetingData).then(function(error){
+                    if (error) {
+                        console.log('Can not add meeting to User. Error: ' + error);
+                    } else {
+                        console.log('Meeting added to User: ' + $scope.currentUser.id);
+                    }
+                });
             });        
         });
 
@@ -197,6 +211,8 @@
             }
             meetingUserSentinel.setMeeting(meeting);
 
+            
+            
             var whereDefer = $q.defer();
             var whenDefer = $q.defer();
 

@@ -72,7 +72,7 @@
 		<div id="contents" ng-controller="IndexController">
 			<div class="row contents">
                             <div id="contLeft" class="col l8 s12">
-                                <div class="box-gray meeting-top" ng-if="meeting">
+<!--                                <div class="box-gray meeting-top" ng-if="meeting">
                                     <span class="meetingLabel">{{ meeting.type }}</span>
                                     <h3 class="title"><a ng-href="{{ meeting.url }}">{{ meeting.name }} @ {{ meeting.where.name }}</a></h3>
                                     <div class="wrap">
@@ -101,6 +101,38 @@
                                             <div class="rspv">
                                                 <b ng-hide="meeting.joinedGroup">Want to go?</b>
                                                 <p><a ng-href="{{ meeting.url }}" class="btn waves-effect waves-light">{{meeting.joinedGroup ? 'Going' : 'Jump in'}}</a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
+                                <div class="box-gray meeting-top" ng-if="rsvpMeetingList" ng-repeat="meeting in rsvpMeetingList">
+                                    <span class="meetingLabel">{{ meeting.type }}</span>
+                                    <h3 class="title"><a ng-href="{{ meeting.url }}">{{ meeting.name }} @ {{ meeting.where.name }}</a></h3>
+                                    <div class="wrap">
+                                        <div class="info">
+                                            <div class="thumb"><img src="images/temp/img_02.jpg" alt=""></div>
+                                            <div class="des">
+                                                <p class="address"><span class="icon"></span>{{ meeting.where.location.display_address }}<span class="subtext" style="display: none">Southeast Portland, Hawthorne, Sunnyside (<a href="#none">map</a>)</span></p>
+                                                <div class="member-list">
+                                                    <p ng-if="meeting.usersCount == 1"><b>1 person going</b></p>
+                                                    <p ng-if="meeting.usersCount > 1"><b>{{ meeting.usersCount }} people going</b></p>
+                                                    <ul>
+                                                        <li ng-repeat="image in meeting.userImages">
+                                                            <span class="bordered">
+                                                                <img ng-src="{{ image }}" alt="" style="height: 33px; width: 38px">
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="rspvBox">
+                                            <div class="date-time" style="display: none">
+                                                <span class="date">Sun Jun 28</span>
+                                                <span class="time">2:00 PM</span>
+                                            </div>
+                                            <div class="rspv">
+                                                <p><a ng-href="{{ meeting.url }}" class="btn waves-effect waves-light">Going</a></p>
                                             </div>
                                         </div>
                                     </div>
