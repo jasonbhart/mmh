@@ -90,6 +90,10 @@
                     profileImageURL: data.profileImageURL
                 };
                 
+                if (data.loggedViaSocial) {
+                    userData.loggedViaSocial = true;
+                }
+                
                 ref.once('value', function(snap) {
                     if (!snap.exists()) {
                         userData.createdDate = moment().utc().toISOString();

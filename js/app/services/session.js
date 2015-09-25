@@ -17,6 +17,11 @@
         var readyDefer = $q.defer();
         var currentUser = null;
         var service;
+        var loggingIn = false;
+        var loggingOut = false;
+        var previousGuid = null;
+        var lastLoggedGuid = null;
+        var meetingId = null;
 
         var setAuth = function(authData) {
             if (authData) {
@@ -25,10 +30,15 @@
                     ref.child('facebook').child(authData.uid).once('value', function(snapshot){
                         var facebookData = snapshot.val();
                         if (facebookData) {
+                            previousGuid = $cookies.guid || null;
                             $cookies.guid = facebookData.guid;
-                            service.migrate();
+                            if (loggingIn) {
+                                var overwrite = (lastLoggedGuid === $cookies.guid);
+                                service.migrate(meetingId, previousGuid, $cookies.guid, false, overwrite);
+                                loggingIn = false;
+                            }
                         } else {
-                            ref.child('facebook').child(authData.uid).set({guid: $cookies.guid || authData.uid});
+                            ref.child('facebook').child(authData.uid).set({guid: $cookies.guid || authData.uid, name: authData.facebook.displayName});
                         }
                         loadUserFromCookie(authData);
                     });
@@ -60,6 +70,10 @@
                     provider: authData.provider
                 };
                 saveUser(userData, authData);
+                if (loggingOut) {
+                    service.migrate(meetingId, previousGuid, $cookies.guid, true, false);
+                    loggingOut = false;
+                }
             }
         }
         
@@ -68,6 +82,7 @@
             if (authData.provider == authProviders.FACEBOOK) {
                 userData.fullName = authData.facebook.displayName,
                 userData.profileImageURL = authData.facebook.profileImageURL;
+                userData.loggedViaSocial = true;
             } else if (authData.provider == authProviders.ANONYMOUS) {
                 userData.fullName = 'Anonymous';
                 userData.profileImageURL = null;
@@ -121,6 +136,9 @@
                 LOGOUT: 2   // authenticated -> anonymous
             },
             ready: readyDefer.promise,
+            setMeetingId: function(id) {
+                meetingId = id;
+            },
             init: function() {
                 authObj.$waitForAuth().then(function() {
                     // for some reason onAuth is not raised during login (for auth redirect mode)
@@ -138,6 +156,7 @@
 
                 authObj.$authWithOAuthPopup(provider, options)
                     .then(function(authData) {
+                        loggingIn = true;
                         authDefer.resolve(authData);
                     }, function(error) {
                         if (error.code == 'TRANSPORT_UNAVAILABLE') {
@@ -155,6 +174,10 @@
                 return authDefer.promise;
             },
             logout: function() {
+                previousGuid = $cookies.guid;
+                lastLoggedGuid = $cookies.guid;
+                loggingOut = true;
+                delete $cookies.guid;
                 authObj.$unauth();
             },
             getCurrentUser: function() {
@@ -163,13 +186,11 @@
             /**
              * Migrate data from anonymous user to current user
              */
-            migrate: function() {
-                if (!$cookies.lastAnonymousId || !$cookies.guid || $cookies.lastAnonymousId == $cookies.guid)
+            migrate: function(meetingId, srcUser, desUser, keepSrc, overwrite) {
+                if (!meetingId || !$cookies.guid || !desUser || srcUser === desUser)
                     return;
-
-                meetingService.copyData($cookies.lastAnonymousId, $cookies.guid, true).then(function() {
-                    userService.delete($cookies.lastAnonymousId);
-                    delete $cookies.lastAnonymousId;
+                meetingService.migrateUser(meetingId, srcUser, desUser, keepSrc, overwrite).then(function() {
+                    console.log('migrated user', srcUser, desUser);
                 });
             }
         };

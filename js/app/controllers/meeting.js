@@ -159,19 +159,19 @@
                 }
             };
         })();
-
+    
         sessionService.ready.then(function() {
             // listen for the future auth change events
             $scope.$on('auth.changed', function(evt, user, state) {
                 // redirect if state == auth -> anonymous
                 if (state == sessionService.states.LOGOUT) {
-                    console.log('controller:meeting: User logout');
-                    $window.location = '/index.html';
-                    return;
                 }
                 meetingUserSentinel.setUser(user);
                 $scope.usersInfo.setCurrentId(user.id);
                 $scope.currentUser = user;
+                if (state == sessionService.states.LOGOUT) {
+                    $scope.usersInfo.current.user = user;
+                }
                 
                 // add meeting to user if not added yet
                 var meetingData = {
@@ -205,6 +205,7 @@
 
         meetingPromise.then(function(meeting) {
             $scope.meeting = meeting;
+            sessionService.setMeetingId($scope.meeting.id);
 
             if (!util.getUrlParams('meet')) {
                 $window.location = $window.location.href + '?meet=' + meeting.id;
