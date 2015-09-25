@@ -89,7 +89,7 @@
             },
             remove: function(id) {
                 if (id == this.currentId) {
-                    this.current = null;
+                    //this.current = null;
                     this.currentId = null;
                 } else {
                     delete this.others[id];
@@ -169,6 +169,7 @@
                 $scope.currentUser = user;
                 if (state == sessionService.states.LOGOUT) {
                     $scope.usersInfo.current.user = user;
+                    $scope.userGroups = buildUserGroups(formattingData);
                 }
                 
                 // add meeting to user if not added yet
