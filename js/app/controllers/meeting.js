@@ -164,8 +164,6 @@
             // listen for the future auth change events
             $scope.$on('auth.changed', function(evt, user, state) {
                 // redirect if state == auth -> anonymous
-                if (state == sessionService.states.LOGOUT) {
-                }
                 meetingUserSentinel.setUser(user);
                 $scope.usersInfo.setCurrentId(user.id);
                 $scope.currentUser = user;
