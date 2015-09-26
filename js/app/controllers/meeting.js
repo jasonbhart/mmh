@@ -89,7 +89,7 @@
             },
             remove: function(id) {
                 if (id == this.currentId) {
-                    this.current = null;
+                    //this.current = null;
                     this.currentId = null;
                 } else {
                     delete this.others[id];
@@ -159,19 +159,31 @@
                 }
             };
         })();
-
+    
         sessionService.ready.then(function() {
+            var initAuth = function(user) {
+                $scope.currentUser = user;
+                userService.get(user.id).then(function(userObj) {
+                    userObj.meetingList.$loaded().then(function(data) {
+                        $scope.meetingList = data;
+                    });
+                });
+            };
+            
+            initAuth(sessionService.getCurrentUser());
+            
             // listen for the future auth change events
             $scope.$on('auth.changed', function(evt, user, state) {
                 // redirect if state == auth -> anonymous
-                if (state == sessionService.states.LOGOUT) {
-                    console.log('controller:meeting: User logout');
-                    $window.location = '/index.html';
-                    return;
-                }
                 meetingUserSentinel.setUser(user);
                 $scope.usersInfo.setCurrentId(user.id);
-                $scope.currentUser = user;
+                
+                initAuth(user);
+                
+                if (state == sessionService.states.LOGOUT) {
+                    $scope.usersInfo.current.user = user;
+                    $scope.userGroups = buildUserGroups(formattingData);
+                }
                 
                 // add meeting to user if not added yet
                 var meetingData = {
@@ -205,6 +217,7 @@
 
         meetingPromise.then(function(meeting) {
             $scope.meeting = meeting;
+            sessionService.setMeetingId($scope.meeting.id);
 
             if (!util.getUrlParams('meet')) {
                 $window.location = $window.location.href + '?meet=' + meeting.id;

@@ -368,6 +368,47 @@
             getFacebookSharingUrl: function(meetingId, meetingName) {
                 return appConfig.shareFacebookUrl + '?id=' + meetingId + '&name=' + encodeURIComponent(meetingName);
             },
+            migrateUser: function(meetingId, srcUserId, dstUserId, keepSrc, overwrite) {
+                var defer = $q.defer();
+                var meetingsRef = new Firebase(meetsUrl);
+                var meetingObject = $firebaseObject(meetingsRef.child(meetingId))
+                meetingObject.$loaded().then(function(snap) {
+                    if (!meetingObject.users || !meetingObject.users[srcUserId]) {
+                        return;
+                    }
+                    var srcObject = meetingObject.users[srcUserId];
+                    if (!meetingObject.users[dstUserId]) {
+                        meetingObject.users[dstUserId] = {joined: true};
+                    }
+                    var dstObject = meetingObject.users[dstUserId];
+                    if (overwrite) {
+                        dstObject.when = _.clone(srcObject.when);
+                        dstObject.where =  _.clone(srcObject.where);
+                    } else {
+                        dstObject.when = service.mergeObject(srcObject.when, dstObject.when || {});
+                        dstObject.where = service.mergeObject(srcObject.where, dstObject.where || {});
+                    }
+                    
+                    if (!keepSrc) {
+                        delete meetingObject.users[srcUserId];
+                    }
+                    meetingObject.$save();
+                    defer.resolve();
+                });
+                return defer.promise;
+            },
+            mergeObject: function(srcObject, dstObject) {
+                if (!srcObject) {
+                    return dstObject;
+                }
+                var dstValues = Object.keys(dstObject).map(function (key) {return dstObject[key]});
+                _.forEach(srcObject, function(value, key) {
+                    if (dstValues.indexOf(value) === -1) {
+                        dstObject[key] = value;
+                    }
+                });
+                return dstObject;
+            },
             copyData: function(srcUserId, dstUserId, removeSrcRecords) {
                 var defer = $q.defer();
 

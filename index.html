@@ -64,12 +64,12 @@
 </head>
 <body>
     
-    <div id="container" ng-app="mmh">
+    <div id="container" ng-app="mmh" ng-controller="IndexController">
         <div id="google-tag" ng-controller="Snippet">
             <div ng-bind-html="getGoogleTag()"></div>
         </div>
 		<header></header><!--//header-->
-		<div id="contents" ng-controller="IndexController">
+		<div id="contents">
 			<div class="row contents">
                             <div id="contLeft" class="col l8 s12">
 <!--                                <div class="box-gray meeting-top" ng-if="meeting">
@@ -140,7 +140,7 @@
                                 <div class="other-meetings">
                                     <h2 class="title-page">Other Local Events</h2>
                                     <div ng-show="otherMeetings.length == 0">No event found</div>
-                                    <ul>
+                                    <ul ng-show="otherMeetings.length > 0">
                                         <li ng-repeat="meeting in otherMeetings">
                                             <div class="info">
                                                 <span class="meetingLabel">{{ meeting.type }}</span>
