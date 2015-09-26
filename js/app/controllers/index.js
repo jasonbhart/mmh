@@ -71,19 +71,15 @@
 //                });
 
                 meetingInfo.getLocal(options).then(function(results) {
-                    var finalResult = [];
                     if (results.length > 0) {
-                        for (var i = 0; i < results.length; i ++) {
-                            var meeting = results[i];
+                        angular.forEach(results, function (meeting, key) {
                             var userGroupRef = ref.child(meeting.id).child('users').child($scope.currentUser.id).child('group');
                             userGroupRef.once('value', function(snapshot) {
                                 if (snapshot.val() === null) {
-                                    finalResult.push(meeting);
-                                    $scope.otherMeetings = finalResult;
-                                    $scope.$apply();
+                                    $scope.otherMeetings.push(meeting);
                                 }
                             });
-                        }
+                        });
                     }
                 });
                 
