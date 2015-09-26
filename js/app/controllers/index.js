@@ -12,18 +12,22 @@
         $scope.baseUrl = 'https://www.socialivo.com/';
         var ref = new Firebase(appConfig.firebaseUrl + '/meets');
         $scope.rsvpMeetingList = [];
-        $scope.otherMeetings = {};
+        $scope.otherMeetings = [];
         
         sessionService.ready.then(function() {
-
             var initAuth = function(user) {
                 $scope.currentUser = user;
+                userService.get(user.id).then(function(userObj) {
+                    userObj.meetingList.$loaded().then(function(data) {
+                        $scope.meetingList = data;
+                    });
+                });
             };
             
             initAuth(sessionService.getCurrentUser());
-
-            userService.get($scope.currentUser.id).then(function(user) {
-                user.meetingList.$loaded().then(function(data) {
+            
+            userService.get($scope.currentUser.id).then(function(userObj) {
+                userObj.meetingList.$loaded().then(function(data) {
                     angular.forEach(data, function (meeting, key) {
                         var userGroupRef = ref.child(meeting.id).child('users').child($scope.currentUser.id).child('group');
                         userGroupRef.once('value', function(snapshot) {
@@ -33,7 +37,7 @@
                                 rsvpMeeting.$loaded().then(function(data) {
                                     var firstWhereId = Object.keys(data.where)[0];
                                     var passingData = {meetingId: meeting.id, whereId: firstWhereId};
-                                    
+
                                     meetingInfo.getMeetingInfo(passingData).then(function(meetingInfo) {
                                         $scope.rsvpMeetingList.push(meetingInfo);
                                     });
@@ -43,7 +47,7 @@
                     });
                 });
             });
-                    
+                
             $scope.locationName = $scope.currentUser.getLocationName();
             var userLocation = $scope.currentUser.getLocation();
             if (userLocation) {

@@ -30,16 +30,20 @@
         sessionService.ready.then(function() {
             var initAuth = function(user) {
                 $scope.currentUser = user;
-                console.log('CURRENT USER:');
-                console.log($scope.currentUser);
+                userService.get($scope.currentUser.id).then(function(userObj) {
+                    userObj.meetingList.$loaded().then(function(data) {
+                        $scope.meetingList = data;
+                    });
+                });
             };
-            
+                
             initAuth(sessionService.getCurrentUser());
 
             // listen for the future auth change events
             $scope.$on('auth.changed', function(evt, user) {
                 initAuth(user);
-            });     
+            });
+            
         });
         
         $scope.next = function() {

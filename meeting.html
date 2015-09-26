@@ -66,9 +66,9 @@
         <div ng-bind-html="getFacebookSDK()"></div>
         <div ng-bind-html="getTwitterSDK()"></div>
     </div>
-    <div id="container">
+    <div id="container"  ng-controller="meetingController">
         <header></header><!--//header-->
-        <div id="contents" ng-controller="meetingController">
+        <div id="contents">
             <div class="row contents">
                 <div id="contLeft" class="col l8 s12">
                     <div class="box-meeting">

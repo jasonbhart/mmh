@@ -161,12 +161,25 @@
         })();
     
         sessionService.ready.then(function() {
+            var initAuth = function(user) {
+                $scope.currentUser = user;
+                userService.get(user.id).then(function(userObj) {
+                    userObj.meetingList.$loaded().then(function(data) {
+                        $scope.meetingList = data;
+                    });
+                });
+            };
+            
+            initAuth(sessionService.getCurrentUser());
+            
             // listen for the future auth change events
             $scope.$on('auth.changed', function(evt, user, state) {
                 // redirect if state == auth -> anonymous
                 meetingUserSentinel.setUser(user);
                 $scope.usersInfo.setCurrentId(user.id);
-                $scope.currentUser = user;
+                
+                initAuth();
+                
                 if (state == sessionService.states.LOGOUT) {
                     $scope.usersInfo.current.user = user;
                     $scope.userGroups = buildUserGroups(formattingData);

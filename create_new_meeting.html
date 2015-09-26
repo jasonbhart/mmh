@@ -66,9 +66,9 @@
         <div id="google-tag" ng-controller="Snippet">
             <div ng-bind-html="getGoogleTag()"></div>
         </div>
-        <div id="container">
+        <div id="container" ng-controller="CreateMeetingController" >
             <header></header><!--//header-->
-            <div id="contents" ng-controller="CreateMeetingController" style="display: none;">
+            <div id="contents" style="display: none;">
                 <div class="row creat-new">
                     <div class="col s12">
                         <h2 class="title-page">Create a new meeting</h2>
