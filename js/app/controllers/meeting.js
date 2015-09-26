@@ -178,7 +178,7 @@
                 meetingUserSentinel.setUser(user);
                 $scope.usersInfo.setCurrentId(user.id);
                 
-                initAuth();
+                initAuth(user);
                 
                 if (state == sessionService.states.LOGOUT) {
                     $scope.usersInfo.current.user = user;
