@@ -474,6 +474,9 @@
         $scope.getShareEmailSubject = function() {
             return "MEET ME HERE: " + $scope.meeting.name;
         };
+        $scope.getShareEmailBody = function() {
+            return "Click the link to view activity details: \r\n" + meetingService.getSharingUrl($scope.meeting.id);
+        };
 
         $scope.changeLocation = function() {
             // position map to current user location if we have such
