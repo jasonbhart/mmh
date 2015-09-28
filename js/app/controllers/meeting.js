@@ -597,9 +597,6 @@
             $scope.meetingUser.toggleWhen(time.id, false);
         }
         
-        $scope.showUserInfo = function(userInfo) {
-            dialogs.meetingUserInfo(userInfo);
-        }
         $scope.getMeetingLocation = function(location) {
             if (location.city) {
                 return '(' +  location.city + ')';

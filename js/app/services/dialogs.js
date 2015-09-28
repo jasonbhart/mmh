@@ -24,15 +24,6 @@
                     }
                 });
             },
-            meetingUserInfo: function(userInfo) {
-                return modal.open({
-                    templateUrl: 'js/app/tmpl/meetingUserInfo.html',
-                    controller: 'MeetingUserInfoController',
-                    resolve: {
-                        userInfo: userInfo
-                    }
-                });
-            },
 
             /*
              * @type location {position: {lat: X, lng: Y}, radius: R}
