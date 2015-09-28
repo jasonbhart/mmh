@@ -14,7 +14,7 @@
         $scope.term = 'restaurants';
         $scope.suggestions = {};
         $scope.timeFormat = 'h:mmA';
-        $scope.times = [moment({hour: moment().hour() + 1, minute: moment().minute() - moment().minute() % 15})];
+        $scope.times = [roundTime(moment().add(1, 'hours'))];
         $scope.meetingId = '';
         $scope.meeting = null;
         $scope.redirectUrl = '';
@@ -147,16 +147,20 @@
         
         $scope.$watch('when', function (newValue, oldValue) {
             if (newValue === 'one_hour_later') {
-                $scope.times = [moment({hour: moment().hour() + 1, minute: moment().minute() - moment().minute() % 15})]
+                $scope.times = [roundTime(moment().add(1, 'hours'))];
             } else if (newValue === 'two_hours_later') {
-                $scope.times = [moment({hour: moment().hour() + 2, minute: moment().minute() - moment().minute() % 15})]
+                $scope.times = [roundTime(moment().add(2, 'hours'))]
             } else if (newValue === 'four_hours_later') {
-                $scope.times = [moment({hour: moment().hour() + 4, minute: moment().minute() - moment().minute() % 15})]
+                $scope.times = [roundTime(moment().add(4, 'hours'))]
             } else if (newValue === 'other') {
                 $scope.times = [];
                 $scope.addTimes();
             }
         });
+        
+        function roundTime(moment) {
+            return moment.subtract(moment.minute()%15, 'minutes');
+        }
         
         $scope.$watch('establishment', function (newValue, oldValue) {
             if (newValue === 'manual') {
