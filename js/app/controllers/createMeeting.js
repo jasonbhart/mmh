@@ -314,22 +314,22 @@
             }
             
             // where
-            if ($scope.establishment === 'manual' && getBusinessPlace($scope.manualBusinessInfo)) {
-                name += 'at ' + getBusinessPlace($scope.manualBusinessInfo) + ' ';
-            }
-            else if ($scope.establishment !== 'other') {
-                try {
-                    name += 'at ' + JSON.parse($scope.establishment).name + ' ';
-                } catch (e) {
-                    console.log('unable to parse establishment');
-                }
-            } else if ($scope.where == '1') {
-                name += 'within 1 mile ';
-            } else if ($scope.where == '10') {
-                name += 'within 10 miles ';
-            } else if ($scope.other_location) {
-                name += 'in ' + $scope.other_location + ' ';
-            }
+//            if ($scope.establishment === 'manual' && getBusinessPlace($scope.manualBusinessInfo)) {
+//                name += 'at ' + getBusinessPlace($scope.manualBusinessInfo) + ' ';
+//            }
+//            else if ($scope.establishment !== 'other') {
+//                try {
+//                    name += 'at ' + JSON.parse($scope.establishment).name + ' ';
+//                } catch (e) {
+//                    console.log('unable to parse establishment');
+//                }
+//            } else if ($scope.where == '1') {
+//                name += 'within 1 mile ';
+//            } else if ($scope.where == '10') {
+//                name += 'within 10 miles ';
+//            } else if ($scope.other_location) {
+//                name += 'in ' + $scope.other_location + ' ';
+//            }
             
             // when
             if (typeof $scope.times[0] === 'object') {
