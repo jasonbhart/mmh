@@ -188,7 +188,7 @@
                                         <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{getShareEmailSubject()}}" data-url="{{ shareUrl }}" data-count="none">Tweet</a>
                                     </div>
                                     <div class="email-share">
-                                        <a href="mailto:?subject={{getShareEmailSubject() | escape}}&body={{shareUrl | escape}}" title="Send an email"><img src="newdesign/image/icon-m.gif" alt="Send an email"></a>
+                                        <a href="mailto:?subject={{getShareEmailSubject() | escape}}&body={{getShareEmailBody() | escape}}" title="Send an email"><img src="newdesign/image/icon-m.gif" alt="Send an email"></a>
                                     </div>
                                     <div style="clear:both;"></div>
                                     <p>or give friends the link</p>

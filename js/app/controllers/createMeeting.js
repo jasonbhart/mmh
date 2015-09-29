@@ -365,6 +365,10 @@
             return "MEET ME HERE: " + getMeetingName();
         };
         
+         $scope.getShareEmailBody = function() {
+            return "Click the link to view activity details: \r\n" + meetingService.getSharingUrl($scope.meetingId);
+        };
+        
         $scope.showHideProgressBar = function() {
             if ($window.$(window).width() < 800) {
                 $window.$(".checkout-wrap").fadeOut();
