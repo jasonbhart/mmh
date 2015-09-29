@@ -206,7 +206,7 @@
         if (util.getUrlParams('meet')) {
             meetingPromise = meetingService.get(util.getUrlParams('meet'));
         } else {
-            meetingPromise = meetingService.create();
+            $window.location = '/index.html';
         }
 
         if (util.getUrlParams('share')) {
@@ -345,6 +345,7 @@
             });
         }, function() {
             $log.log('No such meeting');
+            $window.location = '/index.html';
         });
 
         function buildUserGroups(formattingData) {
