@@ -22,6 +22,7 @@
         $scope.currentUser = null;
         $scope.meetingList = {};
         $scope.gatheringTypes = [];
+        $scope.currentPage = util.getCurrentPage();
         
         var defaultManualBusinessLabel = 'Enter a specific business';
         $scope.manualBusinessLabel = defaultManualBusinessLabel;

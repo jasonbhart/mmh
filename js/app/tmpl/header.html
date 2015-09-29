@@ -1,5 +1,5 @@
 <nav id="header" class="top-nav">
-    <h1 id="logo"><a href="/">Socailivo</a></h1>
+    <h1 id="logo"><a href="/">Socialivo</a></h1>
     <div id="top-right" class="pull-right">
 <!--                        <div class="notifications">
             <a class="dropdown-button info on" href="#" data-activates="notifications-info" title="Notifications">
@@ -43,18 +43,3 @@
         </div>
     </div>
 </nav>
-<div class="container"><a href="#" data-activates="nav-mobile" class="button-collapse top-nav waves-effect waves-light circle hide-on-large-only"><i class="mdi-navigation-menu"></i></a></div>
-<ul id="nav-mobile" class="side-nav fixed">
-    <li ng-class="currentPage == 1 ? 'active' : ''"><a href="index.html" class="waves-effect waves-ripple"><span class="icon icon-home"></span>Home</a></li>
-    <li ng-class="currentPage == 3 ? 'active' : ''"><a href="create_new_meeting.html" class="waves-effect waves-ripple"><span class="icon icon-new"></span>New Meet</a></li>
-    <li ng-class="currentPage == 2 ? 'active' : ''"><a class="waves-effect waves-ripple" ng-click="currentPage = 2"><span class="icon icon-invite"></span>Meetings</a>
-        <ul class="subtab-left">
-            <li ng-repeat="meeting in meetingList"  ng-class="(meeting.id == currentMeetingId) ? 'active' : ''">
-                <a ng-href="{{'/meeting.html?meet=' + meeting.id}}" class="waves-effect waves-ripple active">
-                    <i class="fa fa fa-angle-right"></i>
-                    {{meeting.name}}
-                </a>
-            </li>
-        </ul>
-    </li>
-</ul>

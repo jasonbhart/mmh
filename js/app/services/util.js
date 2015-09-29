@@ -49,6 +49,15 @@
                 else{
                     return results[1] || 0;
                 }
+            },
+            getCurrentPage: function() {
+                if (window.location.href.indexOf('create_new_meeting') > -1) {
+                    return 3;              // new meet page
+                } else if (window.location.href.indexOf('meeting') > -1) {
+                    return 2;              // meeting page
+                } else {
+                    return 1;              // homepage
+                }
             }
         };
     }]);

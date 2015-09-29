@@ -13,6 +13,7 @@
         var ref = new Firebase(appConfig.firebaseUrl + '/meets');
         $scope.rsvpMeetingList = [];
         $scope.otherMeetings = [];
+        $scope.currentPage = util.getCurrentPage();
         
         sessionService.ready.then(function() {
             var initAuth = function(user) {

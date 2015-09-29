@@ -12,8 +12,9 @@
         $scope.meetingUser = null;
         $scope.userGroups = null;
         $scope.currentUser = null;
-
-        
+        $scope.currentPage = util.getCurrentPage();
+        $scope.currentMeetingId = util.getUrlParams('meet');
+                
         var formattingData = {
             where: [],
             when: [],
