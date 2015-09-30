@@ -283,6 +283,7 @@
                 where: places,
                 users: users
             };
+            data['timeTitle'] = (!$scope.meeting_name && $scope.times[0]) ? $scope.times[0].utc().toISOString() : '';
             var meetingPromise = meetingService.create(data);
             meetingPromise.then(function(meeting) {
                 var meetingId = meeting.refs.current.key();
@@ -333,9 +334,9 @@
 //            }
             
             // when
-            if (typeof $scope.times[0] === 'object') {
-                name += 'at ' + $scope.times[0].format($scope.timeFormat);
-            }
+//            if (typeof $scope.times[0] === 'object') {
+//                name += 'at ' + $scope.times[0].format($scope.timeFormat);
+//            }
             
             return name;
         };
@@ -359,15 +360,27 @@
         }
         
         $scope.getFacebookSharingUrl = function() {
-            return meetingService.getFacebookSharingUrl($scope.meetingId, getMeetingName())
+            var meetingData = {
+                name: getMeetingName(),
+                timeTitle: (!$scope.meeting_name && $scope.times[0]) ? $scope.times[0].utc().toISOString() : ''
+            };
+            return meetingService.getFacebookSharingUrl($scope.meetingId, $scope.getMeetingName(meetingData))
         };
         
         $scope.getShareEmailSubject = function() {
-            return "MEET ME HERE: " + getMeetingName();
+            var meetingData = {
+                name: getMeetingName(),
+                timeTitle: (!$scope.meeting_name && $scope.times[0]) ? $scope.times[0].utc().toISOString() : ''
+            };
+            return "MEET ME HERE: " + $scope.getMeetingName(meetingData);
         };
         
          $scope.getShareEmailBody = function() {
             return "Click the link to view activity details: \r\n" + meetingService.getSharingUrl($scope.meetingId);
+        };
+        
+        $scope.getMeetingName = function(meeting) {
+            return meetingService.getMeetingName(meeting);
         };
         
         $scope.showHideProgressBar = function() {
@@ -383,7 +396,8 @@
             var meetingData = {
                 id: $scope.meetingId,
                 name: data.name,
-                createdDate: data.createdDate
+                createdDate: data.createdDate,
+                timeTitle: data.timeTitle
             };
             userService.addMeetingToUser(userId, meetingData).then(function(error){
                 if (error) {
@@ -401,7 +415,8 @@
             var meetingData = {
                 id: $scope.meetingId,
                 name: data.name,
-                createdDate: data.createdDate
+                createdDate: data.createdDate,
+                timeTitle: data.timeTitle
             } ;
             categoryService.addMeetingToCategory(categoryId, categoryName, meetingData);
         }

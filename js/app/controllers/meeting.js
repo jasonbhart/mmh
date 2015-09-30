@@ -470,11 +470,11 @@
         };
         
         $scope.getFacebookSharingUrl = function() {
-            return meetingService.getFacebookSharingUrl($scope.meeting.id, $scope.meeting.name);
+            return meetingService.getFacebookSharingUrl($scope.meeting.id, $scope.getMeetingName($scope.meeting));
         };
         
         $scope.getShareEmailSubject = function() {
-            return "MEET ME HERE: " + $scope.meeting.name;
+            return "MEET ME HERE: " + $scope.getMeetingName($scope.meeting);
         };
         $scope.getShareEmailBody = function() {
             return "Click the link to view activity details: \r\n" + meetingService.getSharingUrl($scope.meeting.id);
@@ -610,7 +610,11 @@
             }
             
             return '';
-        }
+        };
+        
+        $scope.getMeetingName = function(meeting) {
+            return meetingService.getMeetingName(meeting);
+        };
         
         $scope.copy = function() {
             document.getElementById("sharing_url").style.display = 'block';

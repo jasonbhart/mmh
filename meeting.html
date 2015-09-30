@@ -77,7 +77,7 @@
                         <li ng-repeat="meeting in meetingList"  ng-class="(meeting.id == currentMeetingId) ? 'active' : ''">
                             <a ng-href="{{'/meeting.html?meet=' + meeting.id}}" class="waves-effect waves-ripple active">
                                 <i class="fa fa fa-angle-right"></i>
-                                {{meeting.name}}
+                                {{getMeetingName(meeting)}}
                             </a>
                         </li>
                     </ul>
@@ -88,7 +88,7 @@
             <div class="row contents">
                 <div id="contLeft" class="col l8 s12">
                     <div class="box-meeting">
-                        <h2 class="title-page"><span class="icon"></span>{{ meeting.name }}</h2>
+                        <h2 class="title-page"><span class="icon"></span>{{ getMeetingName(meeting) }}</h2>
                         <div class="wrap">
                             <div class="choose-setting" ng-if="usersInfo.current">
                                 <div class="share" ng-if="usersInfo.current">

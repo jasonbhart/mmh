@@ -77,7 +77,7 @@
                             <li ng-repeat="meeting in meetingList"  ng-class="(meeting.id == currentMeetingId) ? 'active' : ''">
                                 <a ng-href="{{'/meeting.html?meet=' + meeting.id}}" class="waves-effect waves-ripple active">
                                     <i class="fa fa fa-angle-right"></i>
-                                    {{meeting.name}}
+                                    {{getMeetingName(meeting)}}
                                 </a>
                             </li>
                         </ul>

@@ -27,6 +27,7 @@
             var meetingObj = {
                 id: ref.key(),
                 name: snap.val().name || 'New Meetup',
+                timeTitle: snap.val().timeTitle || '',
                 refs: refs,
                 users: $firebaseArray(refs.users),
                 where: $firebaseArray(refs.where),
@@ -408,6 +409,15 @@
                     }
                 });
                 return dstObject;
+            },
+            getMeetingName: function(meeting) {
+                if (!meeting || !meeting.name) {
+                    return '';
+                }
+                if (meeting.timeTitle) {
+                    return meeting.name + ' at ' + moment(meeting.timeTitle).format('h:mmA');
+                }
+                return meeting.name;
             },
             copyData: function(srcUserId, dstUserId, removeSrcRecords) {
                 var defer = $q.defer();
