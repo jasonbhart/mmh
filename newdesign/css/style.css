@@ -344,3 +344,4 @@ h3.title{font-size:18px; font-weight:500;}
 }
 @media only screen and (max-width : 450px){.box-meeting .share .label{display:block; margin-bottom:3px;}}
 .gatheringType {min-width: 212px;}
+.notice-text {margin-top:10px; font-style: italic}

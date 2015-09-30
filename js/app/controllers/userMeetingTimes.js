@@ -11,16 +11,23 @@
             $scope.timeFormat = 'h:mma';
             $scope.time = moment().millisecond(0);
             $scope.times = timesProvider.getTimes();
-            console.log($scope.times);
+            $scope.hasPassedTime = function () {
+                for (var i in $scope.times) {
+                    if ($scope.times[i].diff(moment()) < 0) {
+                        return true;
+                    }
+                }
+                return false;
+            }
 
             $scope.addTime = function() {
                 var time = $scope.time;
                 var foundTime = _.find($scope.times, function(t) {
                     return t.isSame(time);
                 });
-                
-                if (!foundTime)
+                if (!foundTime) {
                     $scope.times.push(time);
+                }
             }
             
             $scope.removeTime = function(time) {
