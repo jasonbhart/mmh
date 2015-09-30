@@ -283,7 +283,8 @@
                 where: places,
                 users: users
             };
-            data['timeTitle'] = (!$scope.meeting_name && $scope.times[0]) ? $scope.times[0].utc().toISOString() : '';
+            var time = angular.copy($scope.times[0]);
+            data['timeTitle'] = (!$scope.meeting_name && time) ? time.utc().toISOString() : '';
             var meetingPromise = meetingService.create(data);
             meetingPromise.then(function(meeting) {
                 var meetingId = meeting.refs.current.key();
@@ -360,17 +361,19 @@
         }
         
         $scope.getFacebookSharingUrl = function() {
+            var time = angular.copy($scope.times[0]);
             var meetingData = {
                 name: getMeetingName(),
-                timeTitle: (!$scope.meeting_name && $scope.times[0]) ? $scope.times[0].utc().toISOString() : ''
+                timeTitle: (!$scope.meeting_name && time) ? time.utc().toISOString() : ''
             };
             return meetingService.getFacebookSharingUrl($scope.meetingId, $scope.getMeetingName(meetingData))
         };
         
         $scope.getShareEmailSubject = function() {
+            var time = angular.copy($scope.times[0]);
             var meetingData = {
                 name: getMeetingName(),
-                timeTitle: (!$scope.meeting_name && $scope.times[0]) ? $scope.times[0].utc().toISOString() : ''
+                timeTitle: (!$scope.meeting_name && time) ? time.utc().toISOString() : ''
             };
             return "MEET ME HERE: " + $scope.getMeetingName(meetingData);
         };
