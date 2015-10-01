@@ -71,11 +71,11 @@
                 <div class="container"><a href="#" data-activates="nav-mobile" class="button-collapse top-nav waves-effect waves-light circle hide-on-large-only"><i class="mdi-navigation-menu"></i></a></div>
                 <ul id="nav-mobile" class="side-nav fixed">
                     <li ng-class="currentPage == 1 ? 'active' : ''"><a href="index.html" class="waves-effect waves-ripple"><span class="icon icon-home"></span>Home</a></li>
-                    <li ng-class="currentPage == 3 ? 'active' : ''"><a href="create_new_meeting.html" class="waves-effect waves-ripple"><span class="icon icon-new"></span>New Meet</a></li>
-                    <li ng-class="currentPage == 2 ? 'active' : ''"><a class="waves-effect waves-ripple" ng-click="currentPage = 2"><span class="icon icon-invite"></span>Meetings</a>
+                    <li ng-class="currentPage == 3 ? 'active' : ''"><a href="create_new_activity.html" class="waves-effect waves-ripple"><span class="icon icon-new"></span>New Activity</a></li>
+                    <li ng-class="currentPage == 2 ? 'active' : ''"><a class="waves-effect waves-ripple" ng-click="currentPage = 2"><span class="icon icon-invite"></span>Activities</a>
                         <ul class="subtab-left">
                             <li ng-repeat="meeting in meetingList"  ng-class="(meeting.id == currentMeetingId) ? 'active' : ''">
-                                <a ng-href="{{'/meeting.html?meet=' + meeting.id}}" class="waves-effect waves-ripple active">
+                                <a ng-href="{{'/activity.html?act=' + meeting.id}}" class="waves-effect waves-ripple active">
                                     <i class="fa fa fa-angle-right"></i>
                                     {{getMeetingName(meeting)}}
                                 </a>
@@ -87,7 +87,7 @@
             <div id="contents" style="display: none;">
                 <div class="row creat-new">
                     <div class="col s12">
-                        <h2 class="title-page">Create a new meeting</h2>
+                        <h2 class="title-page">Create a new activity</h2>
                         <div class="checkout-wrap">
                             <ul class="checkout-bar">
 
@@ -99,8 +99,8 @@
                         </div>
                         <div class="frm-creat" ng-show="stage == 1">
                             <div class="row">
-                                <h3 class="title">Title of the meeting (optional)</h3>
-                                <input type="text" placeholder="Meeting title" ng-model="meeting_name" style="max-width:600px;" />
+                                <h3 class="title">Title of the activity (optional)</h3>
+                                <input type="text" placeholder="Activity title" ng-model="meeting_name" style="max-width:600px;" />
                             </div>
                             <div class="row">
                                 <h3 class="title">What do you want to do? </h3>

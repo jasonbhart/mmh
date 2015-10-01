@@ -290,7 +290,7 @@
                 var meetingId = meeting.refs.current.key();
                 $scope.meetingId = meetingId;
                 $scope.meeting = meeting;
-                $scope.redirectUrl = 'meeting.html?meet=' + meetingId;
+                $scope.redirectUrl = 'activity.html?act=' + meetingId;
                 $scope.shareUrl = meetingService.getSharingUrl(meetingId);
                 activateFacebookSDK();
                 activateTwitterSDK();
@@ -404,9 +404,9 @@
             };
             userService.addMeetingToUser(userId, meetingData).then(function(error){
                 if (error) {
-                    console.log('Can not add meeting to User. Error: ' + error);
+                    console.log('Can not add activity to User. Error: ' + error);
                 } else {
-                    console.log('Meeting added to User: ' + userId);
+                    console.log('Activity added to User: ' + userId);
                 }
             });
         }

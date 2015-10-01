@@ -13,7 +13,7 @@
         $scope.userGroups = null;
         $scope.currentUser = null;
         $scope.currentPage = util.getCurrentPage();
-        $scope.currentMeetingId = util.getUrlParams('meet');
+        $scope.currentMeetingId = util.getUrlParams('act');
                 
         var formattingData = {
             where: [],
@@ -194,9 +194,9 @@
                 };
                 userService.addMeetingToUser($scope.currentUser.id, meetingData).then(function(error){
                     if (error) {
-                        console.log('Can not add meeting to User. Error: ' + error);
+                        console.log('Can not add activity to User. Error: ' + error);
                     } else {
-                        console.log('Meeting added to User: ' + $scope.currentUser.id);
+                        console.log('Activity added to User: ' + $scope.currentUser.id);
                     }
                 });
             });        
@@ -204,8 +204,8 @@
 
         // load/create meeting
         var meetingPromise;
-        if (util.getUrlParams('meet')) {
-            meetingPromise = meetingService.get(util.getUrlParams('meet'));
+        if (util.getUrlParams('act')) {
+            meetingPromise = meetingService.get(util.getUrlParams('act'));
         } else {
             $window.location = '/index.html';
         }
@@ -220,8 +220,8 @@
             $scope.meeting = meeting;
             sessionService.setMeetingId($scope.meeting.id);
 
-            if (!util.getUrlParams('meet')) {
-                $window.location = $window.location.href + '?meet=' + meeting.id;
+            if (!util.getUrlParams('act')) {
+                $window.location = $window.location.href + '?act=' + meeting.id;
             }
             meetingUserSentinel.setMeeting(meeting);
 
@@ -254,7 +254,7 @@
             $q.all([whereDefer.promise, whenDefer.promise]).then(function() {
                 $scope.meeting.users.$ref().on('child_added', function(snap) {
                     var userId = snap.key();
-                    $log.log('meeting.js: Participant added to the meeting');
+                    $log.log('meeting.js: Participant added to the activity');
 
                     var childRef = snap.ref();
                     var watch = {
@@ -331,7 +331,7 @@
                 });
 
                 $scope.meeting.users.$ref().on('child_removed', function(snap) {
-                    $log.log('User removed from the meeting');
+                    $log.log('User removed from the activity');
                     var userId = snap.key();
 //                    usersWatchList[userId].where.$destroy();
 //                    usersWatchList[userId].when.$destroy();
@@ -345,7 +345,7 @@
                 });
             });
         }, function() {
-            $log.log('No such meeting');
+            $log.log('No such activity');
             $window.location = '/index.html';
         });
 

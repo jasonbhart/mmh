@@ -26,7 +26,7 @@
 
             var meetingObj = {
                 id: ref.key(),
-                name: snap.val().name || 'New Meetup',
+                name: snap.val().name || 'New Activity',
                 timeTitle: snap.val().timeTitle || '',
                 refs: refs,
                 users: $firebaseArray(refs.users),
@@ -327,7 +327,7 @@
                 var defer = $q.defer();
                 var ref = new Firebase(meetsUrl);
                 var newMeeting = meetingDataObject || {
-                    'name': 'New Meetup',
+                    'name': 'New Activity',
                     'createdDate': moment().utc().toISOString()
                 };
 
@@ -341,7 +341,7 @@
 
                     var meetingId = postIdRef.key();
 
-                    $log.log("New meeting created", meetingId);
+                    $log.log("New activity created", meetingId);
 
                     // load meeting data
                     service.get(meetingId).then(function(meeting) {
@@ -364,7 +364,7 @@
                 return moment.utc(when).local();
             },
             getSharingUrl: function(meetingId) {
-                return appConfig.shareUrlBase + '?meet=' + meetingId;
+                return appConfig.shareUrlBase + '?act=' + meetingId;
             },
             getFacebookSharingUrl: function(meetingId, meetingName) {
                 return appConfig.shareFacebookUrl + '?id=' + meetingId + '&name=' + encodeURIComponent(meetingName);

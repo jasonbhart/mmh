@@ -72,11 +72,11 @@
             <div class="container"><a href="#" data-activates="nav-mobile" class="button-collapse top-nav waves-effect waves-light circle hide-on-large-only"><i class="mdi-navigation-menu"></i></a></div>
             <ul id="nav-mobile" class="side-nav fixed">
                 <li ng-class="currentPage == 1 ? 'active' : ''"><a href="index.html" class="waves-effect waves-ripple"><span class="icon icon-home"></span>Home</a></li>
-                <li ng-class="currentPage == 3 ? 'active' : ''"><a href="create_new_meeting.html" class="waves-effect waves-ripple"><span class="icon icon-new"></span>New Meet</a></li>
-                <li ng-class="currentPage == 2 ? 'active' : ''"><a class="waves-effect waves-ripple" ng-click="currentPage = 2"><span class="icon icon-invite"></span>Meetings</a>
+                <li ng-class="currentPage == 3 ? 'active' : ''"><a href="create_new_activity.html" class="waves-effect waves-ripple"><span class="icon icon-new"></span>New Activity</a></li>
+                <li ng-class="currentPage == 2 ? 'active' : ''"><a class="waves-effect waves-ripple" ng-click="currentPage = 2"><span class="icon icon-invite"></span>Activities</a>
                     <ul class="subtab-left">
                         <li ng-repeat="meeting in meetingList"  ng-class="(meeting.id == currentMeetingId) ? 'active' : ''">
-                            <a ng-href="{{'/meeting.html?meet=' + meeting.id}}" class="waves-effect waves-ripple active">
+                            <a ng-href="{{'/activity.html?act=' + meeting.id}}" class="waves-effect waves-ripple active">
                                 <i class="fa fa fa-angle-right"></i>
                                 {{getMeetingName(meeting)}}
                             </a>
@@ -88,39 +88,6 @@
 		<div id="contents">
 			<div class="row contents">
                             <div id="contLeft" class="col l8 s12">
-<!--                                <div class="box-gray meeting-top" ng-if="meeting">
-                                    <span class="meetingLabel">{{ meeting.type }}</span>
-                                    <h3 class="title"><a ng-href="{{ meeting.url }}">{{ meeting.name }} @ {{ meeting.where.name }}</a></h3>
-                                    <div class="wrap">
-                                        <div class="info">
-                                            <div class="thumb"><img src="images/temp/img_02.jpg" alt=""></div>
-                                            <div class="des">
-                                                <p class="address"><span class="icon"></span>{{ meeting.where.location.display_address }}<span class="subtext" style="display: none">Southeast Portland, Hawthorne, Sunnyside (<a href="#none">map</a>)</span></p>
-                                                <div class="member-list">
-                                                    <p ng-if="meeting.usersCount == 1"><b>1 person going</b></p>
-                                                    <p ng-if="meeting.usersCount > 1"><b>{{ meeting.usersCount }} people going</b></p>
-                                                    <ul>
-                                                        <li ng-repeat="image in meeting.userImages">
-                                                            <span class="bordered">
-                                                                <img ng-src="{{ image }}" alt="" style="height: 33px; width: 38px">
-                                                            </span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="rspvBox">
-                                            <div class="date-time" style="display: none">
-                                                <span class="date">Sun Jun 28</span>
-                                                <span class="time">2:00 PM</span>
-                                            </div>
-                                            <div class="rspv">
-                                                <b ng-hide="meeting.joinedGroup">Want to go?</b>
-                                                <p><a ng-href="{{ meeting.url }}" class="btn waves-effect waves-light">{{meeting.joinedGroup ? 'Going' : 'Jump in'}}</a></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>-->
                                 <div class="box-gray meeting-top" ng-if="rsvpMeetingList" ng-repeat="meeting in rsvpMeetingList">
                                     <span class="meetingLabel">{{ meeting.type }}</span>
                                     <h3 class="title"><a ng-href="{{ meeting.url }}">{{ meeting.name }} @ {{ meeting.where.name }}</a></h3>
@@ -154,8 +121,8 @@
                                     </div>
                                 </div>
                                 <div class="other-meetings">
-                                    <h2 class="title-page">Other Local Events</h2>
-                                    <div ng-show="otherMeetings.length == 0">No event found</div>
+                                    <h2 class="title-page">Other Local Activities</h2>
+                                    <div ng-show="otherMeetings.length == 0">No activity found</div>
                                     <ul ng-show="otherMeetings.length > 0">
                                         <li ng-repeat="meeting in otherMeetings">
                                             <div class="info">
@@ -193,7 +160,7 @@
                                                         <a><i class="icon"></i>{{category.name}}</a>
                                                         <ul class="subtab">
                                                             <li ng-repeat="meeting in category.meetings">
-                                                                <a href="{{baseUrl}}meeting.html?meet={{meeting.id}}">{{getMeetingName(meeting)}}</a>
+                                                                <a href="{{baseUrl}}activity.html?act={{meeting.id}}">{{getMeetingName(meeting)}}</a>
                                                             </li>
                                                         </ul>
                                                     </li>

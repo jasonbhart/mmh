@@ -51,9 +51,9 @@
                 }
             },
             getCurrentPage: function() {
-                if (window.location.href.indexOf('create_new_meeting') > -1) {
+                if (window.location.href.indexOf('create_new_activity') > -1) {
                     return 3;              // new meet page
-                } else if (window.location.href.indexOf('meeting') > -1) {
+                } else if (window.location.href.indexOf('activity') > -1) {
                     return 2;              // meeting page
                 } else {
                     return 1;              // homepage
