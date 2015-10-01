@@ -3,8 +3,8 @@
 
     var app = angular.module('mmh.controllers');
     
-    app.controller('meetingController', ['$scope', '$q', '$log', '$firebaseObject', '$firebaseArray', 'dialogs', 'dataProvider', 'sessionService', 'meetingService', 'userService', 'geoLocation', 'userGroupBuilder','$window', 'util',
-            function($scope, $q, $log, $firebaseObject, $firebaseArray, dialogs, dataProvider, sessionService, meetingService, userService, geoLocation, userGroupBuilder, $window, util) {
+    app.controller('meetingController', ['$scope', '$q', '$log', '$firebaseObject', '$firebaseArray', 'dialogs', 'dataProvider', 'sessionService', 'meetingService', 'userService', 'geoLocation', 'userGroupBuilder','$window', 'util','notificationService',
+            function($scope, $q, $log, $firebaseObject, $firebaseArray, dialogs, dataProvider, sessionService, meetingService, userService, geoLocation, userGroupBuilder, $window, util, notificationService) {
 
         // get from the session
         $scope.timeFormat = 'h:mmA';
@@ -568,15 +568,35 @@
             }
         };
         
-        var addTimeNotification = function (oldTimes, newTimes) {
+        var getNewTimeAdded = function (oldTimes, newTimes) {
             var existingTimes = Object.keys(oldTimes).map(function(value){return oldTimes[value].$value;});
             for (var i in newTimes) {
                 var time = newTimes[i].clone().utc().toISOString();
                 if (existingTimes.indexOf(time) !== -1) {
-                    return true;
+                    return time;
                 }
             }
             return false;
+        };
+        
+        var addTimeNotification = function (oldTimes, newTimes) {
+            var newTimeAdded = getNewTimeAdded(oldTimes, newTimes);
+            if (newTimeAdded) {
+                var notificationData = {
+                    type: 'time',
+                    status: '1',
+                    value: newTimeAdded,
+                    createdAt: moment().utc().toISOString(),
+                    meetId: $scope.meeting.id,
+                    meetName: $scope.meeting.name
+                };
+                
+                for (var i in $scope.usersInfo.others) {
+                    if (typeof $scope.usersInfo.others[i] === 'object') {
+                        notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
+                    }
+                }
+            }
         };
         
         $scope.addTimes = function() {
