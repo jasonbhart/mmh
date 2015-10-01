@@ -94,6 +94,7 @@
                             city: where.city,
                             country_code: where.country_code,
                             url: where.url,
+                            image_url: where.image_url,
                             location: where.location
                         }, function() {
                             var id = whereRef.key();

@@ -176,12 +176,13 @@
                     alert('Please enter business name');
                     $scope.addManualBusiness();
                 }
-                $scope.manualBusinessLabel = defaultManualBusinessLabel + getBusinessPlace(business);
+                $scope.manualBusinessLabel = defaultManualBusinessLabel + getBusinessPlace(business, true);
                 $scope.manualBusinessInfo = business;
+                $scope.manualBusinessInfo.location = {display_address: getBusinessPlace(business, false)};
             });
         };
         
-        function getBusinessPlace(business) {
+        function getBusinessPlace(business, parenthesis) {
             var place = '';
             if (business.name) {
                 place = business.name;
@@ -190,7 +191,7 @@
                 }
             }
             
-            if (place) {
+            if (place && parenthesis) {
                 place = ' (' + place + ')'; 
             }
             return place;
@@ -223,6 +224,7 @@
                     city: establishment.city || "Unknown",
                     country_code: establishment.country_code || "Unknown",
                     type: establishment.type || "Unknown",
+                    image_url: establishment.image_url || "",
                     location: establishment.location || {},
                 }];
             } catch (e) {
