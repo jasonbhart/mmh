@@ -568,9 +568,21 @@
             }
         };
         
+        var addTimeNotification = function (oldTimes, newTimes) {
+            var existingTimes = Object.keys(oldTimes).map(function(value){return oldTimes[value].$value;});
+            for (var i in newTimes) {
+                var time = newTimes[i].clone().utc().toISOString();
+                if (existingTimes.indexOf(time) !== -1) {
+                    return true;
+                }
+            }
+            return false;
+        };
+        
         $scope.addTimes = function() {
             var dialog = dialogs.userMeetingTimes(timesProvider);
             dialog.result.then(function(times) {
+                addTimeNotification(angular.copy($scope.meeting.when), times);
                 $log.log('Show times result:', times);
                 // remove times
                 $scope.meetingUser.removeAllWhen();
