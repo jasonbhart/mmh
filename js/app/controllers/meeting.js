@@ -3,8 +3,8 @@
 
     var app = angular.module('mmh.controllers');
     
-    app.controller('meetingController', ['$scope', '$q', '$log', '$firebaseObject', '$firebaseArray', 'dialogs', 'dataProvider', 'sessionService', 'meetingService', 'userService', 'geoLocation', 'userGroupBuilder','$window', 'util','notificationService',
-            function($scope, $q, $log, $firebaseObject, $firebaseArray, dialogs, dataProvider, sessionService, meetingService, userService, geoLocation, userGroupBuilder, $window, util, notificationService) {
+    app.controller('meetingController', ['$scope', '$q', '$log', '$firebaseObject', '$firebaseArray', 'dialogs', 'dataProvider', 'sessionService', 'meetingService', 'userService', 'geoLocation', 'userGroupBuilder','$window', 'util', 'notificationService', 'emailService',
+            function($scope, $q, $log, $firebaseObject, $firebaseArray, dialogs, dataProvider, sessionService, meetingService, userService, geoLocation, userGroupBuilder, $window, util, notificationService, emailService) {
 
         // get from the session
         $scope.timeFormat = 'h:mmA';
@@ -591,10 +591,23 @@
                     meetName: $scope.meeting.name
                 };
                 
+                var sendingEmails = [];
+                
                 for (var i in $scope.usersInfo.others) {
                     if (typeof $scope.usersInfo.others[i] === 'object') {
+                        // onsite notification
                         notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
+                        
+                        if ($scope.usersInfo.others[i].user.user.email) {
+                            sendingEmails.push($scope.usersInfo.others[i].user.user.email);
+                            
+                        }
                     }
+                }
+                
+                // email notification
+                if (sendingEmails.length > 0) {
+                    emailService.sendEmailToUsers(sendingEmails, notificationData);
                 }
             }
         };
