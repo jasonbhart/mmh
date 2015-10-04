@@ -1,24 +1,23 @@
 <nav id="header" class="top-nav">
     <h1 id="logo"><a href="/">Socialivo</a></h1>
-    <div id="top-right" class="pull-right">
-<!--                        <div class="notifications">
+    <div id="top-right" class="pull-right" ng-controller="UserAccountController">
+        <div class="notifications">
             <a class="dropdown-button info on" href="#" data-activates="notifications-info" title="Notifications">
-                <i class="icon"></i><span class="alert-bubble">123</span>
+                <i class="icon"></i><span class="alert-bubble">{{ countNotification }}</span>
             </a>
             <div id="notifications-info" class="dropdown-content">
                 <p class="notifLabel">Notifications</p>
                 <ul>
-                    <li><a href="#none">
-                            <b class="red-text">Reminder:</b> Meetup with <b>Meditation Hanoi Meetup</b> on Wednesday
-                        </a></li>
-                    <li><a href="#none">
-                            <b class="red-text">Reminder:</b> You have received an invitation to join the meeting <b>wine Drinkers</b> on Wednesday
-                        </a></li>
+                    <li ng-repeat="notification in notifications | orderBy:'createdAt':true">
+                        <a href="activity.html?act={{ notification.meetId }}">
+                           {{ getNotificationText(notification) }};
+                        </a>
+                    </li>
                 </ul>
                 <span class="icon arow"></span>
             </div>
-        </div>-->
-        <div class="account" ng-controller="UserAccountController">
+        </div>
+        <div class="account">
             <div class="user-link" ng-if="!isAuthenticated">
                     <a class="btn btn-flat waves-effect waves-ripple modal-trigger" ng-click="login()">
                         <i class="fa fa-user"></i> Login/Signup

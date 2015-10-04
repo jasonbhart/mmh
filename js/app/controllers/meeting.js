@@ -572,7 +572,7 @@
             var existingTimes = Object.keys(oldTimes).map(function(value){return oldTimes[value].$value;});
             for (var i in newTimes) {
                 var time = newTimes[i].clone().utc().toISOString();
-                if (existingTimes.indexOf(time) !== -1) {
+                if (existingTimes.indexOf(time) === -1) {
                     return time;
                 }
             }

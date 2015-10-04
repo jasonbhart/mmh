@@ -4,8 +4,8 @@
     var app = angular.module('mmh.services');
 
     app.factory('notificationService', 
-    ['appConfig', '$firebaseObject', '$q',
-    function(appConfig, $firebaseObject, $q) {
+    ['$rootScope', 'appConfig', '$firebaseObject', '$q',
+    function($rootScope, appConfig, $firebaseObject, $q) {
         var ref = new Firebase(appConfig.firebaseUrl + '/users');
         
         var addNotificationToUser = function (userId, notificationData) {
@@ -16,7 +16,7 @@
         
         var countUnreadNotifications = function (userId) {
             var deferred = $q.defer();
-            
+                      
             var userRef = ref.child(userId);
             var unreadNotification = 0;
             userRef.child('notifications').orderByChild('status').equalTo('1').once("value", function(snapshot) {
@@ -40,12 +40,27 @@
                 }
             });
             return deferred.promise;
-        }
+        };
+        
+        var trackNotification = function (userId) {
+            var userRef = ref.child(userId);
+            userRef.on('child_changed', function() {
+                countUnreadNotifications(userId).then(function(count) {
+                    var data = {
+                        userId: userId,
+                        count: count
+                    };
+                    $rootScope.$broadcast('notification.changed', data);
+                });
+            });
+            
+        };
         
         return {
             addNotificationToUser: addNotificationToUser,
             countUnreadNotifications: countUnreadNotifications,
-            getLastNotifications: getLastNotifications
+            getLastNotifications: getLastNotifications,
+            trackNotification: trackNotification
         }
     }]);
 })();
