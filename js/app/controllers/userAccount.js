@@ -52,7 +52,7 @@
             if (notification.type == 'time') {
                 text = 'New time <b>' + moment(notification.value).format('h:mmA') + '</b> added to <b> ' + notification.meetName + '</b>';
             } else if (notification.type == 'place') {
-                text = 'New place added to <b> ' + notification.meetName + '</b>';
+                text = 'New place <b>' + notification.value + '</b> added to <b> ' + notification.meetName + '</b>';
             } else if (notification.type == 'group') {
                 text = 'New group added to <b> ' + notification.meetName + '</b>';
             }

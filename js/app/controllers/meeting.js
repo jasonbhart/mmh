@@ -535,6 +535,7 @@
             var dialog = dialogs.userMeetingPlaces(placesProvider);
             
             dialog.result.then(function(places) {
+                addPlaceNotification(angular.copy($scope.meeting.where), places);
                 $log.log('Show places result:', places);
                 _.forEach(places, function(place) {
 
@@ -568,6 +569,17 @@
             }
         };
         
+        var getNewPlaceAdded = function (oldPlaces, newPlaces) {
+            var existingPlaces = Object.keys(oldPlaces).map(function(value){return oldPlaces[value].name;});
+            for (var i in newPlaces) {
+                var place = newPlaces[i].name;
+                if (existingPlaces.indexOf(place) === -1) {
+                    return place;
+                }
+            }
+            return false;
+        };
+        
         var getNewTimeAdded = function (oldTimes, newTimes) {
             var existingTimes = Object.keys(oldTimes).map(function(value){return oldTimes[value].$value;});
             for (var i in newTimes) {
@@ -586,6 +598,39 @@
                     type: 'time',
                     status: '1',
                     value: newTimeAdded,
+                    createdAt: moment().utc().toISOString(),
+                    meetId: $scope.meeting.id,
+                    meetName: $scope.meeting.name
+                };
+                
+                var sendingEmails = [];
+                
+                for (var i in $scope.usersInfo.others) {
+                    if (typeof $scope.usersInfo.others[i] === 'object') {
+                        // onsite notification
+                        notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
+                        
+                        if ($scope.usersInfo.others[i].user.user.email) {
+                            sendingEmails.push($scope.usersInfo.others[i].user.user.email);
+                            
+                        }
+                    }
+                }
+                
+                // email notification
+                if (sendingEmails.length > 0) {
+                    emailService.sendEmailToUsers(sendingEmails, notificationData);
+                }
+            }
+        };
+        
+        var addPlaceNotification = function (oldPlaces, newPlaces) {
+            var newPlaceAdded = getNewPlaceAdded(oldPlaces, newPlaces);
+            if (newPlaceAdded) {
+                var notificationData = {
+                    type: 'place',
+                    status: '1',
+                    value: newPlaceAdded,
                     createdAt: moment().utc().toISOString(),
                     meetId: $scope.meeting.id,
                     meetName: $scope.meeting.name
