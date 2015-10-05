@@ -40,6 +40,9 @@
                                     var passingData = {meetingId: meeting.id, whereId: firstWhereId};
 
                                     meetingInfo.getMeetingInfo(passingData).then(function(meetingInfo) {
+                                        if (typeof meetingInfo.where.location !== 'undefined') {
+                                            meetingInfo.where.location.display_address = meetingInfo.where.location.display_address.replace('undefined', '');
+                                        }
                                         $scope.rsvpMeetingList.push(meetingInfo);
                                     });
                                 });
@@ -77,6 +80,9 @@
                             var userGroupRef = ref.child(meeting.id).child('users').child($scope.currentUser.id).child('group');
                             userGroupRef.once('value', function(snapshot) {
                                 if (snapshot.val() === null) {
+                                    if (typeof meeting.where.location !== 'undefined') {
+                                        meeting.where.location.display_address = meeting.where.location.display_address.replace('undefined', '');
+                                    }
                                     $scope.otherMeetings.push(meeting);
                                 }
                             });
