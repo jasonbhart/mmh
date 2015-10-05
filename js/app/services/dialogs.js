@@ -45,12 +45,12 @@
                 });
             },
             
-            addManualBusiness: function(business) {
+            addManualBusiness: function(options) {
                 return modal.open({
                     templateUrl: 'js/app/tmpl/manualBusiness.html',
                     controller: 'ManualBusinessController',
                     resolve: {
-                        business: business
+                        options: options
                     }
                 });
             }

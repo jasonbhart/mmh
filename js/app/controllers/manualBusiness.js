@@ -6,25 +6,23 @@
     // Location map popup controller
     app.controller(
         'ManualBusinessController',
-        ['$scope', 'modalInstance', 'business', function ($scope, modalInstance, business) {
-            $scope.name = business.name;
-            $scope.city = business.city;
-            $scope.country_code = business.country_code;
-            $scope.url= business.url;
-            
-            var newBusiness = {
-                'rating_url' : '',
-                'type' : '',
-                'location' : ''
+        ['$scope', 'modalInstance', 'dataProvider', 'options', function ($scope, modalInstance, dataProvider, options) {
+            $scope.business_name = '';
+            $scope.business = {};
+            $scope.places = [];
+
+            $scope.showPlaceSuggestion = function() {
+                options.term = $scope.business_name;
+                options.limit = 5;
+                dataProvider.getSuggestions(options).then(function(suggestions) {
+                    $scope.places = suggestions;
+                });
             };
-
+            
+            $scope.showPlaceSuggestion();
+            
             $scope.confirm = function() {
-                newBusiness.name = $scope.name ? $scope.name : '';
-                newBusiness.city = $scope.city ? $scope.city : '';
-                newBusiness.country_code = $scope.country_code ? $scope.country_code : '';
-                newBusiness.url = $scope.url ? $scope.url : '';
-
-                modalInstance.close(newBusiness);
+                modalInstance.close($scope.business);
             }
 
             $scope.cancel = function() {
