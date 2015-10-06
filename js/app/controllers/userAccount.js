@@ -55,6 +55,8 @@
                 text = 'New place <b>' + notification.value + '</b> added to <b> ' + notification.meetName + '</b>';
             } else if (notification.type == 'group') {
                 text = 'New group <b>' + notification.value + '</b> added to <b> ' + notification.meetName + '</b>';
+            } else if (notification.type == 'user') {
+                text = 'New user <b>' + notification.value + '</b> joined activity <b> ' + notification.meetName + '</b>';
             }
             return $sce.trustAsHtml(text);
         }

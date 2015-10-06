@@ -3,7 +3,6 @@
 
     var app = angular.module('mmh.controllers');
     
-    var newUserNotificationSent = false;
     
     app.controller('meetingController', ['$scope', '$q', '$log', '$firebaseObject', '$firebaseArray', 'dialogs', 'dataProvider', 'sessionService', 'meetingService', 'userService', 'geoLocation', 'userGroupBuilder','$window', 'util', 'notificationService', 'emailService',
             function($scope, $q, $log, $firebaseObject, $firebaseArray, dialogs, dataProvider, sessionService, meetingService, userService, geoLocation, userGroupBuilder, $window, util, notificationService, emailService) {
@@ -16,8 +15,7 @@
         $scope.currentUser = null;
         $scope.currentPage = util.getCurrentPage();
         $scope.currentMeetingId = util.getUrlParams('act');
-        
-        $scope.newUserNotificationSent = false;
+       
                 
         var formattingData = {
             where: [],
@@ -208,17 +206,32 @@
         });
         
         var sendNewUserJoinedNotification = function(user, meeting) {
-            console.log(user,meeting, newUserNotificationSent);
-            if (newUserNotificationSent) {
-                return;
-            }
-            newUserNotificationSent = true;
+            console.log(user,meeting);
             
             var userIds = Object.keys(meeting.users).map(function(value) {
                 return meeting.users[value].$id;
             }); 
             userIds = userIds.filter(function(value) {return value;});
             console.log(userIds);
+            
+            var currentUserId = user.id;
+            
+            if (userIds.indexOf(currentUserId) !== -1) {
+                return false;
+            }
+            
+            var notificationData = {
+                type: 'user',
+                status: '1',
+                value: user.user.fullName || 'Anonymous',
+                createdAt: moment().utc().toISOString(),
+                meetId: meeting.id,
+                meetName: meeting.name
+            };
+
+            for (var i in userIds) {
+                notificationService.addNotificationToUser(userIds[i], notificationData);
+            }
             
         }
 
