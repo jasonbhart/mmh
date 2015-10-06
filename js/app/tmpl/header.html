@@ -3,7 +3,7 @@
     <div id="top-right" class="pull-right" ng-controller="UserAccountController">
         <div class="notifications">
             <a class="dropdown-button info on" href="#" data-activates="notifications-info" title="Notifications">
-                <i class="icon"></i><span class="alert-bubble">{{ countNotification }}</span>
+                <i class="icon"></i><span class="alert-bubble" ng-show="countNotification">{{ countNotification }}</span>
             </a>
             <div id="notifications-info" class="dropdown-content">
                 <p class="notifLabel">Notifications</p>

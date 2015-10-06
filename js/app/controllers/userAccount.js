@@ -6,7 +6,7 @@
     function($scope, $log, sessionService, dialogs, notificationService, $sce) {
         $scope.isAuthenticated = false;
         $scope.user = null;
-        $scope.countNotification = 0;
+        $scope.countNotification = '';
         $scope.notifications = [];
 
         $scope.login = function() { 

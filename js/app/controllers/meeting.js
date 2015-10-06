@@ -3,6 +3,8 @@
 
     var app = angular.module('mmh.controllers');
     
+    var newUserNotificationSent = false;
+    
     app.controller('meetingController', ['$scope', '$q', '$log', '$firebaseObject', '$firebaseArray', 'dialogs', 'dataProvider', 'sessionService', 'meetingService', 'userService', 'geoLocation', 'userGroupBuilder','$window', 'util', 'notificationService', 'emailService',
             function($scope, $q, $log, $firebaseObject, $firebaseArray, dialogs, dataProvider, sessionService, meetingService, userService, geoLocation, userGroupBuilder, $window, util, notificationService, emailService) {
 
@@ -14,6 +16,8 @@
         $scope.currentUser = null;
         $scope.currentPage = util.getCurrentPage();
         $scope.currentMeetingId = util.getUrlParams('act');
+        
+        $scope.newUserNotificationSent = false;
                 
         var formattingData = {
             where: [],
@@ -139,9 +143,10 @@
 
             var trySet = function() {
                 if (user && meeting) {
+                    sendNewUserJoinedNotification(user, meeting);
                     meeting.addUser(user.id).then(function() {
                         meeting.getUser(user.id).then(function(meetingUser) {
-                            setMeetingUser(meetingUser)
+                            setMeetingUser(meetingUser);
                         });
                     });
                 } else {
@@ -201,6 +206,21 @@
                 });
             });        
         });
+        
+        var sendNewUserJoinedNotification = function(user, meeting) {
+            console.log(user,meeting, newUserNotificationSent);
+            if (newUserNotificationSent) {
+                return;
+            }
+            newUserNotificationSent = true;
+            
+            var userIds = Object.keys(meeting.users).map(function(value) {
+                return meeting.users[value].$id;
+            }); 
+            userIds = userIds.filter(function(value) {return value;});
+            console.log(userIds);
+            
+        }
 
         // load/create meeting
         var meetingPromise;
