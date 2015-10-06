@@ -1,24 +1,28 @@
-<div id="manual-business" class="modal white">
+<div id="modal-place" class="modal">
     <div class="modal-content">
-        <h4 class="title">Enter new establishment<a class="modal-close icon-close"><i class="fa fa-close"></i></a></h4>
-        <div class="timepicker-wrap">
+        <h4 class="title">Where do you want to do this?</h4>
+        <div class="pop-place">
             <div class="row">
-                <label  class="col s12 m3">Name </label>
-                <div class="col s12 m8"><input type="text" placeholder="Name" value="{{name}}" ng-model="name" name="name" class="validate"/></div>
+                <input type="text" placeholder="Enter Business Name" ng-model="business_name" ng-keyup="showPlaceSuggestion()" style="max-width: 500px"/>
             </div>
-            <div class="row">
-                <label  class="col s12 m3">City </label>
-                <div class="col s12 m8"><input type="text" placeholder="City" value="{{city}}" ng-model="city" name="city" class="validate"/></div>
-            </div>
-            <div class="row">
-                <label  class="col s12 m3">Country Code </label>
-                <div class="col s12 m8"><input type="text" placeholder="Country Code" value="{{country_code}}" ng-model="country_code"  name="country_code" class="validate"/></div>
-            </div>
-            <div class="row">
-                <label  class="col s12 m3">URL </label>
-                <div class="col s12 m8"><input type="text" placeholder="URL" value="{{country_code}}" ng-model="url" name="url" class="validate"/></div>
+            <ul class="best-places">
+                <li class="row" ng-repeat="place in places">
+                    <div class="info">
+                        <h3 class="title"><a href="{{ place.url }}">{{ place.name }}</a></h3>
+                        <stars-rating rating="{{ place.rating }}"></stars-rating>
+                    </div>
+                    <div class="check-area">
+                        <input class="with-gap" ng-model="$parent.business" value="{{place}}" name="business" id="filled-in-box-{{$index}}" type="radio" />
+                        <!--<input type="checkbox" class="filled-in" id="filled-in-box-{{$index}}" ng-model="place.selected" />-->
+                        <label for="filled-in-box-{{$index}}"></label>
+                    </div>
+                </li>
+            </ul>
+            <div class="row" ng-show="places.length == 0" style="font-size: 14px; font-style: italic">
+                 No matching place in the search area
             </div>
         </div>
+        <a class="modal-close icon-close"><i class="fa fa-close"></i></a>
     </div>
     <div class="modal-footer">
         <a class="modal-close waves-effect waves-light btn grey" ng-click="cancel()">Close</a>

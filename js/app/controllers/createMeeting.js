@@ -25,6 +25,7 @@
         $scope.currentPage = util.getCurrentPage();
         
         var defaultManualBusinessLabel = 'Enter a specific business';
+        
         $scope.manualBusinessLabel = defaultManualBusinessLabel;
         $scope.manualBusinessInfo = {};
         
@@ -53,8 +54,8 @@
                 return;
             }
             
-            if ($scope.stage === 3 && $scope.establishment === 'manual' && !$scope.manualBusinessInfo.name) {
-                alert('Please enter business name');
+            if ($scope.stage === 3 && $scope.establishment === 'manual' && Object.keys($scope.manualBusinessInfo).length === 0) {
+                alert('Please select a business');
                 $scope.addManualBusiness();
                 return;
             }
@@ -170,32 +171,18 @@
         });
         
         $scope.addManualBusiness = function() {
-            var dialog = dialogs.addManualBusiness($scope.manualBusinessInfo);
+            var dialog = dialogs.addManualBusiness($scope.getWhereQueryOptions({}));
             dialog.result.then(function(business) {
-                if (!business.name) {
-                    alert('Please enter business name');
+                if (Object.keys(business).length === 0) {
+                    alert('Please select a business');
                     $scope.addManualBusiness();
+                    return;
                 }
-                $scope.manualBusinessLabel = defaultManualBusinessLabel + getBusinessPlace(business, true);
+                var establishment = JSON.parse(business);
+                $scope.manualBusinessLabel = defaultManualBusinessLabel + ' (' + establishment.name + ' - ' + establishment.location.display_address + ')';
                 $scope.manualBusinessInfo = business;
-                $scope.manualBusinessInfo.location = {display_address: getBusinessPlace(business, false)};
             });
         };
-        
-        function getBusinessPlace(business, parenthesis) {
-            var place = '';
-            if (business.name) {
-                place = business.name;
-                if (business.city) {
-                    place += ', ' + business.city;
-                }
-            }
-            
-            if (place && parenthesis) {
-                place = ' (' + place + ')'; 
-            }
-            return place;
-        }
         
         function getISOFormatedTimes() {
             return $scope.times.map(function(time){
@@ -212,7 +199,7 @@
                     return [];
                 }
             } else if ($scope.establishment === 'manual') {
-                establishment = JSON.stringify($scope.manualBusinessInfo);
+                establishment = $scope.manualBusinessInfo;
             }
             
             try {
@@ -239,10 +226,19 @@
                 'limit': '3',
                 'category_filter': getSelectedCategory()
             };
-            var timeout = 0;
+            var timeout = ($scope.where !== 'other') ? 1000 : 0;
+            
+            options = $scope.getWhereQueryOptions(options);
 
+            setTimeout(function(){
+                dataProvider.getSuggestions(options).then(function(suggestions) {
+                    $scope.suggestions = suggestions;
+                });
+            }, timeout);
+        };
+        
+        $scope.getWhereQueryOptions = function(options) {
             if ($scope.where !== 'other') {
-                timeout = 1000;
                 var currentLocation = geoLocation.getPosition();
                 currentLocation.then(function(position) {
                     if (position.coords.latitude && position.coords.longitude) {
@@ -258,14 +254,9 @@
             } else {
                 options.location = $scope.other_location;
             }
-
-
-            setTimeout(function(){
-                dataProvider.getSuggestions(options).then(function(suggestions) {
-                    $scope.suggestions = suggestions;
-                });
-            }, timeout);
-        };
+            
+            return options;
+        }
         
         var createMeeting = function() {
             var times   = getISOFormatedTimes();
@@ -317,29 +308,6 @@
             } else {
                 name += toTitleCase($scope.term) + ' ';
             }
-            
-            // where
-//            if ($scope.establishment === 'manual' && getBusinessPlace($scope.manualBusinessInfo)) {
-//                name += 'at ' + getBusinessPlace($scope.manualBusinessInfo) + ' ';
-//            }
-//            else if ($scope.establishment !== 'other') {
-//                try {
-//                    name += 'at ' + JSON.parse($scope.establishment).name + ' ';
-//                } catch (e) {
-//                    console.log('unable to parse establishment');
-//                }
-//            } else if ($scope.where == '1') {
-//                name += 'within 1 mile ';
-//            } else if ($scope.where == '10') {
-//                name += 'within 10 miles ';
-//            } else if ($scope.other_location) {
-//                name += 'in ' + $scope.other_location + ' ';
-//            }
-            
-            // when
-//            if (typeof $scope.times[0] === 'object') {
-//                name += 'at ' + $scope.times[0].format($scope.timeFormat);
-//            }
             
             return name;
         };
