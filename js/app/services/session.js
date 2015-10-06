@@ -82,10 +82,12 @@
             if (authData.provider == authProviders.FACEBOOK) {
                 userData.fullName = authData.facebook.displayName,
                 userData.profileImageURL = authData.facebook.profileImageURL;
+                userData.email = authData.facebook.email || null;
                 userData.loggedViaSocial = true;
             } else if (authData.provider == authProviders.ANONYMOUS) {
                 userData.fullName = 'Anonymous';
                 userData.profileImageURL = null;
+                userData.email = null;
                 $cookies.lastAnonymousId = authData.uid;
             }
 

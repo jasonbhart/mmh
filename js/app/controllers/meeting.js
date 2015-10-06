@@ -3,8 +3,9 @@
 
     var app = angular.module('mmh.controllers');
     
-    app.controller('meetingController', ['$scope', '$q', '$log', '$firebaseObject', '$firebaseArray', 'dialogs', 'dataProvider', 'sessionService', 'meetingService', 'userService', 'geoLocation', 'userGroupBuilder','$window', 'util',
-            function($scope, $q, $log, $firebaseObject, $firebaseArray, dialogs, dataProvider, sessionService, meetingService, userService, geoLocation, userGroupBuilder, $window, util) {
+    
+    app.controller('meetingController', ['$scope', '$q', '$log', '$firebaseObject', '$firebaseArray', 'dialogs', 'dataProvider', 'sessionService', 'meetingService', 'userService', 'geoLocation', 'userGroupBuilder','$window', 'util', 'notificationService', 'emailService',
+            function($scope, $q, $log, $firebaseObject, $firebaseArray, dialogs, dataProvider, sessionService, meetingService, userService, geoLocation, userGroupBuilder, $window, util, notificationService, emailService) {
 
         // get from the session
         $scope.timeFormat = 'h:mmA';
@@ -14,6 +15,8 @@
         $scope.currentUser = null;
         $scope.currentPage = util.getCurrentPage();
         $scope.currentMeetingId = util.getUrlParams('act');
+        $scope.changingGroups = false;
+       
                 
         var formattingData = {
             where: [],
@@ -139,9 +142,10 @@
 
             var trySet = function() {
                 if (user && meeting) {
+                    sendNewUserJoinedNotification(user, meeting);
                     meeting.addUser(user.id).then(function() {
                         meeting.getUser(user.id).then(function(meetingUser) {
-                            setMeetingUser(meetingUser)
+                            setMeetingUser(meetingUser);
                         });
                     });
                 } else {
@@ -201,6 +205,36 @@
                 });
             });        
         });
+        
+        var sendNewUserJoinedNotification = function(user, meeting) {
+            console.log(user,meeting);
+            
+            var userIds = Object.keys(meeting.users).map(function(value) {
+                return meeting.users[value].$id;
+            }); 
+            userIds = userIds.filter(function(value) {return value;});
+            console.log(userIds);
+            
+            var currentUserId = user.id;
+            
+            if (userIds.indexOf(currentUserId) !== -1) {
+                return false;
+            }
+            
+            var notificationData = {
+                type: 'user',
+                status: '1',
+                value: user.user.fullName || 'Anonymous',
+                createdAt: moment().utc().toISOString(),
+                meetId: meeting.id,
+                meetName: meeting.name
+            };
+
+            for (var i in userIds) {
+                notificationService.addNotificationToUser(userIds[i], notificationData);
+            }
+            
+        }
 
         // load/create meeting
         var meetingPromise;
@@ -282,7 +316,11 @@
                         watch.where.$watch(function(event) {
                             if (event.event == 'child_added' || event.event == 'child_removed') {
                                 $scope.usersInfo.updateWhere(formattingData, userId);
+                                var oldUserGroups = $scope.userGroups;
                                 $scope.userGroups = buildUserGroups(formattingData);
+                                if (event.event == 'child_added') {
+                                    addGroupNotification(oldUserGroups, $scope.userGroups);
+                                }
                             }
                         });
 
@@ -296,7 +334,11 @@
                         watch.when.$watch(function(event) {
                             if (event.event == 'child_added' || event.event == 'child_removed') {
                                 $scope.usersInfo.updateWhen(formattingData, userId);
+                                var oldUserGroups = $scope.userGroups;
                                 $scope.userGroups = buildUserGroups(formattingData);
+                                if (event.event == 'child_added') {
+                                    addGroupNotification(oldUserGroups, $scope.userGroups);
+                                }     
                             }
                         });
 
@@ -312,8 +354,9 @@
                         } else {
                             info.group = null;
                         }
-
+                        
                         $scope.userGroups = buildUserGroups(formattingData);
+                        
                     });
 
                     // get user's info
@@ -535,6 +578,7 @@
             var dialog = dialogs.userMeetingPlaces(placesProvider);
             
             dialog.result.then(function(places) {
+                addPlaceNotification(angular.copy($scope.meeting.where), places);
                 $log.log('Show places result:', places);
                 _.forEach(places, function(place) {
 
@@ -568,9 +612,154 @@
             }
         };
         
+        var getNewGroupAdded = function (oldGroups, newGroups) {
+            for (var i in newGroups.groups) {
+                var currentGroup = newGroups.groups[i];
+                var isNew = true;
+                for (var j in oldGroups.groups) {
+                    if (currentGroup.when.formatted == oldGroups.groups[j].when.formatted
+                        && currentGroup.where.name == oldGroups.groups[j].where.name) {
+                        isNew = false;
+                    }
+                }
+                
+                if (isNew) {
+                    return currentGroup;
+                }
+            }
+            
+            return false;
+        };
+        
+        var getNewPlaceAdded = function (oldPlaces, newPlaces) {
+            var existingPlaces = Object.keys(oldPlaces).map(function(value){return oldPlaces[value].name;});
+            for (var i in newPlaces) {
+                var place = newPlaces[i].name;
+                if (existingPlaces.indexOf(place) === -1) {
+                    return place;
+                }
+            }
+            return false;
+        };
+        
+        var getNewTimeAdded = function (oldTimes, newTimes) {
+            var existingTimes = Object.keys(oldTimes).map(function(value){return oldTimes[value].$value;});
+            for (var i in newTimes) {
+                var time = newTimes[i].clone().utc().toISOString();
+                if (existingTimes.indexOf(time) === -1) {
+                    return time;
+                }
+            }
+            return false;
+        };
+        
+        var addTimeNotification = function (oldTimes, newTimes) {
+            var newTimeAdded = getNewTimeAdded(oldTimes, newTimes);
+            if (newTimeAdded) {
+                $scope.changingGroups = true;
+                var notificationData = {
+                    type: 'time',
+                    status: '1',
+                    value: newTimeAdded,
+                    createdAt: moment().utc().toISOString(),
+                    meetId: $scope.meeting.id,
+                    meetName: $scope.meeting.name
+                };
+                
+                var sendingEmails = [];
+                
+                for (var i in $scope.usersInfo.others) {
+                    if (typeof $scope.usersInfo.others[i] === 'object') {
+                        // onsite notification
+                        notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
+                        
+                        if ($scope.usersInfo.others[i].user.user.email) {
+                            sendingEmails.push($scope.usersInfo.others[i].user.user.email);
+                            
+                        }
+                    }
+                }
+                
+                // email notification
+                if (sendingEmails.length > 0) {
+                    emailService.sendEmailToUsers(sendingEmails, notificationData);
+                }
+            }
+        };
+        
+        var addPlaceNotification = function (oldPlaces, newPlaces) {
+            var newPlaceAdded = getNewPlaceAdded(oldPlaces, newPlaces);
+            if (newPlaceAdded) {
+                $scope.changingGroups = true;
+                var notificationData = {
+                    type: 'place',
+                    status: '1',
+                    value: newPlaceAdded,
+                    createdAt: moment().utc().toISOString(),
+                    meetId: $scope.meeting.id,
+                    meetName: $scope.meeting.name
+                };
+                
+                var sendingEmails = [];
+                
+                for (var i in $scope.usersInfo.others) {
+                    if (typeof $scope.usersInfo.others[i] === 'object') {
+                        // onsite notification
+                        notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
+                        
+                        if ($scope.usersInfo.others[i].user.user.email) {
+                            sendingEmails.push($scope.usersInfo.others[i].user.user.email);
+                            
+                        }
+                    }
+                }
+                
+                // email notification
+                if (sendingEmails.length > 0) {
+                    emailService.sendEmailToUsers(sendingEmails, notificationData);
+                }
+            }
+        };
+        
+        var addGroupNotification = function (oldGroups, newGroups) {
+            if (!$scope.changingGroups) {
+                return false;
+            }
+            var newGroupAdded = getNewGroupAdded(oldGroups, newGroups);
+            if (newGroupAdded) {
+                var notificationData = {
+                    type: 'group',
+                    status: '1',
+                    value: newGroupAdded.when.formatted + ' - ' + newGroupAdded.where.name,
+                    createdAt: moment().utc().toISOString(),
+                    meetId: $scope.meeting.id,
+                    meetName: $scope.meeting.name
+                };
+                
+                var sendingEmails = [];
+                for (var i in $scope.usersInfo.others) {
+                    if (typeof $scope.usersInfo.others[i] === 'object') {
+                        // onsite notification
+                        notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
+                        
+                        if ($scope.usersInfo.others[i].user.user.email) {
+                            sendingEmails.push($scope.usersInfo.others[i].user.user.email);
+                        }
+                    }
+                }
+                
+                // email notification
+                if (sendingEmails.length > 0) {
+                    emailService.sendEmailToUsers(sendingEmails, notificationData);
+                }
+            }
+            $scope.changingGroups = false;
+        };
+        
         $scope.addTimes = function() {
             var dialog = dialogs.userMeetingTimes(timesProvider);
             dialog.result.then(function(times) {
+                addTimeNotification(angular.copy($scope.meeting.when), times);
                 $log.log('Show times result:', times);
                 // remove times
                 $scope.meetingUser.removeAllWhen();

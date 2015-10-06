@@ -87,6 +87,7 @@
                     id: data.id,
                     provider: data.provider,
                     fullName: data.fullName,
+                    email: data.email,
                     profileImageURL: data.profileImageURL
                 };
                 
