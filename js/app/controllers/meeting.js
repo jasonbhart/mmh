@@ -318,7 +318,9 @@
                                 $scope.usersInfo.updateWhere(formattingData, userId);
                                 var oldUserGroups = $scope.userGroups;
                                 $scope.userGroups = buildUserGroups(formattingData);
-                                addGroupNotification(oldUserGroups, $scope.userGroups);
+                                if (event.event == 'child_added') {
+                                    addGroupNotification(oldUserGroups, $scope.userGroups);
+                                }
                             }
                         });
 
@@ -334,7 +336,9 @@
                                 $scope.usersInfo.updateWhen(formattingData, userId);
                                 var oldUserGroups = $scope.userGroups;
                                 $scope.userGroups = buildUserGroups(formattingData);
-                                addGroupNotification(oldUserGroups, $scope.userGroups);
+                                if (event.event == 'child_added') {
+                                    addGroupNotification(oldUserGroups, $scope.userGroups);
+                                }     
                             }
                         });
 
