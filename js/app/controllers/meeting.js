@@ -315,7 +315,7 @@
                         watch.where.$watch(function(event) {
                             if (event.event == 'child_added' || event.event == 'child_removed') {
                                 $scope.usersInfo.updateWhere(formattingData, userId);
-                                var oldUserGroups = angular.copy($scope.userGroups);
+                                var oldUserGroups = $scope.userGroups;
                                 $scope.userGroups = buildUserGroups(formattingData);
                                 addGroupNotification(oldUserGroups, $scope.userGroups);
                             }
@@ -331,7 +331,7 @@
                         watch.when.$watch(function(event) {
                             if (event.event == 'child_added' || event.event == 'child_removed') {
                                 $scope.usersInfo.updateWhen(formattingData, userId);
-                                var oldUserGroups = angular.copy($scope.userGroups);
+                                var oldUserGroups = $scope.userGroups;
                                 $scope.userGroups = buildUserGroups(formattingData);
                                 addGroupNotification(oldUserGroups, $scope.userGroups);
                             }
