@@ -282,7 +282,9 @@
                         watch.where.$watch(function(event) {
                             if (event.event == 'child_added' || event.event == 'child_removed') {
                                 $scope.usersInfo.updateWhere(formattingData, userId);
+                                var oldUserGroups = angular.copy($scope.userGroups);
                                 $scope.userGroups = buildUserGroups(formattingData);
+                                addGroupNotification(oldUserGroups, $scope.userGroups);
                             }
                         });
 
@@ -296,7 +298,9 @@
                         watch.when.$watch(function(event) {
                             if (event.event == 'child_added' || event.event == 'child_removed') {
                                 $scope.usersInfo.updateWhen(formattingData, userId);
+                                var oldUserGroups = angular.copy($scope.userGroups);
                                 $scope.userGroups = buildUserGroups(formattingData);
+                                addGroupNotification(oldUserGroups, $scope.userGroups);
                             }
                         });
 
@@ -312,8 +316,9 @@
                         } else {
                             info.group = null;
                         }
-
+                        
                         $scope.userGroups = buildUserGroups(formattingData);
+                        
                     });
 
                     // get user's info
@@ -569,6 +574,29 @@
             }
         };
         
+        var getNewGroupAdded = function (oldGroups, newGroups) {
+            console.log('old groupsssss', oldGroups);
+            console.log('new groupssss', newGroups);
+            
+            for (var i in newGroups.groups) {
+                var currentGroup = newGroups.groups[i];
+                var isNew = true;
+                console.log('Current Group:', currentGroup);
+                for (var j in oldGroups.groups) {
+                    if (currentGroup.when.formatted == oldGroups.groups[j].when.formatted
+                        && currentGroup.where.name == oldGroups.groups[j].where.name) {
+                        isNew = false;
+                    }
+                }
+                
+                if (isNew) {
+                    return currentGroup;
+                }
+            }
+            
+            return false;
+        };
+        
         var getNewPlaceAdded = function (oldPlaces, newPlaces) {
             var existingPlaces = Object.keys(oldPlaces).map(function(value){return oldPlaces[value].name;});
             for (var i in newPlaces) {
@@ -646,6 +674,40 @@
                         if ($scope.usersInfo.others[i].user.user.email) {
                             sendingEmails.push($scope.usersInfo.others[i].user.user.email);
                             
+                        }
+                    }
+                }
+                
+                // email notification
+                if (sendingEmails.length > 0) {
+                    emailService.sendEmailToUsers(sendingEmails, notificationData);
+                }
+            }
+        };
+        
+        var addGroupNotification = function (oldGroups, newGroups) {
+            var newGroupAdded = getNewGroupAdded(oldGroups, newGroups);
+            console.log('NEW GROUP ADDED');
+            console.log(newGroupAdded);
+            if (newGroupAdded) {
+                var notificationData = {
+                    type: 'group',
+                    status: '1',
+                    value: newGroupAdded.when.formatted + ' - ' + newGroupAdded.where.name,
+                    createdAt: moment().utc().toISOString(),
+                    meetId: $scope.meeting.id,
+                    meetName: $scope.meeting.name
+                };
+                
+                var sendingEmails = [];
+                console.log('Other usersssss', $scope.usersInfo.others);
+                for (var i in $scope.usersInfo.others) {
+                    if (typeof $scope.usersInfo.others[i] === 'object') {
+                        // onsite notification
+                        notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
+                        
+                        if ($scope.usersInfo.others[i].user.user.email) {
+                            sendingEmails.push($scope.usersInfo.others[i].user.user.email);
                         }
                     }
                 }
