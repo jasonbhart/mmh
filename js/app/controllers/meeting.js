@@ -595,13 +595,9 @@
         };
         
         var getNewGroupAdded = function (oldGroups, newGroups) {
-            console.log('old groupsssss', oldGroups);
-            console.log('new groupssss', newGroups);
-            
             for (var i in newGroups.groups) {
                 var currentGroup = newGroups.groups[i];
                 var isNew = true;
-                console.log('Current Group:', currentGroup);
                 for (var j in oldGroups.groups) {
                     if (currentGroup.when.formatted == oldGroups.groups[j].when.formatted
                         && currentGroup.where.name == oldGroups.groups[j].where.name) {
@@ -707,8 +703,6 @@
         
         var addGroupNotification = function (oldGroups, newGroups) {
             var newGroupAdded = getNewGroupAdded(oldGroups, newGroups);
-            console.log('NEW GROUP ADDED');
-            console.log(newGroupAdded);
             if (newGroupAdded) {
                 var notificationData = {
                     type: 'group',
@@ -720,7 +714,6 @@
                 };
                 
                 var sendingEmails = [];
-                console.log('Other usersssss', $scope.usersInfo.others);
                 for (var i in $scope.usersInfo.others) {
                     if (typeof $scope.usersInfo.others[i] === 'object') {
                         // onsite notification
