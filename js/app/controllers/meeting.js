@@ -15,6 +15,7 @@
         $scope.currentUser = null;
         $scope.currentPage = util.getCurrentPage();
         $scope.currentMeetingId = util.getUrlParams('act');
+        $scope.changingGroups = false;
        
                 
         var formattingData = {
@@ -651,6 +652,7 @@
         var addTimeNotification = function (oldTimes, newTimes) {
             var newTimeAdded = getNewTimeAdded(oldTimes, newTimes);
             if (newTimeAdded) {
+                $scope.changingGroups = true;
                 var notificationData = {
                     type: 'time',
                     status: '1',
@@ -684,6 +686,7 @@
         var addPlaceNotification = function (oldPlaces, newPlaces) {
             var newPlaceAdded = getNewPlaceAdded(oldPlaces, newPlaces);
             if (newPlaceAdded) {
+                $scope.changingGroups = true;
                 var notificationData = {
                     type: 'place',
                     status: '1',
@@ -715,6 +718,9 @@
         };
         
         var addGroupNotification = function (oldGroups, newGroups) {
+            if (!$scope.changingGroups) {
+                return false;
+            }
             var newGroupAdded = getNewGroupAdded(oldGroups, newGroups);
             if (newGroupAdded) {
                 var notificationData = {
@@ -743,6 +749,7 @@
                     emailService.sendEmailToUsers(sendingEmails, notificationData);
                 }
             }
+            $scope.changingGroups = false;
         };
         
         $scope.addTimes = function() {
