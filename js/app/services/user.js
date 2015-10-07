@@ -59,6 +59,18 @@
                     }, function (error) {
                         $log.log("user.js - change location error");
                     });
+                },
+                removePassedActivities: function () {
+                    var meetingList = this.meetingList;
+                    _.forEach(meetingList, function(meeting, meetingId) {
+                        if (meeting && meeting.id) {
+                            if (moment().diff(moment(meeting.createdDate)) > 86400 * 1000) {
+                                delete meetingList[meetingId];
+                            }
+                        }
+                        
+                    });
+                    meetingList.$save();
                 }
             };
 
