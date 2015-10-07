@@ -98,6 +98,20 @@
                 ref.once('value', function(snap) {
                     if (!snap.exists()) {
                         userData.createdDate = moment().utc().toISOString();
+                    } else {
+                        var currentData = snap.val();
+                        if (currentData.loggedViaSocial && !data.loggedViaSocial) {
+                            service.get(data.id).then(function(user) {
+                            $rootScope.$applyAsync(function() {
+                                defer.resolve(user);
+                            });
+                        }, function(error) {
+                            $rootScope.$applyAsync(function() {
+                                defer.reject(error);
+                            });
+                        });
+                            return true;
+                        }
                     }
                     
                     ref.update(userData, function(error) {
