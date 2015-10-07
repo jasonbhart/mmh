@@ -22,9 +22,27 @@
             return $firebaseObject(ref);
         };
         
+        var removePassedActivity = function (categoriesObject) {
+            _.forEach(categoriesObject, function (category, categoryName) {
+                if (category && category.meetings) {
+                    _.forEach(category.meetings, function(meeting, meetingId) {
+                        if (moment().diff(moment(meeting.createdDate)) > 86400 * 1000) {
+                            delete category.meetings[meetingId];
+                        }
+                    });
+                    if (Object.keys(category.meetings).length === 0) {
+                        delete category.meetings;
+                    }
+                }
+            });
+            categoriesObject.$save();
+
+        }
+        
         return {
             addMeetingToCategory: addMeetingToCategory,
-            getCategories: getCategories
+            getCategories: getCategories,
+            removePassedActivity: removePassedActivity
         }
     }]);
 })();

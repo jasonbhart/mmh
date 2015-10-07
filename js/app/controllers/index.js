@@ -121,7 +121,8 @@
         });
         
         var categories = categoryService.getCategories();
-        categories.$loaded().then(function(data) {
+        categories.$loaded().then(function(data) { 
+            categoryService.removePassedActivity(categories);
             $scope.categories = data;
         });
         
