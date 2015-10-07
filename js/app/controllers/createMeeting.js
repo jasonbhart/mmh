@@ -223,9 +223,21 @@
             var options = {
                 'term' : ($scope.what !== 'other') ? $scope.what : $scope.term,
                 'sort' : '2',
-                'limit': '3',
-                'category_filter': getSelectedCategory()
+                'limit': '3'
             };
+            
+            var isCategoryFilter = false;
+            for (var i in $scope.selectedCategory) {
+                if ($scope.selectedCategory[i] === false) {
+                    isCategoryFilter = true;
+                    break;
+                }
+            }
+            
+            if (isCategoryFilter) {
+                options.category_filter = getSelectedCategory();
+            }
+            
             var timeout = ($scope.where !== 'other') ? 1000 : 0;
             
             options = $scope.getWhereQueryOptions(options);
