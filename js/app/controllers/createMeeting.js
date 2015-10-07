@@ -34,6 +34,7 @@
                 $scope.currentUser = user;
                 userService.get($scope.currentUser.id).then(function(userObj) {
                     userObj.meetingList.$loaded().then(function(data) {
+                        userObj.removePassedActivities();
                         $scope.meetingList = data;
                     });
                 });

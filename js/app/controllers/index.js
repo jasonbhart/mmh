@@ -20,6 +20,7 @@
                 $scope.currentUser = user;
                 userService.get(user.id).then(function(userObj) {
                     userObj.meetingList.$loaded().then(function(data) {
+                        userObj.removePassedActivities();
                         $scope.meetingList = data;
                     });
                 });
@@ -43,7 +44,9 @@
                                         if (typeof meetingInfo.where.location !== 'undefined') {
                                             meetingInfo.where.location.display_address = meetingInfo.where.location.display_address.replace('undefined', '');
                                         }
-                                        $scope.rsvpMeetingList.push(meetingInfo);
+                                        if ($scope.rsvpMeetingList.indexOf(meetingInfo) === -1) {
+                                            $scope.rsvpMeetingList.push(meetingInfo);
+                                        }
                                     });
                                 });
                             }
