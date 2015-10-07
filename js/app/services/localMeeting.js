@@ -19,7 +19,8 @@
             add: function(meetingId, whereId, location) {
                 var ref = localMeets.push({
                     meeting: meetingId,
-                    where: whereId
+                    where: whereId,
+                    createdAt: moment().utc().toISOString()
                 });
                 
                 $log.log('localMeetingsService: add key', ref.key());
@@ -80,7 +81,10 @@
                     // wait for all meetings
                     $rootScope.$applyAsync(function() {
                         $q.all(deferreds).then(function(meetings) {
-                            meetings = _.filter(meetings);                  // filter out empty values produces by resolve()
+                            meetings = _.filter(meetings, function(meeting) {
+                                return meeting && meeting.createdAt &&
+                                       moment().diff(moment(meeting.createdAt)) < 86400 * 1000;
+                            });                  // filter out empty values produces by resolve()
                             defer.resolve(meetings.slice(0, options.count));        // we can have more than limit because of deferreds
                         });
                     });
@@ -116,6 +120,7 @@
                         var meeting = {
                             meetingId: value.meeting,
                             whereId: value.where,
+                            createdAt: value.createdAt,
                             location: location,
                             distance: distance
                         };
