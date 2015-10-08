@@ -166,11 +166,11 @@ h3.title{font-size:18px; font-weight:500;}
 .modal .box-white{border:1px solid #e5e5e5; border-radius:4px; font-size:16px; padding:10px;}
 .modal .modal-footer{text-align:right; padding:10px 15px 0;}
 .modal .modal-footer .btn{float:none;}
-#modal-time.modal{max-width:500px}
+#modal-time.modal{max-width:500px; max-height:395px; height:85%;}
 .modal .modal-content>.title{margin:0 -20px; padding:5px 20px 10px; border-bottom:1px solid #e5e5e5;margin-bottom:20px; font-size:24px; position:relative;}
 .modal .modal-content>.title .icon-close{top:-18px; right:-3px;}
 .pop-place .select-area{font-size:14px;}
-.selectBox-dropdown{min-width:250px;font-size:15px;position:relative;border:solid 1px #e5e5e5;line-height:1.5;text-decoration:none;text-align:left;color:#000;outline:none;vertical-align:middle;background:#fff;border-radius:4px;display:inline-block;cursor:pointer;}
+.selectBox-dropdown{min-width:230px;font-size:15px;position:relative;border:solid 1px #e5e5e5;line-height:1.5;text-decoration:none;text-align:left;color:#000;outline:none;vertical-align:middle;background:#fff;border-radius:4px;display:inline-block;cursor:pointer;}
 .selectBox-dropdown.selectBox-menuShowing-bottom{-moz-border-radius-bottomleft:0;-moz-border-radius-bottomright:0;-webkit-border-bottom-left-radius:0;-webkit-border-bottom-right-radius:0;border-bottom-left-radius:0;border-bottom-right-radius:0}
 .selectBox-dropdown.selectBox-menuShowing-top{-moz-border-radius-topleft:0;-moz-border-radius-topright:0;-webkit-border-top-left-radius:0;-webkit-border-top-right-radius:0;border-top-left-radius:0;border-top-right-radius:0}
 .selectBox-dropdown .selectBox-label{padding:7px 8px 0;display:inline-block;white-space:nowrap;overflow:hidden; min-width:90%; margin-left:5px; padding-left:28px; overflow:hidden; white-space:nowrap;text-overflow:ellipsis;}
@@ -235,6 +235,11 @@ h3.title{font-size:18px; font-weight:500;}
 .modal .modal-content{background:#fff;}
 #manual-business input {}
 #manual-business label {font-size: 14px; font-weight: bold; padding-top: 10px; text-align: right;}
+.modal{height:100%;overflow:inherit; padding-bottom:56px; max-height:85%;}
+.modal .modal-footer{position:absolute; bottom:0; left:0;}
+.modal .modal-content{overflow-y:auto; height:100%;}
+.modal .best-places{max-height:none; overflow:inherit;}
+
 
 @media only screen and (min-width : 1280px){
 .meeting-top .info{margin-right:25%;}
@@ -261,16 +266,9 @@ h3.title{font-size:18px; font-weight:500;}
 #contRight{margin-top:30px;}
 #contRight .meetingLabel{position:inherit;}
 }
-@media only screen and (max-height : 500px){
-.modal{height:90%;overflow:inherit; padding-bottom:56px;}
-.modal .modal-footer{position:absolute; bottom:0; left:0;}
-.modal .modal-content{overflow-y:auto; height:100%;}
-.modal .best-places{max-height:none; overflow:inherit;}
-	}
 @media only screen and (max-width : 768px){
 .best-places .thumb{display:none;}
 .box-meeting .share dd{display:block; margin:0;}
-.modal{height:90%;}
 }
 @media only screen and (max-width : 650px){
 .box-meeting .title-page{padding:15px;}
@@ -319,8 +317,8 @@ h3.title{font-size:18px; font-weight:500;}
 .user-link .btn .fa{font-size:12px;}
 .login-modal .input-user{display: none; width: 53%; float: left;padding:0 25px 10px 0;box-sizing: border-box;}
 .login-modal .other-connect{padding:0 0 10px 0px;box-sizing: border-box;}
-/*.login-modal #login-form:after {content: '';position: absolute;background: rgba(128, 128, 128, 0.3);top: 0;right: 0;left: 0;bottom: 0; margin: auto; height: 7.25em; width: 0.1em; left: 3.18em; top: -9.8em; -moz-box-shadow: 0 8.8em 0 0 rgba(128, 128, 128, 0.3);*/
-  -webkit-box-shadow: 0 8.8em 0 0 rgba(128, 128, 128, 0.3); box-shadow: 0 8.8em 0 0 rgba(128, 128, 128, 0.3);}
+/*.login-modal #login-form:after {content: '';position: absolute;background: rgba(128, 128, 128, 0.3);top: 0;right: 0;left: 0;bottom: 0; margin: auto; height: 7.25em; width: 0.1em; left: 3.18em; top: -9.8em; -moz-box-shadow: 0 8.8em 0 0 rgba(128, 128, 128, 0.3);
+  -webkit-box-shadow: 0 8.8em 0 0 rgba(128, 128, 128, 0.3); box-shadow: 0 8.8em 0 0 rgba(128, 128, 128, 0.3);}*/
 .login-modal input{box-sizing:border-box; height:3.5rem}
 .login-modal .input-user label{font-size:14px; font-weight:700;}
 .login-modal .input-user .btn{width:100%; font-weight:700;}
@@ -342,6 +340,6 @@ h3.title{font-size:18px; font-weight:500;}
 .login-modal #login-form:after{left:26%;}
 .login-modal #login-form:before{left:25%;}
 }
-@media only screen and (max-width : 450px){.box-meeting .share .label{display:block; margin-bottom:3px;}}
+@media only screen and (max-width : 450px){.box-meeting .share .label{display:block; margin-bottom:3px;}.modal{width:95%;}}
 .gatheringType {min-width: 212px;}
 .notice-text {margin-top:10px; font-style: italic}
