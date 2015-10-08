@@ -64,7 +64,7 @@
                     var meetingList = this.meetingList;
                     _.forEach(meetingList, function(meeting, meetingId) {
                         if (meeting && meeting.id) {
-                            if (moment().diff(moment(meeting.createdDate)) > 86400 * 1000) {
+                            if (moment().diff(moment(meeting.createdDate)) > 2 * 86400 * 1000) {
                                 delete meetingList[meetingId];
                             }
                         }
