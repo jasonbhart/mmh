@@ -21,9 +21,6 @@
             $log.log('Event: auth.changed', user);
             $scope.user = user;
             $scope.isAuthenticated = !user.isAnonymous();
-            notificationService.countUnreadNotifications(user.id).then(function(count) {
-                $scope.countNotification = count;
-            });
             
             notificationService.trackNotification(user.id);
         });
