@@ -23,6 +23,7 @@
         $scope.meetingList = {};
         $scope.gatheringTypes = [];
         $scope.currentPage = util.getCurrentPage();
+        $scope.share = 1;
         
         var defaultManualBusinessLabel = 'Enter a specific business';
         
@@ -158,6 +159,28 @@
             } else if (newValue === 'other') {
                 $scope.times = [];
                 $scope.addTimes();
+            }
+        });
+        
+        $scope.$watch('share', function (newValue, oldValue) {
+            if (newValue === '0') {
+                $scope.finish();
+            }
+        });
+        
+        $scope.$watch('share_social', function (newValue, oldValue) {
+            if (newValue === 'facebook') {
+                document.getElementById("fb-share").click()
+            } else if (newValue === 'twitter') {
+                document.getElementById("twitter-share").click()
+            } else if (newValue === 'email') {
+                document.getElementById("sharing_email").click()
+            } else if (newValue === 'copy'){
+                document.getElementById("sharing_url").style.display = 'block';
+                document.getElementById("sharing_url").select();
+                document.execCommand('copy');
+                document.getElementById("sharing_url").style.display = 'none';
+                alert(meetingService.getSharingUrl($scope.meetingId) + '\n copied to clipboard');
             }
         });
         
@@ -349,7 +372,7 @@
                 name: getMeetingName(),
                 timeTitle: (!$scope.meeting_name && time) ? time.utc().toISOString() : ''
             };
-            return meetingService.getFacebookSharingUrl($scope.meetingId, $scope.getMeetingName(meetingData))
+            return encodeURIComponent(meetingService.getFacebookSharingUrlWithoutEncode($scope.meetingId, $scope.getMeetingName(meetingData)));
         };
         
         $scope.getShareEmailSubject = function() {
@@ -368,14 +391,6 @@
         $scope.getMeetingName = function(meeting) {
             return meetingService.getMeetingName(meeting);
         };
-        
-        $scope.showHideProgressBar = function() {
-            if ($window.$(window).width() < 800) {
-                $window.$(".checkout-wrap").fadeOut();
-            }else{
-                $window.$(".checkout-wrap").fadeIn();
-            }
-        }    
         
         var addMeetingToUser = function(data) {
             var userId = $scope.currentUser.id;
@@ -417,14 +432,19 @@
         }
 
         $window.$(document).ready(function () {
-            //on load
-            $scope.showHideProgressBar();
-
-            //on resize
-            $(window).resize(function(){
-                $scope.showHideProgressBar();
-            });
             $window.$('#contents').show();
+            
+            $window.$('.fb-share').click(function(e) {
+                e.preventDefault();
+                window.open($(this).attr('href'), 'fbShareWindow', 'height=450, width=550, top=' + ($(window).height() / 2 - 275) + ', left=' + ($(window).width() / 2 - 225) + ', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
+                return false;
+            });
+            
+            $window.$('.twitter-share').click(function(e) {
+                e.preventDefault();
+                window.open($(this).attr('href'), 'twitterShareWindow', 'height=450, width=550, top=' + ($(window).height() / 2 - 275) + ', left=' + ($(window).width() / 2 - 225) + ', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
+                return false;
+            });
         });
 
     }]);

@@ -199,28 +199,44 @@
                         <div class="frm-creat" ng-show="stage == 4">
                             <div class="row">
                                 <h3 class="title">How do you wish to share your activity? </h3>
-                                <div class="share">
-                                    <div class="label">Share via socials </div>
-                                    <div class="fb-share-button" data-href="{{ getFacebookSharingUrl() }}"  data-layout="button"></div>
-                                    <div class="twitter-share">
-                                        <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{getShareEmailSubject()}}" data-url="{{ shareUrl }}" data-count="none">Tweet</a>
-                                    </div>
-                                    <div class="email-share">
-                                        <a href="mailto:?subject={{getShareEmailSubject() | escape}}&body={{getShareEmailBody() | escape}}" title="Send an email"><img src="newdesign/image/icon-m.gif" alt="Send an email"></a>
-                                    </div>
-                                    <div style="clear:both;"></div>
-                                    <p>or give friends the link</p>
-                                    <div class="url">
-                                        <a class="link" href="{{ shareUrl }}">{{ shareUrl }}</a>
-                                        <a class="btn waves-effect waves-light">Copy</a>
-                                    </div>
+                                <ul class="option">
+                                    <li><input class="with-gap" ng-model="share" value="1" id="share" type="radio"/>
+                                        <label for="share">Share via socials</label>
+                                        <div class="radio-area">
+                                            <span>
+                                                <input class="with-gap" ng-model="share_social" value="facebook" id="facebook" type="radio"/>
+                                                <label for="facebook">Facebook</label>
+                                            </span>
+                                            <span>
+                                                <input class="with-gap" ng-model="share_social" value="twitter" id="twitter" type="radio"/>
+                                                <label for="twitter">Twitter</label>
+                                            </span>
+                                            <span>
+                                                <input class="with-gap" ng-model="share_social" value="email" id="email" type="radio"/>
+                                                <label for="email">Email</label>
+                                            </span>
+                                            <span>
+                                                <input class="with-gap" ng-model="share_social" value="copy" id="copy" type="radio"/>
+                                                <label for="copy">Copy Link</label>
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li><input class="with-gap" ng-model="share" value="0" id="skip" type="radio"/>
+                                        <label for="skip">Make new friends (skip sharing for now)</label>
+                                    </li>
+                                </ul>
+                                <div class="hidden-share">
+                                    <a class="fb-share" id="fb-share" style="display: none" href="{{ 'https://www.facebook.com/sharer/sharer.php?sdk=joey&u=' + getFacebookSharingUrl() + '&display=popup&ref=plugin&src=share_button' }}">FB share</a>
+                                    <a class="twitter-share" id="twitter-share" style="display: none" href="{{ 'https://twitter.com/intent/tweet?original_referer=https%3A%2F%2Fsocialivo.com%2Fcreate_new_activity.html&ref_src=twsrc%5Etfw&text=' + getShareEmailSubject() + '&tw_p=tweetbutton&url=' + shareUrl}}">Twitter share</a>
+                                    <a id="sharing_email" style="display: none" href="mailto:?subject={{getShareEmailSubject() | escape}}&body={{getShareEmailBody() | escape}}" title="Send an email"><img src="newdesign/image/icon-m.gif" alt="Send an email"></a>
+                                    <textarea class="link" id="sharing_url" style="display: none">{{ shareUrl }}</textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="btn-bottom row">
                             <a class="btn grey btn-large waves-effect waves-light left" ng-hide="stage == 1 || stage == MAX_STAGE" ng-click="back()">Back</a>
                             <a class="btn red btn-large waves-effect waves-light right" ng-hide="stage == MAX_STAGE" ng-click="next()">Next</a>
-                            <a class="btn green btn-large waves-effect waves-light right" ng-show="stage == MAX_STAGE" ng-click="finish()">Finish</a>
+                            <a class="btn green btn-large waves-effect waves-light left" ng-show="stage == MAX_STAGE" ng-click="finish()">Finish</a>
                         </div>
                     </div>
                 </div>

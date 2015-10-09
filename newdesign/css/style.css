@@ -239,6 +239,7 @@ h3.title{font-size:18px; font-weight:500;}
 .modal .modal-footer{position:absolute; bottom:0; left:0;}
 .modal .modal-content{overflow-y:auto; height:100%;}
 .modal .best-places{max-height:none; overflow:inherit;}
+.radio-area span{margin-left: 25px; display: inline-block; min-width: 100px; margin-top: 5px;}
 
 
 @media only screen and (min-width : 1280px){
@@ -266,6 +267,7 @@ h3.title{font-size:18px; font-weight:500;}
 #contRight{margin-top:30px;}
 #contRight .meetingLabel{position:inherit;}
 }
+@media only screen and (max-width : 800px){.checkout-wrap{display: none;}}
 @media only screen and (max-width : 768px){
 .best-places .thumb{display:none;}
 .box-meeting .share dd{display:block; margin:0;}

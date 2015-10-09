@@ -812,6 +812,7 @@
             document.getElementById("sharing_url").select();
             document.execCommand('copy');
             document.getElementById("sharing_url").style.display = 'none';
+            alert($scope.getSharingUrl() + '\n copied to clipboard');
         }
     }]);
 })();

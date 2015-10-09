@@ -370,6 +370,9 @@
             getFacebookSharingUrl: function(meetingId, meetingName) {
                 return appConfig.shareFacebookUrl + '?id=' + meetingId + '&name=' + encodeURIComponent(meetingName);
             },
+            getFacebookSharingUrlWithoutEncode: function(meetingId, meetingName) {
+                return appConfig.shareFacebookUrl + '?id=' + meetingId + '&name=' + meetingName;
+            },
             migrateUser: function(meetingId, srcUserId, dstUserId, keepSrc, overwrite) {
                 var defer = $q.defer();
                 var meetingsRef = new Firebase(meetsUrl);
