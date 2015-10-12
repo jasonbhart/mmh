@@ -180,6 +180,7 @@
                                     <input type="text" placeholder="Enter Neighborhood, Address, City, State or Zip" ng-model="other_location" ng-keyup="updatePlaceSuggestion()" ng-show="where=='other'"style="max-width:300px;" />
                                 </div>
                                 <h3 class="title">Here are the highest rated establishments (in the search area) </h3>
+                                <label style="font-style: italic; font-size: 15px">{{noSuggestionLabel}}</label>
                                 <ul class="option">
                                     <li ng-repeat="place in suggestions">
                                         <input class="with-gap" ng-model="$parent.establishment" value="{{place}}" name="establishment" id="{{place.name}}" type="radio" />

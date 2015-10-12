@@ -24,6 +24,7 @@
         $scope.gatheringTypes = [];
         $scope.currentPage = util.getCurrentPage();
         $scope.share = 1;
+        $scope.noSuggestionLabel = '';
         
         var defaultManualBusinessLabel = 'Enter a specific business';
         
@@ -244,6 +245,7 @@
         }
         
         $scope.updatePlaceSuggestion = function() {
+            $scope.noSuggestionLabel = '';
             var options = {
                 'term' : ($scope.what !== 'other') ? $scope.what : $scope.term,
                 'sort' : '2',
@@ -269,6 +271,10 @@
             setTimeout(function(){
                 dataProvider.getSuggestions(options).then(function(suggestions) {
                     $scope.suggestions = suggestions;
+                }, function (error){
+                    $scope.suggestions = {};
+                    $scope.establishment = 'other';
+                    $scope.noSuggestionLabel = 'Sorry, we were unable to find an establishment in your area. Try changing locations.';
                 });
             }, timeout);
         };
