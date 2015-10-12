@@ -101,7 +101,7 @@
                                                     <p ng-if="meeting.usersCount == 1"><b>1 person going</b></p>
                                                     <p ng-if="meeting.usersCount > 1"><b>{{ meeting.usersCount }} people going</b></p>
                                                     <ul>
-                                                        <li ng-repeat="image in meeting.userImages">
+                                                        <li ng-repeat="image in meeting.userImages track by $index">
                                                             <span class="bordered">
                                                                 <img ng-src="{{ image }}" alt="" style="height: 33px; width: 38px">
                                                             </span>
