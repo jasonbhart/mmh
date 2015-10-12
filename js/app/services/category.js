@@ -26,7 +26,7 @@
             _.forEach(categoriesObject, function (category, categoryName) {
                 if (category && category.meetings) {
                     _.forEach(category.meetings, function(meeting, meetingId) {
-                        if (moment().diff(moment(meeting.createdDate)) > 2 * 86400 * 1000) {
+                        if (moment().diff(moment(meeting.createdDate)) > 86400 * 1000) {
                             delete category.meetings[meetingId];
                         }
                     });
