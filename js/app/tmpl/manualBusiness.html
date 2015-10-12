@@ -7,15 +7,17 @@
             </div>
             <ul class="best-places">
                 <li class="row" ng-repeat="place in places">
-                    <div class="info">
-                        <h3 class="title"><a href="{{ place.url }}">{{ place.name }}</a></h3>
-                        <stars-rating rating="{{ place.rating }}"></stars-rating>
-                    </div>
-                    <div class="check-area">
-                        <input class="with-gap" ng-model="$parent.business" value="{{place}}" name="business" id="filled-in-box-{{$index}}" type="radio" />
-                        <!--<input type="checkbox" class="filled-in" id="filled-in-box-{{$index}}" ng-model="place.selected" />-->
-                        <label for="filled-in-box-{{$index}}"></label>
-                    </div>
+                    <label>
+                        <div class="info">
+                            <h3 class="title"><a href="{{ place.url }}">{{ place.name }}</a></h3>
+                            <stars-rating rating="{{ place.rating }}"></stars-rating>
+                        </div>
+                        <div class="check-area">
+                            <input class="with-gap" ng-model="$parent.business" value="{{place}}" name="business" id="filled-in-box-{{$index}}" type="radio" />
+                            <!--<input type="checkbox" class="filled-in" id="filled-in-box-{{$index}}" ng-model="place.selected" />-->
+                            <label for="filled-in-box-{{$index}}"></label>
+                        </div>
+                    </label>
                 </li>
             </ul>
             <div class="row" ng-show="places.length == 0" style="font-size: 14px; font-style: italic">

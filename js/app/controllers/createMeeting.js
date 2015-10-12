@@ -273,7 +273,9 @@
                     $scope.suggestions = suggestions;
                 }, function (error){
                     $scope.suggestions = {};
-                    $scope.establishment = 'other';
+                    if ($scope.establishment != 'manual') {
+                        $scope.establishment = 'other';
+                    }
                     $scope.noSuggestionLabel = 'Sorry, we were unable to find an establishment in your area. Try changing locations.';
                 });
             }, timeout);
