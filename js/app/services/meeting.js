@@ -358,6 +358,10 @@
                 
                 return defer.promise;
             },
+            update: function(id, data) {
+                var ref = new Firebase(meetsUrl);
+                ref.child(id).set(data);
+            },
             get: function(id) {
                 return new Meeting(id, appConfig, $rootScope, $q, $firebaseObject, $firebaseArray, $log, localMeetingService);
             },

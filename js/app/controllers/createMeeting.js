@@ -320,19 +320,25 @@
             };
             var time = angular.copy($scope.times[0]);
             data['timeTitle'] = (!$scope.meeting_name && time) ? time.utc().toISOString() : '';
-            var meetingPromise = meetingService.create(data);
-            meetingPromise.then(function(meeting) {
-                var meetingId = meeting.refs.current.key();
-                $scope.meetingId = meetingId;
-                $scope.meeting = meeting;
-                $scope.redirectUrl = 'activity.html?act=' + meetingId;
-                $scope.shareUrl = meetingService.getSharingUrl(meetingId);
-                activateFacebookSDK();
-                activateTwitterSDK();
-                
-                addMeetingToCategory(data);
-                addMeetingToUser(data);
-            });
+            
+            if (!$scope.meetingId) {
+                var meetingPromise = meetingService.create(data);
+                meetingPromise.then(function(meeting) {
+                    var meetingId = meeting.refs.current.key();
+                    $scope.meetingId = meetingId;
+                    $scope.meeting = meeting;
+                    $scope.redirectUrl = 'activity.html?act=' + meetingId;
+                    $scope.shareUrl = meetingService.getSharingUrl(meetingId);
+                    activateFacebookSDK();
+                    activateTwitterSDK();
+
+                    addMeetingToCategory(data);
+                    addMeetingToUser(data);
+                });
+            } else {
+                meetingService.update($scope.meetingId, data);
+            }
+            
         };
         
         var getMeetingName = function () {

@@ -235,9 +235,9 @@
                             </div>
                         </div>
                         <div class="btn-bottom row">
-                            <a class="btn grey btn-large waves-effect waves-light left" ng-hide="stage == 1 || stage == MAX_STAGE" ng-click="back()">Back</a>
+                            <a class="btn grey btn-large waves-effect waves-light left" ng-hide="stage == 1" ng-click="back()">Back</a>
                             <a class="btn red btn-large waves-effect waves-light right" ng-hide="stage == MAX_STAGE" ng-click="next()">Next</a>
-                            <a class="btn green btn-large waves-effect waves-light left" ng-show="stage == MAX_STAGE" ng-click="finish()">Finish</a>
+                            <a class="btn green btn-large waves-effect waves-light right" ng-show="stage == MAX_STAGE" ng-click="finish()">Finish</a>
                         </div>
                     </div>
                 </div>
