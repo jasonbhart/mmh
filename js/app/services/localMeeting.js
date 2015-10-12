@@ -83,7 +83,7 @@
                         $q.all(deferreds).then(function(meetings) {
                             meetings = _.filter(meetings, function(meeting) {
                                 return meeting && meeting.createdAt &&
-                                       moment().diff(moment(meeting.createdAt)) < 2 * 86400 * 1000;
+                                       moment().diff(moment(meeting.createdAt)) < 86400 * 1000;
                             });                  // filter out empty values produces by resolve()
                             defer.resolve(meetings.slice(0, options.count));        // we can have more than limit because of deferreds
                         });
