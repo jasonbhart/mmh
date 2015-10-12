@@ -111,17 +111,16 @@
                     if (!snap.exists()) {
                         userData.createdDate = moment().utc().toISOString();
                     } else {
-                        var currentData = snap.val();
-                        if (currentData.loggedViaSocial && !data.loggedViaSocial) {
+                        if (data.provider === "anonymous") {
                             service.get(data.id).then(function(user) {
-                            $rootScope.$applyAsync(function() {
-                                defer.resolve(user);
+                                $rootScope.$applyAsync(function() {
+                                    defer.resolve(user);
+                                });
+                            }, function(error) {
+                                $rootScope.$applyAsync(function() {
+                                    defer.reject(error);
+                                });
                             });
-                        }, function(error) {
-                            $rootScope.$applyAsync(function() {
-                                defer.reject(error);
-                            });
-                        });
                             return true;
                         }
                     }
