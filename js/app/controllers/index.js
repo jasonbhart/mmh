@@ -21,6 +21,7 @@
                 userService.get(user.id).then(function(userObj) {
                     userObj.meetingList.$loaded().then(function(data) {
                         userObj.removePassedActivities();
+                        userObj.removeUnusedActivities(user.id);
                         $scope.meetingList = data;
                     });
                 });

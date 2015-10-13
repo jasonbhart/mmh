@@ -171,6 +171,7 @@
                 userService.get(user.id).then(function(userObj) {
                     userObj.meetingList.$loaded().then(function(data) {
                         userObj.removePassedActivities();
+                        userObj.removeUnusedActivities(user.id);
                         $scope.meetingList = data;
                     });
                 });
@@ -191,22 +192,24 @@
                     $scope.userGroups = buildUserGroups(formattingData);
                 }
                 
-                // add meeting to user if not added yet
-                var meetingData = {
-                    id: $scope.meeting.id,
-                    name: $scope.meeting.name,
-                    createdDate: moment().utc().toISOString(),
-                    timeTitle: $scope.meeting.timeTitle || ''
-                };
-                userService.addMeetingToUser($scope.currentUser.id, meetingData).then(function(error){
-                    if (error) {
-                        console.log('Can not add activity to User. Error: ' + error);
-                    } else {
-                        console.log('Activity added to User: ' + $scope.currentUser.id);
-                    }
-                });
+                $scope.addMeetingToUser();
             });        
         });
+        
+        $scope.addMeetingToUser = function(){
+            // add meeting to user if not added yet
+            var meetingData = {
+                id: $scope.meeting.id,
+                name: $scope.meeting.name,
+                createdDate: moment().utc().toISOString(),
+                timeTitle: $scope.meeting.timeTitle || ''
+            };
+            userService.addMeetingToUser($scope.currentUser.id, meetingData).then(function(){
+                console.log('Activity ' + meetingData.id + ' added to User: ' + $scope.currentUser.id);
+            }, function(error){
+                console.log('Can not add activity to User. Error: ' + error);
+            });
+        }
         
         var sendNewUserJoinedNotification = function(user, meeting) {
             console.log(user,meeting);
@@ -590,6 +593,8 @@
                     });
 
                 });
+                
+                $scope.addMeetingToUser();
             });
         };
         
@@ -598,6 +603,7 @@
                 $scope.meetingUser.toggleWhere(place.id, false);
             } else {
                 $scope.meetingUser.toggleWhere(place.id, true);
+                $scope.addMeetingToUser();
             }
         }
         
@@ -773,6 +779,8 @@
                         $scope.meetingUser.toggleWhen(whenId, true);
                     });
                 });
+                
+                $scope.addMeetingToUser();
             });
         };
         
@@ -781,6 +789,7 @@
                 $scope.meetingUser.toggleWhen(time.id, false);
             } else {
                 $scope.meetingUser.toggleWhen(time.id, true);
+                $scope.addMeetingToUser();
             }
         }
         
