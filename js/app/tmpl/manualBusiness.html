@@ -10,7 +10,8 @@
                     <label>
                         <div class="info">
                             <h3 class="title"><a href="{{ place.url }}">{{ place.name }}</a></h3>
-                            <stars-rating rating="{{ place.rating }}"></stars-rating>
+                            <img ng-src="{{ place.rating_url }}" alt="">
+                            <!--<stars-rating rating="{{ place.rating }}"></stars-rating>-->
                         </div>
                         <div class="check-area">
                             <input class="with-gap" ng-model="$parent.business" value="{{place}}" name="business" id="filled-in-box-{{$index}}" type="radio" />

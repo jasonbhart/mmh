@@ -14,7 +14,8 @@
                 <li class="row" ng-repeat="place in places">
                     <div class="info">
                         <h3 class="title"><a href="{{ place.url }}">{{ place.name }}</a></h3>
-                        <stars-rating rating="{{ place.rating }}"></stars-rating>
+                        <img ng-src="{{ place.rating_url }}" alt="">
+                        <!--<stars-rating rating="{{ place.rating }}"></stars-rating>-->
                     </div>
                     <div class="check-area">
                         <input type="checkbox" class="filled-in" id="filled-in-box-{{$index}}" ng-model="place.selected" />
