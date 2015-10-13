@@ -312,7 +312,7 @@ h3.title{font-size:18px; font-weight:500;}
 .pop-place .map-radius{display: block; margin-top: 10px;font-size: 13px}
 .pop-place .select-radius{font-size: 13px}
 /*.login-modal #login-form:before {content: 'or';color: gray;position: absolute;top: 0;right: 0;left: 0;bottom: 0;margin: auto;z-index: 900;left: 2.8em; top: -1em; z-index: 900; border-radius: 50%;background-color: #f1f1f1; width: 25px;height: 25px;text-align: center;line-height: 25px;font-weight: 700;font-size: 15px;}*/
-.login-modal{max-width:600px;}
+.login-modal{max-width:600px;max-height: 300px}
 .login-modal .frm{position:relative; overflow:hidden;}
 .user-link .btn{border:1px solid #dedede; padding:0 12px; text-transform:none; margin-top:-5px;}
 .user-link .btn:hover{border-color:#e44424;}
