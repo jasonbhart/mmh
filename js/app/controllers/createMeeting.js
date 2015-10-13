@@ -198,14 +198,14 @@
         $scope.addManualBusiness = function() {
             var dialog = dialogs.addManualBusiness($scope.getWhereQueryOptions({}));
             dialog.result.then(function(business) {
-                if (Object.keys(business).length === 0) {
+                if (Object.keys(JSON.parse(business)).length === 0) {
                     alert('Please select a business');
                     $scope.addManualBusiness();
                     return;
                 }
                 var establishment = JSON.parse(business);
                 $scope.manualBusinessLabel = defaultManualBusinessLabel + ' (' + establishment.name + ' - ' + establishment.location.display_address + ')';
-                $scope.manualBusinessInfo = business;
+                $scope.manualBusinessInfo = establishment;
             });
         };
         
@@ -224,7 +224,7 @@
                     return [];
                 }
             } else if ($scope.establishment === 'manual') {
-                establishment = $scope.manualBusinessInfo;
+                establishment = JSON.stringify($scope.manualBusinessInfo);
             }
             
             try {
