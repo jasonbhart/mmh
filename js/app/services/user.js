@@ -7,6 +7,7 @@
         var resultDefer = $q.defer();
         
         var ref = new Firebase(appConfig.firebaseUrl + '/users');
+        var meetRef = new Firebase(appConfig.firebaseUrl + '/meets');
         ref = ref.child(id);
         ref.once('value', function (snap) {
             if (!snap.exists()) {
@@ -71,6 +72,22 @@
                         
                     });
                     meetingList.$save();
+                },
+                removeUnusedActivities: function (userId) {
+                    var meetingList = this.meetingList;
+                    _.forEach(meetingList, function(meeting, meetingId) {
+                        if (meeting && meeting.id) {
+                            var userOption = $firebaseObject(meetRef.child(meetingId).child('users').child(userId));
+                            
+                            userOption.$loaded().then(function(data) {
+                                if (!data.when && !data.where) {
+                                    delete meetingList[meetingId];
+                                    meetingList.$save();
+                                    console.log('removed meeting', meetingId);
+                                }
+                            });
+                        }
+                    });
                 }
             };
 
