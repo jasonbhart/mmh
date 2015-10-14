@@ -13,9 +13,21 @@
             <ul class="best-places">
                 <li class="row" ng-repeat="place in places">
                     <div class="info">
-                        <h3 class="title"><a href="{{ place.url }}">{{ place.name }}</a></h3>
+                        <h3 class="title"><a>{{ place.name }}</a></h3>
                         <img ng-src="{{ place.rating_url }}" alt="">
                         <!--<stars-rating rating="{{ place.rating }}"></stars-rating>-->
+                        <div class="tooltip-pleaces">
+                            <i class="fa fa-caret-down arrow"></i>
+                            <a class="thumb"><img ng-src="{{ place.image_url }}" alt=""></a>
+                            <div class="cont-data">
+                                <h3 class="title"><a href="{{ place.url }}">{{ place.name }}</a></h3>
+                                <img ng-src="{{ place.rating_url }}" alt="">
+                                <!--<span class="str-list">Eastern Market</span>-->
+                                <address>
+                                    {{ place.location.display_address }}
+                                </address>
+                            </div>
+                        </div>
                     </div>
                     <div class="check-area">
                         <input type="checkbox" class="filled-in" id="filled-in-box-{{$index}}" ng-model="place.selected" />
