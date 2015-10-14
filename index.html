@@ -79,7 +79,7 @@
                         <li ng-repeat="meeting in meetingList"  ng-class="(meeting.id == currentMeetingId) ? 'active' : ''">
                             <a ng-href="{{'/activity.html?act=' + meeting.id}}" class="waves-effect waves-ripple active">
                                 <i class="fa fa fa-angle-right"></i>
-                                {{getMeetingName(meeting)}}
+                                {{getMeetingName(meeting, false)}}
                             </a>
                         </li>
                     </ul>
@@ -161,7 +161,7 @@
                                                         <a><i class="icon"></i>{{category.name}}</a>
                                                         <ul class="subtab">
                                                             <li ng-repeat="meeting in category.meetings">
-                                                                <a href="activity.html?act={{meeting.id}}">{{getMeetingName(meeting)}}</a>
+                                                                <a href="activity.html?act={{meeting.id}}">{{getMeetingName(meeting, true)}}</a>
                                                             </li>
                                                         </ul>
                                                     </li>

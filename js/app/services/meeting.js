@@ -418,11 +418,11 @@
                 });
                 return dstObject;
             },
-            getMeetingName: function(meeting) {
+            getMeetingName: function(meeting, includeTime) {
                 if (!meeting || !meeting.name) {
                     return '';
                 }
-                if (meeting.timeTitle) {
+                if (includeTime && meeting.timeTitle) {
                     return meeting.name + ' at ' + moment(meeting.timeTitle).format('h:mmA');
                 }
                 return meeting.name;

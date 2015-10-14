@@ -322,7 +322,7 @@
                 users: users
             };
             var time = angular.copy($scope.times[0]);
-            data['timeTitle'] = (!$scope.meeting_name && time) ? time.utc().toISOString() : '';
+            data['timeTitle'] = time ? time.utc().toISOString() : '';
             
             if (!$scope.meetingId) {
                 var meetingPromise = meetingService.create(data);
@@ -385,26 +385,26 @@
             var time = angular.copy($scope.times[0]);
             var meetingData = {
                 name: getMeetingName(),
-                timeTitle: (!$scope.meeting_name && time) ? time.utc().toISOString() : ''
+                timeTitle: time ? time.utc().toISOString() : ''
             };
-            return encodeURIComponent(meetingService.getFacebookSharingUrlWithoutEncode($scope.meetingId, $scope.getMeetingName(meetingData)));
+            return encodeURIComponent(meetingService.getFacebookSharingUrlWithoutEncode($scope.meetingId, $scope.getMeetingName(meetingData, true)));
         };
         
         $scope.getShareEmailSubject = function() {
             var time = angular.copy($scope.times[0]);
             var meetingData = {
                 name: getMeetingName(),
-                timeTitle: (!$scope.meeting_name && time) ? time.utc().toISOString() : ''
+                timeTitle: time ? time.utc().toISOString() : ''
             };
-            return "MEET ME HERE: " + $scope.getMeetingName(meetingData);
+            return "MEET ME HERE: " + $scope.getMeetingName(meetingData, true);
         };
         
          $scope.getShareEmailBody = function() {
             return "Click the link to view activity details: \r\n" + meetingService.getSharingUrl($scope.meetingId);
         };
         
-        $scope.getMeetingName = function(meeting) {
-            return meetingService.getMeetingName(meeting);
+        $scope.getMeetingName = function(meeting, includeTime) {
+            return meetingService.getMeetingName(meeting, includeTime);
         };
         
         var addMeetingToUser = function(data) {

@@ -130,8 +130,8 @@
             $scope.categories = data;
         });
         
-        $scope.getMeetingName = function(meeting) {
-            return meetingService.getMeetingName(meeting);
+        $scope.getMeetingName = function(meeting, includeTime) {
+            return meetingService.getMeetingName(meeting, includeTime);
         };
         
         $window.$(document).ready(function() {
