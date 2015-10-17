@@ -823,5 +823,17 @@
             document.getElementById("sharing_url").style.display = 'none';
             alert($scope.getSharingUrl() + '\n copied to clipboard');
         }
+        
+        $scope.startTutorial = function() {
+            $window.$('#joyRideTipContent').joyride({
+                autoStart: true,
+                postStepCallback: function (index, tip) {
+                },
+                postRideCallback: function() {
+                },
+                modal: true,
+                expose: true
+            });
+        }
     }]);
 })();
