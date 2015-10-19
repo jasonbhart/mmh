@@ -123,7 +123,7 @@
                                                 <a class="icon" title="Delete">Delete</a>
                                                 {{ where.name }}
                                             </li>
-                                            <li class="forbtn add-places"><a class="btn btn-add waves-effect waves-light" ng-click="addPlaces()"><i class="icon"></i> Add</a></li>
+                                            <li class="forbtn"><a class="btn btn-add waves-effect waves-light add-places" ng-click="addPlaces()"><i class="icon"></i> Add</a></li>
                                         </ul>
                                     </div>
                                     <p>Times?</p>
@@ -133,7 +133,7 @@
                                                 <a class="icon" title="Delete">Delete</a>
                                                 {{ when.whenFormatted }}
                                             </li>
-                                            <li class="forbtn add-times"><a class="btn btn-add waves-effect waves-light" ng-click="addTimes()"><i class="icon"></i> Add</a></li>
+                                            <li class="forbtn"><a class="btn btn-add waves-effect waves-light add-times" ng-click="addTimes()"><i class="icon"></i> Add</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -195,16 +195,16 @@
         <h2>Meeting page</h2>
         <p>List of your participated meeting</p>
       </li>
-      <li data-class="notifications" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+      <li data-class="notification-icon" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
         <p>Show the list of notification</p>
       </li>
       <li data-class="account" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
         <p>Manage your profile (login/logout/View feature tour)</p>
       </li>
-      <li data-class="add-places" data-button="Next" data-options="tipLocation:bottom;ipAnimation:fade">
+      <li data-class="add-places" data-button="Next" data-options="tipLocation:bottom;ipAnimation:pop">
         <p>Suggest your favourite places</p>
       </li>
-      <li data-class="add-times" data-button="Next" data-options="tipLocation:bottom;ipAnimation:fade">
+      <li data-class="add-times" data-button="Next" data-options="tipLocation:bottom;ipAnimation:pop">
         <p>Choose your appropriate times</p>
       </li>
       <li data-class="suitable-groups" data-button="Next" data-options="tipLocation:bottom;ipAnimation:fade">
@@ -213,7 +213,7 @@
       <li data-class="jump-in" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
         <p>Click "Jump-In" to meet new friends at local positions</p>
       </li>
-      <li data-class="share" data-button="Close" data-options="tipLocation:bottom;ipAnimation:fade">
+      <li data-class="share" data-button="Close" class="last-tip" data-options="tipLocation:bottom;ipAnimation:fade">
         <p>Share with your friends in multiple methods. Ready to start?</p>
       </li>
     </ol>

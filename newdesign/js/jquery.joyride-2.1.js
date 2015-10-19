@@ -44,7 +44,7 @@
         'timer'   : '<div class="joyride-timer-indicator-wrap"><span class="joyride-timer-indicator"></span></div>',
         'tip'     : '<div class="joyride-tip-guide"><span class="joyride-nub"></span></div>',
         'wrapper' : '<div class="joyride-content-wrapper" role="dialog"></div>',
-        'button'  : '<a href="#" class="joyride-next-tip"></a>',
+        'button'  : '<a href="#" class="joyride-next-tip btn red waves-effect waves-light"></a>',
         'modal'   : '<div class="joyride-modal-bg"></div>',
         'expose'  : '<div class="joyride-expose-wrapper"></div>',
         'exposeCover': '<div class="joyride-expose-cover"></div>'

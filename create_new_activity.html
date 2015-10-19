@@ -166,9 +166,11 @@
                                 </ul>
                                 <div class="box-white white">
                                     <ul class="choose-list">
-                                        <li ng-repeat="time in times" class="selected-time">
-                                            <a class="icon" title="Delete" ng-click="removeTime(time)">Delete</a>
-                                            {{ time.format(timeFormat) }}
+                                        <li ng-repeat="time in times" class="forbtn">
+                                            <span class="selected-time">
+                                                <a class="icon" title="Delete" ng-click="removeTime(time)">Delete</a>
+                                                {{ time.format(timeFormat) }}
+                                            </span>
                                         </li>
                                         <li class="forbtn" ng-hide="times.length == 0"><a class="btn btn-add waves-effect waves-light add-times" ng-click="addTimes()"><i class="icon"></i> Add</a></li>
                                     </ul>
@@ -260,7 +262,7 @@
             <h2>New meeting</h2>
             <p>Create new meeting</p>
           </li>
-          <li data-class="notifications" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+          <li data-class="notification-icon" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
             <p>Show the list of notification</p>
           </li>
           <li data-class="account" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
@@ -299,7 +301,7 @@
           <li data-class="make-new-friends" data-button="Next" data-options="tipLocation:right;ipAnimation:fade">
             <p>Skip this option</p>
           </li>
-          <li data-class="finish-button" data-button="Close" data-options="tipLocation:left;ipAnimation:fade">
+          <li data-class="finish-button" data-button="Close" class="last-tip" data-options="tipLocation:left;ipAnimation:fade">
             <p>Click "Finish" to return to Meeting page. Ready to go?</p>
           </li>
         </ol>
