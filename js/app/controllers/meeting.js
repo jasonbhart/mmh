@@ -824,6 +824,18 @@
             alert($scope.getSharingUrl() + '\n copied to clipboard');
         }
         
+        $scope.startTutorial = function() {
+            $window.$('#joyRideTipContent').joyride({
+                autoStart: true,
+                postStepCallback: function (index, tip) {
+                },
+                postRideCallback: function() {
+                },
+                modal: true,
+                expose: true
+            });
+        }
+        
         $scope.showOtherMemberList = function() {
             var carousel = $window.$(".owl-carousel");
             carousel.owlCarousel({

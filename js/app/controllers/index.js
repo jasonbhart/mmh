@@ -92,6 +92,8 @@
                             });
                         });
                     }
+                    
+//                    $scope.startTutorial();
                 });
                 
                 var mapElement = $window.$('.your-location');
@@ -133,6 +135,18 @@
         $scope.getMeetingName = function(meeting, includeTime) {
             return meetingService.getMeetingName(meeting, includeTime);
         };
+        
+        $scope.startTutorial = function() {
+            $window.$('#joyRideTipContent').joyride({
+                autoStart: true,
+                postStepCallback: function (index, tip) {
+                },
+                postRideCallback: function() {
+                },
+                modal: true,
+                expose: true
+            });
+        }
         
         $window.$(document).ready(function() {
             $window.$('.categories-nav ul').on('click', 'li.level-0', function() {

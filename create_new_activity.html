@@ -9,6 +9,9 @@
         <link href="css/font-awesome.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
         <link href="newdesign/css/layout.css" type="text/css" rel="stylesheet" media="screen,projection"/>
         <link href="newdesign/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+        <link href="newdesign/css/joyride-2.1.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<!--        <link href="newdesign/css/joyride-mobile.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+        <link href="newdesign/css/joyride-style.css" type="text/css" rel="stylesheet" media="screen,projection"/>-->
         <!--  Scripts-->
         <script src="newdesign/js/jquery-2.1.1.min.js"></script>
         <script src="newdesign/js/materialize.min.js"></script>
@@ -17,6 +20,9 @@
         <script src="newdesign/js/jquery.selectBox.js"></script>
         <script src="newdesign/js/prism.js"></script>
         <script src="newdesign/js/init.js"></script>
+        <script src="newdesign/js/jquery.cookie.js"></script>
+        <script src="newdesign/js/jquery.joyride-2.1.js"></script>
+        <script src="newdesign/js/modernizr.mq.js"></script>
 
         <script src="//cdn.firebase.com/js/client/2.2.9/firebase.js"></script>
         <script src="js/lodash.js"></script>
@@ -71,9 +77,9 @@
                 <topnav></topnav>
                 <div class="container"><a href="#" data-activates="nav-mobile" class="button-collapse top-nav waves-effect waves-light circle hide-on-large-only"><i class="mdi-navigation-menu"></i></a></div>
                 <ul id="nav-mobile" class="side-nav fixed">
-                    <li ng-class="currentPage == 1 ? 'active' : ''"><a href="index.html" class="waves-effect waves-ripple"><span class="icon icon-home"></span>Home</a></li>
-                    <li ng-class="currentPage == 3 ? 'active' : ''"><a href="create_new_activity.html" class="waves-effect waves-ripple"><span class="icon icon-new"></span>New Activity</a></li>
-                    <li ng-class="currentPage == 2 ? 'active' : ''"><a class="waves-effect waves-ripple" ng-click="currentPage = 2"><span class="icon icon-invite"></span>Activities</a>
+                    <li ng-class="currentPage == 1 ? 'active' : ''" id="home"><a href="index.html" class="waves-effect waves-ripple"><span class="icon icon-home"></span>Home</a></li>
+                <li ng-class="currentPage == 3 ? 'active' : ''" id="new_meet"><a href="create_new_activity.html" class="waves-effect waves-ripple"><span class="icon icon-new"></span>New Activity</a></li>
+                <li ng-class="currentPage == 2 ? 'active' : ''" id="meet" ><a class="waves-effect waves-ripple" ng-click="currentPage = 2"><span class="icon icon-invite"></span>Activities</a>
                         <ul class="subtab-left">
                             <li ng-repeat="meeting in meetingList"  ng-class="(meeting.id == currentMeetingId) ? 'active' : ''">
                                 <a ng-href="{{'/activity.html?act=' + meeting.id}}" class="waves-effect waves-ripple active">
@@ -101,21 +107,25 @@
                         <div class="frm-creat" ng-show="stage == 1">
                             <div class="row">
                                 <h3 class="title">Title of the activity (optional)</h3>
-                                <input type="text" placeholder="Activity title" ng-model="meeting_name" style="max-width:600px;" />
+                                <input type="text" class="activity-title" placeholder="Activity title" ng-model="meeting_name" style="max-width:600px;" />
                             </div>
                             <div class="row">
                                 <h3 class="title">What do you want to do? </h3>
                                 <ul class="option">
-                                    <li><input class="with-gap" ng-model="what" value="restaurants" id="what01" type="radio"/>
-                                        <label for="what01">Have a meal</label>
+                                    <li>
+                                        <span class="select-what">
+                                            <input class="with-gap" ng-model="what" value="restaurants" id="what01" type="radio"/>
+                                            <label for="what01">Have a meal</label>
+                                        </span>
                                         <div ng-if="what=='restaurants'" class="check-area">
-                                            <span ng-repeat="item in gatheringTypes" style="margin-left: 30px;">
+                                            <span ng-repeat="item in gatheringTypes" style="margin-left: 30px;" class="select-subcagetory">
                                                 <input type="checkbox" class="filled-in" id="category_{{item.alias}}" ng-model="$parent.selectedCategory[item.alias]" value="{{item.alias}}"> 
                                                 <label for="category_{{item.alias}}">{{item.title}}</label> 
                                             </span>
                                         </div>
                                     </li>
-                                    <li><input class="with-gap" ng-model="what" value="shopping" id="what02" type="radio"  />
+                                    <li>
+                                        <input class="with-gap" ng-model="what" value="shopping" id="what02" type="radio"  />
                                         <label for="what02">Go shopping</label>
                                         <div ng-if="what=='shopping'" class="check-area">
                                             <span ng-repeat="item in gatheringTypes" style="margin-left: 30px;">
@@ -156,11 +166,13 @@
                                 </ul>
                                 <div class="box-white white">
                                     <ul class="choose-list">
-                                        <li ng-repeat="time in times">
-                                            <a class="icon" title="Delete" ng-click="removeTime(time)">Delete</a>
-                                            {{ time.format(timeFormat) }}
+                                        <li ng-repeat="time in times" class="forbtn">
+                                            <span class="selected-time">
+                                                <a class="icon" title="Delete" ng-click="removeTime(time)">Delete</a>
+                                                {{ time.format(timeFormat) }}
+                                            </span>
                                         </li>
-                                        <li class="forbtn" ng-hide="times.length == 0"><a class="btn btn-add waves-effect waves-light" ng-click="addTimes()"><i class="icon"></i> Add</a></li>
+                                        <li class="forbtn" ng-hide="times.length == 0"><a class="btn btn-add waves-effect waves-light add-times" ng-click="addTimes()"><i class="icon"></i> Add</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -173,7 +185,7 @@
                                         <label for="where01">Within 1 miles of my current location (default; walkable) </label></li>
                                     <li><input class="with-gap" ng-model="where" ng-change="updatePlaceSuggestion()" id="where02" value="10" type="radio" />
                                         <label for="where02">Within 10 miles of my current location (driveable)</label></li>
-                                    <li><input class="with-gap" ng-model="where" ng-change="updatePlaceSuggestion()" id="where03" value="other" type="radio" />
+                                    <li class="select-area"><input class="with-gap" ng-model="where" ng-change="updatePlaceSuggestion()" id="where03" value="other" type="radio" />
                                         <label for="where03">Other</label></li>
                                 </ul>
                                 <div class="row">
@@ -186,7 +198,7 @@
                                         <input class="with-gap" ng-model="$parent.establishment" value="{{place}}" name="establishment" id="{{place.name}}" type="radio" />
                                         <label for="{{place.name}}">{{place.name}} </label>
                                     </li>
-                                    <li>
+                                    <li class="specific-business">
                                         <input class="with-gap" ng-model="establishment" value="manual" name="establishment" id="manual" type="radio" />
                                         <label for="manual">{{manualBusinessLabel}}</label>
                                     </li>
@@ -222,7 +234,7 @@
                                             </span>
                                         </div>
                                     </li>
-                                    <li><input class="with-gap" ng-model="share" value="0" id="skip" type="radio"/>
+                                    <li class = "make-new-friends"><input class="with-gap" ng-model="share" value="0" id="skip" type="radio"/>
                                         <label for="skip">Make new friends (skip sharing for now)</label>
                                     </li>
                                 </ul>
@@ -235,14 +247,63 @@
                             </div>
                         </div>
                         <div class="btn-bottom row">
-                            <a class="btn grey btn-large waves-effect waves-light left" ng-hide="stage == 1" ng-click="back()">Back</a>
-                            <a class="btn red btn-large waves-effect waves-light right" ng-hide="stage == MAX_STAGE" ng-click="next()">Next</a>
-                            <a class="btn green btn-large waves-effect waves-light right" ng-show="stage == MAX_STAGE" ng-click="finish()">Finish</a>
+                            <a class="btn grey btn-large waves-effect waves-light left back-button" ng-hide="stage == 1" ng-click="back()">Back</a>
+                            <a class="btn red btn-large waves-effect waves-light right next-button" ng-hide="stage == MAX_STAGE" ng-click="next()">Next</a>
+                            <a class="btn green btn-large waves-effect waves-light right finish-button" ng-show="stage == MAX_STAGE" ng-click="finish()">Finish</a>
                         </div>
                     </div>
                 </div>
             </div><!--//contents-->
             <footer class="page-footer white"></footer><!--//footer-->
         </div>
+        <!-- Tip Content -->
+        <ol id="joyRideTipContent">
+          <li data-id="new_meet" data-text="Next" class="custom" data-options="tipLocation:right;tipAnimation:pop">
+            <h2>New meeting</h2>
+            <p>Create new meeting</p>
+          </li>
+          <li data-class="notification-icon" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+            <p>Show the list of notification</p>
+          </li>
+          <li data-class="account" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+            <p>Manage your profile (login/logout/View feature tour)</p>
+          </li>
+          <li data-class="activity-title" data-button="Next" data-options="tipLocation:bottom;ipAnimation:fade">
+            <p>Enter name of activity</p>
+          </li>
+          <li data-class="select-what" data-button="Next" data-options="tipLocation:bottom;ipAnimation:fade">
+            <p>Choose what activity you want to do</p>
+          </li>
+          <li data-class="select-subcagetory" data-button="Next" data-options="tipLocation:bottom;ipAnimation:fade">
+            <p>You can also customize sub-categories, or just let it as default</p>
+          </li>
+          <li data-class="next-button" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+            <p>Click to move to next step</p>
+          </li>
+          <li data-class="selected-time" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+            <p>Selected time based on your suggestion</p>
+          </li>
+          <li data-class="add-times" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+            <p>You can still add more times to fit your schedule</p>
+          </li>
+          <li data-class="back-button" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+            <p>Click back to do it again</p>
+          </li>
+          <li data-class="select-area" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+            <p>Select the area you want to search. We will suggest establishments in the search area </p>
+          </li>
+          <li data-class="specific-business" data-button="Next" data-options="tipLocation:right;ipAnimation:fade">
+            <p>You can also enter a specific business</p>
+          </li>
+          <li data-class="social-area" data-button="Next" data-options="tipLocation:right;ipAnimation:fade">
+            <p>Share with friends</p>
+          </li>
+          <li data-class="make-new-friends" data-button="Next" data-options="tipLocation:right;ipAnimation:fade">
+            <p>Skip this option</p>
+          </li>
+          <li data-class="finish-button" data-button="Close" class="last-tip" data-options="tipLocation:left;ipAnimation:fade">
+            <p>Click "Finish" to return to Meeting page. Ready to go?</p>
+          </li>
+        </ol>
     </body>
 </html>

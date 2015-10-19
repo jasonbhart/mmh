@@ -11,6 +11,9 @@
         <link href="newdesign/css/layout.css" type="text/css" rel="stylesheet" media="screen,projection"/>
         <link href="newdesign/css/owl.carousel.css" type="text/css" rel="stylesheet" media="screen,projection"/>
         <link href="newdesign/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+        <link href="newdesign/css/joyride-2.1.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<!--        <link href="newdesign/css/joyride-mobile.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+        <link href="newdesign/css/joyride-style.css" type="text/css" rel="stylesheet" media="screen,projection"/>-->
         <!--  Scripts-->
         <script src="newdesign/js/jquery-2.1.1.min.js"></script>
         <script src="newdesign/js/materialize.min.js"></script>
@@ -19,6 +22,9 @@
         <script src="newdesign/js/jquery.selectBox.js"></script>
         <script src="newdesign/js/prism.js"></script>
         <script src="newdesign/js/init.js"></script>
+        <script src="newdesign/js/jquery.cookie.js"></script>
+        <script src="newdesign/js/jquery.joyride-2.1.js"></script>
+        <script src="newdesign/js/modernizr.mq.js"></script>
         <script src="newdesign/js/owl.carousel.min.js"></script>
 
         <script src="//cdn.firebase.com/js/client/2.2.9/firebase.js"></script>
@@ -74,9 +80,9 @@
             <topnav></topnav>
             <div class="container"><a href="#" data-activates="nav-mobile" class="button-collapse top-nav waves-effect waves-light circle hide-on-large-only"><i class="mdi-navigation-menu"></i></a></div>
             <ul id="nav-mobile" class="side-nav fixed">
-                <li ng-class="currentPage == 1 ? 'active' : ''"><a href="index.html" class="waves-effect waves-ripple"><span class="icon icon-home"></span>Home</a></li>
-                <li ng-class="currentPage == 3 ? 'active' : ''"><a href="create_new_activity.html" class="waves-effect waves-ripple"><span class="icon icon-new"></span>New Activity</a></li>
-                <li ng-class="currentPage == 2 ? 'active' : ''"><a class="waves-effect waves-ripple" ng-click="currentPage = 2"><span class="icon icon-invite"></span>Activities</a>
+                <li ng-class="currentPage == 1 ? 'active' : ''" id="home"><a href="index.html" class="waves-effect waves-ripple"><span class="icon icon-home"></span>Home</a></li>
+                <li ng-class="currentPage == 3 ? 'active' : ''" id="new_meet"><a href="create_new_activity.html" class="waves-effect waves-ripple"><span class="icon icon-new"></span>New Activity</a></li>
+                <li ng-class="currentPage == 2 ? 'active' : ''" id="meet" ><a class="waves-effect waves-ripple" ng-click="currentPage = 2"><span class="icon icon-invite"></span>Activities</a>
                     <ul class="subtab-left">
                         <li ng-repeat="meeting in meetingList"  ng-class="(meeting.id == currentMeetingId) ? 'active' : ''">
                             <a ng-href="{{'/activity.html?act=' + meeting.id}}" class="waves-effect waves-ripple active">
@@ -119,7 +125,7 @@
                                                 <a class="icon" title="Delete">Delete</a>
                                                 {{ where.name }}
                                             </li>
-                                            <li class="forbtn"><a class="btn btn-add waves-effect waves-light" ng-click="addPlaces()"><i class="icon"></i> Add</a></li>
+                                            <li class="forbtn"><a class="btn btn-add waves-effect waves-light add-places" ng-click="addPlaces()"><i class="icon"></i> Add</a></li>
                                         </ul>
                                     </div>
                                     <p>Times?</p>
@@ -129,13 +135,13 @@
                                                 <a class="icon" title="Delete">Delete</a>
                                                 {{ when.whenFormatted }}
                                             </li>
-                                            <li class="forbtn"><a class="btn btn-add waves-effect waves-light" ng-click="addTimes()"><i class="icon"></i> Add</a></li>
+                                            <li class="forbtn"><a class="btn btn-add waves-effect waves-light add-times" ng-click="addTimes()"><i class="icon"></i> Add</a></li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                             <div class="group" ng-if="userGroups.groups.length">
-                                <h3 class="title">Groups that suits you:</h3>
+                                <h3 class="title suitable-groups">Groups that suits you:</h3>
                                 <div class="box-gray">
                                     <div class="block" ng-repeat="group in userGroups.groups">
                                         <h4 class="location">
@@ -156,7 +162,7 @@
                                 </div>
                             </div>
                             <div class="group" ng-if="!userGroups.groups.length">
-                                <h3 class="title">Groups that suits you:</h3>
+                                <h3 class="title suitable-groups">Groups that suits you:</h3>
 								<div class="box-gray">
 									<div class="box-white white"><strong>No available group! Please add more <a ng-click="addTimes()">times</a> and <a ng-click="addPlaces()">places</a>, or invite more friends</strong></div>
 								</div>
@@ -185,5 +191,33 @@
         </div><!--//contents-->
         <footer class="page-footer white"></footer><!--//footer-->
     </div>
+    <!-- Tip Content -->
+    <ol id="joyRideTipContent">
+      <li data-id="meet" data-text="Next" class="custom" data-options="tipLocation:right;tipAnimation:pop">
+        <h2>Meeting page</h2>
+        <p>List of your participated meeting</p>
+      </li>
+      <li data-class="notification-icon" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+        <p>Show the list of notification</p>
+      </li>
+      <li data-class="account" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+        <p>Manage your profile (login/logout/View feature tour)</p>
+      </li>
+      <li data-class="add-places" data-button="Next" data-options="tipLocation:bottom;ipAnimation:pop">
+        <p>Suggest your favourite places</p>
+      </li>
+      <li data-class="add-times" data-button="Next" data-options="tipLocation:bottom;ipAnimation:pop">
+        <p>Choose your appropriate times</p>
+      </li>
+      <li data-class="suitable-groups" data-button="Next" data-options="tipLocation:bottom;ipAnimation:fade">
+        <p>Available groups to RSVP or LEAVE</p>
+      </li>
+      <li data-class="jump-in" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+        <p>Click "Jump-In" to meet new friends at local positions</p>
+      </li>
+      <li data-class="share" data-button="Close" class="last-tip" data-options="tipLocation:bottom;ipAnimation:fade">
+        <p>Share with your friends in multiple methods. Ready to start?</p>
+      </li>
+    </ol>
 </body>
 </html>
