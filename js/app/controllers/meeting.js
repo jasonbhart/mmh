@@ -835,5 +835,34 @@
                 expose: true
             });
         }
+        
+        $scope.showOtherMemberList = function() {
+            var carousel = $window.$(".owl-carousel");
+            carousel.owlCarousel({
+                itemsCustom : [
+                    [0, 2],
+                    [400, 3],
+                    [450, 3],
+                    [580, 4],
+                    [800, 4],
+                    [850, 5],
+                    [900, 5],
+                    [970, 4],
+                    [1000, 4],
+                    [1200, 5],
+                    [1400, 6],
+                    [1600, 7],
+                    [1800, 8],
+                    [2000, 9],
+                    [2300, 10],
+                    [2500, 12],
+                  ],
+                navigation:true,
+                navigationText: [
+                    "<i class='fa fa-chevron-left'></i>",
+                    "<i class='fa fa-chevron-right'></i>"
+                ],
+            });
+        }
     }]);
 })();
