@@ -178,7 +178,7 @@
                     }
                 }
 
-                if (group)
+                if (group && group.userIds.length > 1)
                     groups.push(group);
             }
 
