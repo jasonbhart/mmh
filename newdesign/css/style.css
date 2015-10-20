@@ -75,7 +75,7 @@ h3.title{font-size:18px; font-weight:500;}
 .box-meeting .group .block:last-child{border-bottom:0; padding-bottom:0; margin-bottom:0;}
 .box-meeting .group .box-gray{background:#fff none; border:1px solid #ddd;}
 .box-meeting .group .box-white{background:#f8f4f0 none !important;}
-.box-meeting .group .title{margin:0; font-size:15px; margin-bottom:10px;}
+.box-meeting .group .title{margin:0; font-size:15px; padding-bottom:10px;}
 .box-meeting .group .location{font-size:18px; margin:0; margin-bottom:10px; font-weight:500;}
 .box-meeting .group .location .icon{background-position:-26px -514px; width:18px; height:18px; margin-right:6px;}
 .box-meeting .group .location .subtext{font-size:14px; color:#6b6b6b;}
@@ -98,6 +98,7 @@ h3.title{font-size:18px; font-weight:500;}
 .choose-list{display:inline-block; margin:0;}
 .choose-list li{display:inline-block; border-radius:4px; background:#ddd; padding:3px 5px 4px; color:#404040; font-weight:700; margin:3px;}
 .choose-list li .icon{text-indent:-9999em; background-position:5px -570px; width:18px; height:18px;}
+.choose-list li.forbtn .selected-time{background: #ddd;height: 28px;display: block;line-height: 27px;padding: 0 10px;border-radius: 4px;padding-left: 5px;}
 .btn-add .icon{background-position:-14px -572px !important; width:12px !important; height:14px !important; margin-right:1px; vertical-align:middle;}
 .other-member .item .thumb, .pop-user-detail .user .thumb{border:1px solid #ddd; width:100px; height:100px; overflow:hidden; margin-bottom:10px;}
 .other-member .item .thumb img, .pop-user-detail .user .thumb img{width:100px;}
@@ -135,8 +136,9 @@ h3.title{font-size:18px; font-weight:500;}
 .creat-new p.subtext{margin:0; font-size:11px; margin-top:-12px;}
 .creat-new .option>li{font-size:16px; padding:10px 0;}
 .creat-new .option>li label{font-size:16px;}
+.creat-new .option>li .select-what{padding-bottom: 10px; display: inline-block;}
 .creat-new .option .check-area{margin-top:10px;}
-.creat-new .option .check-area span{display:inline-block; margin:5px 0; min-width:230px;}
+.creat-new .option .check-area span{display:inline-block; margin:0; min-width:230px; padding-bottom: 10px;}
 .creat-new .frm-creat .row{padding:5px 0;}
 .creat-new .title{font-size:24px;}
 .modal{border-radius:6px; max-height:85%;}

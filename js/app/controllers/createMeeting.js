@@ -446,6 +446,42 @@
             return 'No category';
         }
 
+        $scope.startTutorial = function() {
+            $scope.stage = 1;
+            $scope.$apply();
+            
+            $window.$('#joyRideTipContent').joyride({
+                autoStart: true,
+                postStepCallback: function (index, tip) {
+                    console.log(index);
+                    switch(index) {
+                        case 6:
+                            $scope.stage = 2;
+                            $scope.$apply();
+                            break;
+                        case 9:
+                            $scope.stage = 3;
+                            $scope.$apply();
+                            break;
+                        case 11:
+                            $scope.stage = 4;
+                            $scope.$apply();
+                            break;
+                        default:
+                            break;
+                    }
+                    
+                    $scope.$apply();
+                },
+                postRideCallback: function() {
+                    $scope.stage = 1;
+                    $scope.$apply();
+                },
+                modal: true,
+                expose: true
+            });
+        }
+        
         $window.$(document).ready(function () {
             $window.$('#contents').show();
             

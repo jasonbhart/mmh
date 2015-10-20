@@ -35,10 +35,11 @@
                         var userGroupRef = ref.child(meeting.id).child('users').child($scope.currentUser.id).child('group');
                         userGroupRef.once('value', function(snapshot) {
                             if (snapshot.val() !== null) {
+                                var groupInfo = snapshot.val();
                                 var meetingRef = new Firebase(appConfig.firebaseUrl + '/meets/' + meeting.id);
                                 var rsvpMeeting = $firebaseObject(meetingRef);
                                 rsvpMeeting.$loaded().then(function(data) {
-                                    var firstWhereId = Object.keys(data.where)[0];
+                                    var firstWhereId = groupInfo.where || Object.keys(data.where)[0];
                                     var passingData = {meetingId: meeting.id, whereId: firstWhereId};
 
                                     meetingInfo.getMeetingInfo(passingData).then(function(meetingInfo) {
@@ -92,6 +93,8 @@
                             });
                         });
                     }
+                    
+//                    $scope.startTutorial();
                 });
                 
                 var mapElement = $window.$('.your-location');
@@ -133,6 +136,18 @@
         $scope.getMeetingName = function(meeting, includeTime) {
             return meetingService.getMeetingName(meeting, includeTime);
         };
+        
+        $scope.startTutorial = function() {
+            $window.$('#joyRideTipContent').joyride({
+                autoStart: true,
+                postStepCallback: function (index, tip) {
+                },
+                postRideCallback: function() {
+                },
+                modal: true,
+                expose: true
+            });
+        }
         
         $window.$(document).ready(function() {
             $window.$('.categories-nav ul').on('click', 'li.level-0', function() {
