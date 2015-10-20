@@ -678,8 +678,8 @@
                 
                 for (var i in $scope.usersInfo.others) {
                     if (typeof $scope.usersInfo.others[i] === 'object') {
-                        // onsite notification
-                        notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
+                        // onsite notification - temporary disable
+                        //notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
                         
                         if ($scope.usersInfo.others[i].user.user.email) {
                             sendingEmails.push($scope.usersInfo.others[i].user.user.email);
@@ -688,9 +688,9 @@
                     }
                 }
                 
-                // email notification
+                // email notification - temporary disable
                 if (sendingEmails.length > 0) {
-                    emailService.sendEmailToUsers(sendingEmails, notificationData);
+                    //emailService.sendEmailToUsers(sendingEmails, notificationData);
                 }
             }
         };
@@ -712,8 +712,8 @@
                 
                 for (var i in $scope.usersInfo.others) {
                     if (typeof $scope.usersInfo.others[i] === 'object') {
-                        // onsite notification
-                        notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
+                        // onsite notification - temporary disable
+                        //notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
                         
                         if ($scope.usersInfo.others[i].user.user.email) {
                             sendingEmails.push($scope.usersInfo.others[i].user.user.email);
@@ -722,9 +722,9 @@
                     }
                 }
                 
-                // email notification
+                // email notification - temporary disable
                 if (sendingEmails.length > 0) {
-                    emailService.sendEmailToUsers(sendingEmails, notificationData);
+                    //emailService.sendEmailToUsers(sendingEmails, notificationData);
                 }
             }
         };
