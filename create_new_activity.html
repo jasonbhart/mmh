@@ -250,7 +250,7 @@
                             <a class="btn grey btn-large waves-effect waves-light left back-button" ng-hide="stage == 1" ng-click="back()">Back</a>
                             <a class="btn red btn-large waves-effect waves-light right next-button" ng-hide="stage == MAX_STAGE || stage == (MAX_STAGE - 1)" ng-click="next()">Next</a>
                             <a class="btn green btn-large waves-effect waves-light right create-button" ng-show="stage == (MAX_STAGE - 1)" ng-click="next()">Create</a>
-                            <a class="btn green btn-large waves-effect waves-light right finish-button" ng-show="stage == MAX_STAGE" ng-click="finish()">Go to meeting</a>
+                            <a class="btn green btn-large waves-effect waves-light right finish-button" ng-show="stage == MAX_STAGE" ng-click="finish()">Finish</a>
                         </div>
                     </div>
                 </div>
@@ -263,10 +263,10 @@
             <h2>New meeting</h2>
             <p>Create new meeting</p>
           </li>
-          <li data-class="notification-icon" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+          <li data-class="notification-icon" class="mb-alert" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
             <p>Show the list of notification</p>
           </li>
-          <li data-class="account" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+          <li data-class="account" class="mb-user" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
             <p>Manage your profile (login/logout/View feature tour)</p>
           </li>
           <li data-class="activity-title" data-button="Next" data-options="tipLocation:bottom;ipAnimation:fade">
@@ -306,7 +306,7 @@
             <p>Skip this option</p>
           </li>
           <li data-class="finish-button" data-button="Close" class="last-tip" data-options="tipLocation:left;ipAnimation:fade">
-            <p>Click to return to Meeting page. Ready to go?</p>
+            <p>Finish the wizard. Ready to go?</p>
           </li>
         </ol>
     </body>
