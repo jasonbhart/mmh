@@ -248,8 +248,9 @@
                         </div>
                         <div class="btn-bottom row">
                             <a class="btn grey btn-large waves-effect waves-light left back-button" ng-hide="stage == 1" ng-click="back()">Back</a>
-                            <a class="btn red btn-large waves-effect waves-light right next-button" ng-hide="stage == MAX_STAGE" ng-click="next()">Next</a>
-                            <a class="btn green btn-large waves-effect waves-light right finish-button" ng-show="stage == MAX_STAGE" ng-click="finish()">Finish</a>
+                            <a class="btn red btn-large waves-effect waves-light right next-button" ng-hide="stage == MAX_STAGE || stage == (MAX_STAGE - 1)" ng-click="next()">Next</a>
+                            <a class="btn green btn-large waves-effect waves-light right next-button" ng-show="stage == (MAX_STAGE - 1)" ng-click="next()">Create</a>
+                            <a class="btn green btn-large waves-effect waves-light right finish-button" ng-show="stage == MAX_STAGE" ng-click="finish()">Go to meeting</a>
                         </div>
                     </div>
                 </div>
