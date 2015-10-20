@@ -248,8 +248,9 @@
                         </div>
                         <div class="btn-bottom row">
                             <a class="btn grey btn-large waves-effect waves-light left back-button" ng-hide="stage == 1" ng-click="back()">Back</a>
-                            <a class="btn red btn-large waves-effect waves-light right next-button" ng-hide="stage == MAX_STAGE" ng-click="next()">Next</a>
-                            <a class="btn green btn-large waves-effect waves-light right finish-button" ng-show="stage == MAX_STAGE" ng-click="finish()">Finish</a>
+                            <a class="btn red btn-large waves-effect waves-light right next-button" ng-hide="stage == MAX_STAGE || stage == (MAX_STAGE - 1)" ng-click="next()">Next</a>
+                            <a class="btn green btn-large waves-effect waves-light right create-button" ng-show="stage == (MAX_STAGE - 1)" ng-click="next()">Create</a>
+                            <a class="btn green btn-large waves-effect waves-light right finish-button" ng-show="stage == MAX_STAGE" ng-click="finish()">Go to meeting</a>
                         </div>
                     </div>
                 </div>
@@ -295,6 +296,9 @@
           <li data-class="specific-business" data-button="Next" data-options="tipLocation:right;ipAnimation:fade">
             <p>You can also enter a specific business</p>
           </li>
+          <li data-class="create-button" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+            <p>Create new meeting & start sharing with friends</p>
+          </li>
           <li data-class="social-area" data-button="Next" data-options="tipLocation:right;ipAnimation:fade">
             <p>Share with friends</p>
           </li>
@@ -302,7 +306,7 @@
             <p>Skip this option</p>
           </li>
           <li data-class="finish-button" data-button="Close" class="last-tip" data-options="tipLocation:left;ipAnimation:fade">
-            <p>Click "Finish" to return to Meeting page. Ready to go?</p>
+            <p>Click to return to Meeting page. Ready to go?</p>
           </li>
         </ol>
     </body>
