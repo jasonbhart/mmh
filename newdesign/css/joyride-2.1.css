@@ -23,11 +23,11 @@ body {
 }
 
 .joyride-content-wrapper {
-  padding: 10px 22px 15px 15px;
+  padding: 10px 26px 15px 15px;
 }
 
 /* Mobile */
-@media only screen and (max-width: 784px) {
+@media only screen and (max-width: 783px) {
   .joyride-tip-guide {
     width: 95% !important;
     left: 2.5% !important;
@@ -219,10 +219,32 @@ body {
     top: 0px;
     left: 0px;
 }
-@media only screen and (max-width: 784px){
-.joyride-tip-guide.mb-alert{margin-top:12px;}
-.joyride-tip-guide.mb-alert span.joyride-nub.top{left:auto; right:8%;}
-.joyride-tip-guide.mb-user{margin-top:12px;}
+@media only screen and (max-width: 783px){
+.joyride-tip-guide.mb-alert span.joyride-nub.top{left:auto; right:9%;}
 .joyride-tip-guide.mb-user span.joyride-nub.top{left:auto; right:12px;}
-
+.joyride-tip-guide.mb-home-browse, .joyride-tip-guide.mb-input-name, .joyride-tip-guide.mb-what-do{left:189px !important; width:300px !important;}
+.joyride-tip-guide.mb-what-an{left:219px !important; width:300px !important;}
+.joyride-tip-guide.mb-home-jumin{left:310px !important; width:300px !important;}
+.joyride-tip-guide.mb-btn-add{left:299px !important; width:300px !important;}
+.joyride-tip-guide.mb-meeting-add{left:368px !important; width:300px !important;}
+.joyride-tip-guide.mb-btn-next span.joyride-nub.bottom, .joyride-tip-guide.mb-meeting-jumin span.joyride-nub.top
+{left:auto; right:30px;}
+}
+@media only screen and (max-width: 768px){
+.joyride-tip-guide.mb-home-browse, .joyride-tip-guide.mb-input-name,.joyride-tip-guide.mb-meeting-add, .joyride-tip-guide.mb-what-do, .joyride-tip-guide.mb-what-an, .joyride-tip-guide.mb-home-jumin, .joyride-tip-guide.mb-btn-add{width: 95% !important;left: 2.5% !important;}
+.joyride-tip-guide.mb-what-an  span.joyride-nub.top{left:65px;}
+.joyride-tip-guide.mb-home-jumin  span.joyride-nub.top{left:168px;}
+.joyride-tip-guide.mb-menu-create{top:60px !important}
+.joyride-tip-guide.mb-btn-add span.joyride-nub.bottom{left: 150px;}
+.joyride-tip-guide.mb-meeting-add span.joyride-nub.top{left: 220px;}
+}
+@media only screen and (max-width: 670px){
+.joyride-tip-guide.mb-alert span.joyride-nub.top{left:auto; right:11%;}
+}
+@media only screen and (max-width: 520px){
+.joyride-tip-guide.mb-alert span.joyride-nub.top{left:auto; right:8%;}
+.joyride-tip-guide.mb-user span.joyride-nub.top{left:auto; right:0;}
+}
+@media only screen and (max-width: 380px){
+.joyride-tip-guide.mb-alert span.joyride-nub.top{left:auto; right:13%;}
 }
