@@ -605,7 +605,8 @@
                 $scope.meetingUser.toggleWhere(place.id, true);
                 $scope.addMeetingToUser();
             }
-        }
+            $scope.changingGroups = true;
+        };
         
         
         var timesProvider = {
@@ -791,7 +792,8 @@
                 $scope.meetingUser.toggleWhen(time.id, true);
                 $scope.addMeetingToUser();
             }
-        }
+            $scope.changingGroups = true;
+        };
         
         $scope.addTime = function($event, place) {
             $event.stopPropagation();
