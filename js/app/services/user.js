@@ -116,9 +116,12 @@
                     id: data.id,
                     provider: data.provider,
                     fullName: data.fullName,
-                    email: data.email,
                     profileImageURL: data.profileImageURL
                 };
+                
+                if (data.email) {
+                    userData.email = data.email;
+                }
                 
                 if (data.loggedViaSocial) {
                     userData.loggedViaSocial = true;

@@ -11,5 +11,7 @@
         this.shareUrlBase = 'https://www.socialivo.com/activity.html';
         this.defaultRadius = 1;     // km
         this.geoLocationTimeout = 20000;    // (20 sec)
+        this.sendingEmail = 'support@socialivo.com';
+        this.sendEmailURL = 'http://localhost:8080/sendEmail';
     });
 })();
