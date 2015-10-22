@@ -32,14 +32,14 @@
             };
             console.log(emailData);
             
-//            $http.post(appConfig.sendEmailURL, emailData).then(
-//                function() {
-//                    console.log('Sending Email successfully');
-//                }, 
-//                function() {
-//                    console.log('Sending Email fail');
-//                }
-//            );
+            $http.post(appConfig.sendEmailURL, emailData).then(
+                function() {
+                    console.log('Sending Email successfully');
+                }, 
+                function() {
+                    console.log('Sending Email fail');
+                }
+            );
         };
         
         return {

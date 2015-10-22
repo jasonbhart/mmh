@@ -12,6 +12,6 @@
         this.defaultRadius = 1;     // km
         this.geoLocationTimeout = 20000;    // (20 sec)
         this.sendingEmail = 'support@socialivo.com';
-        this.sendEmailURL = 'http://localhost:8080/sendEmail';
+        this.sendEmailURL = 'https://edgeprod.com:8081/sendEmail';
     });
 })();
