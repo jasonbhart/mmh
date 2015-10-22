@@ -455,15 +455,15 @@
                 postStepCallback: function (index, tip) {
                     console.log(index);
                     switch(index) {
-                        case 6:
+                        case 9:
                             $scope.stage = 2;
                             $scope.$apply();
                             break;
-                        case 9:
+                        case 12:
                             $scope.stage = 3;
                             $scope.$apply();
                             break;
-                        case 12:
+                        case 15:
                             $scope.stage = 4;
                             $scope.$apply();
                             break;
