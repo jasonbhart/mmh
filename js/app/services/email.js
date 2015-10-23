@@ -19,6 +19,8 @@
                 text = 'New group ' + notification.value + ' added to ' + notification.meetName;
             } else if (notification.type === 'user') {
                 text = 'New user ' + notification.value + ' joined activity ' + notification.meetName;
+            } else if (notification.type === 'rsvp') {
+                text = 'User ' + notification.value + ' joined group ' + moment(notification.time).format('h:mmA') + ' - ' + notification.place;
             }
             return text;
         };

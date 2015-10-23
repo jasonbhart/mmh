@@ -502,6 +502,9 @@
         }
         
         $scope.joinGroup = function(group) {
+            if (!group.hasJoined($scope.currentUser.id)) {
+                addRSVPNotification(group);
+            }
             $scope.meetingUser.joinGroup(
                 {
                     whereId: group.where.$id,
@@ -699,6 +702,41 @@
                     //emailService.sendEmailToUsers(sendingEmails, notificationData);
                 }
             }
+        };
+        
+        var addRSVPNotification = function (group) {
+
+                var time = angular.copy(group.when.when.when);
+                var notificationData = {
+                    type: 'rsvp',
+                    status: '1',
+                    value: $scope.currentUser.user.fullName,
+                    place: group.where.name,
+                    time: time.utc().toISOString(),
+                    createdAt: moment().utc().toISOString(),
+                    meetId: $scope.meeting.id,
+                    meetName: $scope.meeting.name
+                };
+                console.log(notificationData);
+                
+                var sendingEmails = [];
+                
+                for (var i in $scope.usersInfo.others) {
+                    if (typeof $scope.usersInfo.others[i] === 'object') {
+                        // onsite notification - temporary disable
+                        notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
+                        
+                        if ($scope.usersInfo.others[i].user.user.email) {
+                            sendingEmails.push($scope.usersInfo.others[i].user.user.email);
+                            
+                        }
+                    }
+                }
+                
+                // email notification - temporary disable
+                if (sendingEmails.length > 0) {
+                    emailService.sendEmailToUsers(sendingEmails, notificationData);
+                }
         };
         
         var addPlaceNotification = function (oldPlaces, newPlaces) {
