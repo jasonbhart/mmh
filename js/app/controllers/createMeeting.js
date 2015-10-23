@@ -40,6 +40,11 @@
                         userObj.removeUnusedActivities(user.id);
                         $scope.meetingList = data;
                     });
+                    
+                    if (!userObj.getViewTutorialStatus()) {
+                        userObj.setViewTutorialStatus();
+                        $scope.startTutorial();
+                    }
                 });
             };
                 
@@ -453,17 +458,16 @@
             $window.$('#joyRideTipContent').joyride({
                 autoStart: true,
                 postStepCallback: function (index, tip) {
-                    console.log(index);
                     switch(index) {
-                        case 9:
+                        case 10:
                             $scope.stage = 2;
                             $scope.$apply();
                             break;
-                        case 12:
+                        case 13:
                             $scope.stage = 3;
                             $scope.$apply();
                             break;
-                        case 15:
+                        case 16:
                             $scope.stage = 4;
                             $scope.$apply();
                             break;

@@ -24,6 +24,11 @@
                         userObj.removeUnusedActivities(user.id);
                         $scope.meetingList = data;
                     });
+                    
+                    if (!userObj.getViewTutorialStatus()) {
+                        userObj.setViewTutorialStatus();
+                        $scope.startTutorial();
+                    }
                 });
             };
             
