@@ -206,7 +206,7 @@
             var meetingData = {
                 id: $scope.meeting.id,
                 name: $scope.meeting.name,
-                createdDate: moment().utc().toISOString(),
+                createdDate: $scope.meeting.timeTitle || moment().utc().toISOString(),
                 timeTitle: $scope.meeting.timeTitle || ''
             };
             userService.addMeetingToUser($scope.currentUser.id, meetingData).then(function(){
