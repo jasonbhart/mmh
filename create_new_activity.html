@@ -126,9 +126,9 @@
                                         </div>
                                     </li>
                                     <li>
-                                        <input class="with-gap" ng-model="what" value="shopping" id="what02" type="radio"  />
-                                        <label for="what02">Go shopping</label>
-                                        <div ng-if="what=='shopping'" class="check-area">
+                                        <input class="with-gap" ng-model="what" value="food" id="what02" type="radio"  />
+                                        <label for="what02">Go drinking</label>
+                                        <div ng-if="what=='food'" class="check-area">
                                             <span ng-repeat="item in gatheringTypes" style="margin-left: 30px;">
                                                 <input type="checkbox" class="filled-in" id="category_{{item.alias}}" ng-model="$parent.selectedCategory[item.alias]" value="{{item.alias}}"> 
                                                 <label for="category_{{item.alias}}">{{item.title}}</label> 
@@ -138,7 +138,7 @@
                                     <li><input class="with-gap" ng-model="what" value="other" id="what03" type="radio"  />
                                         <label for="what03">Other (select from categories)</label> 
                                          <select class="select-jq browser-default" style="width: auto; margin-left: 30px;" ng-model="term" ng-show="what == 'other'">
-                                            <option value="{{ item.id }}" class="{{ item.id }}" ng-repeat="item in terms | filter:{id:'!restaurants'} | filter:{id:'!shopping'}" ng-selected="item.id == term">{{ item.name }}</option>
+                                            <option value="{{ item.id }}" class="{{ item.id }}" ng-repeat="item in terms | filter:{id:'!restaurants'} | filter:{id:'!food'}" ng-selected="item.id == term">{{ item.name }}</option>
                                         </select>
                                         <div ng-if="what=='other'" class="check-area">
                                             <span ng-repeat="item in gatheringTypes" style="margin-left: 30px;">

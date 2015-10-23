@@ -14,12 +14,12 @@
                 {"alias":"videofilmproductions", "parents":["professional"], "title":"Video/Film Production"}
         ],
             "health":[
-                {"alias":"dentists", "parents":["health"], "title":"Dentists"},
-                {"alias":"diagnosticservices", "country_whitelist":["BE", "FR", "PT", "CA", "IT", "US", "AU", "GB", "BR", "IE", "MX"], "parents":["health"], "title":"Diagnostic Services"},
-                {"alias":"healthinsurance", "country_whitelist":["NZ", "AU", "BR", "PT", "DE", "MX"], "parents":["health"], "title":"Health Insurance Offices"},
-                {"alias":"medicalspa", "parents":["health", "beautysvc"], "title":"Medical Spas"},
-                {"alias":"occupationaltherapy", "country_whitelist":["AU", "GB", "PT", "CA", "DE", "IE", "US"], "parents":["health"], "title":"Occupational Therapy"},
-                {"alias":"physicians", "parents":["health"], "title":"Doctors"}
+                {"alias":"dentists", "parents":["health"], "title":"See dentists"},
+                {"alias":"diagnosticservices", "country_whitelist":["BE", "FR", "PT", "CA", "IT", "US", "AU", "GB", "BR", "IE", "MX"], "parents":["health"], "title":"Diagnosis health issues"},
+                {"alias":"healthinsurance", "country_whitelist":["NZ", "AU", "BR", "PT", "DE", "MX"], "parents":["health"], "title":"Buy Health Insurance"},
+                {"alias":"medicalspa", "parents":["health", "beautysvc"], "title":"Take medical spas"},
+                {"alias":"occupationaltherapy", "country_whitelist":["AU", "GB", "PT", "CA", "DE", "IE", "US"], "parents":["health"], "title":"Use occupational therapy"},
+                {"alias":"physicians", "parents":["health"], "title":"See physicians"}
             ],
             "localservices":[
                 {"alias":"childcare", "parents":["localservices"], "title":"Child Care & Day Care"},
@@ -29,33 +29,33 @@
                 {"alias":"pest_control", "parents":["localservices"], "title":"Pest Control"},
                 {"alias":"youth_club", "country_whitelist":["FR", "DK", "PT", "NO", "FI", "IT", "SE"], "parents":["localservices"], "title":"Youth Club"}
                 ],
-                "shopping":[
-                {"alias":"computers", "parents":["shopping"], "title":"Computers"},
-                {"alias":"discountstore", "parents":["shopping"], "title":"Discount Store"},
-                {"alias":"drugstores", "country_blacklist":["FR", "DK", "CL", "NO", "TR", "AR", "FI", "MX", "SE"], "parents":["shopping"], "title":"Drugstores"},
-                {"alias":"fashion", "parents":["shopping"], "title":"Fashion"},
-                {"alias":"media", "parents":["shopping"], "title":"Books, Mags, Music & Video"}
+            "shopping":[
+                {"alias":"fashion", "parents":["shopping"], "title":"Be fashionable"},
+                {"alias":"computers", "parents":["shopping"], "title":"Buy a computers"},
+                {"alias":"discountstore", "parents":["shopping"], "title":"Get discount products"},
+                {"alias":"drugstores", "country_blacklist":["FR", "DK", "CL", "NO", "TR", "AR", "FI", "MX", "SE"], "parents":["shopping"], "title":"Buy drugs"},
+                {"alias":"media", "parents":["shopping"], "title":"Grab some books"}
             ],
             "education":[
-                {"alias":"collegeuniv", "parents":["education"], "title":"Colleges & Universities"},
-                {"alias":"elementaryschools", "parents":["education"], "title":"Elementary Schools"},
-                {"alias":"highschools", "parents":["education"], "title":"Middle Schools & High Schools"},
-                {"alias":"specialtyschools", "parents":["education"], "title":"Specialty Schools"}
+                {"alias":"collegeuniv", "parents":["education"], "title":"Meet university friends"},
+                {"alias":"elementaryschools,highschools", "parents":["education"], "title":"Visit old schools"},
+                {"alias":"specialtyschools", "parents":["education"], "title":"Join special Class"}
             ],
             "nightlife":[
-                {"alias":"bars", "parents":["nightlife"], "title":"Bars"},
-                {"alias":"beergardens", "country_whitelist":["FR", "AU", "SE", "DE", "IT", "US", "PL"], "parents":["nightlife"], "title":"Beer Gardens"},
-                {"alias":"coffeeshops", "country_whitelist":["NL", "PT"], "parents":["nightlife"], "title":"Coffeeshops"},
-                {"alias":"danceclubs", "parents":["nightlife"], "title":"Dance Clubs"},
-                {"alias":"karaoke", "parents":["nightlife"], "title":"Karaoke"}
+                {"alias":"bars", "parents":["nightlife"], "title":"Get drinks"},
+                {"alias":"danceclubs,countrydancehalls", "parents":["nightlife"], "title":"Go dancing"},
+                {"alias":"karaoke", "parents":["nightlife"], "title":"Sing karaoke"},
+                {"alias":"poolhalls", "parents":["nightlife"], "title":"Play pool"},
+                {"alias":"musicvenues,jazzandblues", "parents":["nightlife"], "title":"See a band"},
+                {"alias":"comedyclubs", "parents":["nightlife"], "title":"See a commedian"}
             ],
             "restaurants":[
-                {"alias":"newamerican", "country_whitelist":["IE", "GB", "US"], "parents":["restaurants"], "title":"American (New)"},
-                {"alias":"asianfusion", "parents":["restaurants"], "title":"Asian Fusion"},
-                {"alias":"bbq", "country_blacklist":["AU", "BR", "ES"], "parents":["restaurants"], "title":"Barbeque"},
-                {"alias":"beergarden", "country_whitelist":["CH", "DE", "AT"], "parents":["restaurants"], "title":"Beer Garden"},
-                {"alias":"breakfast_brunch", "parents":["restaurants"], "title":"Breakfast & Brunch"},
-                {"alias":"buffets", "parents":["restaurants"], "title":"Buffets"}
+                {"alias":"restaurants", "parents":["restaurants"], "title":"Share a meal"},
+                {"alias":"chinese", "parents":["restaurants"], "title":"Try Chinese dishes"},
+                {"alias":"italian", "parents":["restaurants"], "title":"Take Italian food"},
+                {"alias":"bbq", "parents":["restaurants"], "title":"Have barbecue"},
+                {"alias":"breakfast_brunch", "parents":["restaurants"], "title":"Have breakfast"},
+                {"alias":"buffets", "parents":["restaurants"], "title":"Join buffets"}
             ],
             "auto":[
                 {"alias":"autocustomization", "country_whitelist":["SG", "PT", "US"], "parents":["auto"], "title":"Auto Customization"},
@@ -64,25 +64,27 @@
                 {"alias":"carshares", "country_whitelist":["FR", "CH", "DK", "NO", "CA", "DE", "US", "AU", "AT"], "parents":["auto"], "title":"Car Share Services"}
             ],
             "hotelstravel":[
-                {"alias":"airports", "parents":["hotelstravel"], "title":"Airports"},
-                {"alias":"hostels", "parents":["hotelstravel"], "title":"Hostels"},
-                {"alias":"resorts", "country_whitelist":["AU", "PT", "US"], "parents":["hotelstravel"], "title":"Resorts"},
-                {"alias":"tours", "parents":["hotelstravel"], "title":"Tours"},
-                {"alias":"travelservices", "parents":["hotelstravel"], "title":"Travel Services"}
+                {"alias":"airports", "parents":["hotelstravel"], "title":"Go to the airports"},
+                {"alias":"hostels", "parents":["hotelstravel"], "title":"Rent a hostel"},
+                {"alias":"resorts", "parents":["hotelstravel"], "title":"Visit some resorts"},
+                {"alias":"tours", "parents":["hotelstravel"], "title":"Take a tour"},
+                {"alias":"travelservices", "parents":["hotelstravel"], "title":"See a travel agent"}
             ],
             "active":[
-                {"alias":"beaches", "parents":["active"], "title":"Beaches"},
-                {"alias":"challengecourses", "country_whitelist":["HK", "NZ", "CH", "AT", "DE", "US"], "parents":["active"], "title":"Challenge Courses"},
-                {"alias":"fitness", "parents":["active"], "title":"Fitness & Instruction"},
-                {"alias":"football", "parents":["active"], "title":"Soccer"},
-                {"alias":"gymnastics", "country_whitelist":["DK", "PT", "NO", "CA", "US", "NZ", "BR", "MX"], "parents":["active"], "title":"Gymnastics"},
-                {"alias":"kids_activities", "country_blacklist":["CA", "SG"], "parents":["active"], "title":"Kids Activities"}
+                {"alias":"basketballcourts", "parents":["active"], "title":"Shoot some hoops"},
+                {"alias":"battingcages", "parents":["active"], "title":"Hit some baseballs"},
+                {"alias":"bowling", "parents":["active"], "title":"Go bowling"},
+                {"alias":"discgolf", "parents":["active"], "title":"Play discgolf"},
+                {"alias":"gun_ranges", "parents":["active"], "title":"Shoot guns"},
+                {"alias":"golf", "parents":["active"], "title":"Play a round of golf"},
+                {"alias":"hiking", "parents":["active"], "title":"Go for a hike"},
+                {"alias":"paintball", "parents":["active"], "title":"Play some paintball"},
             ],
             "pets":[
-                {"alias":"animalshelters", "parents":["pets"], "title":"Animal Shelters"},
-                {"alias":"petadoption", "country_blacklist":["HK", "AR", "JP", "MX", "CL"], "parents":["pets"], "title":"Pet Adoption"},
-                {"alias":"petservices", "parents":["pets"], "title":"Pet Services"},
-                {"alias":"petstore", "parents":["pets"], "title":"Pet Stores"}
+                {"alias":"animalshelters", "parents":["pets"], "title":"Buy animal shelters"},
+                {"alias":"petadoption", "parents":["pets"], "title":"Adopt a pet"},
+                {"alias":"petservices", "parents":["pets"], "title":"Take care of your pets"},
+                {"alias":"petstore", "parents":["pets"], "title":"Buy a new pet"}
             ],
             "realestate":[
                 {"alias":"apartments", "parents":["realestate"], "title":"Apartments"},
@@ -92,12 +94,12 @@
                 {"alias":"sharedofficespaces", "parents":["realestate"], "title":"Shared Office Spaces"}
             ],
             "arts":[
-                {"alias":"casinos", "country_blacklist":["HK", "JP"], "parents":["arts"], "title":"Casinos"},
-                {"alias":"festivals", "parents":["arts"], "title":"Festivals"},
-                {"alias":"movietheaters", "parents":["arts"], "title":"Cinema"},
-                {"alias":"museums", "parents":["arts"], "title":"Museums"},
-                {"alias":"social_clubs", "parents":["arts"], "title":"Social Clubs"},
-                {"alias":"streetart", "country_whitelist":["DK", "PT", "NO", "DE", "IT", "NZ", "AU", "BR", "MX", "SE"], "parents":["arts"], "title":"Street Art"}
+                {"alias":"casinos,bettingcenters", "parents":["arts"], "title":"Play cards"},
+                {"alias":"festivals", "parents":["arts"], "title":"Join festivals"},
+                {"alias":"movietheaters", "parents":["arts"], "title":"See a movie"},
+                {"alias":"museums", "parents":["arts"], "title":"Gp to the museums"},
+                {"alias":"social_clubs", "parents":["arts"], "title":"Join social clubs"},
+                {"alias":"streetart", "parents":["arts"], "title":"Participate street art"}
             ],
             "publicservicesgovt":[
                 {"alias":"communitycenters", "country_whitelist":["CA", "IE", "GB", "PT", "NO"], "parents":["publicservicesgovt"], "title":"Community Centers"},
@@ -107,31 +109,30 @@
                 {"alias":"policedepartments", "parents":["publicservicesgovt"], "title":"Police Departments"}
             ],
             "food":[
-                {"alias":"beer_and_wine", "parents":["food"], "title":"Beer, Wine & Spirits"},
-                {"alias":"beverage_stores", "country_whitelist":["ES", "CH", "PT", "CL", "DE", "TR", "IT", "AU", "AT", "SE"], "parents":["food"], "title":"Beverage Store"},
-                {"alias":"desserts", "parents":["food"], "title":"Desserts"},
-                {"alias":"diyfood", "country_blacklist":["ES", "FR", "CH", "CL", "DE", "IT", "NO", "NZ", "AT", "FI", "SE"], "parents":["food"], "title":"Do-It-Yourself Food"},
-                {"alias":"donuts", "country_blacklist":["ES", "DK", "SE", "NO"], "parents":["food"], "title":"Donuts"},
-                {"alias":"icecream", "parents":["food"], "title":"Ice Cream & Frozen Yogurt"}
+                {"alias":"beergardens", "parents":["food"], "title":"Grab a craft beer"},
+                {"alias":"bagels,coffee,donuts",  "parents":["food"], "title":"Get coffee"},
+                {"alias":"gelato,icecream", "parents":["food"], "title":"Get some ice cream"},
+                {"alias":"winetastingroom,wine_bars", "parents":["food"], "title":"Drink some wine"},
+                {"alias":"desserts", "parents":["food"], "title":"Get dessert"}
             ],
             "financialservices":[
-                {"alias":"banks", "parents":["financialservices"], "title":"Banks & Credit Unions"},
-                {"alias":"currencyexchange", "parents":["financialservices"], "title":"Currency Exchange"},
-                {"alias":"insurance", "parents":["financialservices"], "title":"Insurance"},
-                {"alias":"investing", "parents":["financialservices"], "title":"Investing"},
-                {"alias":"paydayloans", "country_blacklist":["NZ", "CH", "DK", "DE", "IT", "ES", "AT"], "parents":["financialservices"], "title":"Check Cashing/Pay-day Loans"}
+                {"alias":"banks", "parents":["financialservices"], "title":"Go to banks"},
+                {"alias":"currencyexchange", "parents":["financialservices"], "title":"Go exchanging money"},
+                {"alias":"insurance", "parents":["financialservices"], "title":"Checkout insurance service"},
+                {"alias":"investing", "parents":["financialservices"], "title":"Invest your money"},
+                {"alias":"paydayloans", "parents":["financialservices"], "title":"Get a Pay-day Loans"}
             ],
             "beautysvc":[
-                {"alias":"eroticmassage", "country_blacklist":["DK", "CL", "JP", "NO", "TR", "US", "HK", "TW", "FI", "SE"], "parents":["beautysvc"], "title":"Erotic Massage"},
-                {"alias":"hair", "parents":["beautysvc"], "title":"Hair Salons"},
-                {"alias":"makeupartists", "parents":["beautysvc"], "title":"Makeup Artists"},
-                {"alias":"tattoo", "parents":["beautysvc"], "title":"Tattoo"}
+                {"alias":"eroticmassage", "parents":["beautysvc"], "title":"Go massage"},
+                {"alias":"spas", "parents":["beautysvc"], "title":"Go to the spa"},
+                {"alias":"makeupartists", "parents":["beautysvc"], "title":"Makeup"},
+                {"alias":"tattoo", "parents":["beautysvc"], "title":"Make a tattoo"}
             ],
             "eventservices":[
-                {"alias":"hotels", "parents":["eventservices", "hotelstravel"], "title":"Hotels"},
-                {"alias":"magicians", "country_blacklist":["PL", "SE", "NO", "FI", "SG", "TR", "ES"], "parents":["eventservices"], "title":"Magicians"},
-                {"alias":"partysupplies", "parents":["eventservices"], "title":"Party Supplies"},
-                {"alias":"personalchefs", "parents":["eventservices"], "title":"Personal Chefs"}
+                {"alias":"hotels", "parents":["eventservices", "hotelstravel"], "title":"Choose a hotels"},
+                {"alias":"magicians", "parents":["eventservices"], "title":"Hide some magicians"},
+                {"alias":"partysupplies", "parents":["eventservices"], "title":"Buy party supplies"},
+                {"alias":"personalchefs", "parents":["eventservices"], "title":"Hire personal chefs"}
             ],
             "bicycles":[
                 {"alias":"bikeassociations", "country_whitelist":["DK", "PT"], "parents":["bicycles"], "title":"Bike Associations"},
@@ -140,23 +141,20 @@
                 {"alias":"specialbikes", "country_whitelist":["DK", "PT"], "parents":["bicycles"], "title":"Special Bikes"}
             ],
             "homeservices":[
-                {"alias":"gardeners", "parents":["homeservices"], "title":"Gardeners"},
-                {"alias":"homeautomation", "country_whitelist":["US"], "parents":["homeservices"], "title":"Home Automation"},
-                {"alias":"homecleaning", "parents":["homeservices"], "title":"Home Cleaning"},
-                {"alias":"securitysystems", "parents":["homeservices"], "title":"Security Systems"},
-                {"alias":"televisionserviceproviders", "parents":["homeservices"], "title":"Television Service Providers"}
+                {"alias":"gardeners", "parents":["homeservices"], "title":"Hire some gardeners"},
+                {"alias":"homecleaning", "parents":["homeservices"], "title":"Cleaning your home"},
+                {"alias":"securitysystems", "parents":["homeservices"], "title":"Update security systems"},
+                {"alias":"televisionserviceproviders", "parents":["homeservices"], "title":"Buy a television"}
             ],
             "religiousorgs":[
-                {"alias":"buddhist_temples", "parents":["religiousorgs"], "title":"Buddhist Temples"},
-                {"alias":"churches", "parents":["religiousorgs"], "title":"Churches"},
-                {"alias":"hindu_temples", "parents":["religiousorgs"], "title":"Hindu Temples"},
-                {"alias":"mosques", "parents":["religiousorgs"], "title":"Mosques"},
-                {"alias":"synagogues", "parents":["religiousorgs"], "title":"Synagogues"}
+                {"alias":"buddhist_temples", "parents":["religiousorgs"], "title":"Go to temples"},
+                {"alias":"churches", "parents":["religiousorgs"], "title":"Go to churches"},
+                {"alias":"hindu_temples", "parents":["religiousorgs"], "title":"Go to Hindu temples"},
+                {"alias":"mosques", "parents":["religiousorgs"], "title":"Visit mosques"}
             ],
             "massmedia":[
-                {"alias":"printmedia", "parents":["massmedia"], "title":"Print Media"},
-                {"alias":"radiostations", "parents":["massmedia"], "title":"Radio Stations"},
-                {"alias":"televisionstations", "parents":["massmedia"], "title":"Television Stations"}
+                {"alias":"radiostations", "parents":["massmedia"], "title":"Go to radio stations"},
+                {"alias":"televisionstations", "parents":["massmedia"], "title":"Go to television stations"}
             ],
             "localflavor":[
                 {"alias":"yelpevents", "parents":["localflavor"], "title":"Yelp Events"}

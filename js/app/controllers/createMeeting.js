@@ -10,7 +10,7 @@
         $scope.where = 1;
         $scope.establishment = 'other';
         $scope.share = 1;
-        $scope.terms = dataProvider.getTerms();
+        $scope.terms = dataProvider.getActivities();
         $scope.term = 'restaurants';
         $scope.suggestions = {};
         $scope.timeFormat = 'h:mmA';
@@ -359,8 +359,8 @@
             //what
             if ($scope.what === 'restaurants') {
                 name += "Having a meal ";
-            } else if ($scope.what === 'shopping') {
-                name += "Go shopping ";
+            } else if ($scope.what === 'food') {
+                name += "Go drinking ";
             } else {
                 name += toTitleCase($scope.term) + ' ';
             }
