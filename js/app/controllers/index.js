@@ -25,8 +25,8 @@
                         $scope.meetingList = data;
                     });
                     
-                    if (!userObj.getViewTutorialStatus()) {
-                        userObj.setViewTutorialStatus();
+                    if (!sessionService.getViewedTutorialStatus()) {
+                        sessionService.setViewedTutorialStatus();
                         $scope.startTutorial();
                     }
                 });
@@ -129,7 +129,7 @@
             // listen for the future auth change events
             $scope.$on('auth.changed', function(evt, user) {
                 initAuth(user);
-            });        
+            });
         });
         
         var categories = categoryService.getCategories();
