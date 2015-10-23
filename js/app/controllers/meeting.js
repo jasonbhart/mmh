@@ -142,7 +142,7 @@
 
             var trySet = function() {
                 if (user && meeting) {
-                    sendNewUserJoinedNotification(user, meeting);
+                    // sendNewUserJoinedNotification(user, meeting);
                     meeting.addUser(user.id).then(function() {
                         meeting.getUser(user.id).then(function(meetingUser) {
                             setMeetingUser(meetingUser);
