@@ -44,20 +44,6 @@
                         return this.user.location.shortName;
                     return 'Unknown';
                 },
-                getViewTutorialStatus: function() {
-                    if (this.user.viewedTutorial) {
-                        return true;
-                    }
-                    return false;
-                },
-                setViewTutorialStatus: function() {
-                    this.user.viewedTutorial = "1";
-                    this.user.$save().then(function (ref) {
-                        $log.log("setViewTutorialStatus for user Id: " + id);
-                    }, function (error) {
-                        $log.log("user.js - setViewTutorialStatus error");
-                    });
-                },
                 getLocation: function() {
                     if (this.user.location)
                         return this.user.location;

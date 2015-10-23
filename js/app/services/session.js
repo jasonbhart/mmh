@@ -10,8 +10,8 @@
         };
     });
 
-    app.factory('sessionService', ['$rootScope', '$q', '$cookies', '$log', '$firebaseAuth', 'appConfig', 'authProviders', 'userService', 'meetingService', 'geoLocation',
-            function($rootScope, $q, $cookies, $log, $firebaseAuth, appConfig, authProviders, userService, meetingService, geoLocation) {
+    app.factory('sessionService', ['$rootScope', '$q', '$cookies', '$log', '$firebaseAuth', 'appConfig', 'authProviders', 'userService', 'meetingService', 'geoLocation', '$window',
+            function($rootScope, $q, $cookies, $log, $firebaseAuth, appConfig, authProviders, userService, meetingService, geoLocation, $window) {
         var ref = new Firebase(appConfig.firebaseUrl);
         var authObj = $firebaseAuth(ref);
         var readyDefer = $q.defer();
@@ -140,6 +140,16 @@
             ready: readyDefer.promise,
             setMeetingId: function(id) {
                 meetingId = id;
+            },
+            getViewedTutorialStatus: function() {
+                if ($cookies.viewedTutorial) {
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+            setViewedTutorialStatus: function() {
+                $window.$.cookie("viewedTutorial", 1, { expires : 10000 });
             },
             init: function() {
                 authObj.$waitForAuth().then(function() {

@@ -41,8 +41,8 @@
                         $scope.meetingList = data;
                     });
                     
-                    if (!userObj.getViewTutorialStatus()) {
-                        userObj.setViewTutorialStatus();
+                    if (!sessionService.getViewedTutorialStatus()) {
+                        sessionService.setViewedTutorialStatus();
                         $scope.startTutorial();
                     }
                 });
