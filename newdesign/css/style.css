@@ -21,6 +21,7 @@ h3.title{font-size:18px; font-weight:500;}
 .home-page .title-page{border-bottom:none;}
 .home-page .title-page .icon{width:25px; height:35px; background-position:0 -451px;}
 .best-places li{border-bottom:1px solid #ddd; padding-bottom:20px; font-size:12px; position:relative; padding-right:110px;}
+.frm-creat .best-places li {border-bottom: none;}
 .best-places li:last-child{border-bottom:none; margin-bottom:0; padding-bottom:0;}
 .best-places .thumb{float:left; width:110px; overflow:hidden; border:1px solid #ddd; margin-right:15px;}
 .best-places .title{font-size:14px; margin:0 0 2px; font-weight:500;}
@@ -243,14 +244,14 @@ h3.title{font-size:18px; font-weight:500;}
 .modal .modal-content{overflow-y:auto; height:100%;}
 .modal .best-places{max-height:none; overflow:inherit;}
 .radio-area>span{margin-left: 25px; display:block; min-width: 100px; margin-top: 18px;}
-.modal .best-places .info{position:relative;}
-.modal .best-places .info:hover{cursor:pointer;}
+.info{position:relative;}
+.info:hover{cursor:pointer;}
 .tooltip-pleaces{position:absolute; bottom:45px; left:10px; border:1px solid #d1d1d1; border-radius:6px; padding:15px; width:370px; background:#f1f1f1; box-shadow:0 1px 4px #ccc; z-index:9999;display:none; font-size:13px; max-width:100%;}
 .tooltip-pleaces .thumb{width:90px; overflow:hidden; float:left; margin-right:15px;}
 .tooltip-pleaces .thumb img{max-height:100%;}
 .tooltip-pleaces .cont-data{display:table-cell;}
 .tooltip-pleaces .arrow{position:absolute; bottom:-11px; left:15px; color:#f1f1f1; font-size:30px; line-height:12px}
-.modal .best-places .info:hover .tooltip-pleaces{display:block;}
+.info:hover .tooltip-pleaces{display:block;}
 .tooltip-pleaces .title a{font-size:15px; font-weight:700;}
 .tooltip-pleaces .rate{margin-bottom:5px;}
 .tooltip-pleaces address{font-style:normal;}

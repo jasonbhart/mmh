@@ -194,10 +194,25 @@
                                 </div>
                                 <h3 class="title">Here are the highest rated establishments (in the search area) </h3>
                                 <label style="font-style: italic; font-size: 15px">{{noSuggestionLabel}}</label>
-                                <ul class="option">
+                                <ul class="option best-places">
                                     <li ng-repeat="place in suggestions">
-                                        <input class="with-gap" ng-model="$parent.establishment" value="{{place}}" name="establishment" id="{{place.name}}" type="radio" />
-                                        <label for="{{place.name}}">{{place.name}} </label>
+                                        <div class="info">
+                                            <input class="with-gap" ng-model="$parent.establishment" value="{{place}}" name="establishment" id="{{place.name}}" type="radio" />
+                                            <label for="{{place.name}}">{{place.name}} </label>
+
+                                            <div class="tooltip-pleaces">
+                                                <i class="fa fa-caret-down arrow"></i>
+                                                <a class="thumb"><img ng-src="{{ place.image_url }}" alt=""></a>
+                                                <div class="cont-data">
+                                                    <h3 class="title"><a target="_blank" href="{{ place.url }}">{{ place.name }}</a></h3>
+                                                    <img ng-src="{{ place.rating_url }}" alt="">
+                                                    <!--<span class="str-list">Eastern Market</span>-->
+                                                    <address>
+                                                        {{ place.location.display_address }}
+                                                    </address>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </li>
                                     <li class="specific-business">
                                         <input class="with-gap" ng-model="establishment" value="manual" name="establishment" id="manual" type="radio" />
