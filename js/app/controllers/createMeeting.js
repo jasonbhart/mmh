@@ -459,15 +459,15 @@
                 autoStart: true,
                 postStepCallback: function (index, tip) {
                     switch(index) {
-                        case 10:
+                        case 3:
                             $scope.stage = 2;
                             $scope.$apply();
                             break;
-                        case 13:
+                        case 6:
                             $scope.stage = 3;
                             $scope.$apply();
                             break;
-                        case 16:
+                        case 9:
                             $scope.stage = 4;
                             $scope.$apply();
                             break;
