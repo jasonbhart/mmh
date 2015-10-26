@@ -50,7 +50,6 @@
                 {"alias":"comedyclubs", "parents":["nightlife"], "title":"See a commedian"}
             ],
             "restaurants":[
-                {"alias":"restaurants", "parents":["restaurants"], "title":"Share a meal"},
                 {"alias":"chinese", "parents":["restaurants"], "title":"Try Chinese dishes"},
                 {"alias":"italian", "parents":["restaurants"], "title":"Take Italian food"},
                 {"alias":"bbq", "parents":["restaurants"], "title":"Have barbecue"},

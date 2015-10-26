@@ -358,7 +358,7 @@
             
             //what
             if ($scope.what === 'restaurants') {
-                name += "Having a meal ";
+                name += "Share a meal ";
             } else if ($scope.what === 'food') {
                 name += "Go drinking ";
             } else {
