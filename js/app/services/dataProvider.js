@@ -154,7 +154,8 @@
                                     lat: buss.location.coordinate.latitude,
                                     lng: buss.location.coordinate.longitude
                                 }
-                            }
+                            },
+                            'categories': buss.categories
                         };
 
                         if (buss.distance)

@@ -255,7 +255,7 @@ h3.title{font-size:18px; font-weight:500;}
 .tooltip-pleaces .title a{font-size:15px; font-weight:700;}
 .tooltip-pleaces .rate{margin-bottom:5px;}
 .tooltip-pleaces address{font-style:normal;}
-.tooltip-pleaces .str-list{margin-bottom:6px; display:inline-block;}
+.tooltip-pleaces .str-list{margin-bottom:4px; display:block;}
 .social-area .button {
 
 	display: inline-block;
