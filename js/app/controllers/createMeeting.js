@@ -202,7 +202,7 @@
         });
         
         $scope.addManualBusiness = function() {
-            var dialog = dialogs.addManualBusiness($scope.getWhereQueryOptions({}));
+            var dialog = dialogs.addManualBusiness($scope.getWhereQueryOptions({}, true));
             dialog.result.then(function(business) {
                 if (Object.keys(JSON.parse(business)).length === 0) {
                     alert('Please select a business');
@@ -272,7 +272,7 @@
             
             var timeout = ($scope.where !== 'other') ? 1000 : 0;
             
-            options = $scope.getWhereQueryOptions(options);
+            options = $scope.getWhereQueryOptions(options, false);
 
             setTimeout(function(){
                 dataProvider.getSuggestions(options).then(function(suggestions) {
@@ -287,18 +287,22 @@
             }, timeout);
         };
         
-        $scope.getWhereQueryOptions = function(options) {
+        $scope.getWhereQueryOptions = function(options, manualBusinessFlag) {
             if ($scope.where !== 'other') {
-                var currentLocation = geoLocation.getPosition();
-                currentLocation.then(function(position) {
-                    if (position.coords.latitude && position.coords.longitude) {
-                            options.coords = {lat: position.coords.latitude, lng: position.coords.longitude};
-                        // Boston location for testing purpose
-//                        options.coords = {lat: '42.3133735', lng: '-71.0571571,12'};
-                    }
-                }, function() {
-                    $log.log('Can not find current location');
-                });
+                if (manualBusinessFlag) {
+                    options.coords = $scope.currentUser.user.location.coords;
+                } else {
+                    var currentLocation = geoLocation.getPosition();
+                    currentLocation.then(function(position) {
+                        if (position.coords.latitude && position.coords.longitude) {
+                                options.coords = {lat: position.coords.latitude, lng: position.coords.longitude};
+                            // Boston location for testing purpose
+//                            options.coords = {lat: '42.3133735', lng: '-71.0571571,12'};
+                        }
+                    }, function() {
+                        $log.log('Can not find current location');
+                    });
+                }
 
                 options.radius = util.convertMilesToKms($scope.where);
             } else {
