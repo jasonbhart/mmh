@@ -12,7 +12,7 @@
             $scope.places = [];
 
             $scope.showPlaceSuggestion = function() {
-                options.term = $scope.business_name;
+                options.term = encodeURIComponent($scope.business_name);
                 options.limit = 5;
                 dataProvider.getSuggestions(options).then(function(suggestions) {
                     $scope.places = suggestions;
