@@ -32,7 +32,7 @@
                 {"alias":"caribbean", "parents":["restaurants"], "title":"Caribbean food"},
                 {"alias":"cuban", "parents":["restaurants"], "title":"Cuban food"},
                 {"alias":"danish", "parents":["restaurants"], "title":"Danish food"},
-                {"alias":"cajun", "parents":["restaurants"], "title":"Chinese food"},
+                {"alias":"cajun", "parents":["restaurants"], "title":"Cajun/Creole food"},
                 {"alias":"chinese", "parents":["restaurants"], "title":"Chinese food"},
                 {"alias":"french,brasseries", "parents":["restaurants"], "title":"French food"},
                 {"alias":"german", "parents":["restaurants"], "title":"German food"},
