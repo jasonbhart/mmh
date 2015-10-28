@@ -44,7 +44,7 @@
                 {"alias":"bbq", "parents":["restaurants"], "title":"Barbecue"},
             ],
             "restaurants2":[
-                {"alias":"asianfusion", "parents":["restaurants"], "title":"Asian-fusion},
+                {"alias":"asianfusion", "parents":["restaurants"], "title":"Asian-fusion"},
                 {"alias":"bbq", "parents":["restaurants"], "title":"BBQ"},
                 {"alias":"bistros", "parents":["restaurants"], "title":"Bistro"},
                 {"alias":"brasseries", "parents":["restaurants"], "title":"Brasserie"},
