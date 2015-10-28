@@ -502,6 +502,12 @@
         }
         
         $scope.joinGroup = function(group) {
+            if ($scope.currentUser.isAnonymous()) {
+                alert('Please Login to RSVP');
+                dialogs.auth();
+                return;
+            }
+            
             if (!group.hasJoined($scope.currentUser.id)) {
                 addRSVPNotification(group);
             }
