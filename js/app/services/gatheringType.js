@@ -49,7 +49,7 @@
                 {"alias":"bistros", "parents":["restaurants"], "title":"Bistro"},
                 {"alias":"brasseries", "parents":["restaurants"], "title":"Brasserie"},
                 {"alias":"breakfast_brunch", "parents":["restaurants"], "title":"Breakfast/Brunch"},
-                {"alias":"buffets", "parents":["restaurants"], "title":"All-You-Can-Eat Buffets"}
+                {"alias":"buffets", "parents":["restaurants"], "title":"All-You-Can-Eat Buffets"},
                 {"alias":"burgers", "parents":["restaurants"], "title":"Hamburgers"},
                 {"alias":"cafes", "parents":["restaurants"], "title":"Cafe"},
                 {"alias":"cafeteria,food_court", "parents":["restaurants"], "title":"Cafeteria/Food Court"},

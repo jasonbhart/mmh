@@ -44,7 +44,7 @@ h3.title{font-size:18px; font-weight:500;}
 .meeting-top .info .des{display:table-cell; font-size:12px;}
 .meeting-top .info .member-list ul{overflow:hidden; width:100%; height:33px; margin-bottom:0;}
 .meeting-top .info .member-list li{display:inline-block; margin-right:3px;}
-.meeting-top .info .member-list .bordered{display:block; border:1px solid #ddd; width:38px; height:33px; overflow:hidden;}
+.meeting-top .info .member-list .bordered{display:block; border:1px solid #ddd; width:35px; height:35px; overflow:hidden;}
 .rspvBox{position:absolute; top:0; font-size:14px;}
 .rspvBox .date{display:block; font-weight:700;}
 .rspvBox .time{color: #e44424}
