@@ -70,7 +70,7 @@
 </head>
 <body>
     
-    <div id="container" ng-app="mmh" ng-controller="IndexController">
+    <div id="container" class="homepage" ng-app="mmh" ng-controller="IndexController">
         <div id="google-tag" ng-controller="Snippet">
             <div ng-bind-html="getGoogleTag()"></div>
         </div>
@@ -159,7 +159,11 @@
 						<h2 class="title-page">Your location</h2>
                                                 <!--<input type="hidden" class="search-box">--> 
 						<div class="map map-canvas"></div>
-                                                <div class="des"><span class="icon"></span><input type="text" placeholder="Enter location" value="{{locationName}}" class="search-box" /></div>
+                        <div class="des">
+                            <span class="icon"></span>
+                            <input type="text" placeholder="Enter location" value="{{locationName}}" class="search-box" />
+                            <a class="waves-effect waves-light btn red" ng-click="saveLocation()">Save</a>
+                        </div>
 					</div>
 					<div class="categories-nav">
 						<h2 class="title-page browse-by-category">Browse by Categories</h2>
