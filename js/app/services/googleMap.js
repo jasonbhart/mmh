@@ -21,7 +21,7 @@
 
                 // create map
                 var map = new google.maps.Map(mapElement, mapOptions);
-                map.controls[google.maps.ControlPosition.TOP_LEFT].push(searchBox);
+               // map.controls[google.maps.ControlPosition.TOP_LEFT].push(searchBox);
 
                 // google maps changes position object, so we want to pass a copy of it
                 var position = new google.maps.LatLng(initialPosition.lat, initialPosition.lng);
