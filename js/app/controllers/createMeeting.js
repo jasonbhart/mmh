@@ -22,6 +22,7 @@
         $scope.currentUser = null;
         $scope.meetingList = {};
         $scope.gatheringTypes = [];
+        $scope.allSubCategory = true;
         $scope.currentPage = util.getCurrentPage();
         $scope.share = 1;
         $scope.noSuggestionLabel = '';
@@ -134,26 +135,31 @@
             }
         };
         
-        var resetSelectedCategory = function () {
+        var resetSelectedCategory = function (defaultValue) {
             $scope.selectedCategory = {};
             for (var i in $scope.gatheringTypes) {
-                $scope.selectedCategory[$scope.gatheringTypes[i].alias] = true;
+                $scope.selectedCategory[$scope.gatheringTypes[i].alias] = defaultValue;
             }
         };
         
         var getSelectedCategory = function () {
             return Object.keys($scope.selectedCategory).filter(function(value){return $scope.selectedCategory[value];}).join(',');
-        }
+        };
+        
+        $scope.$watch('allSubCategory', function(newValue, oldValue) {
+            resetSelectedCategory(newValue);
+        });
         
         $scope.$watch('what', function (newValue, oldValue) {
             var term = ($scope.what !== 'other') ? $scope.what : $scope.term;
             $scope.gatheringTypes = gatheringService.getCommonGatheringTypes(term);
-            resetSelectedCategory();
+            $scope.allSubCategory = true;
+            resetSelectedCategory(true);
         });
         $scope.$watch('term', function (newValue, oldValue) {
             var term = ($scope.what !== 'other') ? $scope.what : $scope.term;
             $scope.gatheringTypes = gatheringService.getCommonGatheringTypes(term);
-            resetSelectedCategory();
+            resetSelectedCategory(true);
         });
         
         $scope.$watch('when', function (newValue, oldValue) {
