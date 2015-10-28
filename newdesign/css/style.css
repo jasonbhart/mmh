@@ -244,8 +244,8 @@ h3.title{font-size:18px; font-weight:500;}
 .modal .modal-content{overflow-y:auto; height:100%;}
 .modal .best-places{max-height:none; overflow:inherit;}
 .radio-area>span{margin-left: 25px; display:block; min-width: 100px; margin-top: 18px;}
-.info{position:relative;}
-.info:hover{cursor:pointer;}
+.best-places .info{position:relative;}
+.best-places .info:hover{cursor:pointer;}
 .tooltip-pleaces{position:absolute; bottom:45px; left:10px; border:1px solid #d1d1d1; border-radius:6px; padding:15px; width:370px; background:#f1f1f1; box-shadow:0 1px 4px #ccc; z-index:9999;display:none; font-size:13px; max-width:100%;}
 .tooltip-pleaces .thumb{width:90px; overflow:hidden; float:left; margin-right:15px;}
 .tooltip-pleaces .thumb img{max-height:100%;}
