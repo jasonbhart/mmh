@@ -144,7 +144,8 @@
                             shortName: locality.shortName
                         };
                         $scope.currentUser.updateLocation(location);
-                        $scope.locationName = location.shortName;
+//                        $scope.locationName = location.shortName;
+                        $window.$('.search-box').val(location.shortName);
                     }, function(error) {
                         $window.alert('Failed to change location: ' + error);
                         $log.log('geoLocation error', error);
