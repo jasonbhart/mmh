@@ -227,7 +227,7 @@ body {
 .joyride-tip-guide.mb-home-jumin{left:310px !important; width:300px !important;}
 .joyride-tip-guide.mb-btn-add{left:299px !important; width:300px !important;}
 .joyride-tip-guide.mb-meeting-add{left:368px !important; width:300px !important;}
-.joyride-tip-guide.mb-btn-next span.joyride-nub.bottom, .joyride-tip-guide.mb-meeting-jumin span.joyride-nub.top
+.joyride-tip-guide.mb-btn-next span.joyride-nub.top, .joyride-tip-guide.mb-meeting-jumin span.joyride-nub.top
 {left:auto; right:30px;}
 }
 @media only screen and (max-width: 768px){

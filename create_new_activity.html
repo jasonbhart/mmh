@@ -161,7 +161,7 @@
                                 
                                 <ul class="option">
                                     <li><input class="with-gap" ng-model="when" id="when01" value="one_hour_later" type="radio" checked />
-                                        <label for="when01">1 hour from now</label></li>
+                                        <label for="when01" class="1-hour-from-now">1 hour from now</label></li>
                                     <li><input class="with-gap" ng-model="when" id="when02" value="two_hours_later" type="radio" />
                                         <label for="when02">2 hours from now</label></li>
                                     <li><input class="with-gap" ng-model="when" id="when03" value="four_hours_later" type="radio" />
@@ -184,7 +184,7 @@
                         </div>
                         <div class="frm-creat" ng-show="stage == 3">
                             <div class="row">
-                                <h3 class="title">Where do you want to do this? </h3>
+                                <h3 class="title where-do">Where do you want to do this? </h3>
                                 <ul class="option">
                                     <li><input class="with-gap" ng-model="where" ng-change="updatePlaceSuggestion()" id="where01" value="1" type="radio"  checked />
                                         <label for="where01">Within 1 miles of my current location (default; walkable) </label></li>
@@ -196,7 +196,7 @@
                                 <div class="row">
                                     <input type="text" placeholder="Enter Neighborhood, Address, City, State or Zip" ng-model="other_location" ng-keyup="updatePlaceSuggestion()" ng-show="where=='other'"style="max-width:300px;" />
                                 </div>
-                                <h3 class="title">Here are the highest rated establishments (in the search area) </h3>
+                                <h3 class="title highest-rated">Here are the highest rated establishments (in the search area) </h3>
                                 <label style="font-style: italic; font-size: 15px">{{noSuggestionLabel}}</label>
                                 <ul class="option best-places">
                                     <li ng-repeat="place in suggestions">
@@ -230,7 +230,7 @@
                         </div>
                         <div class="frm-creat" ng-show="stage == 4">
                             <div class="row">
-                                <h3 class="title">How do you wish to share your activity? </h3>
+                                <h3 class="title social-sharing">How do you wish to share your activity? </h3>
                                 <ul class="option">
                                     <li><input class="with-gap" ng-model="share" value="1" id="share" type="radio"/>
                                         <label for="share">Share via...</label>
@@ -279,43 +279,43 @@
         <!-- Tip Content -->
         <ol id="joyRideTipContent">
             <li data-class="activity-title" data-button="Next" class="mb-input-name" data-options="tipLocation:bottom;ipAnimation:fade">
-                <p>Enter name of activity</p>
+                <p>Give your activity some flare by giving it a uniquely descriptive title, if you want.</p>
             </li>
-            <li data-class="select-what" data-button="Next" class="mb-input-name" data-options="tipLocation:bottom;ipAnimation:fade">
-                <p>Choose what activity you want to do</p>
+            <li data-class="select-what" data-button="Next" class="mb-input-name" data-options="tipLocation:left;ipAnimation:fade">
+                <p>What type of activity are you in the mood for</p>
             </li>
-            <li data-class="select-subcagetory" data-button="Next" class="mb-what-an" data-options="tipLocation:bottom;ipAnimation:fade">
+            <li data-class="select-subcagetory" data-button="Next" class="mb-what-an" data-options="tipLocation:left;ipAnimation:fade">
                 <p>You can also customize sub-categories, or just let it as default</p>
             </li>
-            <li data-class="next-button" class="mb-btn-next" data-button="Next" data-options="tipLocation:top;ipAnimation:fade">
+            <li data-class="next-button" class="mb-btn-next" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
                 <p>Click to move to next step</p>
             </li>
-            <li data-class="selected-time" data-button="Next" class="mb-what-do" data-options="tipLocation:top;ipAnimation:fade">
-                <p>Selected time based on your suggestion</p>
+            <li data-class="1-hour-from-now" data-button="Next" class="mb-what-do" data-options="tipLocation:top;ipAnimation:fade">
+                <p>Are you wanting to do something now or sometime in the future?</p>
             </li>
             <li data-class="add-times" data-button="Next" class="mb-btn-add" data-options="tipLocation:top;ipAnimation:fade">
-                <p>You can still add more times to fit your schedule</p>
+                <p>Or you can specify a more specific time.</p>
             </li>
-            <li data-class="back-button" data-button="Next" class="mb-what-do" data-options="tipLocation:top;ipAnimation:fade">
-                <p>Click back to do it again</p>
+            <li data-class="where-do" data-button="Next" class="mb-what-do" data-options="tipLocation:top;ipAnimation:fade">
+                <p>How far are you willing to travel to have this activity?</p>
             </li>
             <li data-class="select-area" data-button="Next" class="mb-what-do" data-options="tipLocation:top;ipAnimation:fade">
-                <p>Select the area you want to search. We will suggest establishments in the search area </p>
+                <p>Or you can give us a specific locality to search within.</p>
+            </li>
+            <li data-class="highest-rated" data-button="Next" class="mb-what-do" data-options="tipLocation:top;ipAnimation:fade">
+                <p>We will show you the highest rated venues in the area. You can select one of these...</p>
             </li>
             <li data-class="specific-business" data-button="Next" class="mb-what-do" data-options="tipLocation:top;ipAnimation:fade">
-                <p>You can also enter a specific business</p>
+                <p>...or you can tell us exactly where you want to go.</p>
             </li>
-            <li data-class="create-button" class="mb-btn-next" data-button="Next" data-options="tipLocation:top;ipAnimation:fade">
-                <p>Create new meeting & start sharing with friends</p>
+            <li data-class="create-button" class="mb-btn-next" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+                <p>Save your new activity and start sharing it with friends!</p>
             </li>
-            <li data-class="social-area" data-button="Next" class="mb-what-do" data-options="tipLocation:top;ipAnimation:fade">
-                <p>Share with friends</p>
+            <li data-class="social-sharing" data-button="Next" class="mb-what-do" data-options="tipLocation:top;ipAnimation:fade">
+                <p>Select the method you will use to share this activity.</p>
             </li>
             <li data-class="make-new-friends" data-button="Next" class="mb-what-do" data-options="tipLocation:top;ipAnimation:fade">
-                <p>Skip this option</p>
-            </li>
-            <li data-class="finish-button" data-button="Close" class="mb-btn-next last-tip" data-options="tipLocation:top;ipAnimation:fade">
-                <p>Finish the wizard. Ready to go?</p>
+                <p>Or invite friends later and open this activity to everyone.</p>
             </li>
         </ol>
     </body>

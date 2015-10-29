@@ -473,11 +473,11 @@
                             $scope.stage = 2;
                             $scope.$apply();
                             break;
-                        case 6:
+                        case 5:
                             $scope.stage = 3;
                             $scope.$apply();
                             break;
-                        case 9:
+                        case 10:
                             $scope.stage = 4;
                             $scope.$apply();
                             break;
