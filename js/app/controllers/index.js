@@ -14,6 +14,7 @@
         $scope.rsvpMeetingList = [];
         $scope.otherMeetings = [];
         $scope.currentPage = util.getCurrentPage();
+        $scope.mapLocation = {};
         
         sessionService.ready.then(function() {
             var initAuth = function(user) {
@@ -130,6 +131,27 @@
             $scope.$on('auth.changed', function(evt, user) {
                 initAuth(user);
             });
+            $scope.$on('position.changed', function(evt, result) {
+                $scope.mapLocation = result;       
+            });
+            $scope.saveLocation = function() {
+                try {
+                    geoLocation.getLocality($scope.mapLocation.position.lat, $scope.mapLocation.position.lng).then(
+                    function(locality) {
+                        var location = {
+                            coords: locality.coords,
+                            radius: $scope.mapLocation.radius,
+                            shortName: locality.shortName
+                        };
+                        $scope.currentUser.updateLocation(location);
+                    }, function(error) {
+                        $window.alert('Failed to change location: ' + error);
+                        $log.log('geoLocation error', error);
+                    });
+                } catch (e) {
+                    console.log("unable to save location", e);
+                }
+            };
         });
         
         var categories = categoryService.getCategories();

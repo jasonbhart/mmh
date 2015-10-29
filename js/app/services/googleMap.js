@@ -5,8 +5,8 @@
     var app = angular.module('mmh.services');
 
     app.factory('googleMap',
-    ['$document', 'util',
-    function($document, util) {
+    ['$rootScope', '$document', 'util',
+    function($rootScope, $document, util) {
         return {
             drawMap: function(rootElement, initialPosition, radius) {
                 var mapOptions = {
@@ -65,12 +65,12 @@
                     marker.setVisible(true);
                     area.setVisible(true);
 
-//                    saveCurrentPosition(place.geometry.location);
+                    saveCurrentPosition(place.geometry.location, radius);
                 });
 
                 // on marker drag
                 google.maps.event.addListener(marker, 'drag', function(e) {
-//                    saveCurrentPosition(e.latLng);
+                    saveCurrentPosition(e.latLng, radius);
                     area.setCenter(e.latLng);
                 });
 
@@ -81,6 +81,17 @@
 
             }
         };
+        
+        function saveCurrentPosition(position, radius) {
+            var newPosition = {
+                    position: {
+                        lat: position.lat(),
+                        lng: position.lng(),
+                    },
+                    radius: radius
+                };
+            $rootScope.$broadcast('position.changed', newPosition);
+        }
         
         function getAreaRadius(radiusInMiles) {
             return util.convertMilesToKms(radiusInMiles) * 1000;
