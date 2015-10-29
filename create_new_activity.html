@@ -131,7 +131,7 @@
                                     </li>
                                     <li>
                                         <input class="with-gap" ng-model="what" value="food" id="what02" type="radio"  />
-                                        <label for="what02">Go drinking</label>
+                                        <label for="what02">Get a drink</label>
                                         <div ng-if="what=='food'" class="check-area">
                                             <span ng-repeat="item in gatheringTypes" style="margin-left: 30px;">
                                                 <input type="checkbox" class="filled-in" id="category_{{item.alias}}" ng-model="$parent.selectedCategory[item.alias]" value="{{item.alias}}"> 
@@ -160,12 +160,12 @@
                                 <h3 class="title">When do you want to do this? </h3>
                                 
                                 <ul class="option">
+                                    <li><input class="with-gap" ng-model="when" id="when00" value="now" type="radio" />
+                                        <label for="when00">Now</label></li>
                                     <li><input class="with-gap" ng-model="when" id="when01" value="one_hour_later" type="radio" checked />
                                         <label for="when01" class="1-hour-from-now">1 hour from now</label></li>
                                     <li><input class="with-gap" ng-model="when" id="when02" value="two_hours_later" type="radio" />
                                         <label for="when02">2 hours from now</label></li>
-                                    <li><input class="with-gap" ng-model="when" id="when03" value="four_hours_later" type="radio" />
-                                        <label for="when03">4 hours from now</label></li>
                                     <li><input class="with-gap" ng-model="when" id="when04" value="other" type="radio" />
                                         <label for="when04">Other (time picker)</label></li>
                                 </ul>
