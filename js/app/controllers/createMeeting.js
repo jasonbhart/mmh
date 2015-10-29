@@ -6,7 +6,7 @@
         $scope.MAX_STAGE = 4;
         $scope.stage = 1; 
         $scope.what = 'restaurants';
-        $scope.when = 'one_hour_later';
+        $scope.when = 'now';
         $scope.where = 1;
         $scope.establishment = 'other';
         $scope.share = 1;
@@ -163,8 +163,10 @@
         });
         
         $scope.$watch('when', function (newValue, oldValue) {
-            if (newValue === 'one_hour_later') {
-                $scope.times = [roundTime(moment().add(1, 'hours'))];
+            if (newValue === 'now') {
+                $scope.times = [roundTime(moment())];
+            } else if (newValue === 'one_hour_later') {
+                $scope.times = [roundTime(moment().add(1, 'hours'))]
             } else if (newValue === 'two_hours_later') {
                 $scope.times = [roundTime(moment().add(2, 'hours'))]
             } else if (newValue === 'four_hours_later') {
