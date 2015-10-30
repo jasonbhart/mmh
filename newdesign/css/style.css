@@ -102,10 +102,13 @@ h3.title{font-size:18px; font-weight:500;}
 .choose-list li .icon{text-indent:-9999em; background-position:5px -570px; width:18px; height:18px;}
 .choose-list li.forbtn .selected-time{background: #ddd;height: 28px;display: block;line-height: 27px;padding: 0 10px;border-radius: 4px;padding-left: 5px;}
 .btn-add .icon{background-position:-14px -572px !important; width:12px !important; height:14px !important; margin-right:1px; vertical-align:middle;}
-.other-member .item .thumb, .pop-user-detail .user .thumb{border:1px solid #ddd; width:100px; height:100px; overflow:hidden; margin-bottom:10px;}
-.other-member .item .thumb img, .pop-user-detail .user .thumb img{width:100px;}
-.other-member .item{display:inline-block; padding:10px; font-size:11px; vertical-align:top;}
-.other-member .item p,  .pop-user-detail .user p{margin:3px 0;}
+.pop-user-detail .user .thumb{border:1px solid #ddd; width:100px; height:100px; overflow:hidden; margin-bottom:10px;}
+.other-member li .thumb{margin-bottom:10px;}
+.pop-user-detail .user .thumb img{width:100px;}
+.other-member .list{margin-left:-20px;}
+.other-member li .thumb img{max-width:100%;border:1px solid #ddd;}
+.other-member li{ padding:10px 0 10px 20px; font-size:11px; vertical-align:top;width:16%; display:inline-block; box-sizing:content-box;max-width:110px}
+.other-member li p,  .pop-user-detail .user p{margin:3px 0;}
 .other-member .link, .address a{text-decoration:underline;}
 #contRight .other-meetings li{padding-left:0; overflow:inherit;}
 #contRight .other-meetings .info{border:0; padding:15px 20px;}

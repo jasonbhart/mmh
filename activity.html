@@ -9,7 +9,6 @@
         <link href="newdesign/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
         <link href="css/font-awesome.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
         <link href="newdesign/css/layout.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-        <link href="newdesign/css/owl.carousel.css" type="text/css" rel="stylesheet" media="screen,projection"/>
         <link href="newdesign/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
         <link href="newdesign/css/joyride-2.1.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 <!--        <link href="newdesign/css/joyride-mobile.css" type="text/css" rel="stylesheet" media="screen,projection"/>
@@ -25,7 +24,6 @@
         <script src="newdesign/js/jquery.cookie.js"></script>
         <script src="newdesign/js/jquery.joyride-2.1.js"></script>
         <script src="newdesign/js/modernizr.mq.js"></script>
-        <script src="newdesign/js/owl.carousel.min.js"></script>
 
         <script src="//cdn.firebase.com/js/client/2.2.9/firebase.js"></script>
         <script src="js/lodash.js"></script>
@@ -175,13 +173,13 @@
                                     <span ng-show="usersInfo.count == 1">1 person is helping to plan this activity</span>
                                     <span ng-show="usersInfo.count > 1">{{ usersInfo.count }} people are helping to plan this activity:</span>
                                 </h3>
-                                <div class="list owl-carousel">
-									<div class="item" ng-repeat="(userId, userInfo) in usersInfo.all" ng-init="$last ? showOtherMemberList() : null">
+                                <ul class="list">
+									<li ng-repeat="(userId, userInfo) in usersInfo.all">
 										<div class="thumb"><img ng-src="{{ userInfo.user.getProfileImageURL() }}"></div>
 										<p><b>{{ userInfo.user.user.fullName }}</b></p>
 										<p class="subtext">{{ userInfo.user.getLocationName() }}</p>
-									</div>
-								</div>
+									</li>
+								</ul>
                             </div>
                         </div>
                     </div>
