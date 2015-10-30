@@ -14,7 +14,7 @@
         $scope.term = 'restaurants';
         $scope.suggestions = {};
         $scope.timeFormat = 'h:mmA';
-        $scope.times = [roundTime(moment().add(1, 'hours'))];
+        $scope.times = [roundTime(moment().add(15, 'minutes'))];
         $scope.meetingId = '';
         $scope.meeting = null;
         $scope.redirectUrl = '';
@@ -164,7 +164,7 @@
         
         $scope.$watch('when', function (newValue, oldValue) {
             if (newValue === 'now') {
-                $scope.times = [roundTime(moment())];
+                $scope.times = [roundTime(moment().add(15, 'minutes'))];
             } else if (newValue === 'one_hour_later') {
                 $scope.times = [roundTime(moment().add(1, 'hours'))]
             } else if (newValue === 'two_hours_later') {
