@@ -42,20 +42,10 @@
                     { id: 'nightlife', name: 'Enjoy nightlife' },
                     { id: 'shopping', name: 'Go shopping' },
                     { id: 'active', name: 'Play sports' },
-                    { id: 'massmedia', name: 'Go to station' },
                     { id: 'pets', name: 'Take care of your pets' },
                     { id: 'hotelstravel', name: 'Go traveling' },
                     { id: 'arts', name: 'Join arts events' },
-                    { id: 'financialservices', name: 'Loan money' },
-                    { id: 'beautysvc', name: 'Protect beauty' },
-                    { id: 'health', name: 'Take health examination' },
-                    { id: 'homeservices', name: 'Change your home' },
-                    { id: 'eventservices', name: 'Hold an event' },
-                    { id: 'localflavor', name: 'Join local activities' },
-                    { id: 'education', name: 'Go to school' },
-                    { id: 'publicservicesgovt', name: 'Use public services' },
-                    { id: 'realestate', name: 'Buy a new house' },
-                    { id: 'religiousorgs', name: 'Join religious organizations' }
+                    { id: 'beautysvc', name: 'Protect beauty' }
                 ];
             },
             
