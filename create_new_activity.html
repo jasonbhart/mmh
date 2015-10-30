@@ -139,10 +139,47 @@
                                             </span>
                                         </div>
                                     </li>
-                                    <li><input class="with-gap" ng-model="what" value="other" id="what03" type="radio"  />
-                                        <label for="what03">Other (select from categories)</label> 
+                                    <li>
+                                        <input class="with-gap" ng-model="what" value="shopping" id="what03" type="radio"  />
+                                        <label for="what03">Go shopping</label>
+                                        <div ng-if="what=='shopping'" class="check-area">
+                                            <span ng-repeat="item in gatheringTypes" style="margin-left: 30px;">
+                                                <input type="checkbox" class="filled-in" id="category_{{item.alias}}" ng-model="$parent.selectedCategory[item.alias]" value="{{item.alias}}"> 
+                                                <label for="category_{{item.alias}}">{{item.title}}</label> 
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <input class="with-gap" ng-model="what" value="nightlife" id="what04" type="radio"  />
+                                        <label for="what04">Enjoy the nightlife</label>
+                                        <div ng-if="what=='nightlife'" class="check-area">
+                                            <span ng-repeat="item in gatheringTypes" style="margin-left: 30px;">
+                                                <input type="checkbox" class="filled-in" id="category_{{item.alias}}" ng-model="$parent.selectedCategory[item.alias]" value="{{item.alias}}"> 
+                                                <label for="category_{{item.alias}}">{{item.title}}</label> 
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <input class="with-gap" ng-model="what" value="active" id="what05" type="radio"  />
+                                        <label for="what05">Play some sports</label>
+                                        <div ng-if="what=='active'" class="check-area">
+                                            <span ng-repeat="item in gatheringTypes" style="margin-left: 30px;">
+                                                <input type="checkbox" class="filled-in" id="category_{{item.alias}}" ng-model="$parent.selectedCategory[item.alias]" value="{{item.alias}}"> 
+                                                <label for="category_{{item.alias}}">{{item.title}}</label> 
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li><input class="with-gap" ng-model="what" value="other" id="what06" type="radio"  />
+                                        <label for="what06">Other (select from categories)</label> 
                                          <select class="select-jq browser-default" style="width: auto; margin-left: 30px;" ng-model="term" ng-show="what == 'other'">
-                                            <option value="{{ item.id }}" class="{{ item.id }}" ng-repeat="item in terms | filter:{id:'!restaurants'} | filter:{id:'!food'}" ng-selected="item.id == term">{{ item.name }}</option>
+                                            <option value="{{ item.id }}" class="{{ item.id }}" 
+                                                    ng-repeat="item in terms | filter:{id:'!restaurants'} 
+                                                                             | filter:{id:'!food'}
+                                                                             | filter:{id:'!nightlife'}
+                                                                             | filter:{id:'!shopping'}
+                                                                             | filter:{id:'!active'}" 
+                                                    ng-selected="item.id == term">{{ item.name }}
+                                            </option>
                                         </select>
                                         <div ng-if="what=='other'" class="check-area">
                                             <span ng-repeat="item in gatheringTypes" style="margin-left: 30px;">

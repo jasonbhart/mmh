@@ -39,9 +39,9 @@
                 return [
                     { id: 'restaurants', name: 'Share a meal' },
                     { id: 'food', name: 'Get a drink' },
-                    { id: 'nightlife', name: 'Enjoy nightlife' },
+                    { id: 'nightlife', name: 'Enjoy the nightlife' },
                     { id: 'shopping', name: 'Go shopping' },
-                    { id: 'active', name: 'Play sports' },
+                    { id: 'active', name: 'Play some sports' },
                     { id: 'pets', name: 'Take care of your pets' },
                     { id: 'hotelstravel', name: 'Go traveling' },
                     { id: 'arts', name: 'Join arts events' },

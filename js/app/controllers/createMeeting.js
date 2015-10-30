@@ -366,15 +366,14 @@
                 return $scope.meeting_name;
             }
             
+            var yelpTerm = ($scope.what !== 'other') ? $scope.what : $scope.term;
             var name = '';
             
-            //what
-            if ($scope.what === 'restaurants') {
-                name += "Share a meal ";
-            } else if ($scope.what === 'food') {
-                name += "Go drinking ";
-            } else {
-                name += toTitleCase($scope.term) + ' ';
+            for (var i in $scope.terms) {
+                if ($scope.terms[i].id === yelpTerm) {
+                    name += $scope.terms[i].name + ' ';
+                    break;
+                }
             }
             
             return name;
