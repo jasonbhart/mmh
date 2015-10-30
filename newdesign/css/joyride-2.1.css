@@ -21,6 +21,10 @@ body {
   font-weight: normal;
   border-radius: 4px;
 }
+.joyride-tip-guide.tooltip-mt{margin-top: 20px;}
+.joyride-tip-guide.tooltip-mr{margin-left: -20px;}
+.joyride-tip-guide.tooltip-ml{margin-left: 20px;}
+.joyride-tip-guide.tooltip-mb{margin-top: -20px;}
 
 .joyride-content-wrapper {
   padding: 10px 26px 15px 15px;
@@ -35,6 +39,10 @@ body {
   .joyride-tip-guide-wrapper {
     width: 100%;
   }
+ .joyride-tip-guide.tooltip-mt{margin-top:0;}
+.joyride-tip-guide.tooltip-mr{margin-left:0;}
+.joyride-tip-guide.tooltip-ml{margin-left:0;}
+.joyride-tip-guide.tooltip-mb{margin-bottom:0;}
 }
 
 
@@ -115,7 +123,7 @@ body {
   border-right-color: transparent !important;
   border-top-width: 0;
   top: -14px;
-  bottom: none;
+  bottom: auto;
   left: auto;
   right: 28px;
 }
@@ -219,6 +227,7 @@ body {
     top: 0px;
     left: 0px;
 }
+
 @media only screen and (max-width: 783px){
 .joyride-tip-guide.mb-alert span.joyride-nub.top{left:auto; right:9%;}
 .joyride-tip-guide.mb-user span.joyride-nub.top{left:auto; right:12px;}
@@ -229,6 +238,7 @@ body {
 .joyride-tip-guide.mb-meeting-add{left:368px !important; width:300px !important;}
 .joyride-tip-guide.mb-btn-next span.joyride-nub.top, .joyride-tip-guide.mb-meeting-jumin span.joyride-nub.top
 {left:auto; right:30px;}
+.joyride-tip-guide.mb-logo span.joyride-nub.top{left:98px;}
 }
 @media only screen and (max-width: 768px){
 .joyride-tip-guide.mb-home-browse, .joyride-tip-guide.mb-input-name,.joyride-tip-guide.mb-meeting-add, .joyride-tip-guide.mb-what-do, .joyride-tip-guide.mb-what-an, .joyride-tip-guide.mb-home-jumin, .joyride-tip-guide.mb-btn-add{width: 95% !important;left: 2.5% !important;}

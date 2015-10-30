@@ -107,19 +107,19 @@
                         </div>
                         <div class="frm-creat" ng-show="stage == 1">
                             <div class="row">
-                                <h3 class="title">Title of the activity (optional)</h3>
-                                <input type="text" class="activity-title" placeholder="Activity title" ng-model="meeting_name" style="max-width:600px;" />
+                                <h3 class="title activity-title">Title of the activity (optional)</h3>
+                                <input type="text" placeholder="Activity title" ng-model="meeting_name" style="max-width:600px;" />
                             </div>
                             <div class="row">
-                                <h3 class="title">What do you want to do? </h3>
+                                <h3 class="title select-what">What do you want to do? </h3>
                                 <ul class="option">
                                     <li>
-                                        <span class="select-what">
+                                        <span>
                                             <input class="with-gap" ng-model="what" value="restaurants" id="what01" type="radio"/>
                                             <label for="what01">Share a meal</label>
                                         </span>
-                                        <div ng-show="what=='restaurants'" class="check-area">
-                                            <span style="margin-left: 30px;" class="select-subcagetory">
+                                        <div ng-show="what=='restaurants'" class="check-area select-subcagetory">
+                                            <span style="margin-left: 30px;">
                                                 <input class="filled-in" type="checkbox" ng-model="allSubCategory" id="allSubCategory"> 
                                                 <label for="allSubCategory">Select All</label> 
                                             </span>
@@ -315,43 +315,43 @@
         </div>
         <!-- Tip Content -->
         <ol id="joyRideTipContent">
-            <li data-class="activity-title" data-button="Next" class="mb-input-name" data-options="tipLocation:bottom;ipAnimation:fade">
+            <li data-class="activity-title" data-button="Next" class="mb-input-name tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
                 <p>Give your activity some flare by giving it a uniquely descriptive title, if you want.</p>
             </li>
-            <li data-class="select-what" data-button="Next" class="mb-input-name" data-options="tipLocation:left;ipAnimation:fade">
-                <p>What type of activity are you in the mood for</p>
+            <li data-class="select-what" data-button="Next" class="mb-input-name tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
+                <p>What type of activity are you in the mood for?</p>
             </li>
-            <li data-class="select-subcagetory" data-button="Next" class="mb-what-an" data-options="tipLocation:left;ipAnimation:fade">
-                <p>You can also customize sub-categories, or just let it as default</p>
+            <li data-class="select-subcagetory" data-button="Next" class="mb-what-an tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
+                <p>You can also customize sub-categories, or just let it as default.</p>
             </li>
-            <li data-class="next-button" class="mb-btn-next" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
-                <p>Click to move to next step</p>
+            <li data-class="next-button" class="mb-btn-next tooltip-mr" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+                <p>Click to move to next step.</p>
             </li>
-            <li data-class="now" data-button="Next" class="mb-what-do" data-options="tipLocation:top;ipAnimation:fade">
+            <li data-class="now" data-button="Next" class="mb-what-do tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
                 <p>Are you wanting to do something now or sometime in the future?</p>
             </li>
-            <li data-class="add-times" data-button="Next" class="mb-btn-add" data-options="tipLocation:top;ipAnimation:fade">
+            <li data-class="add-times" data-button="Next" class="mb-btn-add tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
                 <p>Or you can specify a more specific time.</p>
             </li>
-            <li data-class="where-do" data-button="Next" class="mb-what-do" data-options="tipLocation:top;ipAnimation:fade">
+            <li data-class="where-do" data-button="Next" class="mb-what-do tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
                 <p>How far are you willing to travel to have this activity?</p>
             </li>
-            <li data-class="select-area" data-button="Next" class="mb-what-do" data-options="tipLocation:top;ipAnimation:fade">
+            <li data-class="select-area" data-button="Next" class="mb-what-do tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
                 <p>Or you can give us a specific locality to search within.</p>
             </li>
-            <li data-class="highest-rated" data-button="Next" class="mb-what-do" data-options="tipLocation:top;ipAnimation:fade">
+            <li data-class="highest-rated" data-button="Next" class="mb-what-do tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
                 <p>We will show you the highest rated venues in the area. You can select one of these...</p>
             </li>
-            <li data-class="specific-business" data-button="Next" class="mb-what-do" data-options="tipLocation:top;ipAnimation:fade">
+            <li data-class="specific-business" data-button="Next" class="mb-what-do tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
                 <p>...or you can tell us exactly where you want to go.</p>
             </li>
-            <li data-class="create-button" class="mb-btn-next" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+            <li data-class="create-button" class="mb-btn-next tooltip-mr" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
                 <p>Save your new activity and start sharing it with friends!</p>
             </li>
-            <li data-class="social-sharing" data-button="Next" class="mb-what-do" data-options="tipLocation:top;ipAnimation:fade">
+            <li data-class="social-sharing" data-button="Next" class="mb-what-do tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
                 <p>Select the method you will use to share this activity.</p>
             </li>
-            <li data-class="make-new-friends" data-button="Next" class="mb-what-do" data-options="tipLocation:top;ipAnimation:fade">
+            <li data-class="make-new-friends" data-button="Next" class="mb-what-do tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
                 <p>Or invite friends later and open this activity to everyone.</p>
             </li>
         </ol>
