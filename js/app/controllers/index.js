@@ -68,7 +68,7 @@
             if (userLocation) {
                 var options = {
                     coord: userLocation.coords, 
-                    radius: util.convertMilesToKms(userLocation.radius),
+                    radius: util.convertMilesToKms(10),
                     count: 3
                 };
 
@@ -95,12 +95,11 @@
                                         meeting.where.location.display_address = meeting.where.location.display_address.replace('undefined', '');
                                     }
                                     $scope.otherMeetings.push(meeting);
+                                    $scope.$apply();
                                 }
                             });
                         });
                     }
-                    
-//                    $scope.startTutorial();
                 });
                 
                 var mapElement = $window.$('.your-location');
@@ -148,7 +147,7 @@
                         $window.$('.search-box').val(location.shortName);
                     }, function(error) {
                         $window.alert('Failed to change location: ' + error);
-                        $log.log('geoLocation error', error);
+                        console.log('geoLocation error', error);
                     });
                 } catch (e) {
                     console.log("unable to save location", e);
