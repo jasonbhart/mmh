@@ -1,8 +1,8 @@
 ;(function () {
     "use strict";
     var app = angular.module('mmh.controllers');
-    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util', 'categoryService', 'userService','gatheringService',
-        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService, util, categoryService, userService, gatheringService) {
+    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util', 'categoryService', 'userService','gatheringService','localMeetingService',
+        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService, util, categoryService, userService, gatheringService, localMeetingService) {
         $scope.MAX_STAGE = 4;
         $scope.stage = 1; 
         $scope.what = 'restaurants';
@@ -345,6 +345,13 @@
                 var meetingPromise = meetingService.create(data);
                 meetingPromise.then(function(meeting) {
                     var meetingId = meeting.refs.current.key();
+                    if (data.where.length > 0) {
+                        // add place to the local Events
+                        localMeetingService.add(meetingId, '0', data.where[0].location.coordinate).then(function() {
+                            console.log('Added meeting to local meeting lists');
+                        });
+                    }
+                            
                     $scope.meetingId = meetingId;
                     $scope.meeting = meeting;
                     $scope.redirectUrl = 'activity.html?act=' + meetingId;
