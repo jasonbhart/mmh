@@ -28,8 +28,8 @@
                     });
                     
                     if (!sessionService.getViewedTutorialStatus()) {
-                        sessionService.setViewedTutorialStatus();
                         $scope.startTutorial();
+                        sessionService.setViewedTutorialStatus();
                     }
                 });
             };
@@ -170,6 +170,10 @@
         };
         
         $scope.startTutorial = function() {
+            if (sessionService.getViewedTutorialStatus()) {
+                $window.$('.first-greeting-bubble').remove();
+            }
+            
             $window.$('#joyRideTipContent').joyride({
                 autoStart: true,
                 postStepCallback: function (index, tip) {
