@@ -15,6 +15,7 @@
         $scope.otherMeetings = [];
         $scope.currentPage = util.getCurrentPage();
         $scope.mapLocation = {};
+        $scope.saveLocationTimeout = null;
         
         sessionService.ready.then(function() {
             var initAuth = function(user) {
@@ -131,8 +132,11 @@
                 initAuth(user);
             });
             $scope.$on('position.changed', function(evt, result) {
-                $scope.mapLocation = result;       
+                $scope.mapLocation = result;    
+                clearTimeout($scope.saveLocationTimeout);
+                $scope.saveLocationTimeout = setTimeout($scope.saveLocation, 1000);
             });
+            
             $scope.saveLocation = function() {
                 try {
                     geoLocation.getLocality($scope.mapLocation.position.lat, $scope.mapLocation.position.lng).then(
