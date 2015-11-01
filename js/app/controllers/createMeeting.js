@@ -341,6 +341,10 @@
             var time = angular.copy($scope.times[0]);
             data['timeTitle'] = time ? time.utc().toISOString() : '';
             
+            if ($scope.where === 'other' && $scope.other_location !== '') {
+                data['specific_location'] = $scope.other_location;
+            }
+            
             if (!$scope.meetingId) {
                 var meetingPromise = meetingService.create(data);
                 meetingPromise.then(function(meeting) {

@@ -28,6 +28,7 @@
                 id: ref.key(),
                 name: snap.val().name || 'New Activity',
                 timeTitle: snap.val().timeTitle || '',
+                specificLocation: snap.val().specific_location || '',
                 refs: refs,
                 users: $firebaseArray(refs.users),
                 where: $firebaseArray(refs.where),

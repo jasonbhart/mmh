@@ -584,7 +584,9 @@
             },
             getPlaces: function(term) {
                 var options = { term: term, limit: 10 };
-                if ($scope.currentUser.user.location) {
+                if ($scope.meeting.specificLocation) {
+                    options.location = $scope.meeting.specificLocation;
+                } else if ($scope.currentUser.user.location) {
                     options.coords = $scope.currentUser.user.location.coords;
                     options.radius = util.convertMilesToKms($scope.currentUser.user.location.radius);
 
