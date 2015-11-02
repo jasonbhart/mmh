@@ -171,11 +171,13 @@
                 $scope.times = [roundTime(moment().add(2, 'hours'))]
             } else if (newValue === 'four_hours_later') {
                 $scope.times = [roundTime(moment().add(4, 'hours'))]
-            } else if (newValue === 'other') {
-                $scope.times = [];
-                $scope.addTimes();
             }
         });
+        
+        $scope.addOtherTimes = function() {
+            $scope.times = [];
+            $scope.addTimes();
+        };
         
         $scope.$watch('share', function (newValue, oldValue) {
             if (newValue === '0') {
@@ -202,12 +204,6 @@
         function roundTime(moment) {
             return moment.subtract(moment.minute()%15, 'minutes');
         }
-        
-        $scope.$watch('establishment', function (newValue, oldValue) {
-            if (newValue === 'manual') {
-                $scope.addManualBusiness();
-            }
-        });
         
         $scope.addManualBusiness = function() {
             var dialog = dialogs.addManualBusiness($scope.getWhereQueryOptions({}, true));
@@ -297,7 +293,7 @@
         
         $scope.getWhereQueryOptions = function(options, manualBusinessFlag) {
             if ($scope.where !== 'other') {
-                if ($scope.currentUser.user.location.coords) {
+                if ($scope.currentUser.user.location && $scope.currentUser.user.location.coords) {
                     options.coords = $scope.currentUser.user.location.coords;
                 } else {
                     var currentLocation = geoLocation.getPosition();

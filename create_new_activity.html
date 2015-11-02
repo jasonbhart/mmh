@@ -204,7 +204,7 @@
                                     <li><input class="with-gap" ng-model="when" id="when02" value="two_hours_later" type="radio" />
                                         <label for="when02">2 hours from now</label></li>
                                     <li><input class="with-gap" ng-model="when" id="when04" value="other" type="radio" />
-                                        <label for="when04">Other (time picker)</label></li>
+                                        <label for="when04" ng-click="addOtherTimes()">Other (time picker)</label></li>
                                 </ul>
                                 <div class="box-white white">
                                     <ul class="choose-list">
@@ -256,7 +256,7 @@
                                     </li>
                                     <li class="specific-business">
                                         <input class="with-gap" ng-model="establishment" value="manual" name="establishment" id="manual" type="radio" />
-                                        <label for="manual">{{manualBusinessLabel}}</label>
+                                        <label for="manual"  ng-click="addManualBusiness()">{{manualBusinessLabel}}</label>
                                     </li>
                                     <li>
                                         <input class="with-gap" ng-model="establishment" value="other" name="establishment" id="help_me_decide" type="radio" />
