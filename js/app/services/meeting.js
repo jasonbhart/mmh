@@ -524,7 +524,8 @@
                             name: meeting.name,
                             users: _.keys(meeting.users),
                             where: meeting.where[whereId],
-                            url: service.getSharingUrl(id)
+                            url: service.getSharingUrl(id),
+                            timeTitle: meeting.timeTitle
                         };
                         
                         $rootScope.$applyAsync(function() {
