@@ -185,9 +185,9 @@
     
     <!-- Tip Content -->
     <ol id="joyRideTipContent">
-        <li data-id="logo" data-text="Next" class="custom tooltip-mt mb-logo first-greeting-bubble" data-options="tipLocation:bottom;tipAnimation:pop">
-            <h2>Feature tour</h2>
-            <p>This is the Socialivo tutorial. You can close this modal to ignore this step, Or click "Next" to continue...</p>
+        <li data-id="logo-dot" data-text="Next" class="custom tooltip-mt mb-logo first-greeting-bubble" data-options="tipLocation:bottom;tipAnimation:pop">
+            <h2 id="logo"><a>Socialivo</a></h2>
+            <p>Welcome to Socialivo! You can close this modal to ignore this step, Or click "Next" to continue...</p>
         </li>
         <li data-id="new_meet" data-text="Next" class="custom mb-menu-create tooltip-ml" data-options="tipLocation:right;tipAnimation:pop">
             <h2>New Activity</h2>
@@ -201,7 +201,14 @@
             <h2>Activities</h2>
             <p>The list of activities you are currently participating in.</p>
         </li>
-        <li data-class="notification-icon" class="mb-alert tooltip-mr" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+        <li data-id="notification-icon-dot" class="mb-alert tooltip-mr" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+            <div id="header">
+                <div class="notifications">
+                    <a class="dropdown-button info on" href="#">
+                        <i class="icon"></i>
+                    </a>
+                </div>
+            </div>
             <p>Notifications keeps you up-to-date on your activities.</p>
         </li>
         <li data-class="account" class="mb-user tooltip-mr" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">

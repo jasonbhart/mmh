@@ -258,3 +258,20 @@ body {
 @media only screen and (max-width: 380px){
 .joyride-tip-guide.mb-alert span.joyride-nub.top{left:auto; right:13%;}
 }
+.joyride-content-wrapper #header{
+    height: auto;
+    display: inline-block;
+    margin: 0;
+    float: left;
+    background: none;
+}
+.joyride-content-wrapper #header .notifications {
+    border-right: none;
+    padding-right: 0;
+}
+.joyride-content-wrapper #logo {
+    position: relative;
+    left: 0;
+    top: auto;
+    padding: 5px 0 8px;
+}

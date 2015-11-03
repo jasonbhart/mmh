@@ -1,9 +1,9 @@
 <nav id="header" class="top-nav">
-    <h1 id="logo"><a href="/">Socialivo</a></h1>
+    <h1 id="logo"><a href="/">Socialivo</a><span id="logo-dot"></span></h1>
     <div id="top-right" class="pull-right" ng-controller="UserAccountController">
         <div class="notifications">
             <a class="dropdown-button info on" href="#" data-activates="notifications-info" title="Notifications">
-                <i class="icon notification-icon"></i><span class="alert-bubble" ng-show="countNotification">{{ countNotification }}</span>
+                <span id="notification-icon-dot"></span><i class="icon notification-icon"></i><span class="alert-bubble" ng-show="countNotification">{{ countNotification }}</span>
             </a>
             <div id="notifications-info" class="dropdown-content">
                 <p class="notifLabel">Notifications</p>
