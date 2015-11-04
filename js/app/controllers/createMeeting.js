@@ -296,7 +296,7 @@
         
         $scope.getWhereQueryOptions = function(options, manualBusinessFlag) {
             if ($scope.where !== 'other') {
-                if ($scope.currentUser.user.location && $scope.currentUser.user.location.coords) {
+                if ($scope.currentUser.user && $scope.currentUser.user.location && $scope.currentUser.user.location.coords) {
                     options.coords = $scope.currentUser.user.location.coords;
                 } else {
                     var currentLocation = geoLocation.getPosition();
