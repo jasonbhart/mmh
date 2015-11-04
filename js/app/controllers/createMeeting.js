@@ -255,6 +255,7 @@
         }
         
         $scope.updatePlaceSuggestion = function() {
+            $window.$('.loading-wrap').show();
             $scope.noSuggestionLabel = '';
             var options = {
                 'term' : ($scope.what !== 'other') ? $scope.what : $scope.term,
@@ -281,12 +282,14 @@
             setTimeout(function(){
                 dataProvider.getSuggestions(options).then(function(suggestions) {
                     $scope.suggestions = suggestions;
+                    $window.$('.loading-wrap').hide();
                 }, function (error){
                     $scope.suggestions = {};
                     if ($scope.establishment != 'manual') {
                         $scope.establishment = 'other';
                     }
                     $scope.noSuggestionLabel = 'Sorry, we were unable to find an establishment in your area. Try changing locations.';
+                    $window.$('.loading-wrap').hide();
                 });
             }, timeout);
         };
