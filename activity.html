@@ -122,7 +122,7 @@
                                         Places 
                                         <span ng-if="meeting.specificLocation">({{meeting.specificLocation}})</span>
                                     </p>
-                                    <div class="box-white white">
+                                    <div class="box-white white places-area">
                                         <ul class="choose-list">
                                             <li ng-class="where.selected ? 'selected' : ''" ng-repeat="where in usersInfo.current.where" ng-click="togglePlace(where)">
                                                 <a class="icon" title="Delete">Delete</a>
@@ -132,7 +132,7 @@
                                         </ul>
                                     </div>
                                     <p>Times</p>
-                                    <div class="box-white white">
+                                    <div class="box-white white times-area">
                                         <ul class="choose-list">
                                             <li ng-class="when.selected ? 'selected' : ''" ng-repeat="when in usersInfo.current.when" ng-click="toggleTime(when)">
                                                 <a class="icon" title="Delete">Delete</a>
@@ -198,11 +198,11 @@
     <ol id="joyRideTipContent">
         <li data-id="logo-dot" data-text="Next" class="custom tooltip-mt first-greeting-bubble" data-options="tipLocation:bottom;tipAnimation:pop">
             <h2 id="logo"><a>Socialivo</a></h2>
-            <p>Welcome to Socialivo! You can close this modal to ignore this step, Or click "Next" to continue...</p>
+            <p>This is the Socialivo tour of an 'Activity' page. You can skip this tutorial by clicking on the 'X' in the corner or continue by clicking 'Next'.</p>
         </li>
         <li data-id="home" data-text="Next" class="custom tooltip-ml" data-options="tipLocation:right;tipAnimation:pop">
-            <h2>Homepage</h2>
-            <p>"Home" navigation to return to homepage</p>
+            <h2>Home</h2>
+            <p>Go to the Socialivo home page</p>
         </li>
         <li data-id="new_meet" data-text="Next" class="custom mb-menu-create tooltip-ml" data-options="tipLocation:right;tipAnimation:pop">
             <h2>New Activity</h2>
@@ -214,7 +214,7 @@
         </li>-->
         <li data-id="meet" data-text="Next" class="custom mb-menu-create tooltip-ml" data-options="tipLocation:right;tipAnimation:pop">
             <h2>Activities</h2>
-            <p>The list of activities you are currently participating in.</p>
+            <p>Find all the activities you are participating in here.</p>
         </li>
         <li data-id="notification-icon-dot" class="mb-alert tooltip-mr" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
             <div id="header">
@@ -224,25 +224,38 @@
                     </a>
                 </div>
             </div>
-            <p>Notifications keeps you up-to-date on your activities.</p>
+            <h2>Notifications</h2>
+            <p>See all of your notifications about activities you are participating in here</p>
         </li>
         <li data-class="account" class="mb-user tooltip-mr" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
-            <p>Control your settings and how Socialivo works for you.</p>
+            <h2>Profile</h2>
+            <p>Managing your profile and account settings here.</p>
+        </li>
+        <li data-class="places-area" data-button="Next" class="mb-meeting-add tooltip-mt" data-options="tipLocation:bottom;ipAnimation:pop">
+            <h2>Places</h2>
+            <p>All venues suggested by participants for this activity.</p>
         </li>
         <li data-class="add-places" data-button="Next" class="mb-meeting-add tooltip-mt" data-options="tipLocation:bottom;ipAnimation:pop">
-            <p>Suggest your favourite places</p>
+            <h3>Add Place Suggestion</h3>
+            <p>Suggest a new venue for this activity to occur.</p>
+        </li>
+        <li data-class="times-area" data-button="Next" class="mb-meeting-add tooltip-mt" data-options="tipLocation:bottom;ipAnimation:pop">
+            <h3>Times</h3>
+            <p>All times suggested by participants for this activity.</p>
         </li>
         <li data-class="add-times" data-button="Next" class="mb-meeting-add tooltip-mt" data-options="tipLocation:bottom;ipAnimation:pop">
-            <p>Choose your appropriate times</p>
+            <h3>Add Time Suggestion</h3>
+            <p>Suggest a new time for this activity to occur.</p>
         </li>
         <li data-class="suitable-groups" data-button="Next" class="mb-what-do tooltip-mt" data-options="tipLocation:bottom;ipAnimation:fade">
-            <p>Available groups to RSVP or LEAVE</p>
+            <p>This area will show you where there are groups of consensus (if any) with others participating in this activity.</p>
         </li>
         <li data-class="jump-in" data-button="Next" class="mb-meeting-jumin tooltip-mr" data-options="tipLocation:left;ipAnimation:fade">
-            <p>Click "Jump-In" to meet new friends at local positions</p>
+            <p>Click "Jump-In" to meet new friends at the same position</p>
         </li>
-        <li data-class="share" data-button="Close" class="last-tip mb-btn-next tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
-            <p>Share with your friends in multiple methods. Ready to start?</p>
+        <li data-class="share" data-button="Close" class="last-tip mb-btn-next tooltip-mt" data-options="tipLocation:bottom;ipAnimation:fade">
+            <h3>Share Activity</h3>
+            <p>Use these buttons to easily share the details of this activity with others who might be interested</p>
         </li>
     </ol>
 </body>
