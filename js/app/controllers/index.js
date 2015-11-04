@@ -36,6 +36,8 @@
             
             initAuth(sessionService.getCurrentUser());
             
+            $window.$('.loading-wrap').show();
+            
             userService.get($scope.currentUser.id).then(function(userObj) {
                 userObj.meetingList.$loaded().then(function(data) {
                     angular.forEach(data, function (meeting, key) {
@@ -57,10 +59,14 @@
                                             $scope.rsvpMeetingList.push(meetingInfo);
                                         }
                                     });
+                                    
+                                    $window.$('.loading-wrap').hide();
                                 });
                             }
                         });
                     });
+                    
+                    
                 });
             });
                 
@@ -98,6 +104,8 @@
                                     $scope.otherMeetings.push(meeting);
                                     $scope.$apply();
                                 }
+                                
+                                $window.$('.loading-wrap').hide();
                             });
                         });
                     }
