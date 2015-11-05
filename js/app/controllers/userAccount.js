@@ -67,6 +67,13 @@
             }
         };
         
+        $scope.clearAllNotification = function () {
+            if ($scope.user && $scope.user.id) {
+                notificationService.removeAllNotification($scope.user.id);
+                $scope.notifications = [];
+            }
+        };
+        
         $('.notifications').click(function(e) {
             $('#notifications-info').css({
                 width: '0px',

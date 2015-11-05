@@ -12,6 +12,7 @@
                         <a class="notification-content" href="activity.html?act={{ notification.meetId }}" ng-bind-html="getNotificationText(notification)"></a>
                         <a class="icon" title="Delete" ng-click="clearNotification(key, notification.id)"></a>
                     </li>
+                    <li ng-click="clearAllNotification()" ng-show="notifications.length"><a>CLEAR ALL</a></li>
                 </ul>
                 <span class="icon arow"></span>
             </div>

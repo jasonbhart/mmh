@@ -83,7 +83,12 @@
         var removeNotification = function (userId, notificationId) {
             var notificationRef = ref.child('notifications').child(userId);
             notificationRef.child(notificationId).remove();
-        }
+        };
+        
+        var removeAllNotification = function (userId) {
+            var notificationRef = ref.child('notifications').child(userId);
+            notificationRef.remove();
+        };
         
         return {
             addNotificationToUser: addNotificationToUser,
@@ -91,7 +96,8 @@
             getLastNotifications: getLastNotifications,
             trackNotification: trackNotification,
             resetNotifications: resetNotifications,
-            removeNotification: removeNotification
+            removeNotification: removeNotification,
+            removeAllNotification: removeAllNotification
         }
     }]);
 })();
