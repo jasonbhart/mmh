@@ -62,11 +62,11 @@
                                     
                                     $window.$('.loading-wrap').hide();
                                 });
+                            } else {
+                                $window.$('.loading-wrap').hide();
                             }
                         });
                     });
-                    
-                    
                 });
             });
                 
@@ -108,6 +108,8 @@
                                 $window.$('.loading-wrap').hide();
                             });
                         });
+                    } else {
+                        $window.$('.loading-wrap').hide();
                     }
                 });
                 
@@ -134,7 +136,7 @@
 //            var mapElement = $window.$('.your-location');
 //            googleMap.drawMap(mapElement, options.coord, options.radius);
 //            console.log(options);
-//            
+
             // listen for the future auth change events
             $scope.$on('auth.changed', function(evt, user) {
                 initAuth(user);
