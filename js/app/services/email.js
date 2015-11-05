@@ -22,6 +22,8 @@
             } else if (notification.type === 'rsvp') {
                 text = 'User ' + notification.value + ' joined group ' + moment(notification.time).format('h:mmA') + ' - ' + notification.place;
             }
+            
+            text += "\r\n \r\n \r\n This email address isn't monitored. Replies to this email will be ignored.";
             return text;
         };
         
@@ -30,7 +32,8 @@
                 from: appConfig.sendingEmail,
                 to: emails,
                 subject: notificationData.meetName,
-                content: getEmailBody(notificationData)
+                content: getEmailBody(notificationData),
+                replyTo: [appConfig.replyEmail]
             };
             console.log(emailData);
             
