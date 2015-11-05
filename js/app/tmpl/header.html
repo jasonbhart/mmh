@@ -8,10 +8,9 @@
             <div id="notifications-info" class="dropdown-content">
                 <p class="notifLabel">Notifications</p>
                 <ul>
-                    <li ng-repeat="notification in notifications">
-                        <a href="activity.html?act={{ notification.meetId }}" ng-bind-html="getNotificationText(notification)">
-                           
-                        </a>
+                    <li ng-repeat="(key, notification) in notifications">
+                        <a class="notification-content" href="activity.html?act={{ notification.meetId }}" ng-bind-html="getNotificationText(notification)"></a>
+                        <a class="icon" title="Delete" ng-click="clearNotification(key, notification.id)"></a>
                     </li>
                 </ul>
                 <span class="icon arow"></span>
