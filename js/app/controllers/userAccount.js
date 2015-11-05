@@ -38,7 +38,7 @@
                 $scope.countNotification = data.count; 
             }
         });
-        
+                
         $scope.getNotificationText = function(notification) {
             if (!notification) {
                 return '';
@@ -59,6 +59,13 @@
             }
             return $sce.trustAsHtml(text);
         }
+        
+        $scope.clearNotification = function (key, notificationId) {
+            if ($scope.user && $scope.user.id) {
+                notificationService.removeNotification($scope.user.id, notificationId);
+                $scope.notifications.splice(key,1);
+            }
+        };
         
         $('.notifications').click(function(e) {
             $('#notifications-info').css({
