@@ -248,6 +248,7 @@
                     type: establishment.type || "Unknown",
                     image_url: establishment.image_url || "",
                     location: establishment.location || {},
+                    categories: establishment.categories || {}
                 }];
             } catch (e) {
                 return [];

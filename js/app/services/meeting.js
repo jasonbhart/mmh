@@ -96,7 +96,9 @@
                             country_code: where.country_code,
                             url: where.url,
                             image_url: where.image_url,
-                            location: where.location
+                            location: where.location,
+                            categories: where.categories,
+                            rating_url: where.rating_url
                         }, function() {
                             var id = whereRef.key();
                             // add place to the local Events

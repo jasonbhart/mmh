@@ -124,9 +124,21 @@
                                     </p>
                                     <div class="box-white white places-area">
                                         <ul class="choose-list">
-                                            <li ng-class="where.selected ? 'selected' : ''" ng-repeat="where in usersInfo.current.where" ng-click="togglePlace(where)">
+                                            <li ng-class="where.selected ? 'selected' : ''" class="place-info" ng-repeat="where in usersInfo.current.where" ng-click="togglePlace(where)">
                                                 <a class="icon" title="Delete">Delete</a>
                                                 {{ where.name }}
+                                                 <div class="tooltip-pleaces">
+                                                    <i class="fa fa-caret-down arrow"></i>
+                                                    <a class="thumb"><img ng-src="{{ where.where.image_url }}" alt=""></a>
+                                                    <div class="cont-data">
+                                                        <h3 class="title"><a target="_blank" href="{{ where.where.url }}">{{ where.name }}</a></h3>
+                                                        <img ng-src="{{ where.where.rating_url }}" alt="">
+                                                        <span class="str-list">{{ where.where.categories[0][0] ? where.where.categories[0][0] : '' }}</span>
+                                                        <address>
+                                                            {{ where.where.location.display_address }}
+                                                        </address>
+                                                    </div>
+                                                </div>
                                             </li>
                                             <li class="forbtn"><a class="btn btn-add waves-effect waves-light add-places" ng-click="addPlaces()"><i class="icon"></i> Add</a></li>
                                         </ul>

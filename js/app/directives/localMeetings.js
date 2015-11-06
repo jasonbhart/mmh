@@ -26,7 +26,7 @@
 
                     meetingInfo
                         .getLocal({
-                            coord: scope.location,
+                            coords: scope.location,
                             radius: util.convertMilesToKms(scope.radius),
                             count: scope.count,
                             exclude: [scope.excludeMeeting]
