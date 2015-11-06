@@ -49,7 +49,8 @@
                                 var rsvpMeeting = $firebaseObject(meetingRef);
                                 rsvpMeeting.$loaded().then(function(data) {
                                     var firstWhereId = groupInfo.where || Object.keys(data.where)[0];
-                                    var passingData = {meetingId: meeting.id, whereId: firstWhereId};
+                                    var firstWhenId = groupInfo.when || '0';
+                                    var passingData = {meetingId: meeting.id, whereId: firstWhereId, whenId: firstWhenId};
 
                                     meetingInfo.getMeetingInfo(passingData).then(function(meetingInfo) {
                                         if (typeof meetingInfo.where.location !== 'undefined') {

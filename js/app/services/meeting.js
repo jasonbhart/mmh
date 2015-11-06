@@ -521,10 +521,17 @@
                             whereId = _.keys(meeting.where)[0];
 
                         var id = snap.key();
+                        var joinedUser = [];
+                        _.forEach(meeting.users, function(user, userId) {
+                            if (user.group && user.group.when == descr.whenId && user.group.where == descr.whereId) {
+                                joinedUser.push(userId);
+                            }
+                        });
+                        
                         var info = {
                             id: id,
                             name: meeting.name,
-                            users: _.keys(meeting.users),
+                            users: joinedUser,
                             where: meeting.where[whereId],
                             url: service.getSharingUrl(id),
                             timeTitle: meeting.timeTitle
