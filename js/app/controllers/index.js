@@ -4,8 +4,8 @@
     var app = angular.module('mmh.controllers');
 
     // get data from yelp
-    app.controller('IndexController', ['$scope', 'meetingInfo', 'sessionService', 'util', 'geoLocation','$window', 'googleMap','categoryService', 'appConfig', 'userService', 'meetingService', '$firebaseObject',
-            function ($scope, meetingInfo, sessionService, util, geoLocation, $window, googleMap, categoryService, appConfig, userService, meetingService, $firebaseObject) {
+    app.controller('IndexController', ['$scope', 'meetingInfo', 'sessionService', 'util', 'geoLocation','$window', 'googleMap','categoryService', 'appConfig', 'userService', 'meetingService', '$firebaseObject', '$q',
+            function ($scope, meetingInfo, sessionService, util, geoLocation, $window, googleMap, categoryService, appConfig, userService, meetingService, $firebaseObject, $q) {
         $scope.currentUser = null;
         $scope.locationName = '';
         $scope.categories = [];
@@ -71,67 +71,13 @@
             });
                 
             $scope.locationName = $scope.currentUser.getLocationName();
-            var userLocation = $scope.currentUser.getLocation();
-            if (userLocation) {
-                var options = {
-                    coord: userLocation.coords, 
-                    radius: util.convertMilesToKms(10),
-                    count: 3
-                };
-
-                meetingInfo.getLocal(options).then(function(results) {
-                    if (results.length > 0) {
-                        angular.forEach(results, function (meeting, key) {
-                            var userGroupRef = ref.child(meeting.id).child('users').child($scope.currentUser.id).child('group');
-                            userGroupRef.once('value', function(snapshot) {
-                                if (snapshot.val() === null) {
-                                    if (typeof meeting.where.location !== 'undefined') {
-                                        meeting.where.location.display_address = meeting.where.location.display_address.replace('undefined', '');
-                                    }
-                                    $scope.otherMeetings.push(meeting);
-                                    $scope.$apply();
-                                }
-                                
-                                $window.$('.loading-wrap').hide();
-                            });
-                        });
-                    } else {
-                        $window.$('.loading-wrap').hide();
-                    }
-                });
-                
-                var mapElement = $window.$('.your-location');
-                $scope.map = googleMap.drawMap(mapElement, options.coord, options.radius);
-            } else {
-                var locationPromise = geoLocation.getCurrentLocation();
-                locationPromise.then(function(position) {
-                    var options = {
-                        coord: position.coords, 
-                        radius: util.convertMilesToKms(1),
-                        count: 5
-                    };
-                    $scope.locationName = position.shortName;
-                    var mapElement = $window.$('.your-location');
-                    $scope.map = googleMap.drawMap(mapElement, options.coord, options.radius);
-                }, function (error) {
-                    $window.alert('Cannot detect current location. Set to default value');
-                    $scope.map = googleMap.drawMap(
-                        $window.$('.your-location'), 
-                        {lat: 40.71875890364503, lng: -74.00626673281249}, 
-                        util.convertMilesToKms(1)
-                    );
-                    $window.$('.search-box').val('NY, US');
-                });
-                
-                // load default or latest events instead if location is not available
-            }
             
-            // draw map
-//            var mapElement = $window.$('.your-location');
-//            googleMap.drawMap(mapElement, options.coord, options.radius);
-//            console.log(options);
-
-            // listen for the future auth change events
+            var userLocation = $scope.currentUser.getLocation();
+            
+            drawMap(userLocation).then(function(mapOptions) {
+                getLocalEvents(mapOptions);
+            });
+          // listen for the future auth change events
             $scope.$on('auth.changed', function(evt, user) {
                 initAuth(user);
             });
@@ -148,10 +94,11 @@
                         var location = {
                             coords: locality.coords,
                             radius: $scope.mapLocation.radius,
-                            shortName: locality.shortName
+                            shortName: locality.shortName,
+                            type: 'manual',
+                            saveTime: moment().utc().toISOString()
                         };
                         $scope.currentUser.updateLocation(location);
-//                        $scope.locationName = location.shortName;
                         $window.$('.search-box').val(location.shortName);
                     }, function(error) {
                         $window.alert('Failed to change location: ' + error);
@@ -205,7 +152,103 @@
                     console.log('geoLocation error', error);
                 });
                 
-        }
+        };
+        
+        var shouldUseSavedLocation = function (userLocation) {
+            var useSavedLocation = true;
+            if (!userLocation) {
+                useSavedLocation = false;
+            } else if (!userLocation.saveTime) {
+                useSavedLocation = false;
+            } else if (userLocation.type === 'auto') {
+                var diff = moment().diff(moment(userLocation.saveTime));
+                if (diff > 1000 * 3600) {
+                    useSavedLocation = false;
+                }
+            } else {
+                var diff = moment().diff(moment(userLocation.saveTime));
+                if (diff > 24 * 1000 * 3600) {
+                    useSavedLocation = false;
+                }
+            }
+            return useSavedLocation;
+        };
+        
+        var drawMap = function (userLocation) {
+            var defer = $q.defer();
+            
+            var mapElement = $window.$('.your-location');
+            var options = {
+                radius: util.convertMilesToKms(10),
+                count: 3
+            };
+            
+            
+            if (shouldUseSavedLocation(userLocation)) {
+                options.coords = userLocation.coords;
+                $scope.map = googleMap.drawMap(mapElement, options.coords, util.convertMilesToKms(1));
+                
+                defer.resolve(options);
+            } else {
+                var locationPromise = geoLocation.getCurrentLocation();
+                locationPromise.then(function(position) {
+                    options.coords = position.coords;
+                    $scope.locationName = position.shortName;
+                    $scope.map = googleMap.drawMap(mapElement, options.coords, util.convertMilesToKms(1));
+                    
+                    var location = angular.extend(options, {
+                        type: 'auto', 
+                        saveTime:  moment().utc().toISOString(),
+                        shortName: position.shortName
+                    });
+                    $scope.currentUser.updateLocation(location);
+                    
+                    defer.resolve(options);
+                }, function (error) {
+                    $window.alert('Cannot detect current location. Set to default value');
+                    options.coords = {lat: 40.71875890364503, lng: -74.00626673281249};
+                    
+                    $scope.map = googleMap.drawMap(mapElement, options.coords, util.convertMilesToKms(1));
+                    $scope.locationName = 'NY, US';
+                    
+                    var location = angular.extend(options, {
+                        type: 'auto', 
+                        saveTime:  moment().utc().toISOString(),
+                        shortName: 'NY, US'
+                    });
+                    $scope.currentUser.updateLocation(location);
+                    
+                    defer.resolve(options);
+                });
+                
+                // load default or latest events instead if location is not available
+            }
+            
+            return defer.promise;
+        };
+        
+        var getLocalEvents = function(mapOptions) {
+            meetingInfo.getLocal(mapOptions).then(function(results) {
+                if (results.length > 0) {
+                    angular.forEach(results, function (meeting, key) {
+                        var userGroupRef = ref.child(meeting.id).child('users').child($scope.currentUser.id).child('group');
+                        userGroupRef.once('value', function(snapshot) {
+                            if (snapshot.val() === null) {
+                                if (typeof meeting.where.location !== 'undefined') {
+                                    meeting.where.location.display_address = meeting.where.location.display_address.replace('undefined', '');
+                                }
+                                $scope.otherMeetings.push(meeting);
+                                $scope.$apply();
+                            }
+
+                            $window.$('.loading-wrap').hide();
+                        });
+                    });
+                } else {
+                    $window.$('.loading-wrap').hide();
+                }
+            });
+        };
         
         $window.$(document).ready(function() {
             $window.$('.categories-nav ul').on('click', 'li.level-0', function() {

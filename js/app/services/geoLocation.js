@@ -49,7 +49,7 @@
 
             getCurrentPosition: function() {
                 var defer = $q.defer();
-
+                
                 // will be resolved on timeout or on error (user denied browser detection)
                 var errorDefer = $q.defer();
 
@@ -150,7 +150,7 @@
                 return defer.promise;
             },
             
-            getCurrentLocation: function(options) {
+            getCurrentLocation: function(options) {           
                 var defer = $q.defer();
 
                 this.getCurrentPosition().then(function(position) {
