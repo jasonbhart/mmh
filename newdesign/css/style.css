@@ -443,3 +443,6 @@ img{max-width: 100%;}
     border-bottom: none;
     padding-right: 0px;
 }
+.auto-detect-location {
+    margin-top: 7px;
+}

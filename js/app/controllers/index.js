@@ -79,19 +79,6 @@
                     count: 3
                 };
 
-//                meetingInfo.getLatest().then(function(info) {
-//                    $scope.meeting = info;
-//                    var userGroupRef = ref.child($scope.meeting.id).child('users').child($scope.currentUser.id).child('group');
-//                    $scope.meeting.joinedGroup = false;
-//                    
-//                    userGroupRef.once('value', function(snapshot) {
-//                        if (snapshot.val() !== null) {
-//                            $scope.meeting.joinedGroup = true;
-//                        }
-//                        $scope.$apply();
-//                    });
-//                });
-
                 meetingInfo.getLocal(options).then(function(results) {
                     if (results.length > 0) {
                         angular.forEach(results, function (meeting, key) {
@@ -114,7 +101,7 @@
                 });
                 
                 var mapElement = $window.$('.your-location');
-                googleMap.drawMap(mapElement, options.coord, options.radius);
+                $scope.map = googleMap.drawMap(mapElement, options.coord, options.radius);
             } else {
                 var locationPromise = geoLocation.getCurrentLocation();
                 locationPromise.then(function(position) {
@@ -125,9 +112,16 @@
                     };
                     $scope.locationName = position.shortName;
                     var mapElement = $window.$('.your-location');
-                    googleMap.drawMap(mapElement, options.coord, options.radius);
+                    $scope.map = googleMap.drawMap(mapElement, options.coord, options.radius);
+                }, function (error) {
+                    $window.alert('Cannot detect current location. Set to default value');
+                    $scope.map = googleMap.drawMap(
+                        $window.$('.your-location'), 
+                        {lat: 40.71875890364503, lng: -74.00626673281249}, 
+                        util.convertMilesToKms(1)
+                    );
+                    $window.$('.search-box').val('NY, US');
                 });
-                
                 
                 // load default or latest events instead if location is not available
             }
@@ -193,6 +187,24 @@
                 modal: true,
                 expose: true
             });
+        };
+        
+        $scope.autoDetectLocation = function () {
+            geoLocation.getCurrentLocation().then(
+                function(location) {
+                    $scope.map.setCenter(location.coords.lat, location.coords.lng);
+                    $window.$('.search-box').val(location.shortName);
+                    
+                    location.radius = $scope.mapLocation.radius || 1;
+                    location.type = 'auto';
+                    location.saveTime = moment().utc().toISOString();
+                    $scope.currentUser.updateLocation(location);
+
+                }, function(error) {
+                    $window.alert('Failed to change location: ' + error);
+                    console.log('geoLocation error', error);
+                });
+                
         }
         
         $window.$(document).ready(function() {

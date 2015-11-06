@@ -78,6 +78,13 @@
                 google.maps.event.addListenerOnce(map, 'tilesloaded', function() {
                     google.maps.event.trigger(map, 'resize');
                 });
+                
+                this.setCenter = function (lat, lng) {
+                    var position = new google.maps.LatLng(lat, lng);
+                    map.setCenter(position);
+                }
+                
+                return this;
 
             }
         };

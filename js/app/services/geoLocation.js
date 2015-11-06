@@ -162,7 +162,10 @@
                                 shortName: locality.shortName
                             });
                         }, function() {
-                            defer.reject('Can\'t get locality info');
+                            defer.resolve({
+                                coords: {lat: position.latitude, lng: position.longitude},
+                                shortName: 'Unknown'
+                            });
                         });
                 }, function(error) {
                     defer.reject(error);
