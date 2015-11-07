@@ -214,7 +214,7 @@
                                                 {{ time.format(timeFormat) }}
                                             </span>
                                         </li>
-                                        <li class="forbtn" ng-hide="times.length == 0"><a class="btn btn-add waves-effect waves-light add-times" ng-click="addTimes()"><i class="icon"></i> Add</a></li>
+                                        <li class="forbtn" ng-hide="times.length == 0"><span class="add-times button-span"><a class="btn btn-add waves-effect waves-light" ng-click="addTimes()"><i class="icon"></i> Add</a></span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -303,10 +303,18 @@
                             </div>
                         </div>
                         <div class="btn-bottom row">
-                            <a class="btn grey btn-large waves-effect waves-light left back-button" ng-hide="stage == 1" ng-click="back()">Back</a>
-                            <a class="btn red btn-large waves-effect waves-light right next-button" ng-hide="stage == MAX_STAGE || stage == (MAX_STAGE - 1)" ng-click="next()">Next</a>
-                            <a class="btn green btn-large waves-effect waves-light right create-button" ng-show="stage == (MAX_STAGE - 1)" ng-click="next()">Create</a>
-                            <a class="btn green btn-large waves-effect waves-light right finish-button" ng-show="stage == MAX_STAGE" ng-click="finish()">Finish</a>
+                            <span class="back-button button-span left">
+                                <a class="btn grey btn-large waves-effect waves-light" ng-hide="stage == 1" ng-click="back()">Back</a>
+                            </span>
+                            <span class="next-button button-span right">
+                                <a class="btn red btn-large waves-effect waves-light" ng-hide="stage == MAX_STAGE || stage == (MAX_STAGE - 1)" ng-click="next()">Next</a>
+                            </span>
+                            <span class="create-button button-span right">
+                                <a class="btn green btn-large waves-effect waves-light" ng-show="stage == (MAX_STAGE - 1)" ng-click="next()">Create</a>
+                            </span>
+                            <span class="finish-button button-span right">
+                                <a class="btn green btn-large waves-effect waves-light" ng-show="stage == MAX_STAGE" ng-click="finish()">Finish</a>
+                            </span>
                         </div>
                     </div>
                 </div>

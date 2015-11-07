@@ -115,6 +115,14 @@ body {
   bottom: none;
 }
 
+.joyride-tip-guide.left-menu span.joyride-nub.left {
+    top: 12px !important;
+}
+
+.joyride-tip-guide.right-menu span.joyride-nub.right {
+    top: 12px !important;
+}
+
 .joyride-tip-guide span.joyride-nub.top-right {
   border-color: #000;
   border-color: rgba(0,0,0,0.8);

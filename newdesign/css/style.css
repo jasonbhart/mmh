@@ -31,9 +31,8 @@ h3.title{font-size:18px; font-weight:500;}
 .address .subtext{display:block;}
 .address .icon{width:25px; height:25px; background-position:6px -487px; background-color:#ddd; float:left; margin-right:10px; margin-top:5px;}
 .best-places li .btn-area{position:absolute; top:35px; right:0;}
-.btn-large{font-size:22px; padding:0 1.7em; height:48px; line-height:50px;}
+.btn-large{font-size:22px; padding:0 1.4em; height:48px; line-height:50px;}
 .btn-bottom {margin-top:30px;}
-.create-button {padding: 0 1.5em !important};
 .contents{padding:0; margin:0;}
 .meetingLabel{display:inline-block; clear:both; border-radius:4px; font-style:italic; font-size:12px; color:#3b3738; height:25px; line-height:25px; padding:0 15px; background:#ddd;}
 .meeting-top .wrap{position:relative;}
@@ -455,3 +454,5 @@ img{max-width: 100%;}
 .auto-detect-location {
     margin-top: 7px;
 }
+.button-span{display: block; padding: 5px;}
+.button-span .btn{margin: 0 !important;}
