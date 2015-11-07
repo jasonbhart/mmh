@@ -320,7 +320,7 @@ img{max-width: 100%;}
 .social-area .button.copy {
 	background: #0e76a8;
 }
-
+.tagline{font-size:16px; color:#9c9c9c; font-style:italic; text-transform:uppercase; display:inline-block; margin-left:205px; margin-top:24px; letter-spacing:-.02em; border-left:1px solid #d5d5d5; padding-left:8px; line-height:16px;}
 
 
 @media only screen and (min-width : 1280px){
@@ -347,11 +347,14 @@ img{max-width: 100%;}
 #contRight, #contLeft{float:none; width:100%;}
 #contRight{margin-top:30px;}
 #contRight .meetingLabel{position:inherit;}
+#header{height:auto;}
+.tagline{margin-top:55px; margin-left:20px; border:0; padding:0 0 10px 0;}
 }
 @media only screen and (max-width : 800px){.checkout-wrap{display: none;}}
 @media only screen and (max-width : 768px){
 .best-places .thumb{display:none;}
 .box-meeting .share dd{display:block; margin:0;}
+.tagline{font-size:14px; margin-left:80px; padding-right:150px;}
 }
 @media only screen and (max-width : 650px){
 .box-meeting .title-page{padding:15px;}
@@ -374,6 +377,7 @@ img{max-width: 100%;}
 #logo a{width:71px;}
 .meeting-top .info .thumb{float:none; margin-bottom:15px; text-align:center; width:auto; border:none;}
 #contents{padding:15px 0 100px;}
+.tagline{font-size:13px; font-weight:700; font-style:normal; padding-right:0;}
 }
 .pac-container {
     z-index: 999999;
