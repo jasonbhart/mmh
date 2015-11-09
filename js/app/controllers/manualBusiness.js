@@ -6,10 +6,18 @@
     // Location map popup controller
     app.controller(
         'ManualBusinessController',
-        ['$scope', 'modalInstance', 'dataProvider', 'options', function ($scope, modalInstance, dataProvider, options) {
+        ['$scope', 'modalInstance', 'dataProvider', 'options', '$window', function ($scope, modalInstance, dataProvider, options, $window) {
             $scope.business_name = '';
             $scope.business = {};
             $scope.places = [];
+            $scope.searchSuggestion = null;
+            
+            $window.$('#business_name').keyup(function(){
+                clearTimeout($scope.searchSuggestion);
+                if ($window.$('#business_name').val) {
+                   $scope.searchSuggestion = setTimeout($scope.showPlaceSuggestion, 500);
+                }
+            });
 
             $scope.showPlaceSuggestion = function() {
                 options.term = encodeURIComponent($scope.business_name);
