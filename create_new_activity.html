@@ -231,7 +231,7 @@
                                         <label for="where03">Other</label></li>
                                 </ul>
                                 <div class="row">
-                                    <input type="text" placeholder="Enter Neighborhood, Address, City, State or Zip" ng-model="other_location" ng-keyup="updatePlaceSuggestion()" ng-show="where=='other'"style="max-width:300px;" />
+                                    <input type="text" placeholder="Enter Neighborhood, Address, City, State or Zip" ng-model="other_location" ng-keyup="setTimeoutForUpdatePlaceSuggestion()" ng-show="where=='other'"style="max-width:300px;" />
                                 </div>
                                 <h3 class="title highest-rated">Here are the highest rated establishments (in the search area) </h3>
                                 <label style="font-style: italic; font-size: 15px">{{noSuggestionLabel}}</label>

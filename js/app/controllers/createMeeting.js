@@ -26,6 +26,7 @@
         $scope.currentPage = util.getCurrentPage();
         $scope.share = 1;
         $scope.noSuggestionLabel = '';
+        $scope.suggestionTimeout = null;
         
         var defaultManualBusinessLabel = 'Enter a specific business';
         
@@ -300,6 +301,11 @@
                     $window.$('.loading-wrap').hide();
                 });
             }, timeout);
+        };
+        
+        $scope.setTimeoutForUpdatePlaceSuggestion = function() {
+            clearTimeout($scope.suggestionTimeout);
+            $scope.suggestionTimeout = setTimeout($scope.updatePlaceSuggestion, 500);
         };
         
         $scope.getWhereQueryOptions = function(options, manualBusinessFlag) {
