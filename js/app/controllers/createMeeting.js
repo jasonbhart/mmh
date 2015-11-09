@@ -279,6 +279,13 @@
             var timeout = ($scope.where !== 'other') ? 1000 : 0;
             
             options = $scope.getWhereQueryOptions(options, false);
+            
+            if ($scope.where === 'other' && !$scope.other_location) {
+                $scope.suggestions = [];
+                $scope.noSuggestionLabel = '';
+                $window.$('.loading-wrap').hide();
+                return false;
+            }
 
             setTimeout(function(){
                 dataProvider.getSuggestions(options).then(function(suggestions) {
