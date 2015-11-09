@@ -27,6 +27,7 @@
         $scope.share = 1;
         $scope.noSuggestionLabel = '';
         $scope.suggestionTimeout = null;
+        $scope.suggestionCache = {};
         
         var defaultManualBusinessLabel = 'Enter a specific business';
         
@@ -74,6 +75,7 @@
             $scope.stage ++;
             
             if ($scope.stage === 3) {
+                $scope.suggestionCache = {};
                 $scope.updatePlaceSuggestion();
             }
             
@@ -257,6 +259,12 @@
         }
         
         $scope.updatePlaceSuggestion = function() {
+            if ($scope.suggestionCache[$scope.where]) {
+                $scope.suggestions = $scope.suggestionCache[$scope.where];
+                $scope.noSuggestionLabel = '';
+                return true;
+            }
+            
             $window.$('.loading-wrap').show();
             $scope.noSuggestionLabel = '';
             var options = {
@@ -291,6 +299,7 @@
             setTimeout(function(){
                 dataProvider.getSuggestions(options).then(function(suggestions) {
                     $scope.suggestions = suggestions;
+                    $scope.suggestionCache[$scope.where] = suggestions;
                     $window.$('.loading-wrap').hide();
                 }, function (error){
                     $scope.suggestions = {};
@@ -305,6 +314,7 @@
         
         $scope.setTimeoutForUpdatePlaceSuggestion = function() {
             clearTimeout($scope.suggestionTimeout);
+            $scope.suggestionCache['other'] = null;
             $scope.suggestionTimeout = setTimeout($scope.updatePlaceSuggestion, 500);
         };
         
