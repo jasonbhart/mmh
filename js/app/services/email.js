@@ -20,8 +20,8 @@
             } else if (notification.type === 'user') {
                 text = 'New user ' + notification.value + ' joined activity ' + notification.meetName;
             } else if (notification.type === 'rsvp') {
-                text = 'User ' + notification.value + ' has RSVP\'d to the activity ' 
-                        + notification.meetName + '('
+                text = 'User ' + notification.value + ' has RSVP\'d to the activity \'' 
+                        + notification.meetName.trim() + '\' ('
                         + moment(notification.time).format('h:mmA') 
                         + ' - ' + notification.place + ')';
                         
