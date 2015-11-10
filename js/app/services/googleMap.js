@@ -86,6 +86,14 @@
                 
                 return this;
 
+            },
+            makeAutoComplete : function(inputClass) {
+                var searchBox = $('.' + inputClass).get(0);
+                var autocomplete = new google.maps.places.Autocomplete(searchBox);
+                autocomplete.setTypes(['address']);
+                google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                    $rootScope.$broadcast('position.changed', {});
+                });
             }
         };
         

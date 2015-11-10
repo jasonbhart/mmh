@@ -1,8 +1,8 @@
 ;(function () {
     "use strict";
     var app = angular.module('mmh.controllers');
-    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util', 'categoryService', 'userService','gatheringService','localMeetingService',
-        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService, util, categoryService, userService, gatheringService, localMeetingService) {
+    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util', 'categoryService', 'userService','gatheringService','localMeetingService','googleMap',
+        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService, util, categoryService, userService, gatheringService, localMeetingService, googleMap) {
         $scope.MAX_STAGE = 4;
         $scope.stage = 1; 
         $scope.what = 'restaurants';
@@ -259,6 +259,7 @@
         }
         
         $scope.updatePlaceSuggestion = function() {
+            $scope.other_location = $window.$('.location-autocomplete').val();
             if ($scope.suggestionCache[$scope.where]) {
                 $scope.suggestions = $scope.suggestionCache[$scope.where];
                 $scope.noSuggestionLabel = '';
@@ -317,6 +318,11 @@
             $scope.suggestionCache['other'] = null;
             $scope.suggestionTimeout = setTimeout($scope.updatePlaceSuggestion, 500);
         };
+        
+        $scope.$on('position.changed', function(evt, data) {
+            clearTimeout($scope.suggestionTimeout);
+            $scope.updatePlaceSuggestion();
+        });
         
         $scope.getWhereQueryOptions = function(options, manualBusinessFlag) {
             if ($scope.where !== 'other') {
@@ -547,6 +553,8 @@
                 window.open($(this).attr('href'), 'twitterShareWindow', 'height=450, width=550, top=' + ($(window).height() / 2 - 275) + ', left=' + ($(window).width() / 2 - 225) + ', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
                 return false;
             });
+            
+            googleMap.makeAutoComplete('location-autocomplete');
         });
 
     }]);
