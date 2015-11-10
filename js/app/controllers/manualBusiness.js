@@ -20,7 +20,15 @@
             });
 
             $scope.showPlaceSuggestion = function() {
-                options.term = encodeURIComponent($scope.business_name);
+                var arr = $scope.business_name.split(',');
+                if (arr[0] && arr[1]) {
+                    options.term = encodeURIComponent(arr[0]);
+                    options.location = encodeURIComponent($scope.business_name.replace(arr[0] + ',', '').trim(''));
+                } else {
+                    options.term = encodeURIComponent($scope.business_name);
+                    options.location = null;
+                }
+                
                 options.limit = 5;
                 dataProvider.getSuggestions(options).then(function(suggestions) {
                     $scope.places = suggestions;
