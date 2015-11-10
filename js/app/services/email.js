@@ -16,12 +16,19 @@
             } else if (notification.type === 'place') {
                 text = 'New place ' + notification.value + ' added to ' + notification.meetName;
             } else if (notification.type === 'group') {
-                text = 'New group ' + notification.value + ' added to ' + notification.meetName;
+                text = 'New group (' + notification.value + ') added to activity ' + notification.meetName;
             } else if (notification.type === 'user') {
                 text = 'New user ' + notification.value + ' joined activity ' + notification.meetName;
             } else if (notification.type === 'rsvp') {
-                text = 'User ' + notification.value + ' joined group ' + moment(notification.time).format('h:mmA') + ' - ' + notification.place;
+                text = 'User ' + notification.value + ' has RSVP\'d to the activity ' 
+                        + notification.meetName + '('
+                        + moment(notification.time).format('h:mmA') 
+                        + ' - ' + notification.place + ')';
+                        
             }
+            
+            text += "\r\n" + "\r\n" + 'Click here to see everyone who is participating in this activity'
+                 +  "\r\n" + appConfig.shareUrlBase + '?act=' + notification.meetId;
             
             text += "\r\n \r\n \r\n This email address isn't monitored. Replies to this email will be ignored.";
             return text;

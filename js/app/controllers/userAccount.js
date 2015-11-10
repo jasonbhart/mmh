@@ -55,7 +55,11 @@
             } else if (notification.type === 'user') {
                 text = 'New user <b>' + notification.value + '</b> joined activity <b> ' + notification.meetName + '</b>';
             } else if (notification.type === 'rsvp') {
-                text = 'User <b>' + notification.value + '</b> joined group <b> ' + moment(notification.time).format('h:mmA') + ' - ' + notification.place + '</b>';
+                text = 'User <b>' + notification.value + '</b> joined activity <b> ' 
+                        + notification.meetName + '('
+                        + moment(notification.time).format('h:mmA') 
+                        + ' - ' 
+                        + notification.place + ')</b>';
             }
             return $sce.trustAsHtml(text);
         }
