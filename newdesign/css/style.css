@@ -38,8 +38,8 @@ h3.title{font-size:18px; font-weight:500;}
 .meeting-top .wrap{position:relative;}
 .meeting-top .title{font-size:24px;}
 .meeting-top .info{margin-right:140px; overflow:hidden;border-right:1px solid #ddd; padding-right:15px;}
-.meeting-top .info .thumb{float:left; width:166px; overflow:hidden; max-height:115px; border:1px solid #ddd; margin-right:15px;}
-.meeting-top .info .thumb img{max-width:100%; min-width:166px;}
+.meeting-top .info .thumb{float:left; max-width:166px; overflow:hidden; max-height:166px; border:1px solid #ddd; margin-right:15px;}
+.meeting-top .info .thumb img{max-width:100%;}
 .meeting-top .info .des{display:table-cell; font-size:12px;}
 .meeting-top .info .member-list ul{overflow:hidden; width:100%; height:33px; margin-bottom:0;}
 .meeting-top .info .member-list li{display:inline-block; margin-right:3px;}
@@ -337,8 +337,8 @@ img{max-width: 100%;}
 .other-meetings .rspvBox{position:absolute; left:0; top:0;}
 }
 @media only screen and (max-width : 992px){
-.meeting-top .info{margin-right:0;border:0}
-.rspvBox{position:inherit; margin-top:15px; border-top:1px solid #ddd; font-size:16px; padding-top:10px;}
+.meeting-top .info{margin-right:0;border:0; padding-right:0;}
+.rspvBox{position:inherit; margin-top:20px; border-top:1px solid #ddd; font-size:16px; padding-top:5px;}
 .rspvBox .date{display:inline; margin-right:3px;}
 .rspvBox .date:after{content:","}
 .rspvBox .rspv p{display:inline-block; margin:0;}
@@ -354,6 +354,9 @@ img{max-width: 100%;}
 .best-places .thumb{display:none;}
 .box-meeting .share dd{display:block; margin:0;}
 .tagline{font-size:14px; margin-left:80px; padding-right:150px;}
+.meetingLabel{float:right; margin-left:10px;}
+.meeting-top .title {margin-top:-4px;}
+.other-meetings h3.title{margin-top: 5px;}
 }
 @media only screen and (max-width : 650px){
 .box-meeting .title-page{padding:15px;}
@@ -374,7 +377,7 @@ img{max-width: 100%;}
 #header .account .name{display:none;}
 #top-right{padding-right:0;}
 #logo a{width:71px;}
-.meeting-top .info .thumb{float:none; margin-bottom:15px; text-align:center; width:auto; border:none;}
+.meeting-top .info .thumb{max-width:25%;}
 #contents{padding:15px 0 100px;}
 .tagline{font-size:13px; font-weight:700; font-style:normal; padding-right:0;}
 }
