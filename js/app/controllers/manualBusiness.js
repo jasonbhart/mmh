@@ -22,10 +22,11 @@
             $scope.showPlaceSuggestion = function() {
                 var arr = $scope.business_name.split(',');
                 if (arr[0] && arr[1]) {
-                    options.term = encodeURIComponent(arr[0]);
-                    options.location = encodeURIComponent($scope.business_name.replace(arr[0] + ',', '').trim(''));
+                    options.term = arr[0];
+                    options.location = $scope.business_name.replace(arr[0] + ',', '').trim('');
+                    options.radius = null;
                 } else {
-                    options.term = encodeURIComponent($scope.business_name);
+                    options.term = $scope.business_name;
                     options.location = null;
                 }
                 
