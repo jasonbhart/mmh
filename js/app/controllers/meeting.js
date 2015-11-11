@@ -16,6 +16,7 @@
         $scope.currentPage = util.getCurrentPage();
         $scope.currentMeetingId = util.getUrlParams('act');
         $scope.changingGroups = false;
+        $scope.ended = false;
        
                 
         var formattingData = {
@@ -397,11 +398,24 @@
                     });
                 });
             });
+            
+            var diff = moment().diff(moment($scope.meeting.timeTitle));
+            if (diff > 1000 * 3600 * 24) {
+                $scope.ended = true;
+                
+                $scope.addPlaces = false;
+                $scope.togglePlace = false;
+                $scope.addTimes = false;
+                $scope.toggleTime = false;
+                $scope.joinGroup = false;
+                $scope.changeLocation = false;
+
+            }
         }, function() {
             $log.log('No such activity');
             $window.location = '/index.html';
         });
-
+        
         function buildUserGroups(formattingData) {
             var whenMap = {};
             _.forEach(formattingData.when, function(w) {
@@ -500,7 +514,7 @@
             
             return userGroups;
         }
-        
+             
         $scope.joinGroup = function(group) {
             if ($scope.currentUser.isAnonymous()) {
                 alert('Please Login to RSVP');

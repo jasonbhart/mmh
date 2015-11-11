@@ -97,11 +97,15 @@
         <div id="contents">
             <div class="row contents">
                 <div id="contLeft" class="col l8 s12">
+                    <div class="box-meeting" ng-if="ended">
+                        <div class="left"><h2 style="font-size: 28px;padding-left: 20px;font-weight: 500;"><span class="icon"></span>This activity is ended.</h2></div>
+                        <div class="right" style="padding: 20px;"><a class="btn red waves-effect waves-light right" ng-click="createFromTemplate()">Create new activity from this</a></div>
+                    </div>
                     <div class="box-meeting">
                         <h2 class="title-page"><span class="icon"></span>{{ getMeetingName(meeting, true) }}</h2>
                         <div class="wrap">
                             <div class="choose-setting" ng-if="usersInfo.current">
-                                <div class="share" ng-if="usersInfo.current">
+                                <div class="share" ng-if="usersInfo.current" ng-hide="ended">
                                     <div class="fb-share-button fb_iframe_widget" data-href="{{ getFacebookSharingUrl() }}" data-layout="button"></div>
                                     <div class="twitter-share">
                                         <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{getShareEmailSubject()}}" data-url="{{ getSharingUrl() }}" data-count="none">Tweet</a>
