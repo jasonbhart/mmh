@@ -10,8 +10,6 @@
     <link href="newdesign/css/layout.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="newdesign/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="newdesign/css/joyride-2.1.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-<!--    <link href="newdesign/css/joyride-mobile.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <link href="newdesign/css/joyride-style.css" type="text/css" rel="stylesheet" media="screen,projection"/>-->
     <!--  Scripts-->
     <script src="newdesign/js/jquery-2.1.1.min.js"></script>
         <script src="newdesign/js/materialize.min.js"></script>
@@ -80,7 +78,7 @@
             <ul id="nav-mobile" class="side-nav fixed">
                 <li ng-class="currentPage == 1 ? 'active' : ''" id="home"><a href="index.html" class="waves-effect waves-ripple"><span class="icon icon-home"></span>Home</a></li>
                 <li ng-class="currentPage == 3 ? 'active' : ''" id="new_meet"><a href="create_new_activity.html" class="waves-effect waves-ripple"><span class="icon icon-new"></span>New Activity</a></li>
-                <!--<li id="meet_me_here"><a href="meet_me_here.html" class="waves-effect waves-ripple"><span class="icon icon-history"></span>Meet Me Here</a></li>-->
+                <li ng-class="currentPage == 4 ? 'active' : ''"id="meet_me_here"><a href="meet_me_here.html" class="waves-effect waves-ripple"><span class="icon icon-history"></span>Meet Me Here</a></li>
                 <li ng-class="currentPage == 2 ? 'active' : ''" id="meet" ><a class="waves-effect waves-ripple" ng-click="currentPage = 2"><span class="icon icon-invite"></span>Activities</a>
                     <ul class="subtab-left">
                         <li ng-repeat="meeting in meetingList"  ng-class="(meeting.id == currentMeetingId) ? 'active' : ''">
@@ -199,10 +197,10 @@
             <h2>New Activity</h2>
             <p>Create a new activity to invite your friends or make new ones.</p>
         </li>
-<!--        <li data-id="meet_me_here" data-text="Next" class="custom tooltip-ml left-menu" data-options="tipLocation:right;tipAnimation:pop">
+        <li data-id="meet_me_here" data-text="Next" class="custom tooltip-ml left-menu" data-options="tipLocation:right;tipAnimation:pop">
             <h2>"Meet me here"</h2>
             <p>Have your friends meet you now at your current location.</p>
-        </li>-->
+        </li>
         <li data-id="meet" data-text="Next" class="custom mb-menu-create tooltip-ml left-menu" data-options="tipLocation:right;tipAnimation:pop">
             <h2>Activities</h2>
             <p>Find all the activities you are participating in here.</p>

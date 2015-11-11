@@ -51,7 +51,10 @@
                 }
             },
             getCurrentPage: function() {
-                if (window.location.href.indexOf('create_new_activity') > -1) {
+                if (window.location.href.indexOf('meet_me_here') > -1) {
+                    return 4;              // meet me here
+                }
+                else if (window.location.href.indexOf('create_new_activity') > -1) {
                     return 3;              // new meet page
                 } else if (window.location.href.indexOf('activity') > -1) {
                     return 2;              // meeting page

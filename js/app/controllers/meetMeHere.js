@@ -11,8 +11,17 @@
         $scope.radius = 10;
         $scope.currentUser = null;
         $scope.places = [];
+        $scope.noSuggestionLabel = '';
+        $scope.currentPage = util.getCurrentPage();
+        $scope.establishment = 'other';
         
-        sessionService.ready.then(function() {  
+        var defaultManualBusinessLabel = "Doesn't see your place? Enter a specific business";
+        $scope.manualBusinessLabel = defaultManualBusinessLabel;
+        $scope.manualBusinessInfo = {};
+        
+        $window.$('.loading-wrap').show();
+        
+        sessionService.ready.then(function() {
             $scope.currentUser = sessionService.getCurrentUser();
             getFormatedEstablishmentAndCreateMeeting();
         });
@@ -28,7 +37,6 @@
         }
         
         function getFormatedEstablishmentAndCreateMeeting() {
-            var establishment = null;
             var options = {
                 'sort' : '2',
                 'limit': '3',
@@ -42,50 +50,77 @@
                     // Boston location for testing purpose
 //                        options.coords = {lat: '42.3133735', lng: '-71.0571571,12'};
 
-                    console.log('OPTIONS', options);
                     dataProvider.getSuggestions(options).then(function(suggestions) {
                         $scope.suggestions = suggestions;
-                        $log.log('SUGGESTIONS', $scope.suggestions);
-
-                        if (typeof $scope.suggestions[0] === 'object') {
-                            establishment = JSON.stringify($scope.suggestions[0]);
-                        } else {
-                            return [];
-                        }
-
-                        try {
-                            establishment = JSON.parse(establishment);
-                            $log.log('establishment', establishment);
-                            $scope.places = [{
-                                name: establishment.name || "Unknown",
-                                url: establishment.url || "Unknown",
-                                rating_url: establishment.rating_url || "Unknown",
-                                city: establishment.city || "Unknown",
-                                country_code: establishment.country_code || "Unknown",
-                                type: establishment.type || "Unknown",
-                                image_url: establishment.image_url || "",
-                                location: establishment.location || {},
-                            }];
-                        
-                            createMeeting();
-                        } catch (e) {
-                            alert('Invalid suggesstion. Continuing...');
-                            createMeeting();
-                        }
+                        $('#contents').show();
+                        $window.$('.loading-wrap').hide();
                     }, function (error){
-                        alert('Can not detect your current place. Continuing...');
-                        createMeeting();
+                        $scope.noSuggestionLabel = 'Sorry, we were unable to find an establishment in your location. Try searching the place';
+                        $('#contents').show();
+                        $window.$('.loading-wrap').hide();
                     });
                 }
+                
             }, function() {
-                alert('Can not detect your current location. Continuing...');
-                createMeeting();
+                $scope.noSuggestionLabel = 'Sorry, we were unable to detect your current location. Try searching the place';
+                $('#contents').show();
+                $window.$('.loading-wrap').hide();
             });
         }
         
-        var createMeeting = function() {
+        $scope.addManualBusiness = function() {
+            var dialog = dialogs.addManualBusiness({});
+            dialog.result.then(function(business) {
+                if (Object.keys(JSON.parse(business)).length === 0) {
+                    alert('Please select a business');
+                    $scope.addManualBusiness();
+                    return;
+                }
+                var establishment = JSON.parse(business);
+                $scope.manualBusinessLabel = defaultManualBusinessLabel + ' (' + establishment.name + ' - ' + establishment.location.display_address + ')';
+                $scope.manualBusinessInfo = establishment;
+            });
+        };
+        
+        function getFormatedEstablishment() {
+            var establishment = $scope.establishment;
+            if ($scope.establishment === 'other') {
+                if (typeof $scope.suggestions[0] === 'object') {
+                    establishment = JSON.stringify($scope.suggestions[0]);
+                } else {
+                    return [];
+                }
+            } else if ($scope.establishment === 'manual') {
+                establishment = JSON.stringify($scope.manualBusinessInfo);
+            }
+            
+            try {
+                establishment = JSON.parse(establishment);
+                return [{
+                    name: establishment.name || "Unknown",
+                    url: establishment.url || "Unknown",
+                    rating_url: establishment.rating_url || "Unknown",
+                    city: establishment.city || "Unknown",
+                    country_code: establishment.country_code || "Unknown",
+                    type: establishment.type || "Unknown",
+                    image_url: establishment.image_url || "",
+                    location: establishment.location || {},
+                    categories: establishment.categories || {}
+                }];
+            } catch (e) {
+                return [];
+            }
+        }
+        
+        $scope.createMeeting = function() {
+            if ($scope.establishment === 'manual' && Object.keys($scope.manualBusinessInfo).length === 0) {
+                alert('Please select a business');
+                $scope.addManualBusiness();
+                return;
+            }
+            
             var times   = getISOFormatedTimes();
-            var places  = $scope.places;
+            var places  = getFormatedEstablishment();
             var users = {};
             if ($scope.currentUser && $scope.currentUser.id) {
                 users[$scope.currentUser.id] = {
