@@ -16,6 +16,7 @@
         $scope.currentPage = util.getCurrentPage();
         $scope.currentMeetingId = util.getUrlParams('act');
         $scope.changingGroups = false;
+        $scope.ended = false;
        
                 
         var formattingData = {
@@ -397,11 +398,24 @@
                     });
                 });
             });
+            
+            var diff = moment().diff(moment($scope.meeting.timeTitle));
+            if (diff > 1000 * 3600 * 24) {
+                $scope.ended = true;
+                
+                $scope.addPlaces = false;
+                $scope.togglePlace = false;
+                $scope.addTimes = false;
+                $scope.toggleTime = false;
+                $scope.joinGroup = false;
+                $scope.changeLocation = false;
+
+            }
         }, function() {
             $log.log('No such activity');
             $window.location = '/index.html';
         });
-
+        
         function buildUserGroups(formattingData) {
             var whenMap = {};
             _.forEach(formattingData.when, function(w) {
@@ -500,7 +514,7 @@
             
             return userGroups;
         }
-        
+             
         $scope.joinGroup = function(group) {
             if ($scope.currentUser.isAnonymous()) {
                 alert('Please Login to RSVP');
@@ -891,6 +905,60 @@
                 modal: true,
                 expose: true
             });
+        }
+        
+        $scope.createFromTemplate = function () {
+            var times   = angular.copy($scope.meeting.when);
+            var places   = angular.copy($scope.meeting.where);
+            var users = {};
+            if ($scope.currentUser && $scope.currentUser.id) {
+                users[$scope.currentUser.id] = {
+                    joined: true,
+                    where: Object.keys(places),
+                    when: Object.keys(times)
+                };
+            }
+            var data = {
+                name: $scope.meeting.name,
+                createdDate: moment().utc().toISOString(),
+                when: times,
+                where: places,
+                users: users,
+                timeTitle: changeDateToToday($scope.meeting.timeTitle),
+                specific_location: $scope.meeting.specific_location || ''
+            };
+            
+            
+            console.log(data);
+            return;
+            
+                $window.$('.loading-wrap').show();
+                var meetingPromise = meetingService.create(data);
+                meetingPromise.then(function(meeting) {
+                    var meetingId = meeting.refs.current.key();
+//                    if (data.where.length > 0) {
+//                        // add place to the local Events
+//                        localMeetingService.add(meetingId, '0', data.where[0].location.coordinate).then(function() {
+//                            console.log('Added meeting to local meeting lists');
+//                        });
+//                    }
+                            
+                    $scope.meetingId = meetingId;
+                    $scope.meeting = meeting;
+                    $scope.redirectUrl = 'activity.html?act=' + meetingId;
+                    $scope.shareUrl = meetingService.getSharingUrl(meetingId);
+                    activateFacebookSDK();
+                    activateTwitterSDK();
+
+                    addMeetingToCategory(data);
+                    addMeetingToUser(data);
+                    $window.$('.loading-wrap').hide();
+                });
+        }
+        
+        var changeDateToToday = function (pastMoment) {
+            var timeWithoutDate = moment(pastMoment).format('HH:mm:ss');
+            return moment(timeWithoutDate, 'HH:mm:ss').utc().toISOString();
         }
     }]);
 })();
