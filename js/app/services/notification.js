@@ -43,7 +43,10 @@
             ref.child('notifications').child(userId).endAt().limit(10).once("value", function(snapshot) {
                 var data = snapshot.val();
                 if (data) {
-                    var arrayData = Object.keys(data).map(function (key) {return data[key]});
+                    var arrayData = Object.keys(data).map(function (key) {
+                        data[key].id = key;
+                        return data[key];
+                    });
                     deferred.resolve(arrayData);
                 } else {
                     deferred.resolve([]);
@@ -69,7 +72,7 @@
             notificationRef.endAt().limit(1).on('child_added', function() {
                 broadcastChange(userId);
             });
-            
+                      
             // reset notification
             notificationRef.on('child_changed', function() {
                 broadcastChange(userId);
@@ -77,12 +80,24 @@
             
         };
         
+        var removeNotification = function (userId, notificationId) {
+            var notificationRef = ref.child('notifications').child(userId);
+            notificationRef.child(notificationId).remove();
+        };
+        
+        var removeAllNotification = function (userId) {
+            var notificationRef = ref.child('notifications').child(userId);
+            notificationRef.remove();
+        };
+        
         return {
             addNotificationToUser: addNotificationToUser,
             countUnreadNotifications: countUnreadNotifications,
             getLastNotifications: getLastNotifications,
             trackNotification: trackNotification,
-            resetNotifications: resetNotifications
+            resetNotifications: resetNotifications,
+            removeNotification: removeNotification,
+            removeAllNotification: removeAllNotification
         }
     }]);
 })();

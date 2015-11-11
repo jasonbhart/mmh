@@ -38,7 +38,7 @@
                 $scope.countNotification = data.count; 
             }
         });
-        
+                
         $scope.getNotificationText = function(notification) {
             if (!notification) {
                 return '';
@@ -55,10 +55,28 @@
             } else if (notification.type === 'user') {
                 text = 'New user <b>' + notification.value + '</b> joined activity <b> ' + notification.meetName + '</b>';
             } else if (notification.type === 'rsvp') {
-                text = 'User <b>' + notification.value + '</b> joined group <b> ' + moment(notification.time).format('h:mmA') + ' - ' + notification.place + '</b>';
+                text = 'User <b>' + notification.value + '</b> joined activity <b> ' 
+                        + notification.meetName + '('
+                        + moment(notification.time).format('h:mmA') 
+                        + ' - ' 
+                        + notification.place + ')</b>';
             }
             return $sce.trustAsHtml(text);
         }
+        
+        $scope.clearNotification = function (key, notificationId) {
+            if ($scope.user && $scope.user.id) {
+                notificationService.removeNotification($scope.user.id, notificationId);
+                $scope.notifications.splice(key,1);
+            }
+        };
+        
+        $scope.clearAllNotification = function () {
+            if ($scope.user && $scope.user.id) {
+                notificationService.removeAllNotification($scope.user.id);
+                $scope.notifications = [];
+            }
+        };
         
         $('.notifications').click(function(e) {
             $('#notifications-info').css({

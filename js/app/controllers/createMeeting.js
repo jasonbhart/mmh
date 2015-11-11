@@ -1,12 +1,12 @@
 ;(function () {
     "use strict";
     var app = angular.module('mmh.controllers');
-    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util', 'categoryService', 'userService','gatheringService',
-        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService, util, categoryService, userService, gatheringService) {
+    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util', 'categoryService', 'userService','gatheringService','localMeetingService','googleMap',
+        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService, util, categoryService, userService, gatheringService, localMeetingService, googleMap) {
         $scope.MAX_STAGE = 4;
         $scope.stage = 1; 
         $scope.what = 'restaurants';
-        $scope.when = 'one_hour_later';
+        $scope.when = 'now';
         $scope.where = 1;
         $scope.establishment = 'other';
         $scope.share = 1;
@@ -14,7 +14,7 @@
         $scope.term = 'restaurants';
         $scope.suggestions = {};
         $scope.timeFormat = 'h:mmA';
-        $scope.times = [roundTime(moment().add(1, 'hours'))];
+        $scope.times = [roundTime(moment().add(15, 'minutes'))];
         $scope.meetingId = '';
         $scope.meeting = null;
         $scope.redirectUrl = '';
@@ -22,9 +22,12 @@
         $scope.currentUser = null;
         $scope.meetingList = {};
         $scope.gatheringTypes = [];
+        $scope.allSubCategory = true;
         $scope.currentPage = util.getCurrentPage();
         $scope.share = 1;
         $scope.noSuggestionLabel = '';
+        $scope.suggestionTimeout = null;
+        $scope.suggestionCache = {};
         
         var defaultManualBusinessLabel = 'Enter a specific business';
         
@@ -72,6 +75,7 @@
             $scope.stage ++;
             
             if ($scope.stage === 3) {
+                $scope.suggestionCache = {};
                 $scope.updatePlaceSuggestion();
             }
             
@@ -134,40 +138,49 @@
             }
         };
         
-        var resetSelectedCategory = function () {
+        var resetSelectedCategory = function (defaultValue) {
             $scope.selectedCategory = {};
             for (var i in $scope.gatheringTypes) {
-                $scope.selectedCategory[$scope.gatheringTypes[i].alias] = true;
+                $scope.selectedCategory[$scope.gatheringTypes[i].alias] = defaultValue;
             }
         };
         
         var getSelectedCategory = function () {
             return Object.keys($scope.selectedCategory).filter(function(value){return $scope.selectedCategory[value];}).join(',');
-        }
+        };
+        
+        $scope.$watch('allSubCategory', function(newValue, oldValue) {
+            resetSelectedCategory(newValue);
+        });
         
         $scope.$watch('what', function (newValue, oldValue) {
             var term = ($scope.what !== 'other') ? $scope.what : $scope.term;
             $scope.gatheringTypes = gatheringService.getCommonGatheringTypes(term);
-            resetSelectedCategory();
+            $scope.allSubCategory = true;
+            resetSelectedCategory(true);
         });
         $scope.$watch('term', function (newValue, oldValue) {
             var term = ($scope.what !== 'other') ? $scope.what : $scope.term;
             $scope.gatheringTypes = gatheringService.getCommonGatheringTypes(term);
-            resetSelectedCategory();
+            resetSelectedCategory(true);
         });
         
         $scope.$watch('when', function (newValue, oldValue) {
-            if (newValue === 'one_hour_later') {
-                $scope.times = [roundTime(moment().add(1, 'hours'))];
+            if (newValue === 'now') {
+                $scope.times = [roundTime(moment().add(15, 'minutes'))];
+            } else if (newValue === 'one_hour_later') {
+                $scope.times = [roundTime(moment().add(1, 'hours'))]
             } else if (newValue === 'two_hours_later') {
                 $scope.times = [roundTime(moment().add(2, 'hours'))]
             } else if (newValue === 'four_hours_later') {
                 $scope.times = [roundTime(moment().add(4, 'hours'))]
-            } else if (newValue === 'other') {
-                $scope.times = [];
-                $scope.addTimes();
             }
         });
+        
+        $scope.addOtherTimes = function() {
+            $scope.times = [];
+            $scope.addTimes();
+        };
         
         $scope.$watch('share', function (newValue, oldValue) {
             if (newValue === '0') {
@@ -194,12 +207,6 @@
         function roundTime(moment) {
             return moment.subtract(moment.minute()%15, 'minutes');
         }
-        
-        $scope.$watch('establishment', function (newValue, oldValue) {
-            if (newValue === 'manual') {
-                $scope.addManualBusiness();
-            }
-        });
         
         $scope.addManualBusiness = function() {
             var dialog = dialogs.addManualBusiness($scope.getWhereQueryOptions({}, true));
@@ -244,6 +251,7 @@
                     type: establishment.type || "Unknown",
                     image_url: establishment.image_url || "",
                     location: establishment.location || {},
+                    categories: establishment.categories || {}
                 }];
             } catch (e) {
                 return [];
@@ -251,6 +259,14 @@
         }
         
         $scope.updatePlaceSuggestion = function() {
+            $scope.other_location = $window.$('.location-autocomplete').val();
+            if ($scope.suggestionCache[$scope.where]) {
+                $scope.suggestions = $scope.suggestionCache[$scope.where];
+                $scope.noSuggestionLabel = '';
+                return true;
+            }
+            
+            $window.$('.loading-wrap').show();
             $scope.noSuggestionLabel = '';
             var options = {
                 'term' : ($scope.what !== 'other') ? $scope.what : $scope.term,
@@ -273,23 +289,44 @@
             var timeout = ($scope.where !== 'other') ? 1000 : 0;
             
             options = $scope.getWhereQueryOptions(options, false);
+            
+            if ($scope.where === 'other' && !$scope.other_location) {
+                $scope.suggestions = [];
+                $scope.noSuggestionLabel = '';
+                $window.$('.loading-wrap').hide();
+                return false;
+            }
 
             setTimeout(function(){
                 dataProvider.getSuggestions(options).then(function(suggestions) {
                     $scope.suggestions = suggestions;
+                    $scope.suggestionCache[$scope.where] = suggestions;
+                    $window.$('.loading-wrap').hide();
                 }, function (error){
                     $scope.suggestions = {};
                     if ($scope.establishment != 'manual') {
                         $scope.establishment = 'other';
                     }
                     $scope.noSuggestionLabel = 'Sorry, we were unable to find an establishment in your area. Try changing locations.';
+                    $window.$('.loading-wrap').hide();
                 });
             }, timeout);
         };
         
+        $scope.setTimeoutForUpdatePlaceSuggestion = function() {
+            clearTimeout($scope.suggestionTimeout);
+            $scope.suggestionCache['other'] = null;
+            $scope.suggestionTimeout = setTimeout($scope.updatePlaceSuggestion, 500);
+        };
+        
+        $scope.$on('position.changed', function(evt, data) {
+            clearTimeout($scope.suggestionTimeout);
+            $scope.updatePlaceSuggestion();
+        });
+        
         $scope.getWhereQueryOptions = function(options, manualBusinessFlag) {
             if ($scope.where !== 'other') {
-                if (manualBusinessFlag) {
+                if ($scope.currentUser && $scope.currentUser.user && $scope.currentUser.user.location && $scope.currentUser.user.location.coords) {
                     options.coords = $scope.currentUser.user.location.coords;
                 } else {
                     var currentLocation = geoLocation.getPosition();
@@ -333,10 +370,22 @@
             var time = angular.copy($scope.times[0]);
             data['timeTitle'] = time ? time.utc().toISOString() : '';
             
+            if ($scope.where === 'other' && $scope.other_location) {
+                data['specific_location'] = $scope.other_location;
+            }
+            
             if (!$scope.meetingId) {
+                $window.$('.loading-wrap').show();
                 var meetingPromise = meetingService.create(data);
                 meetingPromise.then(function(meeting) {
                     var meetingId = meeting.refs.current.key();
+                    if (data.where.length > 0) {
+                        // add place to the local Events
+                        localMeetingService.add(meetingId, '0', data.where[0].location.coordinate).then(function() {
+                            console.log('Added meeting to local meeting lists');
+                        });
+                    }
+                            
                     $scope.meetingId = meetingId;
                     $scope.meeting = meeting;
                     $scope.redirectUrl = 'activity.html?act=' + meetingId;
@@ -346,6 +395,7 @@
 
                     addMeetingToCategory(data);
                     addMeetingToUser(data);
+                    $window.$('.loading-wrap').hide();
                 });
             } else {
                 meetingService.update($scope.meetingId, data);
@@ -358,15 +408,14 @@
                 return $scope.meeting_name;
             }
             
+            var yelpTerm = ($scope.what !== 'other') ? $scope.what : $scope.term;
             var name = '';
             
-            //what
-            if ($scope.what === 'restaurants') {
-                name += "Share a meal ";
-            } else if ($scope.what === 'food') {
-                name += "Go drinking ";
-            } else {
-                name += toTitleCase($scope.term) + ' ';
+            for (var i in $scope.terms) {
+                if ($scope.terms[i].id === yelpTerm) {
+                    name += $scope.terms[i].name + ' ';
+                    break;
+                }
             }
             
             return name;
@@ -467,11 +516,11 @@
                             $scope.stage = 2;
                             $scope.$apply();
                             break;
-                        case 6:
+                        case 5:
                             $scope.stage = 3;
                             $scope.$apply();
                             break;
-                        case 9:
+                        case 10:
                             $scope.stage = 4;
                             $scope.$apply();
                             break;
@@ -504,6 +553,8 @@
                 window.open($(this).attr('href'), 'twitterShareWindow', 'height=450, width=550, top=' + ($(window).height() / 2 - 275) + ', left=' + ($(window).width() / 2 - 225) + ', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
                 return false;
             });
+            
+            googleMap.makeAutoComplete('location-autocomplete');
         });
 
     }]);

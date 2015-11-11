@@ -28,6 +28,7 @@
                 id: ref.key(),
                 name: snap.val().name || 'New Activity',
                 timeTitle: snap.val().timeTitle || '',
+                specificLocation: snap.val().specific_location || '',
                 refs: refs,
                 users: $firebaseArray(refs.users),
                 where: $firebaseArray(refs.where),
@@ -95,7 +96,9 @@
                             country_code: where.country_code,
                             url: where.url,
                             image_url: where.image_url,
-                            location: where.location
+                            location: where.location,
+                            categories: where.categories,
+                            rating_url: where.rating_url
                         }, function() {
                             var id = whereRef.key();
                             // add place to the local Events
@@ -518,12 +521,20 @@
                             whereId = _.keys(meeting.where)[0];
 
                         var id = snap.key();
+                        var joinedUser = [];
+                        _.forEach(meeting.users, function(user, userId) {
+                            if (user.group && user.group.when == descr.whenId && user.group.where == descr.whereId) {
+                                joinedUser.push(userId);
+                            }
+                        });
+                        
                         var info = {
                             id: id,
                             name: meeting.name,
-                            users: _.keys(meeting.users),
+                            users: joinedUser,
                             where: meeting.where[whereId],
-                            url: service.getSharingUrl(id)
+                            url: service.getSharingUrl(id),
+                            timeTitle: meeting.timeTitle
                         };
                         
                         $rootScope.$applyAsync(function() {

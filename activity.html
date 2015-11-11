@@ -9,7 +9,6 @@
         <link href="newdesign/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
         <link href="css/font-awesome.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
         <link href="newdesign/css/layout.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-        <link href="newdesign/css/owl.carousel.css" type="text/css" rel="stylesheet" media="screen,projection"/>
         <link href="newdesign/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
         <link href="newdesign/css/joyride-2.1.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 <!--        <link href="newdesign/css/joyride-mobile.css" type="text/css" rel="stylesheet" media="screen,projection"/>
@@ -25,7 +24,6 @@
         <script src="newdesign/js/jquery.cookie.js"></script>
         <script src="newdesign/js/jquery.joyride-2.1.js"></script>
         <script src="newdesign/js/modernizr.mq.js"></script>
-        <script src="newdesign/js/owl.carousel.min.js"></script>
 
         <script src="//cdn.firebase.com/js/client/2.2.9/firebase.js"></script>
         <script src="js/lodash.js"></script>
@@ -82,7 +80,7 @@
             <ul id="nav-mobile" class="side-nav fixed">
                 <li ng-class="currentPage == 1 ? 'active' : ''" id="home"><a href="index.html" class="waves-effect waves-ripple"><span class="icon icon-home"></span>Home</a></li>
                 <li ng-class="currentPage == 3 ? 'active' : ''" id="new_meet"><a href="create_new_activity.html" class="waves-effect waves-ripple"><span class="icon icon-new"></span>New Activity</a></li>
-                <li id="meet_me_here"><a href="meet_me_here.html" class="waves-effect waves-ripple"><span class="icon icon-history"></span>Meet Me Here</a></li>
+                <!--<li id="meet_me_here"><a href="meet_me_here.html" class="waves-effect waves-ripple"><span class="icon icon-history"></span>Meet Me Here</a></li>-->
                 <li ng-class="currentPage == 2 ? 'active' : ''" id="meet" ><a class="waves-effect waves-ripple" ng-click="currentPage = 2"><span class="icon icon-invite"></span>Activities</a>
                     <ul class="subtab-left">
                         <li ng-repeat="meeting in meetingList"  ng-class="(meeting.id == currentMeetingId) ? 'active' : ''">
@@ -120,24 +118,39 @@
                                         <b>Your Location:</b> {{ usersInfo.current.user.getLocationName() }} (<a ng-click="changeLocation()">change</a>)</p>
                                 </div>
                                 <div class="box-gray">
-                                    <p>Places?</p>
-                                    <div class="box-white white">
+                                    <p>
+                                        Places 
+                                        <span ng-if="meeting.specificLocation">({{meeting.specificLocation}})</span>
+                                    </p>
+                                    <div class="box-white white places-area">
                                         <ul class="choose-list">
-                                            <li ng-class="where.selected ? 'selected' : ''" ng-repeat="where in usersInfo.current.where" ng-click="togglePlace(where)">
+                                            <li ng-class="where.selected ? 'selected' : ''" class="place-info" ng-repeat="where in usersInfo.current.where" ng-click="togglePlace(where)">
                                                 <a class="icon" title="Delete">Delete</a>
                                                 {{ where.name }}
+                                                 <div class="tooltip-pleaces">
+                                                    <i class="fa fa-caret-down arrow"></i>
+                                                    <a class="thumb"><img ng-src="{{ where.where.image_url }}" alt=""></a>
+                                                    <div class="cont-data">
+                                                        <h3 class="title"><a target="_blank" href="{{ where.where.url }}">{{ where.name }}</a></h3>
+                                                        <img ng-src="{{ where.where.rating_url }}" alt="">
+                                                        <span class="str-list">{{ where.where.categories[0][0] ? where.where.categories[0][0] : '' }}</span>
+                                                        <address>
+                                                            {{ where.where.location.display_address }}
+                                                        </address>
+                                                    </div>
+                                                </div>
                                             </li>
-                                            <li class="forbtn"><a class="btn btn-add waves-effect waves-light add-places" ng-click="addPlaces()"><i class="icon"></i> Add</a></li>
+                                            <li class="forbtn"><span class="add-places button-span"><a class="btn btn-add waves-effect waves-light" ng-click="addPlaces()"><i class="icon"></i> Add</a></span></li>
                                         </ul>
                                     </div>
-                                    <p>Times?</p>
-                                    <div class="box-white white">
+                                    <p>Times</p>
+                                    <div class="box-white white times-area">
                                         <ul class="choose-list">
                                             <li ng-class="when.selected ? 'selected' : ''" ng-repeat="when in usersInfo.current.when" ng-click="toggleTime(when)">
                                                 <a class="icon" title="Delete">Delete</a>
                                                 {{ when.whenFormatted }}
                                             </li>
-                                            <li class="forbtn"><a class="btn btn-add waves-effect waves-light add-times" ng-click="addTimes()"><i class="icon"></i> Add</a></li>
+                                            <li class="forbtn"><span class="add-times button-span"><a class="btn btn-add waves-effect waves-light" ng-click="addTimes()"><i class="icon"></i> Add</a></span></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -175,19 +188,19 @@
                                     <span ng-show="usersInfo.count == 1">1 person is helping to plan this activity</span>
                                     <span ng-show="usersInfo.count > 1">{{ usersInfo.count }} people are helping to plan this activity:</span>
                                 </h3>
-                                <div class="list owl-carousel">
-									<div class="item" ng-repeat="(userId, userInfo) in usersInfo.all" ng-init="$last ? showOtherMemberList() : null">
+                                <ul class="list">
+									<li ng-repeat="(userId, userInfo) in usersInfo.all">
 										<div class="thumb"><img ng-src="{{ userInfo.user.getProfileImageURL() }}"></div>
 										<p><b>{{ userInfo.user.user.fullName }}</b></p>
 										<p class="subtext">{{ userInfo.user.getLocationName() }}</p>
-									</div>
-								</div>
+									</li>
+								</ul>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div id="contRight" class="col l4 s12">
-                    <local-meetings location="currentUser.user.location.coords" radius="currentUser.user.location.radius" exclude-meeting="{{ meeting.id }}" count="3"></local-meetings>
+                    <local-meetings location="currentUser.user.location.coords" radius="10" exclude-meeting="{{ meeting.id }}" count="3"></local-meetings>
                 </div>
             </div>
         </div><!--//contents-->
@@ -195,46 +208,66 @@
     </div>
     <!-- Tip Content -->
     <ol id="joyRideTipContent">
-        <li data-id="logo" data-text="Next" class="custom" data-options="tipLocation:bottom;tipAnimation:pop">
-            <h2>Feature tour</h2>
-            <p>This is the Socialivo tutorial. You can close this modal to ignore this step, Or click "Next" to continue...</p>
+        <li data-id="logo-dot" data-text="Next" class="custom tooltip-mt first-greeting-bubble" data-options="tipLocation:bottom;tipAnimation:pop">
+            <h2 id="logo"><a>Socialivo</a></h2>
+            <p>This is the Socialivo tour of an 'Activity' page. You can skip this tutorial by clicking on the 'X' in the corner or continue by clicking 'Next'.</p>
         </li>
-        <li data-id="home" data-text="Next" class="custom" data-options="tipLocation:right;tipAnimation:pop">
-            <h2>Homepage</h2>
-            <p>"Home" navigation to return to homepage</p>
+        <li data-id="home" data-text="Next" class="custom tooltip-ml left-menu" data-options="tipLocation:right;tipAnimation:pop">
+            <h2>Home</h2>
+            <p>Go to the Socialivo home page</p>
         </li>
-        <li data-id="new_meet" data-text="Next" class="custom mb-menu-create" data-options="tipLocation:right;tipAnimation:pop">
-            <h2>New meeting</h2>
-            <p>Create new meeting</p>
+        <li data-id="new_meet" data-text="Next" class="custom mb-menu-create tooltip-ml left-menu" data-options="tipLocation:right;tipAnimation:pop">
+            <h2>New Activity</h2>
+            <p>Create a new activity to invite your friends or make new ones.</p>
         </li>
-        <li data-id="meet_me_here" data-text="Next" class="custom mb-menu-create" data-options="tipLocation:right;tipAnimation:pop">
-            <h2>Meet me here</h2>
-            <p>Create a new meeting in 1 hour later & at current establishment</p>
+<!--        <li data-id="meet_me_here" data-text="Next" class="custom tooltip-ml left-menu" data-options="tipLocation:right;tipAnimation:pop">
+            <h2>"Meet me here"</h2>
+            <p>Have your friends meet you now at your current location.</p>
+        </li>-->
+        <li data-id="meet" data-text="Next" class="custom mb-menu-create tooltip-ml left-menu" data-options="tipLocation:right;tipAnimation:pop">
+            <h2>Activities</h2>
+            <p>Find all the activities you are participating in here.</p>
         </li>
-        <li data-id="meet" data-text="Next" class="custom mb-menu-create" data-options="tipLocation:right;tipAnimation:pop">
-            <h2>Meeting page</h2>
-            <p>List of your participated meeting</p>
+        <li data-id="notification-icon-dot" class="mb-alert tooltip-mr right-menu" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+            <div id="header">
+                <div class="notifications">
+                    <a class="dropdown-button info on" href="#">
+                        <i class="icon"></i>
+                    </a>
+                </div>
+            </div>
+            <h2>Notifications</h2>
+            <p>See all of your notifications about activities you are participating in here</p>
         </li>
-        <li data-class="notification-icon" class="mb-alert" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
-            <p>Show the list of notification</p>
+        <li data-class="account" class="mb-user tooltip-mr right-menu" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+            <h2>Profile</h2>
+            <p>Managing your profile and account settings here.</p>
         </li>
-        <li data-class="account" class="mb-user" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
-            <p>Manage your profile (login/logout/View feature tour)</p>
+        <li data-class="places-area" data-button="Next" class="mb-meeting-add tooltip-mt" data-options="tipLocation:bottom;ipAnimation:pop">
+            <h2>Places</h2>
+            <p>All venues suggested by participants for this activity.</p>
         </li>
-        <li data-class="add-places" data-button="Next" class="mb-meeting-add" data-options="tipLocation:bottom;ipAnimation:pop">
-            <p>Suggest your favourite places</p>
+        <li data-class="add-places" data-button="Next" class="mb-meeting-add tooltip-mt" data-options="tipLocation:bottom;ipAnimation:pop">
+            <h3>Add Place Suggestion</h3>
+            <p>Suggest a new venue for this activity to occur.</p>
         </li>
-        <li data-class="add-times" data-button="Next" class="mb-meeting-add" data-options="tipLocation:bottom;ipAnimation:pop">
-            <p>Choose your appropriate times</p>
+        <li data-class="times-area" data-button="Next" class="mb-meeting-add tooltip-mt" data-options="tipLocation:bottom;ipAnimation:pop">
+            <h3>Times</h3>
+            <p>All times suggested by participants for this activity.</p>
         </li>
-        <li data-class="suitable-groups" data-button="Next" class="mb-what-do" data-options="tipLocation:bottom;ipAnimation:fade">
-            <p>Available groups to RSVP or LEAVE</p>
+        <li data-class="add-times" data-button="Next" class="mb-meeting-add tooltip-mt" data-options="tipLocation:bottom;ipAnimation:pop">
+            <h3>Add Time Suggestion</h3>
+            <p>Suggest a new time for this activity to occur.</p>
         </li>
-        <li data-class="jump-in" data-button="Next" class="mb-meeting-jumin" data-options="tipLocation:left;ipAnimation:fade">
-            <p>Click "Jump-In" to meet new friends at local positions</p>
+        <li data-class="suitable-groups" data-button="Next" class="mb-what-do tooltip-mt" data-options="tipLocation:bottom;ipAnimation:fade">
+            <p>This area will show you where there are groups of consensus (if any) with others participating in this activity.</p>
         </li>
-        <li data-class="share" data-button="Close" class="last-tip mb-btn-next" data-options="tipLocation:top;ipAnimation:fade">
-            <p>Share with your friends in multiple methods. Ready to start?</p>
+        <li data-class="jump-in" data-button="Next" class="mb-meeting-jumin tooltip-mr" data-options="tipLocation:left;ipAnimation:fade">
+            <p>Click "Jump-In" to meet new friends at the same position</p>
+        </li>
+        <li data-class="share" data-button="Close" class="last-tip mb-btn-next tooltip-mt" data-options="tipLocation:bottom;ipAnimation:fade">
+            <h3>Share Activity</h3>
+            <p>Use these buttons to easily share the details of this activity with others who might be interested</p>
         </li>
     </ol>
 </body>

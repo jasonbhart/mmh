@@ -176,8 +176,8 @@
                     });
                     
                     if (!sessionService.getViewedTutorialStatus()) {
-                        sessionService.setViewedTutorialStatus();
                         $scope.startTutorial();
+                        sessionService.setViewedTutorialStatus();
                     }
                 });
             };
@@ -502,6 +502,12 @@
         }
         
         $scope.joinGroup = function(group) {
+            if ($scope.currentUser.isAnonymous()) {
+                alert('Please Login to RSVP');
+                dialogs.auth();
+                return;
+            }
+            
             if (!group.hasJoined($scope.currentUser.id)) {
                 addRSVPNotification(group);
             }
@@ -578,7 +584,9 @@
             },
             getPlaces: function(term) {
                 var options = { term: term, limit: 10 };
-                if ($scope.currentUser.user.location) {
+                if ($scope.meeting.specificLocation) {
+                    options.location = $scope.meeting.specificLocation;
+                } else if ($scope.currentUser.user.location) {
                     options.coords = $scope.currentUser.user.location.coords;
                     options.radius = util.convertMilesToKms($scope.currentUser.user.location.radius);
 
@@ -870,6 +878,10 @@
         }
         
         $scope.startTutorial = function() {
+            if (sessionService.getViewedTutorialStatus()) {
+                $window.$('.first-greeting-bubble').remove();
+            }
+            
             $window.$('#joyRideTipContent').joyride({
                 autoStart: true,
                 postStepCallback: function (index, tip) {
@@ -878,35 +890,6 @@
                 },
                 modal: true,
                 expose: true
-            });
-        }
-        
-        $scope.showOtherMemberList = function() {
-            var carousel = $window.$(".owl-carousel");
-            carousel.owlCarousel({
-                itemsCustom : [
-                    [0, 2],
-                    [400, 3],
-                    [450, 3],
-                    [580, 4],
-                    [800, 4],
-                    [850, 5],
-                    [900, 5],
-                    [970, 4],
-                    [1000, 4],
-                    [1200, 5],
-                    [1400, 6],
-                    [1600, 7],
-                    [1800, 8],
-                    [2000, 9],
-                    [2300, 10],
-                    [2500, 12],
-                  ],
-                navigation:true,
-                navigationText: [
-                    "<i class='fa fa-chevron-left'></i>",
-                    "<i class='fa fa-chevron-right'></i>"
-                ],
             });
         }
     }]);

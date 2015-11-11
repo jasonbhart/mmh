@@ -73,7 +73,7 @@
                 var deferreds = [];
                 var ids = {};
                 var query = localMeetsGEO.query({
-                    center: [options.coord.lat, options.coord.lng],
+                    center: [options.coords.lat, options.coords.lng],
                     radius: options.radius
                 });
 

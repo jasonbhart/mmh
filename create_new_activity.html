@@ -50,6 +50,7 @@
         <script src="js/app/services/meeting.js"></script>
         <script src="js/app/services/modal.js"></script>
         <script src="js/app/services/user.js"></script>
+        <script src="js/app/services/googleMap.js"></script>
         <script src="js/app/filters/customFilters.js"></script>
         <script src="js/app/services/session.js"></script>
         <script src="js/app/services/userGroupBuilder.js"></script>
@@ -79,7 +80,7 @@
                 <ul id="nav-mobile" class="side-nav fixed">
                     <li ng-class="currentPage == 1 ? 'active' : ''" id="home"><a href="index.html" class="waves-effect waves-ripple"><span class="icon icon-home"></span>Home</a></li>
                     <li ng-class="currentPage == 3 ? 'active' : ''" id="new_meet"><a href="create_new_activity.html" class="waves-effect waves-ripple"><span class="icon icon-new"></span>New Activity</a></li>
-                    <li id="meet_me_here"><a href="meet_me_here.html" class="waves-effect waves-ripple"><span class="icon icon-history"></span>Meet Me Here</a></li>
+                    <!--<li id="meet_me_here"><a href="meet_me_here.html" class="waves-effect waves-ripple"><span class="icon icon-history"></span>Meet Me Here</a></li>-->
                     <li ng-class="currentPage == 2 ? 'active' : ''" id="meet" ><a class="waves-effect waves-ripple" ng-click="currentPage = 2"><span class="icon icon-invite"></span>Activities</a>
                         <ul class="subtab-left">
                             <li ng-repeat="meeting in meetingList"  ng-class="(meeting.id == currentMeetingId) ? 'active' : ''">
@@ -106,20 +107,24 @@
                             </ul>
                         </div>
                         <div class="frm-creat" ng-show="stage == 1">
-                            <div class="row">
+                            <div class="row activity-title">
                                 <h3 class="title">Title of the activity (optional)</h3>
-                                <input type="text" class="activity-title" placeholder="Activity title" ng-model="meeting_name" style="max-width:600px;" />
+                                <input type="text" placeholder="Activity title" ng-model="meeting_name" style="max-width:600px;" />
                             </div>
-                            <div class="row">
+                            <div class="row select-what">
                                 <h3 class="title">What do you want to do? </h3>
                                 <ul class="option">
                                     <li>
-                                        <span class="select-what">
+                                        <span>
                                             <input class="with-gap" ng-model="what" value="restaurants" id="what01" type="radio"/>
                                             <label for="what01">Share a meal</label>
                                         </span>
-                                        <div ng-if="what=='restaurants'" class="check-area">
-                                            <span ng-repeat="item in gatheringTypes" style="margin-left: 30px;" class="select-subcagetory">
+                                        <div ng-show="what=='restaurants'" class="check-area select-subcagetory">
+                                            <span style="margin-left: 30px;">
+                                                <input class="filled-in" type="checkbox" ng-model="allSubCategory" id="allSubCategory"> 
+                                                <label for="allSubCategory">Select All</label> 
+                                            </span>
+                                            <span ng-repeat="item in gatheringTypes" style="margin-left: 30px;" class="select-subcagetory" >
                                                 <input type="checkbox" class="filled-in" id="category_{{item.alias}}" ng-model="$parent.selectedCategory[item.alias]" value="{{item.alias}}"> 
                                                 <label for="category_{{item.alias}}">{{item.title}}</label> 
                                             </span>
@@ -127,7 +132,7 @@
                                     </li>
                                     <li>
                                         <input class="with-gap" ng-model="what" value="food" id="what02" type="radio"  />
-                                        <label for="what02">Go drinking</label>
+                                        <label for="what02">Get a drink</label>
                                         <div ng-if="what=='food'" class="check-area">
                                             <span ng-repeat="item in gatheringTypes" style="margin-left: 30px;">
                                                 <input type="checkbox" class="filled-in" id="category_{{item.alias}}" ng-model="$parent.selectedCategory[item.alias]" value="{{item.alias}}"> 
@@ -135,10 +140,47 @@
                                             </span>
                                         </div>
                                     </li>
-                                    <li><input class="with-gap" ng-model="what" value="other" id="what03" type="radio"  />
-                                        <label for="what03">Other (select from categories)</label> 
+                                    <li>
+                                        <input class="with-gap" ng-model="what" value="shopping" id="what03" type="radio"  />
+                                        <label for="what03">Go shopping</label>
+                                        <div ng-if="what=='shopping'" class="check-area">
+                                            <span ng-repeat="item in gatheringTypes" style="margin-left: 30px;">
+                                                <input type="checkbox" class="filled-in" id="category_{{item.alias}}" ng-model="$parent.selectedCategory[item.alias]" value="{{item.alias}}"> 
+                                                <label for="category_{{item.alias}}">{{item.title}}</label> 
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <input class="with-gap" ng-model="what" value="nightlife" id="what04" type="radio"  />
+                                        <label for="what04">Enjoy the nightlife</label>
+                                        <div ng-if="what=='nightlife'" class="check-area">
+                                            <span ng-repeat="item in gatheringTypes" style="margin-left: 30px;">
+                                                <input type="checkbox" class="filled-in" id="category_{{item.alias}}" ng-model="$parent.selectedCategory[item.alias]" value="{{item.alias}}"> 
+                                                <label for="category_{{item.alias}}">{{item.title}}</label> 
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <input class="with-gap" ng-model="what" value="active" id="what05" type="radio"  />
+                                        <label for="what05">Play some sports</label>
+                                        <div ng-if="what=='active'" class="check-area">
+                                            <span ng-repeat="item in gatheringTypes" style="margin-left: 30px;">
+                                                <input type="checkbox" class="filled-in" id="category_{{item.alias}}" ng-model="$parent.selectedCategory[item.alias]" value="{{item.alias}}"> 
+                                                <label for="category_{{item.alias}}">{{item.title}}</label> 
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li><input class="with-gap" ng-model="what" value="other" id="what06" type="radio"  />
+                                        <label for="what06">Other (select from categories)</label> 
                                          <select class="select-jq browser-default" style="width: auto; margin-left: 30px;" ng-model="term" ng-show="what == 'other'">
-                                            <option value="{{ item.id }}" class="{{ item.id }}" ng-repeat="item in terms | filter:{id:'!restaurants'} | filter:{id:'!food'}" ng-selected="item.id == term">{{ item.name }}</option>
+                                            <option value="{{ item.id }}" class="{{ item.id }}" 
+                                                    ng-repeat="item in terms | filter:{id:'!restaurants'} 
+                                                                             | filter:{id:'!food'}
+                                                                             | filter:{id:'!nightlife'}
+                                                                             | filter:{id:'!shopping'}
+                                                                             | filter:{id:'!active'}" 
+                                                    ng-selected="item.id == term">{{ item.name }}
+                                            </option>
                                         </select>
                                         <div ng-if="what=='other'" class="check-area">
                                             <span ng-repeat="item in gatheringTypes" style="margin-left: 30px;">
@@ -156,14 +198,14 @@
                                 <h3 class="title">When do you want to do this? </h3>
                                 
                                 <ul class="option">
+                                    <li><input class="with-gap" ng-model="when" id="when00" value="now" type="radio" />
+                                        <label for="when00" class="now">Now</label></li>
                                     <li><input class="with-gap" ng-model="when" id="when01" value="one_hour_later" type="radio" checked />
                                         <label for="when01">1 hour from now</label></li>
                                     <li><input class="with-gap" ng-model="when" id="when02" value="two_hours_later" type="radio" />
                                         <label for="when02">2 hours from now</label></li>
-                                    <li><input class="with-gap" ng-model="when" id="when03" value="four_hours_later" type="radio" />
-                                        <label for="when03">4 hours from now</label></li>
                                     <li><input class="with-gap" ng-model="when" id="when04" value="other" type="radio" />
-                                        <label for="when04">Other (time picker)</label></li>
+                                        <label for="when04" ng-click="addOtherTimes()">Other (time picker)</label></li>
                                 </ul>
                                 <div class="box-white white">
                                     <ul class="choose-list">
@@ -173,14 +215,14 @@
                                                 {{ time.format(timeFormat) }}
                                             </span>
                                         </li>
-                                        <li class="forbtn" ng-hide="times.length == 0"><a class="btn btn-add waves-effect waves-light add-times" ng-click="addTimes()"><i class="icon"></i> Add</a></li>
+                                        <li class="forbtn" ng-hide="times.length == 0"><span class="add-times button-span"><a class="btn btn-add waves-effect waves-light" ng-click="addTimes()"><i class="icon"></i> Add</a></span></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                         <div class="frm-creat" ng-show="stage == 3">
                             <div class="row">
-                                <h3 class="title">Where do you want to do this? </h3>
+                                <h3 class="title where-do">Where do you want to do this? </h3>
                                 <ul class="option">
                                     <li><input class="with-gap" ng-model="where" ng-change="updatePlaceSuggestion()" id="where01" value="1" type="radio"  checked />
                                         <label for="where01">Within 1 miles of my current location (default; walkable) </label></li>
@@ -190,9 +232,9 @@
                                         <label for="where03">Other</label></li>
                                 </ul>
                                 <div class="row">
-                                    <input type="text" placeholder="Enter Neighborhood, Address, City, State or Zip" ng-model="other_location" ng-keyup="updatePlaceSuggestion()" ng-show="where=='other'"style="max-width:300px;" />
+                                    <input class="location-autocomplete" type="text" placeholder="Enter Neighborhood, Address, City, State or Zip" ng-model="other_location" ng-blur="setTimeoutForUpdatePlaceSuggestion()" ng-show="where=='other'"style="max-width:300px;" />
                                 </div>
-                                <h3 class="title">Here are the highest rated establishments (in the search area) </h3>
+                                <h3 class="title highest-rated">Here are the highest rated establishments (in the search area) </h3>
                                 <label style="font-style: italic; font-size: 15px">{{noSuggestionLabel}}</label>
                                 <ul class="option best-places">
                                     <li ng-repeat="place in suggestions">
@@ -200,8 +242,7 @@
                                             <input class="with-gap" ng-model="$parent.establishment" value="{{place}}" name="establishment" id="{{place.name}}" type="radio" />
                                             <label for="{{place.name}}">{{place.name}} </label>
 
-                                            <div class="tooltip-pleaces">
-                                                <i class="fa fa-caret-down arrow"></i>
+                                            <div class="pleaces-info">
                                                 <a class="thumb"><img ng-src="{{ place.image_url }}" alt=""></a>
                                                 <div class="cont-data">
                                                     <h3 class="title"><a target="_blank" href="{{ place.url }}">{{ place.name }}</a></h3>
@@ -216,7 +257,7 @@
                                     </li>
                                     <li class="specific-business">
                                         <input class="with-gap" ng-model="establishment" value="manual" name="establishment" id="manual" type="radio" />
-                                        <label for="manual">{{manualBusinessLabel}}</label>
+                                        <label for="manual"  ng-click="addManualBusiness()">{{manualBusinessLabel}}</label>
                                     </li>
                                     <li>
                                         <input class="with-gap" ng-model="establishment" value="other" name="establishment" id="help_me_decide" type="radio" />
@@ -227,7 +268,7 @@
                         </div>
                         <div class="frm-creat" ng-show="stage == 4">
                             <div class="row">
-                                <h3 class="title">How do you wish to share your activity? </h3>
+                                <h3 class="title social-sharing">How do you wish to share your activity? </h3>
                                 <ul class="option">
                                     <li><input class="with-gap" ng-model="share" value="1" id="share" type="radio"/>
                                         <label for="share">Share via...</label>
@@ -263,10 +304,18 @@
                             </div>
                         </div>
                         <div class="btn-bottom row">
-                            <a class="btn grey btn-large waves-effect waves-light left back-button" ng-hide="stage == 1" ng-click="back()">Back</a>
-                            <a class="btn red btn-large waves-effect waves-light right next-button" ng-hide="stage == MAX_STAGE || stage == (MAX_STAGE - 1)" ng-click="next()">Next</a>
-                            <a class="btn green btn-large waves-effect waves-light right create-button" ng-show="stage == (MAX_STAGE - 1)" ng-click="next()">Create</a>
-                            <a class="btn green btn-large waves-effect waves-light right finish-button" ng-show="stage == MAX_STAGE" ng-click="finish()">Finish</a>
+                            <span class="back-button button-span left">
+                                <a class="btn grey btn-large waves-effect waves-light" ng-hide="stage == 1" ng-click="back()">Back</a>
+                            </span>
+                            <span class="next-button button-span right">
+                                <a class="btn red btn-large waves-effect waves-light" ng-hide="stage == MAX_STAGE || stage == (MAX_STAGE - 1)" ng-click="next()">Next</a>
+                            </span>
+                            <span class="create-button button-span right">
+                                <a class="btn green btn-large waves-effect waves-light" ng-show="stage == (MAX_STAGE - 1)" ng-click="next()">Create</a>
+                            </span>
+                            <span class="finish-button button-span right">
+                                <a class="btn green btn-large waves-effect waves-light" ng-show="stage == MAX_STAGE" ng-click="finish()">Finish</a>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -275,45 +324,47 @@
         </div>
         <!-- Tip Content -->
         <ol id="joyRideTipContent">
-            <li data-class="activity-title" data-button="Next" class="mb-input-name" data-options="tipLocation:bottom;ipAnimation:fade">
-                <p>Enter name of activity</p>
+            <li data-class="activity-title" data-button="Next" class="mb-input-name tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
+                <p>Give your activity some flare by giving it a uniquely descriptive title, if you want.</p>
             </li>
-            <li data-class="select-what" data-button="Next" class="mb-input-name" data-options="tipLocation:bottom;ipAnimation:fade">
-                <p>Choose what activity you want to do</p>
+            <li data-class="select-what" data-button="Next" class="mb-input-name tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
+                <p>What type of activity are you in the mood for?</p>
             </li>
-            <li data-class="select-subcagetory" data-button="Next" class="mb-what-an" data-options="tipLocation:bottom;ipAnimation:fade">
-                <p>You can also customize sub-categories, or just let it as default</p>
+            <li data-class="select-subcagetory" data-button="Next" class="mb-what-an tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
+                <p>You can also customize sub-categories, or just let it as default.</p>
             </li>
-            <li data-class="next-button" class="mb-btn-next" data-button="Next" data-options="tipLocation:top;ipAnimation:fade">
-                <p>Click to move to next step</p>
+            <li data-class="next-button" class="mb-btn-next tooltip-mr" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+                <p>Click to move to next step.</p>
             </li>
-            <li data-class="selected-time" data-button="Next" class="mb-what-do" data-options="tipLocation:top;ipAnimation:fade">
-                <p>Selected time based on your suggestion</p>
+            <li data-class="now" data-button="Next" class="mb-what-do tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
+                <p>Are you wanting to do something now or sometime in the future?</p>
             </li>
-            <li data-class="add-times" data-button="Next" class="mb-btn-add" data-options="tipLocation:top;ipAnimation:fade">
-                <p>You can still add more times to fit your schedule</p>
+            <li data-class="add-times" data-button="Next" class="mb-btn-add tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
+                <p>Or you can specify a more specific time.</p>
             </li>
-            <li data-class="back-button" data-button="Next" class="mb-what-do" data-options="tipLocation:top;ipAnimation:fade">
-                <p>Click back to do it again</p>
+            <li data-class="where-do" data-button="Next" class="mb-what-do tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
+                <p>How far are you willing to travel to have this activity?</p>
             </li>
-            <li data-class="select-area" data-button="Next" class="mb-what-do" data-options="tipLocation:top;ipAnimation:fade">
-                <p>Select the area you want to search. We will suggest establishments in the search area </p>
+            <li data-class="select-area" data-button="Next" class="mb-what-do tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
+                <p>Or you can give us a specific locality to search within.</p>
             </li>
-            <li data-class="specific-business" data-button="Next" class="mb-what-do" data-options="tipLocation:top;ipAnimation:fade">
-                <p>You can also enter a specific business</p>
+            <li data-class="highest-rated" data-button="Next" class="mb-what-do tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
+                <p>We will show you the highest rated venues in the area. You can select one of these...</p>
             </li>
-            <li data-class="create-button" class="mb-btn-next" data-button="Next" data-options="tipLocation:top;ipAnimation:fade">
-                <p>Create new meeting & start sharing with friends</p>
+            <li data-class="specific-business" data-button="Next" class="mb-what-do tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
+                <p>...or you can tell us exactly where you want to go.</p>
             </li>
-            <li data-class="social-area" data-button="Next" class="mb-what-do" data-options="tipLocation:top;ipAnimation:fade">
-                <p>Share with friends</p>
+            <li data-class="create-button" class="mb-btn-next tooltip-mr" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+                <p>Save your new activity and start sharing it with friends!</p>
             </li>
-            <li data-class="make-new-friends" data-button="Next" class="mb-what-do" data-options="tipLocation:top;ipAnimation:fade">
-                <p>Skip this option</p>
+            <li data-class="social-sharing" data-button="Next" class="mb-what-do tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
+                <p>Select the method you will use to share this activity.</p>
             </li>
-            <li data-class="finish-button" data-button="Close" class="mb-btn-next last-tip" data-options="tipLocation:top;ipAnimation:fade">
-                <p>Finish the wizard. Ready to go?</p>
+            <li data-class="make-new-friends" data-button="Next" class="mb-what-do tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
+                <p>Or invite friends later and open this activity to everyone.</p>
             </li>
         </ol>
+        
+        <div class="loading-wrap" style="display:none"></div>
     </body>
 </html>

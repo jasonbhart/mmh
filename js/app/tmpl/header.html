@@ -1,18 +1,19 @@
 <nav id="header" class="top-nav">
-    <h1 id="logo"><a href="/">Socialivo</a></h1>
+    <h1 id="logo"><a href="/">Socialivo</a><span id="logo-dot"></span></h1>
+    <span class="tagline">The WHO, WHEN, WHERE of WHAT's happening right now</span>
     <div id="top-right" class="pull-right" ng-controller="UserAccountController">
         <div class="notifications">
             <a class="dropdown-button info on" href="#" data-activates="notifications-info" title="Notifications">
-                <i class="icon notification-icon"></i><span class="alert-bubble" ng-show="countNotification">{{ countNotification }}</span>
+                <span id="notification-icon-dot"></span><i class="icon notification-icon"></i><span class="alert-bubble" ng-show="countNotification">{{ countNotification }}</span>
             </a>
             <div id="notifications-info" class="dropdown-content">
                 <p class="notifLabel">Notifications</p>
                 <ul>
-                    <li ng-repeat="notification in notifications">
-                        <a href="activity.html?act={{ notification.meetId }}" ng-bind-html="getNotificationText(notification)">
-                           
-                        </a>
+                    <li ng-repeat="(key, notification) in notifications">
+                        <a class="notification-content" href="activity.html?act={{ notification.meetId }}" ng-bind-html="getNotificationText(notification)"></a>
+                        <a class="icon" title="Delete" ng-click="clearNotification(key, notification.id)"></a>
                     </li>
+                    <li ng-click="clearAllNotification()" ng-show="notifications.length"><a>CLEAR ALL</a></li>
                 </ul>
                 <span class="icon arow"></span>
             </div>

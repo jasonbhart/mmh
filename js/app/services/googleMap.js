@@ -5,8 +5,8 @@
     var app = angular.module('mmh.services');
 
     app.factory('googleMap',
-    ['$document', 'util',
-    function($document, util) {
+    ['$rootScope', '$document', 'util',
+    function($rootScope, $document, util) {
         return {
             drawMap: function(rootElement, initialPosition, radius) {
                 var mapOptions = {
@@ -21,7 +21,7 @@
 
                 // create map
                 var map = new google.maps.Map(mapElement, mapOptions);
-                map.controls[google.maps.ControlPosition.TOP_LEFT].push(searchBox);
+               // map.controls[google.maps.ControlPosition.TOP_LEFT].push(searchBox);
 
                 // google maps changes position object, so we want to pass a copy of it
                 var position = new google.maps.LatLng(initialPosition.lat, initialPosition.lng);
@@ -65,12 +65,12 @@
                     marker.setVisible(true);
                     area.setVisible(true);
 
-//                    saveCurrentPosition(place.geometry.location);
+                    saveCurrentPosition(place.geometry.location, radius);
                 });
 
                 // on marker drag
                 google.maps.event.addListener(marker, 'drag', function(e) {
-//                    saveCurrentPosition(e.latLng);
+                    saveCurrentPosition(e.latLng, radius);
                     area.setCenter(e.latLng);
                 });
 
@@ -78,9 +78,35 @@
                 google.maps.event.addListenerOnce(map, 'tilesloaded', function() {
                     google.maps.event.trigger(map, 'resize');
                 });
+                
+                this.setCenter = function (lat, lng) {
+                    var position = new google.maps.LatLng(lat, lng);
+                    map.setCenter(position);
+                }
+                
+                return this;
 
+            },
+            makeAutoComplete : function(inputClass) {
+                var searchBox = $('.' + inputClass).get(0);
+                var autocomplete = new google.maps.places.Autocomplete(searchBox);
+                autocomplete.setTypes(['address']);
+                google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                    $rootScope.$broadcast('position.changed', {});
+                });
             }
         };
+        
+        function saveCurrentPosition(position, radius) {
+            var newPosition = {
+                    position: {
+                        lat: position.lat(),
+                        lng: position.lng(),
+                    },
+                    radius: radius
+                };
+            $rootScope.$broadcast('position.changed', newPosition);
+        }
         
         function getAreaRadius(radiusInMiles) {
             return util.convertMilesToKms(radiusInMiles) * 1000;

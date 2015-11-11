@@ -6,7 +6,7 @@
 
         $scope.suggestions = {};
         $scope.timeFormat = 'h:mmA';
-        $scope.times = [roundTime(moment().add(1, 'hours'))];
+        $scope.times = [roundTime(moment().add(15, 'minutes'))];
         $scope.meetingId = '';
         $scope.radius = 10;
         $scope.currentUser = null;

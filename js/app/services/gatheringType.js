@@ -31,8 +31,6 @@
                 {"alias":"cajun", "parents":["restaurants"], "title":"Cajun food"},
                 {"alias":"caribbean", "parents":["restaurants"], "title":"Caribbean food"},
                 {"alias":"cuban", "parents":["restaurants"], "title":"Cuban food"},
-                {"alias":"danish", "parents":["restaurants"], "title":"Danish food"},
-                {"alias":"cajun", "parents":["restaurants"], "title":"Chinese food"},
                 {"alias":"chinese", "parents":["restaurants"], "title":"Chinese food"},
                 {"alias":"french,brasseries", "parents":["restaurants"], "title":"French food"},
                 {"alias":"german", "parents":["restaurants"], "title":"German food"},
@@ -49,7 +47,7 @@
                 {"alias":"bistros", "parents":["restaurants"], "title":"Bistro"},
                 {"alias":"brasseries", "parents":["restaurants"], "title":"Brasserie"},
                 {"alias":"breakfast_brunch", "parents":["restaurants"], "title":"Breakfast/Brunch"},
-                {"alias":"buffets", "parents":["restaurants"], "title":"All-You-Can-Eat Buffets"}
+                {"alias":"buffets", "parents":["restaurants"], "title":"All-You-Can-Eat Buffets"},
                 {"alias":"burgers", "parents":["restaurants"], "title":"Hamburgers"},
                 {"alias":"cafes", "parents":["restaurants"], "title":"Cafe"},
                 {"alias":"cafeteria,food_court", "parents":["restaurants"], "title":"Cafeteria/Food Court"},
@@ -100,11 +98,11 @@
                 {"alias":"streetart", "parents":["arts"], "title":"Participate in street art"}
             ],
             "food":[
-                {"alias":"winetastingroom,wine_bars,champagne_bars", "parents":["food"], "title":"Drink some wine"},
                 {"alias":"beergardens,beerbar,beerhall", "parents":["food"], "title":"Grab a craft beer"},
-                {"alias":"bagels,coffee,donuts",  "parents":["food"], "title":"Get coffee"},
-                {"alias":"gelato,icecream", "parents":["food"], "title":"Get some ice cream"},
-                {"alias":"desserts", "parents":["food"], "title":"Get dessert"}
+                {"alias":"winetastingroom,wine_bars,champagne_bars", "parents":["food"], "title":"Drink some wine"},
+                {"alias":"bagels,coffee,donuts",  "parents":["food"], "title":"Enjoy a cocktail"},
+//                {"alias":"gelato,icecream", "parents":["food"], "title":"Get some ice cream"},
+//                {"alias":"desserts", "parents":["food"], "title":"Get dessert"}
             ],
             "beautysvc":[
                 {"alias":"eroticmassage", "parents":["beautysvc"], "title":"Get a massage"},

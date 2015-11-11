@@ -70,7 +70,7 @@
 </head>
 <body>
     
-    <div id="container" ng-app="mmh" ng-controller="IndexController">
+    <div id="container" class="homepage" ng-app="mmh" ng-controller="IndexController">
         <div id="google-tag" ng-controller="Snippet">
             <div ng-bind-html="getGoogleTag()"></div>
         </div>
@@ -80,7 +80,7 @@
             <ul id="nav-mobile" class="side-nav fixed">
                 <li ng-class="currentPage == 1 ? 'active' : ''" id="home"><a href="index.html" class="waves-effect waves-ripple"><span class="icon icon-home"></span>Home</a></li>
                 <li ng-class="currentPage == 3 ? 'active' : ''" id="new_meet"><a href="create_new_activity.html" class="waves-effect waves-ripple"><span class="icon icon-new"></span>New Activity</a></li>
-                <li id="meet_me_here"><a href="meet_me_here.html" class="waves-effect waves-ripple"><span class="icon icon-history"></span>Meet Me Here</a></li>
+                <!--<li id="meet_me_here"><a href="meet_me_here.html" class="waves-effect waves-ripple"><span class="icon icon-history"></span>Meet Me Here</a></li>-->
                 <li ng-class="currentPage == 2 ? 'active' : ''" id="meet" ><a class="waves-effect waves-ripple" ng-click="currentPage = 2"><span class="icon icon-invite"></span>Activities</a>
                     <ul class="subtab-left">
                         <li ng-repeat="meeting in meetingList"  ng-class="(meeting.id == currentMeetingId) ? 'active' : ''">
@@ -98,19 +98,19 @@
                 <div id="contLeft" class="col l8 s12">
                     <div class="box-gray meeting-top" ng-if="rsvpMeetingList" ng-repeat="meeting in rsvpMeetingList">
                         <span class="meetingLabel">{{ meeting.type }}</span>
-                        <h3 class="title"><a ng-href="{{ meeting.url }}">{{ meeting.name }} @ {{ meeting.where.name }}</a></h3>
+                        <h3 class="title"><a ng-href="{{ meeting.url }}">{{ getMeetingName(meeting, true) }}</a></h3>
                         <div class="wrap">
                             <div class="info">
                                 <div class="thumb"><img ng-src="{{meeting.where.image_url ? meeting.where.image_url : 'images/default_place_thumb.gif'}}" alt=""></div>
                                 <div class="des">
-                                    <p class="address"><span class="icon"></span>{{ meeting.where.location.display_address }}<span class="subtext" style="display: none">Southeast Portland, Hawthorne, Sunnyside (<a href="#none">map</a>)</span></p>
+                                    <p class="address"><span class="icon"></span>{{ meeting.where.location.display_address }}<span class="subtext">{{ meeting.where.name }}</span></p>
                                     <div class="member-list">
                                         <p ng-if="meeting.usersCount == 1"><b>1 person going</b></p>
                                         <p ng-if="meeting.usersCount > 1"><b>{{ meeting.usersCount }} people going</b></p>
                                         <ul>
                                             <li ng-repeat="image in meeting.userImages track by $index">
                                                 <span class="bordered">
-                                                    <img ng-src="{{ image }}" alt="" style="height: 33px; width: 38px">
+                                                    <img ng-src="{{ image }}" alt="" style="height: 35px; width: 35px">
                                                 </span>
                                             </li>
                                         </ul>
@@ -123,7 +123,7 @@
                                     <span class="time">2:00 PM</span>
                                 </div>
                                 <div class="rspv">
-                                    <p><a ng-href="{{ meeting.url }}" class="btn waves-effect waves-light going">Going</a></p>
+                                    <p><span class="going button-span"><a ng-href="{{ meeting.url }}" class="btn waves-effect waves-light">Going</a></span></p>
                                 </div>
                             </div>
                         </div>
@@ -135,8 +135,8 @@
                             <li ng-repeat="meeting in otherMeetings">
                                 <div class="info">
                                     <span class="meetingLabel">{{ meeting.type }}</span>
-                                    <h3 class="title"><a ng-href="{{ meeting.url }}">{{ meeting.name }} @ {{ meeting.where.name }}</a></h3>
-                                    <p class="address"><span class="icon"></span>{{ meeting.where.location.display_address }}<span class="subtext" style="display: none">Southeast Portland, Hawthorne, Sunnyside (<a href="#none">map</a>)</span></p>
+                                    <h3 class="title"><a ng-href="{{ meeting.url }}">{{ getMeetingName(meeting, true)}}</a></h3>
+                                    <p class="address"><span class="icon"></span>{{ meeting.where.location.display_address }}<span class="subtext">{{ meeting.where.name }}</span></p>
                                     <p ng-if="meeting.users.length == 1">1 person going</p>
                                     <p ng-if="meeting.users.length > 1">{{ meeting.users.length }} people going</p>
                                 </div>
@@ -156,10 +156,19 @@
                 </div>
 				<div id="contRight" class="col l4 s12">
 					<div class="your-location">
-						<h2 class="title-page">Your location</h2>
-                                                <input type="hidden" class="search-box"> 
+                        <div class="left">
+                            <h2 class="title-page">Your location</h2>
+                        </div>
+                        <div class="right auto-detect-location">
+                            <a class="btn red waves-effect waves-light right" ng-click="autoDetectLocation()">Auto detect</a>
+                        </div>
+                        <div style="clear: both"></div>
+						
 						<div class="map map-canvas"></div>
-						<div class="des"><span class="icon"></span>{{locationName}}</div>
+                        <div class="des">
+                            <span class="icon"></span>
+                            <input type="text" placeholder="Enter location" value="{{locationName}}" class="search-box" />
+                        </div>
 					</div>
 					<div class="categories-nav">
 						<h2 class="title-page browse-by-category">Browse by Categories</h2>
@@ -182,41 +191,50 @@
     
     <!-- Tip Content -->
     <ol id="joyRideTipContent">
-        <li data-id="logo" data-text="Next" class="custom" data-options="tipLocation:bottom;tipAnimation:pop">
-            <h2>Feature tour</h2>
-            <p>This is the Socialivo tutorial. You can close this modal to ignore this step, Or click "Next" to continue...</p>
+        <li data-id="logo-dot" data-text="Next" class="custom tooltip-mt mb-logo first-greeting-bubble" data-options="tipLocation:bottom;tipAnimation:pop">
+            <h2 id="logo"><a>Socialivo</a></h2>
+            <p>This is the Socialivo tour of an 'Home' page. You can skip this tutorial by clicking on the 'X' in the corner or continue by clicking 'Next'.</p>
         </li>
-        <li data-id="home" data-text="Next" class="custom" data-options="tipLocation:right;tipAnimation:pop">
-            <h2>Homepage</h2>
-            <p>"Home" navigation to return to homepage</p>
+        <li data-id="new_meet" data-text="Next" class="custom mb-menu-create tooltip-ml left-menu" data-options="tipLocation:right;tipAnimation:pop">
+            <h2>New Activity</h2>
+            <p>Create a new activity to invite your friends or make new ones.</p>
         </li>
-        <li data-id="new_meet" data-text="Next" class="custom mb-menu-create" data-options="tipLocation:right;tipAnimation:pop">
-            <h2>New meeting</h2>
-            <p>Create new meeting</p>
+<!--        <li data-id="meet_me_here" data-text="Next" class="custom tooltip-ml left-menu" data-options="tipLocation:right;tipAnimation:pop">
+            <h2>"Meet me here"</h2>
+            <p>Have your friends meet you now at your current location.</p>
+        </li>-->
+        <li data-id="meet" data-text="Next" class="custom mb-menu-create tooltip-ml left-menu" data-options="tipLocation:right;tipAnimation:pop">
+            <h2>Activities</h2>
+            <p>Find all the activities you are participating in here.</p>
         </li>
-        <li data-id="meet_me_here" data-text="Next" class="custom" data-options="tipLocation:right;tipAnimation:pop">
-            <h2>Meet me here</h2>
-            <p>Create a new meeting in 1 hour later & at current establishment</p>
+        <li data-id="notification-icon-dot" class="mb-alert tooltip-mr right-menu" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+            <div id="header">
+                <div class="notifications">
+                    <a class="dropdown-button info on" href="#">
+                        <i class="icon"></i>
+                    </a>
+                </div>
+            </div>
+            <h2>Notifications</h2>
+            <p>See all of your notifications about activities you are participating in here</p>
         </li>
-        <li data-id="meet" data-text="Next" class="custom mb-menu-create" data-options="tipLocation:right;tipAnimation:pop">
-            <h2>Meeting page</h2>
-            <p>List of your participated meeting</p>
+        <li data-class="account" class="mb-user tooltip-mr right-menu" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+            <h2>Profile</h2>
+            <p>Managing your profile and account settings here.</p>
         </li>
-        <li data-class="notification-icon" class="mb-alert" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
-            <p>Show the list of notification</p>
+        <li data-class="going" data-button="Next" class="mb-what-an tooltip-mt" data-options="tipLocation:bottom;ipAnimation:fade">
+            <p>You've RSVPed to this activity. Click on the activity's title to change your status.</p>
         </li>
-        <li data-class="account" class="mb-user" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
-            <p>Manage your profile (login/logout/View feature tour)</p>
+        <li data-class="your-location" data-button="Next" class="mb-what-an tooltip-mt" data-options="tipLocation:bottom;ipAnimation:fade">
+            <p>Your current location. Drag the marker or enter an alternative location if it does not reflect your location of interest.</p>
         </li>
-        <li data-class="going" data-button="Next" class="mb-what-an" data-options="tipLocation:bottom;ipAnimation:fade">
-            <p>List of "RSVP-ed" meetings</p>
+        <li data-class="other-meetings-title" class="mb-home-jumin tooltip-mt" data-button="Next" data-options="tipLocation:bottom;ipAnimation:fade">
+            <p>Other people's activities happening around the area you are invited to join. Click on one to get started!</p>
         </li>
-        <li data-class="jump-in" class="mb-home-jumin" data-button="Next" data-options="tipLocation:bottom;ipAnimation:fade">
-            <p>Click "Jump-In" to meet new friends at local positions</p>
-        </li>
-        <li data-class="category-name" class="last-tip mb-home-browse" data-button="Close" data-options="tipLocation:bottom;ipAnimation:fade">
-            <p>Browse activities by categories. Ready to start?</p>
+        <li data-class="browse-by-category" class="last-tip mb-home-browse tooltip-mt" data-button="Close" data-options="tipLocation:bottom;ipAnimation:fade">
+            <p>Browse other local activities by activity category</p>
         </li>
     </ol>
+    <div class="loading-wrap" style="display:none"></div>
 </body>
 </html>
