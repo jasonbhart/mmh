@@ -91,7 +91,9 @@
                 <div class="row creat-new">
                     <div class="col s12">
                                 <h3 class="title highest-rated">Here are the highest rated establishments that near your area </h3>
-                                <label style="font-style: italic; font-size: 15px">{{noSuggestionLabel}}</label>
+                                <label id="no-suggestion" style="font-style: italic; font-size: 15px; display: none;">
+                                    Sorry, we were unable to find an establishment in your location. Try to <strong><a ng-click="enterSpecificBusines()">search</a></strong> the place
+                                </label>
                                 <ul class="option best-places">
                                     <li ng-repeat="place in suggestions">
                                         <div class="info">
