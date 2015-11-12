@@ -445,7 +445,7 @@
                 name: getMeetingName(),
                 timeTitle: time ? time.utc().toISOString() : ''
             };
-            return encodeURIComponent(meetingService.getFacebookSharingUrlWithoutEncode($scope.meetingId, $scope.getMeetingName(meetingData, true)));
+            return encodeURIComponent(meetingService.getFacebookSharingUrl($scope.meetingId, $scope.getMeetingName(meetingData, true)));
         };
         
         $scope.getShareEmailSubject = function() {

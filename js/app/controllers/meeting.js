@@ -400,6 +400,8 @@
             });
             
             var diff = moment().diff(moment($scope.meeting.timeTitle));
+            activateFacebookSDK();
+            
             if (diff > 1000 * 3600 * 24) {
                 $scope.ended = true;
                 
@@ -409,7 +411,6 @@
                 $scope.toggleTime = false;
                 $scope.joinGroup = false;
                 $scope.changeLocation = false;
-
             }
         }, function() {
             $log.log('No such activity');
@@ -545,7 +546,7 @@
             return meetingService.getSharingUrl($scope.meeting.id);
         };
         
-        $scope.getFacebookSharingUrl = function() {
+        $scope.getFacebookSharingUrl = function() {       
             return meetingService.getFacebookSharingUrl($scope.meeting.id, $scope.getMeetingName($scope.meeting, true));
         };
         
@@ -960,5 +961,13 @@
             var timeWithoutDate = moment(pastMoment).format('HH:mm:ss');
             return moment(timeWithoutDate, 'HH:mm:ss').utc().toISOString();
         }
+        
+        var activateFacebookSDK = function () {
+            if ($window.$('.fb-share-button').length > 0 && $window.$('#facebook-sdk').length === 0) {
+                $window.$('body').append('<script id="facebook-sdk" src="//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4"></script>');
+            } else {
+                setTimeout(activateFacebookSDK, 500);
+            }   
+        };
     }]);
 })();
