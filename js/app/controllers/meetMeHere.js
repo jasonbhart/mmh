@@ -11,11 +11,10 @@
         $scope.radius = 10;
         $scope.currentUser = null;
         $scope.places = [];
-        $scope.noSuggestionLabel = '';
         $scope.currentPage = util.getCurrentPage();
         $scope.establishment = 'other';
         
-        var defaultManualBusinessLabel = "Doesn't see your place? Enter a specific business";
+        var defaultManualBusinessLabel = "Enter a specific business";
         $scope.manualBusinessLabel = defaultManualBusinessLabel;
         $scope.manualBusinessInfo = {};
         
@@ -23,7 +22,7 @@
         
         sessionService.ready.then(function() {
             $scope.currentUser = sessionService.getCurrentUser();
-            getFormatedEstablishmentAndCreateMeeting();
+            getPlaceSuggestions();
         });
         
         function roundTime(moment) {
@@ -36,7 +35,7 @@
             });
         }
         
-        function getFormatedEstablishmentAndCreateMeeting() {
+        function getPlaceSuggestions() {
             var options = {
                 'sort' : '2',
                 'limit': '3',
@@ -55,18 +54,22 @@
                         $('#contents').show();
                         $window.$('.loading-wrap').hide();
                     }, function (error){
-                        $scope.noSuggestionLabel = 'Sorry, we were unable to find an establishment in your location. Try searching the place';
+                        $('#no-suggestion').show();
                         $('#contents').show();
                         $window.$('.loading-wrap').hide();
                     });
                 }
                 
             }, function() {
-                $scope.noSuggestionLabel = 'Sorry, we were unable to detect your current location. Try searching the place';
                 $('#contents').show();
                 $window.$('.loading-wrap').hide();
             });
         }
+        
+        $scope.enterSpecificBusines = function() {
+            $scope.establishment = 'manual';
+            $scope.addManualBusiness();
+        };
         
         $scope.addManualBusiness = function() {
             var dialog = dialogs.addManualBusiness({});
