@@ -8,9 +8,9 @@
     function($rootScope, appConfig, $firebaseObject, $q) {
         var ref = new Firebase(appConfig.firebaseUrl);
         
-        var addHistoryToUser = function (userId, historyData) {
+        var addHistoryToUser = function (userId, meetId, historyData) {
             console.log('Adding history to user', userId, historyData);
-            ref.child('history').child(userId).push(historyData);
+            ref.child('history').child(userId).child(meetId).set(historyData);
         };
         
            
@@ -48,6 +48,6 @@
             getLastHistory: getLastHistory,
             removeHistory: removeHistory,
             removeAllHistory: removeAllHistory
-        }
+        };
     }]);
 })();

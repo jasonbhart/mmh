@@ -4,8 +4,8 @@
     var app = angular.module('mmh.controllers');
     
     
-    app.controller('meetingController', ['$scope', '$q', '$log', '$firebaseObject', '$firebaseArray', 'dialogs', 'dataProvider', 'sessionService', 'meetingService', 'userService', 'geoLocation', 'userGroupBuilder','$window', 'util', 'notificationService', 'emailService','localMeetingService', 'categoryService',
-            function($scope, $q, $log, $firebaseObject, $firebaseArray, dialogs, dataProvider, sessionService, meetingService, userService, geoLocation, userGroupBuilder, $window, util, notificationService, emailService, localMeetingService, categoryService) {
+    app.controller('meetingController', ['$scope', '$q', '$log', '$firebaseObject', '$firebaseArray', 'dialogs', 'dataProvider', 'sessionService', 'meetingService', 'userService', 'geoLocation', 'userGroupBuilder','$window', 'util', 'notificationService', 'emailService','localMeetingService', 'categoryService','historyService',
+            function($scope, $q, $log, $firebaseObject, $firebaseArray, dialogs, dataProvider, sessionService, meetingService, userService, geoLocation, userGroupBuilder, $window, util, notificationService, emailService, localMeetingService, categoryService, historyService) {
 
         // get from the session
         $scope.timeFormat = 'h:mmA';
@@ -525,6 +525,23 @@
             
             if (!group.hasJoined($scope.currentUser.id)) {
                 addRSVPNotification(group);
+                
+                // add data to history
+                var historyData = {
+                    id: $scope.meeting.id,
+                    name: $scope.meeting.name,
+                    timeTitle: angular.copy(group.when.when.when).utc().toISOString(),
+                    time: angular.copy(group.when.when.when).utc().toISOString(),
+                    place: {
+                        name: group.where.name || '',
+                        display_address: group.where.location.display_address || '',  
+                        city: group.where.city || '',  
+                        country_code: group.where.country_code || '',  
+                        type: group.where.type || '',
+                        image_url: group.where.image_url || ''
+                    }
+                };
+                historyService.addHistoryToUser($scope.currentUser.id, $scope.meeting.id, historyData);
             }
             $scope.meetingUser.joinGroup(
                 {
