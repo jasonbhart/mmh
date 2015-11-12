@@ -4,8 +4,8 @@
     var app = angular.module('mmh.controllers');
     
     
-    app.controller('meetingController', ['$scope', '$q', '$log', '$firebaseObject', '$firebaseArray', 'dialogs', 'dataProvider', 'sessionService', 'meetingService', 'userService', 'geoLocation', 'userGroupBuilder','$window', 'util', 'notificationService', 'emailService',
-            function($scope, $q, $log, $firebaseObject, $firebaseArray, dialogs, dataProvider, sessionService, meetingService, userService, geoLocation, userGroupBuilder, $window, util, notificationService, emailService) {
+    app.controller('meetingController', ['$scope', '$q', '$log', '$firebaseObject', '$firebaseArray', 'dialogs', 'dataProvider', 'sessionService', 'meetingService', 'userService', 'geoLocation', 'userGroupBuilder','$window', 'util', 'notificationService', 'emailService','localMeetingService', 'categoryService',
+            function($scope, $q, $log, $firebaseObject, $firebaseArray, dialogs, dataProvider, sessionService, meetingService, userService, geoLocation, userGroupBuilder, $window, util, notificationService, emailService, localMeetingService, categoryService) {
 
         // get from the session
         $scope.timeFormat = 'h:mmA';
@@ -399,7 +399,7 @@
                 });
             });
             
-            var diff = moment().diff(moment($scope.meeting.timeTitle));
+            var diff = moment().diff(moment($scope.meeting.createdDate));
             activateFacebookSDK();
             
             if (diff > 1000 * 3600 * 24) {
@@ -909,8 +909,8 @@
         }
         
         $scope.createFromTemplate = function () {
-            var times   = angular.copy($scope.meeting.when);
-            var places   = angular.copy($scope.meeting.where);
+            var times   = getTimeFromTemplate();
+            var places  = getPlaceFromTemplate();
             var users = {};
             if ($scope.currentUser && $scope.currentUser.id) {
                 users[$scope.currentUser.id] = {
@@ -925,42 +925,84 @@
                 when: times,
                 where: places,
                 users: users,
-                timeTitle: changeDateToToday($scope.meeting.timeTitle),
+                timeTitle: changeDateToToday($scope.meeting.timeTitle || $scope.meeting.createdDate),
                 specific_location: $scope.meeting.specific_location || ''
             };
-            
-            
-            console.log(data);
-            return;
-            
-                $window.$('.loading-wrap').show();
-                var meetingPromise = meetingService.create(data);
-                meetingPromise.then(function(meeting) {
-                    var meetingId = meeting.refs.current.key();
-//                    if (data.where.length > 0) {
-//                        // add place to the local Events
-//                        localMeetingService.add(meetingId, '0', data.where[0].location.coordinate).then(function() {
-//                            console.log('Added meeting to local meeting lists');
-//                        });
-//                    }
-                            
-                    $scope.meetingId = meetingId;
-                    $scope.meeting = meeting;
-                    $scope.redirectUrl = 'activity.html?act=' + meetingId;
-                    $scope.shareUrl = meetingService.getSharingUrl(meetingId);
-                    activateFacebookSDK();
-                    activateTwitterSDK();
 
-                    addMeetingToCategory(data);
-                    addMeetingToUser(data);
-                    $window.$('.loading-wrap').hide();
-                });
+            $window.$('.loading-wrap').show();
+            var meetingPromise = meetingService.create(data);
+            meetingPromise.then(function(meeting) {
+                var meetingId = meeting.refs.current.key();
+                if (data.where.length > 0) {
+                    // add place to the local Events
+                    localMeetingService.add(meetingId, '0', data.where[0].location.coordinate).then(function() {
+                        console.log('Added meeting to local meeting lists');
+                    });
+                }
+
+                data.meetingId = meetingId;
+                $scope.redirectUrl = 'activity.html?act=' + meetingId;
+
+                addMeetingToCategory(data);
+                $window.$('.loading-wrap').hide();
+                
+                setTimeout(function() {
+                    if (confirm('Do you want to move to created activity?')) {
+                        $window.location.href = $scope.redirectUrl;
+                    }
+                }, 1000);
+            });
+        };
+        
+
+        var addMeetingToCategory = function(data) {
+            if (data.where[0] && data.where[0].type) {
+                var categoryId = data.where[0].type;
+            } else {
+                var categoryId = 'Other';
+            }
+            
+            var meetingData = {
+                id: data.meetingId,
+                name: data.name,
+                createdDate: data.createdDate,
+                timeTitle: data.timeTitle
+            } ;
+            categoryService.addMeetingToCategory(categoryId, categoryId, meetingData);
         }
+        
+        var getTimeFromTemplate = function () {
+            var result  = [];
+            var times   = angular.copy($scope.meeting.when);
+            for (var i in times) {
+                result.push(changeDateToToday(times[i].$value));
+            }
+            return result;
+        }
+        
+        var getPlaceFromTemplate = function () {
+            var result   = [];
+            var places   = angular.copy($scope.meeting.where);
+            for (var i in places) {
+                var place = {
+                    city: places[i].city || '',
+                    country_code: places[i].country_code || '',
+                    image_url: places[i].image_url || '',
+                    location: places[i].location || [],
+                    name: places[i].name || '',
+                    rating_url: places[i].rating_url || '',
+                    type: places[i].type || '',
+                    url: places[i].url || ''
+                };
+                result.push(place);
+            }
+            return result;
+        };
         
         var changeDateToToday = function (pastMoment) {
             var timeWithoutDate = moment(pastMoment).format('HH:mm:ss');
             return moment(timeWithoutDate, 'HH:mm:ss').utc().toISOString();
-        }
+        };
         
         var activateFacebookSDK = function () {
             if ($window.$('.fb-share-button').length > 0 && $window.$('#facebook-sdk').length === 0) {
