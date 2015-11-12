@@ -90,42 +90,48 @@
             <div id="contents" style="display: none;">
                 <div class="row creat-new">
                     <div class="col s12">
-                                <h3 class="title highest-rated">Here are the highest rated establishments that near your area </h3>
-                                <label id="no-suggestion" style="font-style: italic; font-size: 15px; display: none;">
-                                    Sorry, we were unable to find an establishment in your location. Try to <strong><a ng-click="enterSpecificBusines()">search</a></strong> the place
-                                </label>
-                                <ul class="option best-places">
-                                    <li ng-repeat="place in suggestions">
-                                        <div class="info">
-                                            <input class="with-gap" ng-model="$parent.establishment" value="{{place}}" name="establishment" id="{{place.name}}" type="radio" />
-                                            <label for="{{place.name}}">{{place.name}} </label>
+                        <div class="frm-creat">
+                            <div class="row activity-title">
+                                <h3 class="title">Title of the activity (optional)</h3>
+                                <input type="text" placeholder="Activity title" ng-model="meeting_name" style="max-width:600px;" />
+                            </div>
+                            <h3 class="title highest-rated">Here are the highest rated establishments that near your area </h3>
+                            <label id="no-suggestion" style="font-style: italic; font-size: 15px; display: none;">
+                                Sorry, we were unable to find an establishment in your location. Try to <strong><a style="cursor: pointer" ng-click="enterSpecificBusines()">search</a></strong> the place
+                            </label>
+                            <ul class="option best-places">
+                                <li ng-repeat="place in suggestions">
+                                    <div class="info">
+                                        <input class="with-gap" ng-model="$parent.establishment" value="{{place}}" name="establishment" id="{{place.name}}" type="radio" />
+                                        <label for="{{place.name}}">{{place.name}} </label>
 
-                                            <div class="pleaces-info">
-                                                <a class="thumb"><img ng-src="{{ place.image_url }}" alt=""></a>
-                                                <div class="cont-data">
-                                                    <h3 class="title"><a target="_blank" href="{{ place.url }}">{{ place.name }}</a></h3>
-                                                    <img ng-src="{{ place.rating_url }}" alt="">
-                                                    <span class="str-list">{{ place.categories[0][0] ? place.categories[0][0] : '' }}</span>
-                                                    <address>
-                                                        {{ place.location.display_address }}
-                                                    </address>
-                                                </div>
+                                        <div class="pleaces-info">
+                                            <a class="thumb"><img ng-src="{{ place.image_url }}" alt=""></a>
+                                            <div class="cont-data">
+                                                <h3 class="title"><a target="_blank" href="{{ place.url }}">{{ place.name }}</a></h3>
+                                                <img ng-src="{{ place.rating_url }}" alt="">
+                                                <span class="str-list">{{ place.categories[0][0] ? place.categories[0][0] : '' }}</span>
+                                                <address>
+                                                    {{ place.location.display_address }}
+                                                </address>
                                             </div>
                                         </div>
-                                    </li>
-                                    <li class="specific-business">
-                                        <input class="with-gap" ng-model="establishment" value="manual" name="establishment" id="manual" type="radio" />
-                                        <label for="manual"  ng-click="addManualBusiness()">{{manualBusinessLabel}}</label>
-                                    </li>
-                                    <li>
-                                        <input class="with-gap" ng-model="establishment" value="other" name="establishment" id="help_me_decide" type="radio" />
-                                        <label for="help_me_decide">Choose it for me</label>
-                                    </li>
-                                </ul>
-                        <div class="btn-bottom row">
-                            <span class="create-button button-span right">
-                                <a class="btn green btn-large waves-effect waves-light" ng-click="createMeeting()">Create</a>
-                            </span>
+                                    </div>
+                                </li>
+                                <li class="specific-business">
+                                    <input class="with-gap" ng-model="establishment" value="manual" name="establishment" id="manual" type="radio" />
+                                    <label for="manual"  ng-click="addManualBusiness()">{{manualBusinessLabel}}</label>
+                                </li>
+                                <li>
+                                    <input class="with-gap" ng-model="establishment" value="other" name="establishment" id="help_me_decide" type="radio" />
+                                    <label for="help_me_decide">Choose it for me</label>
+                                </li>
+                            </ul>
+                            <div class="btn-bottom row">
+                                <span class="create-button button-span right">
+                                    <a class="btn green btn-large waves-effect waves-light" ng-click="createMeeting()">Create</a>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>

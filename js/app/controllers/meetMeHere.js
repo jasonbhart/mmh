@@ -21,7 +21,24 @@
         $window.$('.loading-wrap').show();
         
         sessionService.ready.then(function() {
-            $scope.currentUser = sessionService.getCurrentUser();
+            var initAuth = function(user) {
+                $scope.currentUser = user;
+                userService.get($scope.currentUser.id).then(function(userObj) {
+                    userObj.meetingList.$loaded().then(function(data) {
+                        userObj.removePassedActivities();
+                        userObj.removeUnusedActivities(user.id);
+                        $scope.meetingList = data;
+                    });
+                });
+            };
+                
+            initAuth(sessionService.getCurrentUser());
+
+            // listen for the future auth change events
+            $scope.$on('auth.changed', function(evt, user) {
+                initAuth(user);
+            });
+                
             getPlaceSuggestions();
         });
         
@@ -69,6 +86,10 @@
         $scope.enterSpecificBusines = function() {
             $scope.establishment = 'manual';
             $scope.addManualBusiness();
+        };
+        
+        $scope.getMeetingName = function(meeting, includeTime) {
+            return meetingService.getMeetingName(meeting, includeTime);
         };
         
         $scope.addManualBusiness = function() {
@@ -133,7 +154,7 @@
                 };
             }
             var data = {
-                name: getMeetingName(),
+                name: getMeetingName(places),
                 createdDate: moment().utc().toISOString(),
                 when: times,
                 where: places,
@@ -150,8 +171,15 @@
             });
         };
         
-        var getMeetingName = function () {
-            return 'MEET ME HERE';
+        var getMeetingName = function (places) {
+            if ($scope.meeting_name) {
+                return $scope.meeting_name;
+            }
+            
+            if (places[0] && places[0].name) {
+                return "Meet Me at " + places[0].name;
+            }
+            return 'Meet Me Here';
         };
     }]);
 })();
