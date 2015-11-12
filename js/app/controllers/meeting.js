@@ -539,7 +539,9 @@
                         country_code: group.where.country_code || '',  
                         type: group.where.type || '',
                         image_url: group.where.image_url || ''
-                    }
+                    },
+                    whereId: group.where.$id,
+                    whenId: group.when.when.id
                 };
                 historyService.addHistoryToUser($scope.currentUser.id, $scope.meeting.id, historyData);
             }
