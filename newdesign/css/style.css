@@ -55,7 +55,7 @@ h3.title{font-size:18px; font-weight:500;}
 .other-meetings .info{padding:15px 20px;}
 .other-meetings .rspvBox{padding:15px 20px;}
 .other-meetings p{margin:0; margin-top:10px;}
-.your-location, .box-meeting .group, .meeting-top, .choose-setting{margin-bottom:30px;}
+.your-location, .meeting-top, .choose-setting{margin-bottom:30px;}
 .your-location .map{height:210px; overflow:hidden;}
 .your-location .des{border:1px solid #ddd; padding:5px 10px; font-size:18px; margin-top:15px;}
 .your-location .des .icon{background-position:0 -514px; margin-right:10px; display:inline-block; width:21px; height:22px; vertical-align:middle;}
@@ -72,16 +72,14 @@ h3.title{font-size:18px; font-weight:500;}
 .box-meeting .title-page{border-bottom:0; box-shadow:0 1px 5px #ddd; padding:15px 265px 15px 15px; margin:0;}
 .box-meeting .title-page .icon{background-position:0 -995px; width:36px; height:30px;}
 .box-meeting .wrap{padding:20px 18px;}
-.box-meeting .group .block{border-bottom:1px solid #ddd; margin-bottom:20px; padding-bottom:20px;}
-.box-meeting .group .block:last-child{border-bottom:0; padding-bottom:0; margin-bottom:0;}
-.box-meeting .group .box-gray{background:#fff none; border:1px solid #ddd;}
+.box-meeting .group .block{margin-bottom:30px;}
+.box-meeting .group .block:last-child{margin-bottom:0;}
 .box-meeting .group .box-white{background:#f8f4f0 none !important;}
 .box-meeting .group .title{margin:0; font-size:15px; padding-bottom:10px;}
 .box-meeting .group .location{font-size:18px; margin:0; margin-bottom:10px; font-weight:500;}
 .box-meeting .group .location .icon{background-position:-26px -514px; width:18px; height:18px; margin-right:6px;}
 .box-meeting .group .location .subtext{font-size:14px; color:#6b6b6b;}
-.box-meeting .group .time{font-size:24px; display:block; margin-bottom:10px; text-align:center;}
-.box-meeting .group .time b{font-size:30px;}
+.box-meeting .group .time{font-size:18px; display:block; text-align:center;}
 .box-white{padding:15px; position:relative;}
 .box-meeting .group .btn{font-size:20px; height:38px; line-height:38px; display:block;}
 .have-chosen{margin:0;}
@@ -320,7 +318,24 @@ img{max-width: 100%;}
 	background: #0e76a8;
 }
 .tagline{font-size:16px; color:#9c9c9c; font-style:italic; text-transform:uppercase; display:inline-block; margin-left:205px; margin-top:24px; letter-spacing:-.02em; border-left:1px solid #d5d5d5; padding-left:8px; line-height:16px;}
+.box-meeting .line{margin:42px -20px 20px; text-align:center;}
+.box-meeting .line hr{border:0; border-bottom:1px solid #fff; margin-bottom:-20px; border-top:1px solid #ddd;}
+.box-meeting .line .circle{border-left:6px solid #f8f4f0; border-right:6px solid #f8f4f0; display:inline-block;}
+.box-meeting .line .circle .fa{background:#67bcdb none; display:inline-block; width:35px; height:35px; line-height:35px; border-radius:50%; color:#fff; font-size:18px;}
+.box-meeting .auto-group .title{line-height:22px;}
+.box-meeting .auto-group .location{background:#67bcdb url(../image/bg_location.png) no-repeat 100% 1px; color:#fff; font-size:24px; padding:15px 70px 15px 15px; margin-bottom:0;}
+.auto-group .box{background:#fff; margin:0; border:1px solid #ddd; padding:20px; overflow:hidden;}
+.auto-group .box .info{overflow:hidden; position:relative; min-height:90px;}
+.auto-group .box .info .pleaces-info .thumb{width:90px;}
+.box-meeting .auto-group .info .box-gray .btn{background:#a2ab58;display:inline-block;}
+.box-meeting .auto-group .info .box-gray .btn:hover{background:#e44424;}
+.box-meeting .auto-group .info .box-gray{position:absolute; right:0; top:0; padding:10px 15px; text-align:center;}
 
+.auto-group .box .info .pleaces-info{margin:0; margin-right:160px;}
+.auto-group .title-member-chose{margin-top:10px;}
+.auto-group .title-member-chose span{background:#fff; display:inline-block; padding-right:10px; font-size:13px; font-weight:700;}
+.auto-group .title-member-chose hr{border:0; border-bottom:1px solid #ddd; margin-top:-10px; margin-bottom:
+20px;}
 
 @media only screen and (min-width : 1280px){
 .meeting-top .info{margin-right:25%;}
@@ -349,14 +364,14 @@ img{max-width: 100%;}
 #header{height:auto;}
 .tagline{margin-top:55px; margin-left:20px; border:0; padding:0 0 10px 0;}
 }
-@media only screen and (max-width : 800px){.checkout-wrap{display: none;}}
+@media only screen and (max-width : 800px){.checkout-wrap{display: none;}.auto-group .box .info .pleaces-info .thumb{max-width:25%;}}
 @media only screen and (max-width : 768px){
-.best-places .thumb{display:none;}
 .box-meeting .share dd{display:block; margin:0;}
 .tagline{font-size:14px; margin-left:80px; padding-right:150px;}
 .meetingLabel{float:right; margin-left:10px;}
 .meeting-top .title {margin-top:-4px;}
 .other-meetings h3.title{margin-top: 5px;}
+
 }
 @media only screen and (max-width : 650px){
 .box-meeting .title-page{padding:15px;}
@@ -365,11 +380,11 @@ img{max-width: 100%;}
 .box-meeting .share .label{display:inline-block;margin-top:-3px;}
 }
 @media only screen and (max-width : 600px){
-   #manual-business label{text-align: left;}    
-}
-@media only screen and (min-width : 521px){
-.box-meeting .group .time{margin-bottom:0; text-align:left;}
-.box-meeting .group .btn{position:absolute; right:15px; top:20px;}
+   #manual-business label{text-align: left;}
+   .auto-group .box .info .pleaces-info{margin:0;}
+   .box-meeting .auto-group .info .box-gray{position:inherit; top:auto; right:auto; text-align:left; margin-top:10px; overflow:hidden;background:none; border-top:1px solid #ddd;padding:10px 0 0;} 
+   .box-meeting .group .time{float:left; padding-top:10px;} 
+   .box-meeting .auto-group .info .box-gray .btn{float:right;}
 }
 @media only screen and (max-width : 520px){
 .best-places li{padding-right:0}

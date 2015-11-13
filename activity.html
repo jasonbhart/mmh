@@ -156,49 +156,87 @@
                                             <li class="forbtn"><span class="add-times button-span"><a class="btn btn-add waves-effect waves-light" ng-click="addTimes()"><i class="icon"></i> Add</a></span></li>
                                         </ul>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="group" ng-if="userGroups.groups.length">
-                                <h3 class="title suitable-groups">These groups match your indicated preferences. Click on the RSVP button to confirm the one you will be attending:</h3>
-                                <div class="box-gray">
-                                    <div class="block" ng-repeat="group in userGroups.groups">
-                                        <h4 class="location">
-                                            <span class="icon"></span>
-                                            <span class="subtext">At:</span> {{ group.where.name }} {{getMeetingLocation(group.where)}}
-                                        </h4>
-                                        <div class="box-white white">
-                                            <span class="time">Start: <b class="red-text">{{ group.when.formatted }}</b></span>
-                                            <a class="btn waves-effect waves-light" ng-click="joinGroup(group)">{{ group.hasJoined(currentUser.id) ? 'Leave' : 'RSVP' }}</a>
+                                    
+                                    <div class="line">
+                                        <hr />
+                                        <span class="circle"><i class="fa fa-arrow-down"></i></span>
+                                    </div>
+                                    <div class="group" ng-if="userGroups.groups.length">
+                                        <h3 class="title suitable-groups">These groups match your indicated preferences. Click on the RSVP button to confirm the one you will be attending:</h3>
+                                        <div class="box-gray">
+                                            <div class="block auto-group group" ng-repeat="group in userGroups.groups">
+                                                <div class="block">
+                                                    <h4 class="location">{{ group.where.name }} {{getMeetingLocation(group.where)}}</h4>
+                                                    <div class="box">
+                                                        <div class="info best-places">
+                                                            <div class="pleaces-info">
+                                                                <a class="thumb"><img ng-src="{{group.where.image_url}}" alt=""></a>
+                                                                <div class="cont-data">
+                                                                    <img ng-src="{{group.where.rating_url}}" alt="">
+                                                                    <span class="str-list ng-binding">{{ group.where.categories[0][0] }}</span>
+                                                                    <address class="ng-binding">
+                                                                        {{ group.where.location.display_address }}
+                                                                    </address>
+                                                                </div>
+                                                            </div>
+                                                            <div class="box-gray">
+                                                                <span class="time">Start: <b class="red-text">{{ group.when.formatted }}</b></span>
+                                                                <a class="btn waves-effect waves-light" ng-click="joinGroup(group)">{{ group.hasJoined(currentUser.id) ? 'Leave' : 'RSVP' }}</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="title-member-chose">
+                                                            <span>{{ group.users.length }} people have chosen:</span>
+                                                            <hr />
+                                                        </div>
+                                                        <ul class="have-chosen">
+                                                            <li class="memberLabel" ng-class="group.hasJoined(user.user.id) ? 'cfrmed' : 'not-cfrm'" ng-repeat="user in group.users">
+                                                                <i class="icon"></i>{{ user.user.fullName }} <span ng-if="needsGroupUserDetails(userGroups, user)">(you)</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+                                            
+<!--                                                <h4 class="location">
+                                                    <span class="icon"></span>
+                                                    <span class="subtext">At:</span> {{ group.where.name }} {{getMeetingLocation(group.where)}}
+                                                </h4>
+                                                <div class="box-white white">
+                                                    <span class="time">Start: <b class="red-text">{{ group.when.formatted }}</b></span>
+                                                    <a class="btn waves-effect waves-light" ng-click="joinGroup(group)">{{ group.hasJoined(currentUser.id) ? 'Leave' : 'RSVP' }}</a>
+                                                </div>
+                                                <p>{{ group.users.length }} people have chosen:</p>
+                                                <ul class="have-chosen">
+                                                    <li class="memberLabel" ng-class="group.hasJoined(user.user.id) ? 'cfrmed' : 'not-cfrm'" ng-repeat="user in group.users">
+                                                        <i class="icon"></i>{{ user.user.fullName }} <span ng-if="needsGroupUserDetails(userGroups, user)">(you)</span>
+                                                    </li>
+                                                </ul>-->
+                                            </div>
                                         </div>
-                                        <p>{{ group.users.length }} people have chosen:</p>
-                                        <ul class="have-chosen">
-                                            <li class="memberLabel" ng-class="group.hasJoined(user.user.id) ? 'cfrmed' : 'not-cfrm'" ng-repeat="user in group.users">
-                                                <i class="icon"></i>{{ user.user.fullName }} <span ng-if="needsGroupUserDetails(userGroups, user)">(you)</span>
-                                            </li>
-                                        </ul>
+                                    </div>
+                                    <div class="group" ng-if="!userGroups.groups.length">
+                                        <h3 class="title suitable-groups">These groups match your indicated preferences. Click on the RSVP button to confirm the one you will be attending:</h3>
+                                        <div class="box-gray">
+                                            <div class="box-white white"><strong>No available group! Please add more <a ng-click="addTimes()">times</a> and <a ng-click="addPlaces()">places</a>, or invite more friends</strong></div>
+                                        </div>
+                                        <h3 class="title"></h3>
                                     </div>
                                 </div>
+                                <div class="other-member">
+                                    <h3 class="title">
+                                        <span ng-show="usersInfo.count == 1">1 person is helping to plan this activity</span>
+                                        <span ng-show="usersInfo.count > 1">{{ usersInfo.count }} people are helping to plan this activity:</span>
+                                    </h3>
+                                    <ul class="list">
+                                        <li ng-repeat="(userId, userInfo) in usersInfo.all">
+                                            <div class="thumb"><img ng-src="{{ userInfo.user.getProfileImageURL() }}"></div>
+                                            <p><b>{{ userInfo.user.user.fullName }}</b></p>
+                                            <p class="subtext">{{ userInfo.user.getLocationName() }}</p>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                            <div class="group" ng-if="!userGroups.groups.length">
-                                <h3 class="title suitable-groups">These groups match your indicated preferences. Click on the RSVP button to confirm the one you will be attending:</h3>
-								<div class="box-gray">
-									<div class="box-white white"><strong>No available group! Please add more <a ng-click="addTimes()">times</a> and <a ng-click="addPlaces()">places</a>, or invite more friends</strong></div>
-								</div>
-                                <h3 class="title"></h3>
-                            </div>
-                            <div class="other-member">
-                                <h3 class="title">
-                                    <span ng-show="usersInfo.count == 1">1 person is helping to plan this activity</span>
-                                    <span ng-show="usersInfo.count > 1">{{ usersInfo.count }} people are helping to plan this activity:</span>
-                                </h3>
-                                <ul class="list">
-									<li ng-repeat="(userId, userInfo) in usersInfo.all">
-										<div class="thumb"><img ng-src="{{ userInfo.user.getProfileImageURL() }}"></div>
-										<p><b>{{ userInfo.user.user.fullName }}</b></p>
-										<p class="subtext">{{ userInfo.user.getLocationName() }}</p>
-									</li>
-								</ul>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
