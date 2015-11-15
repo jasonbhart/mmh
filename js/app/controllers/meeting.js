@@ -966,10 +966,8 @@
                 $window.$('.loading-wrap').hide();
                 
                 setTimeout(function() {
-                    if (confirm('Do you want to move to created activity?')) {
-                        $window.location.href = $scope.redirectUrl;
-                    }
-                }, 1000);
+                    $window.location.href = $scope.redirectUrl;
+                }, 500);
             });
         };
         
