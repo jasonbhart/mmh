@@ -400,7 +400,14 @@
             });
             
             var diff = moment().diff(moment($scope.meeting.createdDate));
-            activateFacebookSDK();
+            
+            var activeFacebookSdkInterval = setInterval(function(){
+                if ($scope.meeting && $scope.getMeetingName($scope.meeting, true)) {
+                    clearInterval(activeFacebookSdkInterval);
+                    activateFacebookSDK();
+                }
+            }, 500);
+            
             
             if (diff > 1000 * 3600 * 24) {
                 $scope.ended = true;
