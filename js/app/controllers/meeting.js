@@ -406,7 +406,7 @@
                     clearInterval(activeFacebookSdkInterval);
                     activateFacebookSDK();
                 }
-            }, 500);
+            }, 50);
             
             
             if (diff > 1000 * 3600 * 24) {
