@@ -195,31 +195,11 @@
                                                         </ul>
                                                     </div>
                                                 </div>
-
-                                            
-<!--                                                <h4 class="location">
-                                                    <span class="icon"></span>
-                                                    <span class="subtext">At:</span> {{ group.where.name }} {{getMeetingLocation(group.where)}}
-                                                </h4>
-                                                <div class="box-white white">
-                                                    <span class="time">Start: <b class="red-text">{{ group.when.formatted }}</b></span>
-                                                    <a class="btn waves-effect waves-light" ng-click="joinGroup(group)">{{ group.hasJoined(currentUser.id) ? 'Leave' : 'RSVP' }}</a>
-                                                </div>
-                                                <p>{{ group.users.length }} people have chosen:</p>
-                                                <ul class="have-chosen">
-                                                    <li class="memberLabel" ng-class="group.hasJoined(user.user.id) ? 'cfrmed' : 'not-cfrm'" ng-repeat="user in group.users">
-                                                        <i class="icon"></i>{{ user.user.fullName }} <span ng-if="needsGroupUserDetails(userGroups, user)">(you)</span>
-                                                    </li>
-                                                </ul>-->
                                             </div>
                                         </div>
                                     </div>
                                     <div class="group" ng-if="!userGroups.groups.length">
-                                        <h3 class="title suitable-groups">These groups match your indicated preferences. Click on the RSVP button to confirm the one you will be attending:</h3>
-                                        <div class="box-gray">
-                                            <div class="box-white white"><strong>No available group! Please add more <a ng-click="addTimes()">times</a> and <a ng-click="addPlaces()">places</a>, or invite more friends</strong></div>
-                                        </div>
-                                        <h3 class="title"></h3>
+                                        <h3 class="title suitable-groups">No matching groups! Please add more <a ng-click="addTimes()">times</a>, <a ng-click="addPlaces()">places</a>, and/or invite more friends to this activity.</h3>
                                     </div>
                                 </div>
                                 <div class="other-member">
