@@ -10,6 +10,7 @@ h3.title{font-size:18px; font-weight:500;}
 .box-gray .btn{background:#a2ab58; color:#fff;}
 .box-gray .btn:hover{background:#e44424; color:#fff;}
 .title-page{font-size:28px;border-bottom:1px solid #ddd; padding:5px; margin:0 0 15px; font-weight:500;}
+.homepage .title-page {border-bottom: none;}
 .title-page .icon{display:inline-block; margin-right:10px; vertical-align:middle;}
 .home-page .reminder{margin-bottom:25px;}
 .home-page .reminder .date-time{display:inline-block; margin-right:5px; color:#67bcdb; font-size:24px;}
