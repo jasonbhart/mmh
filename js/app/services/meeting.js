@@ -376,10 +376,10 @@
                 return appConfig.shareUrlBase + '?act=' + meetingId;
             },
             getFacebookSharingUrl: function(meetingId, meetingName) {
-                return appConfig.shareFacebookUrl + '?id=' + meetingId + '&name=' + encodeURIComponent(meetingName);
+                return appConfig.shareFacebookUrl + '?data=' + meetingId + '---' + encodeURIComponent(meetingName);
             },
             getFacebookSharingUrlWithoutEncode: function(meetingId, meetingName) {
-                return appConfig.shareFacebookUrl + '?id=' + meetingId + '&name=' + meetingName;
+                return appConfig.shareFacebookUrl + '?data=' + meetingId + '---' + meetingName;
             },
             migrateUser: function(meetingId, srcUserId, dstUserId, keepSrc, overwrite) {
                 var defer = $q.defer();
