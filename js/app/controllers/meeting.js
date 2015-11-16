@@ -1029,8 +1029,6 @@
                 $window.$('#facebook-sdk').length === 0 &&
                 $scope.meeting && $scope.getMeetingName($scope.meeting, true)
             ) {
-                alert($scope.getFacebookSharingUrl());
-                $window.$('.fb-share-button').attr('data-href', $scope.getFacebookSharingUrl());
                 $window.$('body').append('<script id="facebook-sdk" src="//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4"></script>');
             } else {
                 setTimeout(activateFacebookSDK, 500);
