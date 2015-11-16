@@ -24,7 +24,6 @@
             getActivities: function() {
                 return [
                     { id: 'restaurants', name: 'Share a meal' },
-                    { id: 'bars', name: 'Go drinking' },
                     { id: 'nightlife', name: 'Enjoy the nightlife' },
                     { id: 'shopping', name: 'Go shopping' },
                     { id: 'active', name: 'Play sports' },
