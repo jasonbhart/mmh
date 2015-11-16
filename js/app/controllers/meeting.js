@@ -401,12 +401,7 @@
             
             var diff = moment().diff(moment($scope.meeting.createdDate));
             
-            var activeFacebookSdkInterval = setInterval(function(){
-                if ($scope.meeting && $scope.getMeetingName($scope.meeting, true)) {
-                    clearInterval(activeFacebookSdkInterval);
-                    activateFacebookSDK();
-                }
-            }, 50);
+            activateFacebookSDK();
             
             
             if (diff > 1000 * 3600 * 24) {
@@ -1029,7 +1024,13 @@
         };
         
         var activateFacebookSDK = function () {
-            if ($window.$('.fb-share-button').length > 0 && $window.$('#facebook-sdk').length === 0) {
+            if (
+                $window.$('.fb-share-button').length > 0 && 
+                $window.$('#facebook-sdk').length === 0 &&
+                $scope.meeting && $scope.getMeetingName($scope.meeting, true)
+            ) {
+                alert($scope.getFacebookSharingUrl());
+                $window.$('.fb-share-button').attr('data-href', $scope.getFacebookSharingUrl());
                 $window.$('body').append('<script id="facebook-sdk" src="//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4"></script>');
             } else {
                 setTimeout(activateFacebookSDK, 500);
