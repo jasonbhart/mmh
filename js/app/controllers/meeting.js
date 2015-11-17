@@ -616,7 +616,7 @@
 
         var placesProvider = {
             getTerms: function() {
-                return dataProvider.getTerms();
+                return dataProvider.getActivities();
             },
             getPlaces: function(term) {
                 var options = { term: term, limit: 10 };
@@ -628,6 +628,9 @@
 
                 }
                 return dataProvider.getSuggestions(options);
+            },
+            getCategory: function() {
+                return $scope.meeting.category || '';
             }
         }
 
