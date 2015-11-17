@@ -97,7 +97,7 @@
                 {"alias":"social_clubs", "parents":["arts"], "title":"Visit a social clubs"},
                 {"alias":"streetart", "parents":["arts"], "title":"Participate in street art"}
             ],
-            "food":[
+            "drink":[
                 {"alias":"beergardens,beerbar,beerhall", "parents":["food"], "title":"Grab a craft beer"},
                 {"alias":"winetastingroom,wine_bars,champagne_bars", "parents":["food"], "title":"Drink some wine"},
                 {"alias":"bagels,coffee,donuts",  "parents":["food"], "title":"Enjoy a cocktail"},
