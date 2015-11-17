@@ -154,21 +154,23 @@
                     </div>
                 </div>
 				<div id="contRight" class="col l4 s12">
-					<div class="your-location">
-                        <div class="left">
-                            <h2 class="title-page">Your location</h2>
+                    <span class="your-location button-span">
+                        <div>
+                            <div class="left">
+                                <h2 class="title-page">Your location</h2>
+                            </div>
+                            <div class="right auto-detect-location">
+                                <span class="auto-detect button-span right"><a class="btn red waves-effect waves-light right" ng-click="autoDetectLocation()">Auto detect</a></span>
+                            </div>
+                            <div style="clear: both"></div>
+
+                            <div class="map map-canvas"></div>
+                            <div class="des">
+                                <span class="icon"></span>
+                                <input type="text" placeholder="Enter location" value="{{locationName}}" class="search-box" />
+                            </div>
                         </div>
-                        <div class="right auto-detect-location">
-                            <span class="auto-detect button-span right"><a class="btn red waves-effect waves-light right" ng-click="autoDetectLocation()">Auto detect</a></span>
-                        </div>
-                        <div style="clear: both"></div>
-						
-						<div class="map map-canvas"></div>
-                        <div class="des">
-                            <span class="icon"></span>
-                            <input type="text" placeholder="Enter location" value="{{locationName}}" class="search-box" />
-                        </div>
-					</div>
+                    </span>
 					<div class="categories-nav">
 						<h2 class="title-page browse-by-category">Browse by Categories</h2>
 						<ul>
