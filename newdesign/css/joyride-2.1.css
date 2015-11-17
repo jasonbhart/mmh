@@ -25,7 +25,8 @@ body {
 .joyride-tip-guide.tooltip-mr{margin-left: -20px;}
 .joyride-tip-guide.tooltip-ml{margin-left: 20px;}
 .joyride-tip-guide.tooltip-mb{margin-top: -20px;}
-
+.joyride-tip-guide.tooltip-mt.your-location{margin-top: 50px;}
+.joyride-tip-guide.tooltip-mt.further-from-top{margin-top: 35px;}
 .joyride-content-wrapper {
   padding: 10px 26px 15px 15px;
 }

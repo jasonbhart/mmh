@@ -94,7 +94,7 @@
 		<div id="contents">
 			<div class="row contents">
                 <div id="contLeft" class="col l8 s12">
-                    <h2 class="title-page other-meetings-title" ng-if="rsvpMeetingList.length">Your Activities</h2>
+                    <h2 class="title-page" ng-if="rsvpMeetingList.length">Your Activities</h2>
                     <div class="box-gray meeting-top" ng-if="rsvpMeetingList" ng-repeat="meeting in rsvpMeetingList">
                         <span class="meetingLabel">{{ meeting.type }}</span>
                         <h3 class="title"><a ng-href="{{ meeting.url }}">{{ getMeetingName(meeting, true) }}</a></h3>
@@ -224,16 +224,16 @@
         <li data-class="going" data-button="Next" class="mb-what-an tooltip-mt" data-options="tipLocation:bottom;ipAnimation:fade">
             <p>You've RSVPed to this activity. Click on the activity's title to change your status.</p>
         </li>
-        <li data-class="your-location" data-button="Next" class="mb-what-an tooltip-mt" data-options="tipLocation:bottom;ipAnimation:fade">
+        <li data-class="your-location" data-button="Next" class="mb-what-an tooltip-mt your-location" data-options="tipLocation:bottom;ipAnimation:fade">
             <p>Your current location. Drag the marker or enter an alternative location if it does not reflect your location of interest.</p>
         </li>
         <li data-class="auto-detect" data-button="Next" class="mb-what-an tooltip-mt" data-options="tipLocation:bottom;ipAnimation:fade">
             <p>Click to automatically detect your location. </p>
         </li>
-        <li data-class="other-meetings-title" class="mb-home-jumin tooltip-mt" data-button="Next" data-options="tipLocation:bottom;ipAnimation:fade">
+        <li data-class="other-meetings-title" class="mb-home-jumin tooltip-mt further-from-top" data-button="Next" data-options="tipLocation:bottom;ipAnimation:fade">
             <p>Other people's activities happening around the area you are invited to join. Click on one to get started!</p>
         </li>
-        <li data-class="browse-by-category" class="last-tip mb-home-browse tooltip-mt" data-button="Close" data-options="tipLocation:bottom;ipAnimation:fade">
+        <li data-class="browse-by-category" class="last-tip mb-home-browse tooltip-mt further-from-top" data-button="Close" data-options="tipLocation:bottom;ipAnimation:fade">
             <p>Browse other local activities by activity category</p>
         </li>
     </ol>
