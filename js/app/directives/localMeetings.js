@@ -32,7 +32,20 @@
                             exclude: [scope.excludeMeeting]
                         })
                         .then(function(results) {
-                            scope.meetings = results;
+                            if (scope.$parent && scope.$parent.currentUser && scope.$parent.currentUser.id) {
+                                var userId = scope.$parent.currentUser.id;
+                            } else {
+                                var userId = '';
+                            }
+                            
+                            scope.meetings = [];
+                            
+                            _.forEach(results, function(meeting) {
+                                if (!meeting.allUsers[userId] || !meeting.allUsers[userId].group) {
+                                    scope.meetings.push(meeting);
+                                }
+                            });
+                            
                         });
                 });
             }

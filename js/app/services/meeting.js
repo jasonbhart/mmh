@@ -535,7 +535,8 @@
                             users: joinedUser,
                             where: meeting.where[whereId],
                             url: service.getSharingUrl(id),
-                            timeTitle: meeting.timeTitle
+                            timeTitle: meeting.timeTitle,
+                            allUsers: meeting.users
                         };
                         
                         $rootScope.$applyAsync(function() {
