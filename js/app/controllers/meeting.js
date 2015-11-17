@@ -637,7 +637,7 @@
         $scope.addPlaces = function() {
             var dialog = dialogs.userMeetingPlaces(placesProvider);
             
-            dialog.result.then(function(places, category) {
+            dialog.result.then(function(places) {
                 addPlaceNotification(angular.copy($scope.meeting.where), places);
                 $log.log('Show places result:', places);
                 _.forEach(places, function(place) {
