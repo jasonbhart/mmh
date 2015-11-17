@@ -9,7 +9,7 @@
         ['$scope', 'modalInstance', 'placesProvider', function ($scope, modalInstance, placesProvider) {
 
         $scope.terms = placesProvider.getTerms();
-        $scope.term = $scope.terms.length > 0 ? $scope.terms[0].id : null;
+        $scope.term = placesProvider.getCategory() || ($scope.terms.length > 0 ? $scope.terms[0].id : null);
         $scope.places = [];
 
         $scope.$watch('term', function(value) {

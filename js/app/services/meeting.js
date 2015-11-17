@@ -30,6 +30,7 @@
                 timeTitle: snap.val().timeTitle || '',
                 createdDate: snap.val().createdDate,
                 specificLocation: snap.val().specific_location || '',
+                category: snap.val().category || '',
                 refs: refs,
                 users: $firebaseArray(refs.users),
                 where: $firebaseArray(refs.where),

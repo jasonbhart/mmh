@@ -365,7 +365,8 @@
                 createdDate: moment().utc().toISOString(),
                 when: times,
                 where: places,
-                users: users
+                users: users,
+                category: ($scope.what !== 'other') ? $scope.what : $scope.term
             };
             var time = angular.copy($scope.times[0]);
             data['timeTitle'] = time ? time.utc().toISOString() : '';

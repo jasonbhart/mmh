@@ -616,7 +616,7 @@
 
         var placesProvider = {
             getTerms: function() {
-                return dataProvider.getTerms();
+                return dataProvider.getActivities();
             },
             getPlaces: function(term) {
                 var options = { term: term, limit: 10 };
@@ -628,13 +628,16 @@
 
                 }
                 return dataProvider.getSuggestions(options);
+            },
+            getCategory: function() {
+                return $scope.meeting.category || '';
             }
         }
 
         $scope.addPlaces = function() {
             var dialog = dialogs.userMeetingPlaces(placesProvider);
             
-            dialog.result.then(function(places) {
+            dialog.result.then(function(places, category) {
                 addPlaceNotification(angular.copy($scope.meeting.where), places);
                 $log.log('Show places result:', places);
                 _.forEach(places, function(place) {
