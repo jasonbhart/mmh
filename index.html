@@ -94,6 +94,7 @@
 		<div id="contents">
 			<div class="row contents">
                 <div id="contLeft" class="col l8 s12">
+                    <h2 class="title-page other-meetings-title" ng-if="rsvpMeetingList.length">Your Activities</h2>
                     <div class="box-gray meeting-top" ng-if="rsvpMeetingList" ng-repeat="meeting in rsvpMeetingList">
                         <span class="meetingLabel">{{ meeting.type }}</span>
                         <h3 class="title"><a ng-href="{{ meeting.url }}">{{ getMeetingName(meeting, true) }}</a></h3>
