@@ -8,6 +8,7 @@
         $scope.timeFormat = 'h:mmA';
         $scope.times = [roundTime(moment().add(15, 'minutes'))];
         $scope.meetingId = '';
+        $scope.coords = null;
         $scope.radius = 10;
         $scope.currentUser = null;
         $scope.places = [];
@@ -66,6 +67,7 @@
                     // Boston location for testing purpose
 //                        options.coords = {lat: '42.3133735', lng: '-71.0571571,12'};
 
+                    $scope.coords = options.coords;
                     dataProvider.getSuggestions(options).then(function(suggestions) {
                         $scope.suggestions = suggestions;
                         $('#contents').show();
@@ -93,7 +95,13 @@
         };
         
         $scope.addManualBusiness = function() {
-            var dialog = dialogs.addManualBusiness({});
+            var options = {};
+            if ($scope.coords) {
+                options.coords = $scope.coords;
+                options.radius = util.convertMilesToKms($scope.radius);
+            }
+            
+            var dialog = dialogs.addManualBusiness(options);
             dialog.result.then(function(business) {
                 if (Object.keys(JSON.parse(business)).length === 0) {
                     alert('Please select a business');
