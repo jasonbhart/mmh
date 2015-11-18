@@ -91,23 +91,21 @@
             <div id="contents">
                 <div class="row contents">
                     <div id="contLeft" class="col l8 s12">
-                        <div class="box-gray meeting-top" ng-if="history" ng-repeat="meeting in history">
-                            <span class="meetingLabel">{{ meeting.place.type}}</span>
-                            <h3 class="title"><a ng-href="activity.html?act={{ meeting.id }}">{{ getMeetingName(meeting, true)}}</a></h3>
-                            <div class="wrap">
-                                <div class="info">
-                                    <div class="thumb"><img ng-src="{{meeting.place.image_url ? meeting.place.image_url : 'images/default_place_thumb.gif'}}" alt=""></div>
-                                    <div class="des">
-                                        <p class="address"><span class="icon"></span>{{ meeting.place.display_address}}
-                                            <span class="subtext">{{ meeting.place.name}} on {{getDate(meeting.time)}}</span>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="rspvBox">
-                                    <div class="rspv">
-                                        <p><span class="going button-span"><a ng-href="activity.html?act={{ meeting.id }}" class="btn waves-effect waves-light">Visit</a></span></p>
-                                    </div>
-                                </div>
+                        <div class="box-history" >
+                            <h2 class="title-page"><span class="icon"></span>History</h2>
+                            <div class="wrap" ng-if="history.length">
+                                <!--<p class="date grey-text">TUESDAY, OCTOBER 27</p>-->
+                                <ul class="list" ng-repeat="meeting in history">
+                                    <li>
+                                        <span class="categories">{{ meeting.place.type}}</span>
+                                        <h3 class="title">You "<span class="grey-text">RSVPed</span>" on meeting "<a ng-href="activity.html?act={{ meeting.id }}">{{ getMeetingName(meeting, true)}}</a>"</h3>
+                                        <p>{{ meeting.place.categories[0][0]}} / {{ meeting.place.name}} / <span class="grey-text">{{ meeting.place.display_address}}</span></p>
+                                    </li>
+                                </ul>
+                                <!--<div class="btn-bottom center-align"><a href="#none" class="btn red btn-large waves-effect waves-light">Show All</a></div>-->
+                            </div>
+                            <div class="wrap" ng-if="!history.length">
+                                No history
                             </div>
                         </div>
                     </div>

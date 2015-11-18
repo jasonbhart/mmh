@@ -540,7 +540,8 @@
                         city: group.where.city || '',  
                         country_code: group.where.country_code || '',  
                         type: group.where.type || '',
-                        image_url: group.where.image_url || ''
+                        image_url: group.where.image_url || '',
+                        categories: group.where.categories
                     },
                     whereId: group.where.$id,
                     whenId: group.when.when.id

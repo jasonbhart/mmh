@@ -22,11 +22,6 @@
                         userObj.removeUnusedActivities(user.id);
                         $scope.meetingList = data;
                     });
-                    
-                    if (!sessionService.getViewedTutorialStatus()) {
-                        $scope.startTutorial();
-                        sessionService.setViewedTutorialStatus();
-                    }
                 });
                 
                 historyService.getLastHistory(user.id).then(function(history) {

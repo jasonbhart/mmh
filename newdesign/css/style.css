@@ -339,6 +339,15 @@ img{max-width: 100%;}
 .auto-group .title-member-chose hr{border:0; border-bottom:1px solid #ddd; margin-top:-10px; margin-bottom:
 20px;}
 
+.box-history .title-page .icon { background-position: 0 -1036px;width: 30px; height: 39px;}
+.box-history .date{font-size:18px; font-weight:700; margin-bottom:20px; margin-top:40px}
+.box-history .list{border-bottom:1px solid #ddd;}
+.box-history .list li{border:1px solid #ddd; padding:18px 20px; border-bottom:none; position:relative; padding-right:200px;}
+.box-history .list .title{font-size:15px; font-weight:700; margin-top:0;}
+.box-history .list .title a{color:#e44424; text-decoration:underline;}
+.box-history .list p{margin-bottom:0;}
+.box-history .list .categories{position:absolute; top:16px; right:20px; max-width:180px; padding:3px 15px;font-size:12px; font-style:italic;background:#f8f5f0; border-radius:4px; color:#404040;}
+
 @media only screen and (min-width : 1280px){
 .meeting-top .info{margin-right:25%;}
 .meeting-top .rspvBox{width:22%; font-size:18px;}
@@ -387,6 +396,8 @@ img{max-width: 100%;}
    .box-meeting .auto-group .info .box-gray{position:inherit; top:auto; right:auto; text-align:left; margin-top:10px; overflow:hidden;background:none; border-top:1px solid #ddd;padding:10px 0 0;} 
    .box-meeting .group .time{float:left; padding-top:10px;} 
    .box-meeting .auto-group .info .box-gray .btn{float:right;}
+   .box-history .list li{padding-right:20px;}
+   .box-history .list .categories{display:inline-block; position:static; margin-bottom:10px;}
 }
 @media only screen and (max-width : 520px){
 .best-places li{padding-right:0}
