@@ -31,6 +31,16 @@ body {
   padding: 10px 26px 15px 15px;
 }
 
+/* IE */
+@media screen\0 {
+    .joyride-tip-guide.tooltip-mt{margin-top: 5px;}
+    .joyride-tip-guide.tooltip-mr{margin-left: -5px;}
+    .joyride-tip-guide.tooltip-ml{margin-left: 5px;}
+    .joyride-tip-guide.tooltip-mb{margin-top: -5px;}
+    .joyride-tip-guide.tooltip-mt.your-location{margin-top: 35px;}
+    .joyride-tip-guide.tooltip-mt.further-from-top{margin-top: 20px;}
+}
+
 /* Mobile */
 @media only screen and (max-width: 783px) {
   .joyride-tip-guide {
