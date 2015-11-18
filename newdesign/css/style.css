@@ -476,6 +476,7 @@ img{max-width: 100%;}
 }
 .button-span{display: block; padding: 5px;}
 .button-span .btn{margin: 0 !important;}
+.account {margin-top:-3px};
 
 .passed-box{background:#fff none; margin-bottom:-2px; padding:10px 15px 0;position:relative;}
 .label-passed{display:inline-block;background:#f8f4f0  none; border-radius:4px; padding:5px 10px; font-size:13px; font-weight:700; color:#929292 ; text-transform:uppercase;}

@@ -10,8 +10,8 @@
         };
     });
 
-    app.factory('sessionService', ['$rootScope', '$q', '$cookies', '$log', '$firebaseAuth', 'appConfig', 'authProviders', 'userService', 'meetingService', 'geoLocation', '$window',
-            function($rootScope, $q, $cookies, $log, $firebaseAuth, appConfig, authProviders, userService, meetingService, geoLocation, $window) {
+    app.factory('sessionService', ['$rootScope', '$q', '$cookies', '$log', '$firebaseAuth', 'appConfig', 'authProviders', 'userService', 'meetingService', 'geoLocation', '$window', 'util',
+            function($rootScope, $q, $cookies, $log, $firebaseAuth, appConfig, authProviders, userService, meetingService, geoLocation, $window, util) {
         var ref = new Firebase(appConfig.firebaseUrl);
         var authObj = $firebaseAuth(ref);
         var readyDefer = $q.defer();
@@ -131,6 +131,7 @@
             });
         }
 
+        var currentPage = util.getCurrentPage();
         service = {
             // state transitions
             states: {
@@ -142,14 +143,24 @@
                 meetingId = id;
             },
             getViewedTutorialStatus: function() {
-                if ($cookies.viewedTutorial) {
+                if (currentPage === 1 && $cookies.viewedHomeTutorial) {
+                    return true;
+                } else if (currentPage === 2 && $cookies.viewedMeetingTutorial) {
+                    return true;
+                } else if (currentPage === 3 && $cookies.viewedNewMeetTutorial) {
                     return true;
                 } else {
                     return false;
                 }
             },
             setViewedTutorialStatus: function() {
-                $window.$.cookie("viewedTutorial", 1, { expires : 10000 });
+                if (currentPage === 1) {
+                    $window.$.cookie("viewedHomeTutorial", 1, { expires : 10000 });
+                } else if (currentPage === 2) {
+                    $window.$.cookie("viewedMeetingTutorial", 1, { expires : 10000 });
+                } else if (currentPage === 3) {
+                    $window.$.cookie("viewedNewMeetTutorial", 1, { expires : 10000 });
+                }
             },
             init: function() {
                 authObj.$waitForAuth().then(function() {
