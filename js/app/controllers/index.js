@@ -17,6 +17,8 @@
         $scope.mapLocation = {};
         $scope.saveLocationTimeout = null;
         
+        $window.$('.loading-wrap').show();
+        
         sessionService.ready.then(function() {
             var initAuth = function(user) {
                 $scope.currentUser = user;
@@ -35,8 +37,6 @@
             };
             
             initAuth(sessionService.getCurrentUser());
-            
-            $window.$('.loading-wrap').show();
             
             userService.get($scope.currentUser.id).then(function(userObj) {
                 userObj.meetingList.$loaded().then(function(data) {
