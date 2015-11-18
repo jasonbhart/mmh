@@ -327,7 +327,13 @@
         
         $scope.getWhereQueryOptions = function(options, manualBusinessFlag) {
             if ($scope.where !== 'other') {
-                if ($scope.currentUser && $scope.currentUser.user && $scope.currentUser.user.location && $scope.currentUser.user.location.coords) {
+                if (
+                    $scope.currentUser && 
+                    $scope.currentUser.user && 
+                    $scope.currentUser.user.location && 
+                    $scope.currentUser.user.location.coords && 
+                    $scope.currentUser.user.location.type !== 'auto'
+                ) {
                     options.coords = $scope.currentUser.user.location.coords;
                     $scope.locationName = '(' + $scope.currentUser.user.location.shortName + ')';
                 } else {
