@@ -28,6 +28,7 @@
         $scope.noSuggestionLabel = '';
         $scope.suggestionTimeout = null;
         $scope.suggestionCache = {};
+        $scope.locationName = '';
         
         var defaultManualBusinessLabel = 'Enter a specific business';
         
@@ -328,13 +329,17 @@
             if ($scope.where !== 'other') {
                 if ($scope.currentUser && $scope.currentUser.user && $scope.currentUser.user.location && $scope.currentUser.user.location.coords) {
                     options.coords = $scope.currentUser.user.location.coords;
+                    $scope.locationName = '(' + $scope.currentUser.user.location.shortName + ')';
                 } else {
-                    var currentLocation = geoLocation.getPosition();
+                    var currentLocation = geoLocation.getCurrentLocation();
                     currentLocation.then(function(position) {
-                        if (position.coords.latitude && position.coords.longitude) {
-                                options.coords = {lat: position.coords.latitude, lng: position.coords.longitude};
+                        if (position.coords.lat && position.coords.lng) {
+                                options.coords = {lat: position.coords.lat, lng: position.coords.lng};
                             // Boston location for testing purpose
 //                            options.coords = {lat: '42.3133735', lng: '-71.0571571,12'};
+                        }
+                        if (position.shortName) {
+                            $scope.locationName = '(' + position.shortName + ')';
                         }
                     }, function() {
                         $log.log('Can not find current location');
@@ -344,6 +349,9 @@
                 options.radius = util.convertMilesToKms($scope.where);
             } else {
                 options.location = $scope.other_location;
+                if ($scope.other_location) {
+                    $scope.locationName = '(' + $scope.other_location + ')';
+                }
             }
             
             return options;
