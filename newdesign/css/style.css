@@ -358,9 +358,13 @@ img{max-width: 100%;}
 .meeting-top .rspvBox .rspv b{margin-right:10px;}
 }
 @media only screen and (min-width : 993px){
-.other-meetings li{padding-right:160px;}
-.other-meetings .info{border-right:1px solid #ddd;}
-.other-meetings .rspvBox{position:absolute; right:0; top:0;}
+.other-meetings li{padding-left:160px;}
+.other-meetings .info{border-left:1px solid #ddd;}
+.other-meetings .rspvBox{position:absolute; left:0; top:0;}
+
+.other-meetings.homepage li{padding-left: 0px; padding-right:160px;}
+.other-meetings.homepage .info{border-left: none; border-right:1px solid #ddd;}
+.other-meetings.homepage .rspvBox{left: inherit; right:0;}
 }
 @media only screen and (max-width : 992px){
 .meeting-top .info{margin-right:0;border:0; padding-right:0;}
