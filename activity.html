@@ -169,7 +169,7 @@
                                             <h4 class="location">{{ group.where.name }} {{getMeetingLocation(group.where)}}</h4>
                                             <div class="box">
                                                 <div class="info best-places">
-                                                    <div class="pleaces-info">
+                                                    <div class="pleaces-info button-span">
                                                         <a class="thumb"><img ng-src="{{group.where.image_url}}" alt=""></a>
                                                         <div class="cont-data">
                                                             <img ng-src="{{group.where.rating_url}}" alt="">
@@ -179,7 +179,7 @@
                                                             </address>
                                                         </div>
                                                     </div>
-                                                    <div class="box-gray">
+                                                    <div class="box-gray rsvp-area button-span">
                                                         <span class="time">Start: <b class="red-text">{{ group.when.formatted }}</b></span>
                                                         <a class="btn waves-effect waves-light" ng-click="joinGroup(group)">{{ group.hasJoined(currentUser.id) ? 'Leave' : 'RSVP' }}</a>
                                                     </div>
@@ -188,7 +188,7 @@
                                                     <span>{{ group.users.length }} people have chosen:</span>
                                                     <hr />
                                                 </div>
-                                                <ul class="have-chosen">
+                                                <ul class="have-chosen button-span">
                                                     <li class="memberLabel" ng-class="group.hasJoined(user.user.id) ? 'cfrmed' : 'not-cfrm'" ng-repeat="user in group.users">
                                                         <i class="icon"></i>{{ user.user.fullName }} <span ng-if="needsGroupUserDetails(userGroups, user)">(you)</span>
                                                     </li>
@@ -196,7 +196,42 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="group" ng-if="!userGroups.groups.length">
+                                    <div class="group fake-group" style="display:none;">
+                                        <h3 class="title suitable-groups">These groups match your indicated preferences. Click on the RSVP button to confirm the one you will be attending:</h3>
+                                        <div class="block auto-group group">
+                                            <h4 class="location">Example venue (address)</h4>
+                                            <div class="box">
+                                                <div class="just-ex"><span>Example group</span></div>
+                                                <div class="info best-places">
+                                                    <div class="pleaces-info button-span">
+                                                        <a class="thumb"><img ng-src="http://s3-media1.fl.yelpcdn.com/bphoto/_PMngQ-SRKg3EELZTEinhg/ms.jpg" alt="" src="http://s3-media1.fl.yelpcdn.com/bphoto/_PMngQ-SRKg3EELZTEinhg/ms.jpg"></a>
+                                                        <div class="cont-data">
+                                                            <img ng-src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png" alt="" src="http://s3-media2.fl.yelpcdn.com/assets/2/www/img/99493c12711e/ico/stars/v1/stars_4_half.png">
+                                                            <span class="str-list ng-binding">Fast Food</span>
+                                                            <address class="ng-binding">
+                                                                287 Tettenhall Road, Wolverhampton WV6 0LE, UK
+                                                            </address>
+                                                        </div>
+                                                    </div>
+                                                    <div class="box-gray rsvp-area button-span">
+                                                        <span class="time">Start: <b class="red-text">1:00AM</b></span>
+                                                        <a class="btn waves-effect waves-light">RSVP</a>
+                                                    </div>
+                                                </div>
+                                                <div class="title-member-chose">
+                                                    <span>4 people have chosen:</span>
+                                                    <hr />
+                                                </div>
+                                                <ul class="have-chosen button-span">
+                                                    <li class="memberLabel cfrmed"><i class="icon"></i>Jason</li>
+                                                    <li class="memberLabel not-cfrm"><i class="icon"></i>Dom</li>
+                                                    <li class="memberLabel cfrmed"><i class="icon"></i>LoiPL</li>
+                                                    <li class="memberLabel not-cfrm"><i class="icon"></i>Tuandx</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="group no-group" ng-if="!userGroups.groups.length">
                                         <h3 class="title suitable-groups">
                                             <img class="warning-icon" src="newdesign/image/warning-icon.png" style="margin-bottom:-4px">
                                             No matching groups! Please add more <a ng-click="addTimes()">times</a>, <a ng-click="addPlaces()">places</a>, and/or invite more friends to this activity.
@@ -230,7 +265,7 @@
     </div>
     <!-- Tip Content -->
     <ol id="joyRideTipContent">
-        <li data-id="logo-dot" data-text="Next" class="custom tooltip-mt first-greeting-bubble" data-options="tipLocation:bottom;tipAnimation:pop">
+<!--        <li data-id="logo-dot" data-text="Next" class="custom tooltip-mt first-greeting-bubble" data-options="tipLocation:bottom;tipAnimation:pop">
             <h2 id="logo"><a>Socialivo</a></h2>
             <p>This is the Socialivo tour of an 'Activity' page. You can skip this tutorial by clicking on the 'X' in the corner or continue by clicking 'Next'.</p>
         </li>
@@ -280,9 +315,18 @@
         <li data-class="add-times" data-button="Next" class="mb-meeting-add tooltip-mt" data-options="tipLocation:bottom;ipAnimation:pop">
             <h3>Add Time Suggestion</h3>
             <p>Suggest a new time for this activity to occur.</p>
-        </li>
+        </li>-->
         <li data-class="suitable-groups" data-button="Next" class="mb-what-do tooltip-mt" data-options="tipLocation:bottom;ipAnimation:fade">
             <p>This area will show you where there are groups of consensus (if any) with others participating in this activity.</p>
+        </li>
+        <li data-class="pleaces-info" data-button="Next" class="mb-what-do tooltip-mt" data-options="tipLocation:bottom;ipAnimation:fade">
+            <p>Information of the selected venue.</p>
+        </li>
+        <li data-class="rsvp-area" data-button="Next" class="mb-what-do tooltip-mt" data-options="tipLocation:bottom;ipAnimation:fade">
+            <p>Click RSVP or LEAVE to confirm your attendance to the group at the proposed time.</p>
+        </li>
+        <li data-class="have-chosen" data-button="Next" class="mb-what-do tooltip-mt" data-options="tipLocation:bottom;ipAnimation:fade">
+            <p>List of participating people.</p>
         </li>
         <li data-class="jump-in" data-button="Next" class="mb-meeting-jumin tooltip-mr" data-options="tipLocation:left;ipAnimation:fade">
             <p>Click "Jump-In" to meet new friends at the same position</p>

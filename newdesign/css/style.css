@@ -326,7 +326,7 @@ img{max-width: 100%;}
 .box-meeting .line .circle .fa{background:#67bcdb none; display:inline-block; width:35px; height:35px; line-height:35px; border-radius:50%; color:#fff; font-size:18px;}
 .box-meeting .auto-group .title{line-height:22px;}
 .box-meeting .auto-group .location{background:#67bcdb url(../image/bg_location.png) no-repeat 100% 1px; color:#fff; font-size:24px; padding:15px 70px 15px 15px; margin-bottom:0;}
-.auto-group .box{background:#fff; margin:0; border:1px solid #ddd; padding:20px; overflow:hidden;}
+.auto-group .box{background:#fff; margin:0; border:1px solid #ddd; padding:20px; overflow:hidden;position: relative;}
 .auto-group .box .info{overflow:hidden; position:relative; min-height:90px;}
 .auto-group .box .info .pleaces-info .thumb{width:90px;}
 .box-meeting .auto-group .info .box-gray .btn{background:#a2ab58;display:inline-block;}
@@ -496,3 +496,6 @@ img{max-width: 100%;}
 .passed-box{background:#fff none; margin-bottom:-2px; padding:10px 15px 0;position:relative;}
 .label-passed{display:inline-block;background:#f8f4f0  none; border-radius:4px; padding:5px 10px; font-size:13px; font-weight:700; color:#929292 ; text-transform:uppercase;}
 .label-passed .link{color:#e44424 ; padding-left:5px; margin-left:3px; border-left:1px solid #ddd; text-decoration:underline; cursor: pointer;}
+
+.auto-group .just-ex{position:absolute; z-index:99; font-weight:700; width:100%; left:0px; top:20px; text-align:center;}
+.auto-group .just-ex span{display:inline-block; border-radius:30px; font-size:25px; background:#ccc; opacity:.8; color:#fff; padding:0 30px;}

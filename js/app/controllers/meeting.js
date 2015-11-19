@@ -922,11 +922,20 @@
                 $window.$('.first-greeting-bubble').remove();
             }
             
+            if (!$scope.userGroups.groups.length) {
+                $window.$('.fake-group').show();
+                $window.$('.no-group').hide();
+            }
+            
             $window.$('#joyRideTipContent').joyride({
                 autoStart: true,
                 postStepCallback: function (index, tip) {
                 },
                 postRideCallback: function() {
+                    if (!$scope.userGroups.groups.length) {
+                        $window.$('.fake-group').hide();
+                        $window.$('.no-group').show();
+                    }
                 },
                 modal: true,
                 expose: true
