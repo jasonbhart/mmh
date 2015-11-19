@@ -97,12 +97,16 @@
                 {"alias":"social_clubs", "parents":["arts"], "title":"Visit a social clubs"},
                 {"alias":"streetart", "parents":["arts"], "title":"Participate in street art"}
             ],
-            "drink":[
+            "wine,beer":[
                 {"alias":"beergardens,beerbar,beerhall", "parents":["food"], "title":"Grab a craft beer"},
                 {"alias":"winetastingroom,wine_bars,champagne_bars", "parents":["food"], "title":"Drink some wine"},
                 {"alias":"bagels,coffee,donuts",  "parents":["food"], "title":"Enjoy a cocktail"},
-//                {"alias":"gelato,icecream", "parents":["food"], "title":"Get some ice cream"},
-//                {"alias":"desserts", "parents":["food"], "title":"Get dessert"}
+
+            ],
+            "coffee":[
+                {"alias":"coffee", "parents":["food"], "title":"Go to coffee shop"},
+                {"alias":"gelato,icecream", "parents":["food"], "title":"Get some ice cream"},
+                {"alias":"desserts", "parents":["food"], "title":"Get dessert"}
             ],
             "beautysvc":[
                 {"alias":"eroticmassage", "parents":["beautysvc"], "title":"Get a massage"},
