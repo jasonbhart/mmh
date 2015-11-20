@@ -5,7 +5,6 @@
 
         function buildMap(users, field, groupField) {
             var valuesMap = {};
-
             // if user selected group and such "where/when" exists among items selected by him
             // user will stick to that "where/when"
             // in other case he will be processed normally
@@ -37,7 +36,7 @@
         }
 
         // build group with the biggest number of members
-        function buildGroup(users) {
+        function buildGroup(users, usedWhere) {
             var where = {
                     id: undefined,
                     count: 0
@@ -49,10 +48,20 @@
                 groupUsers = null;
             
             var whereMap = buildMap(users, 'whereIds', 'where');
+            if (usedWhere.length > 0) {
+                for (var i in whereMap){
+                    if (usedWhere.indexOf(whereMap[i].id) > -1) {
+                        delete whereMap[i];
+                    }
+                }
+            }
+            
+            if (whereMap.length == 0) {
+                return null;
+            }
 
             // loop through whereMap in desc order
-            for (var i=0; i<whereMap.length; i++) {
-
+            for (var i in whereMap){
                 var whenMap = buildMap(whereMap[i].users, 'whenIds', 'when');
 
                 // the biggest count is at 0 index
@@ -136,47 +145,50 @@
         // build all groups
         this.build = function (users, whenMap) {
             var groups = [];
-
+            var usedWhere = [];
             this.cleanup(users);
+            
+            while (true) {
+                var group = buildGroup(users, usedWhere);
+                if (group && group.where.id) {
+                    usedWhere.push(group.where.id);
+                }
 
-            while (users.length > 0) {
-                var group = buildGroup(users);
-
-                // this can happen when "where/when" fields are empty
+                // this can happen when "where/when" fields are empty, or No more group can be established
                 if (!group)
                     break;
 
-                // filter out users that belong to just created group
-                var leftUsers = [];
-                var usedUsers = [];
-                _.forEach(users, function(u) {
-                    var idx = group.userIds.indexOf(u.userId);
-                    if (idx < 0)
-                        leftUsers.push(u);
-                    else
-                        usedUsers.push(u);
-                });
-                users = leftUsers;
+//                // filter out users that belong to just created group
+//                var leftUsers = [];
+//                var usedUsers = [];
+//                _.forEach(users, function(u) {
+//                    var idx = group.userIds.indexOf(u.userId);
+//                    if (idx < 0)
+//                        leftUsers.push(u);
+//                    else
+//                        usedUsers.push(u);
+//                });
+//                users = leftUsers;
 
                 // try fuzzy match
-                if (group.userIds.length == 1) {
-                    var user = usedUsers[0];
-                    
-                    // we need to match against only those groups having the same where as a user
-                    var groupsToMatch = _.filter(groups, function(g) {
-                        if (user.group)
-                            return user.group.where == g.where.id;
-                        return user.whereIds.indexOf(g.where.id) >= 0;
-                    });
-                    
-                    var otherGroup = this.fuzzyMatchWhen(groupsToMatch, user, whenMap);
-
-                    // add user to matching group
-                    if (otherGroup) {
-                        otherGroup.userIds.push(usedUsers[0].userId);
-                        group = null;
-                    }
-                }
+//                if (group.userIds.length == 1) {
+//                    var user = usedUsers[0];
+//                    
+//                    // we need to match against only those groups having the same where as a user
+//                    var groupsToMatch = _.filter(groups, function(g) {
+//                        if (user.group)
+//                            return user.group.where == g.where.id;
+//                        return user.whereIds.indexOf(g.where.id) >= 0;
+//                    });
+//                    
+//                    var otherGroup = this.fuzzyMatchWhen(groupsToMatch, user, whenMap);
+//
+//                    // add user to matching group
+//                    if (otherGroup) {
+//                        otherGroup.userIds.push(usedUsers[0].userId);
+//                        group = null;
+//                    }
+//                }
 
                 if (group && group.userIds.length > 1)
                     groups.push(group);
