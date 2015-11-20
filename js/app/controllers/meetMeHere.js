@@ -9,7 +9,7 @@
         $scope.times = [roundTime(moment().add(15, 'minutes'))];
         $scope.meetingId = '';
         $scope.coords = null;
-        $scope.radius = 10;
+        $scope.radius = 1;
         $scope.currentUser = null;
         $scope.places = [];
         $scope.currentPage = util.getCurrentPage();
