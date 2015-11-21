@@ -448,7 +448,7 @@
             });
             
             // build groups
-            var groups = userGroupBuilder.build(builderUsers, whenMap);
+            var groups = userGroupBuilder.build(builderUsers, whenMap, $scope.currentUser);
 
             // format groups
             var result = [];

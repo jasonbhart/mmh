@@ -143,7 +143,7 @@
         }
 
         // build all groups
-        this.build = function (users, whenMap) {
+        this.build = function (users, whenMap, currentUser) {
             var groups = [];
             var usedWhere = [];
             this.cleanup(users);
@@ -190,8 +190,10 @@
 //                    }
 //                }
 
-                if (group && group.userIds.length > 1)
+                if (group && group.userIds.length > 1 && 
+                        (currentUser && currentUser.id && group.userIds.indexOf(currentUser.id) > -1)) {
                     groups.push(group);
+                }
             }
 
             return groups;
