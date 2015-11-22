@@ -97,10 +97,10 @@
                 {"alias":"social_clubs", "parents":["arts"], "title":"Visit a social clubs"},
                 {"alias":"streetart", "parents":["arts"], "title":"Participate in street art"}
             ],
-            "wine,beer":[
-                {"alias":"beergardens,beerbar,beerhall", "parents":["food"], "title":"Grab a craft beer"},
+            "bars":[
+                {"alias":"beergardens,beerbar,divebars,irish_pubs,sportsbars", "parents":["food"], "title":"Grab a craft beer"},
                 {"alias":"winetastingroom,wine_bars,champagne_bars", "parents":["food"], "title":"Drink some wine"},
-                {"alias":"bagels,coffee,donuts",  "parents":["food"], "title":"Enjoy a cocktail"},
+                {"alias":"cocktailbars,lounges",  "parents":["food"], "title":"Enjoy a cocktail"},
 
             ],
             "coffee":[
