@@ -125,15 +125,18 @@
                             'city': buss.location.city,                         //
                             'country_code': buss.location.country_code,         //
                             'location': {
-                                'display_address': buss.location.display_address.join(', '),
-                                'coordinate': {
-                                    lat: buss.location.coordinate.latitude,
-                                    lng: buss.location.coordinate.longitude
-                                }
+                                'display_address': buss.location.display_address.join(', ')
                             },
                             'categories': buss.categories
                         };
-
+                        
+                        if (buss.location.coordinate) {
+                            suggestion.location.coordinate = {
+                                lat: buss.location.coordinate.latitude,
+                                lng: buss.location.coordinate.longitude
+                            };
+                        }
+                        
                         if (buss.distance)
                           suggestion.distance = buss.distance;
                       
