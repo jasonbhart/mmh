@@ -176,12 +176,14 @@
                         $scope.meetingList = data;
                     });
                     
-                    if (!sessionService.getViewedTutorialStatus()) {
-                        $scope.startTutorial();
-                        sessionService.setViewedTutorialStatus();
-                    }
+                    
                 });
             };
+            
+            if (!sessionService.getViewedTutorialStatus()) {
+                $scope.startTutorial();
+                sessionService.setViewedTutorialStatus();
+            }
             
             initAuth(sessionService.getCurrentUser());
             
@@ -918,6 +920,8 @@
         }
         
         $scope.startTutorial = function() {
+            addEventToDataLayer('Tutorial', 'Start');
+            
             if (sessionService.getViewedTutorialStatus()) {
                 $window.$('.first-greeting-bubble').remove();
             }
@@ -936,10 +940,24 @@
                         $window.$('.fake-group').hide();
                         $window.$('.no-group').show();
                     }
+                    addEventToDataLayer('Tutorial', 'Cancel');
                 },
                 modal: true,
                 expose: true
             });
+        }
+        
+        var addEventToDataLayer = function(category, action) {
+            try {
+                dataLayer.push({ 
+                    'event': 'event', 
+                    'eventCategory': category,
+                    'eventAction': action, // Start, Cancel
+                    'eventLabel': 'Activity',  //Homepage, New Activity, Meet Me Here
+                });
+            } catch (e) {
+                console.log(e);
+            }
         }
         
         $scope.createFromTemplate = function () {
