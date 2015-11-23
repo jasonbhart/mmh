@@ -98,9 +98,9 @@
                 {"alias":"streetart", "parents":["arts"], "title":"Participate in street art"}
             ],
             "bars":[
-                {"alias":"beergardens,beerbar,divebars,irish_pubs,sportsbars", "parents":["food"], "title":"Grab a craft beer"},
-                {"alias":"winetastingroom,wine_bars,champagne_bars", "parents":["food"], "title":"Drink some wine"},
-                {"alias":"cocktailbars,lounges",  "parents":["food"], "title":"Enjoy a cocktail"},
+                {"alias":"beerbar,divebars,irish_pubs,pubs,sportsbars", "parents":["food"], "title":"Grab a craft beer"},
+                {"alias":"wine_bars,champagne_bars", "parents":["food"], "title":"Drink some wine"},
+                {"alias":"cocktailbars,lounges,sportsbars",  "parents":["food"], "title":"Enjoy a cocktail"},
 
             ],
             "coffee":[
