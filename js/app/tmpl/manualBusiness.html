@@ -9,8 +9,8 @@
                 <li class="row" ng-repeat="place in places">
                     <label>
                         <div class="info">
-                            <h3 class="title"><a>{{ place.name }}</a></h3>
-                            <img ng-src="{{ place.rating_url }}" alt="">
+                            <h3 class="title" ng-click="selectBusiness($index)"><a>{{ place.name }}</a></h3>
+                            <img ng-src="{{ place.rating_url }}" id="rating_image_{{$index}}" alt="">
                             <!--<stars-rating rating="{{ place.rating }}"></stars-rating>-->
                             <div class="tooltip-pleaces">
                                 <i class="fa fa-caret-down arrow"></i>

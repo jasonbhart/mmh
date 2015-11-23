@@ -19,6 +19,10 @@
                 }
             });
 
+            $scope.selectBusiness = function(index) {
+                $window.$('#rating_image_' + index).click();
+            };
+            
             $scope.showPlaceSuggestion = function() {
                 var arr = $scope.business_name.split(',');
                 if (arr[0] && arr[1]) {
