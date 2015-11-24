@@ -285,6 +285,9 @@
             
             if (isCategoryFilter) {
                 options.category_filter = getSelectedCategory();
+            } else if ($scope.what === 'bars') {
+                // add category filter to avoid "barbecue" category when searching term = "bars"
+                options.category_filter = 'bars';
             }
             
             var timeout = ($scope.where !== 'other') ? 1000 : 0;
@@ -302,6 +305,9 @@
                 dataProvider.getSuggestions(options).then(function(suggestions) {
                     $scope.suggestions = suggestions;
                     $scope.suggestionCache[$scope.where] = suggestions;
+                    if (suggestions.length == 0) {
+                        $scope.noSuggestionLabel = 'Sorry, we were unable to find an establishment in your area. Try changing locations.';
+                    }
                     $window.$('.loading-wrap').hide();
                 }, function (error){
                     $scope.suggestions = {};
