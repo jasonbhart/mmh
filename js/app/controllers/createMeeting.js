@@ -45,12 +45,14 @@
                         $scope.meetingList = data;
                     });
                     
-                    if (!sessionService.getViewedTutorialStatus()) {
-                        sessionService.setViewedTutorialStatus();
-                        $scope.startTutorial();
-                    }
+                    
                 });
             };
+            
+            if (!sessionService.getViewedTutorialStatus()) {
+                sessionService.setViewedTutorialStatus();
+                $scope.startTutorial();
+            }
                 
             initAuth(sessionService.getCurrentUser());
 
@@ -529,6 +531,8 @@
             $scope.stage = 1;
             $scope.$apply();
             
+            addEventToDataLayer('Tutorial', 'Start');
+            
             $window.$('#joyRideTipContent').joyride({
                 autoStart: true,
                 postStepCallback: function (index, tip) {
@@ -554,10 +558,24 @@
                 postRideCallback: function() {
                     $scope.stage = 1;
                     $scope.$apply();
+                    addEventToDataLayer('Tutorial', 'Cancel');
                 },
                 modal: true,
                 expose: true
             });
+        }
+        
+        var addEventToDataLayer = function(category, action) {
+            try {
+                dataLayer.push({ 
+                    'event': 'event', 
+                    'eventCategory': category,
+                    'eventAction': action, // Start, Cancel
+                    'eventLabel': 'New Activity',  //Homepage, New Activity, Meet Me Here
+                });
+            } catch (e) {
+                console.log(e);
+            }
         }
         
         $window.$(document).ready(function () {
