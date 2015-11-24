@@ -180,6 +180,12 @@
             }
         });
         
+        $scope.$watch('where', function (newValue, oldValue) {
+            if (newValue !== 'other' && newValue != '1') {
+                addEventToDataLayer('Local Settings', 'Geo', 'Change Search Radius', newValue);
+            }
+        });
+        
         $scope.addOtherTimes = function() {
             $scope.times = [];
             $scope.addTimes();
@@ -565,14 +571,26 @@
             });
         }
         
-        var addEventToDataLayer = function(category, action) {
+        var addEventToDataLayer = function(category, action, label, value) {
             try {
-                dataLayer.push({ 
+                var data = {
                     'event': 'event', 
                     'eventCategory': category,
-                    'eventAction': action, // Start, Cancel
-                    'eventLabel': 'New Activity',  //Homepage, New Activity, Meet Me Here
-                });
+                    'eventAction': action
+                };
+                
+                switch (category) {
+                    case 'Tutorial':
+                        data['eventLabel'] = 'New Activity';
+                        break;
+                    default:
+                        data['eventLabel'] = label;
+                        data['eventValue'] = value;
+                        break;
+                }
+                
+                dataLayer.push(data);
+                
             } catch (e) {
                 console.log(e);
             }
