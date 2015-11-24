@@ -577,7 +577,38 @@
             if ($scope.where === 'other' && $scope.other_location) {
                 util.addEventToDataLayer('Local Settings', 'Geo', 'Manual Type-In', $scope.other_location);
             }
+            
+            if ($scope.meeting_name) {
+                util.addEventToDataLayer('New Activity Wizard', 'Step 1', 'Set Custom Title', $scope.meeting_name);
+            }
+            
+            if ($scope.what !== 'restaurants') {
+                var eventValue = $scope.what !== 'other' ? $scope.what : $scope.term;
+                util.addEventToDataLayer('New Activity Wizard', 'Step 1', 'Change Category', eventValue);
+            }
+            
+            if ($scope.when !== 'now') {
+                util.addEventToDataLayer('New Activity Wizard', 'Step 2', 'Change Timeframe', $scope.when);
+            }
+            
+            if ($scope.where != '1') {
+                util.addEventToDataLayer('New Activity Wizard', 'Step 3', 'Change Search Radius', $scope.where);
+            }
+            
+            var establishment = getFormatedEstablishment();
+            if (typeof establishment === 'object' && establishment.length) {
+                util.addEventToDataLayer('New Activity Wizard', 'Step 3', 'Select Venue', establishment[0].name);
+            }
         };
+        
+        $scope.toggleSubcategory = function (subcategory) {
+            if ($scope.selectedCategory[subcategory]) {
+                util.addEventToDataLayer('New Activity Wizard', 'Step 1', 'Check Sub-category', subcategory);
+            } else {
+                util.addEventToDataLayer('New Activity Wizard', 'Step 1', 'Uncheck Sub-category', subcategory);
+            }
+            
+        }
         
         $window.$(document).ready(function () {
             $window.$('#contents').show();
