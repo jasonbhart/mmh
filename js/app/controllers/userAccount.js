@@ -2,8 +2,8 @@
     "use strict";
 
     var app = angular.module('mmh.controllers');
-    app.controller('UserAccountController', ['$scope', '$log', 'sessionService', 'dialogs', 'notificationService', '$sce', '$window',
-    function($scope, $log, sessionService, dialogs, notificationService, $sce, $window) {
+    app.controller('UserAccountController', ['$scope', '$log', 'sessionService', 'dialogs', 'notificationService', '$sce', '$window','util',
+    function($scope, $log, sessionService, dialogs, notificationService, $sce, $window, util) {
         $scope.isAuthenticated = false;
         $scope.user = null;
         $scope.countNotification = '';
@@ -68,6 +68,7 @@
             if ($scope.user && $scope.user.id) {
                 notificationService.removeNotification($scope.user.id, notificationId);
                 $scope.notifications.splice(key,1);
+                util.addEventToDataLayer('Notifications', 'Clear', null, notificationId);
             }
         };
         
@@ -79,6 +80,7 @@
                     $window.$('#notifications-info').hide();
                 }, 100);
                 
+                util.addEventToDataLayer('Notifications', 'Clear', null, 'All');
             }
         };
         
