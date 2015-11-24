@@ -5,7 +5,7 @@
             <div class="select-area row">
                 <div class="right">
                     <span>you can search for places by category:</span>
-                    <select class="select-jq browser-default" style="width: auto" ng-model="term" ng-s>
+                    <select class="select-jq browser-default" style="width: auto" ng-model="term" ng-change="changeCategory()">
                         <option value="{{ item.id }}" class="{{ item.id }}" ng-repeat="item in terms" ng-selected="item.id == term">{{ item.name }}</option>
                     </select>
                 </div>

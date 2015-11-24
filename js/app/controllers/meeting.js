@@ -757,6 +757,8 @@
                 if (sendingEmails.length > 0) {
                     //emailService.sendEmailToUsers(sendingEmails, notificationData);
                 }
+                
+                util.addEventToDataLayer('Activity', 'Time', 'Add', newTimeAdded);
             }
         };
         
@@ -826,6 +828,8 @@
                 if (sendingEmails.length > 0) {
                     //emailService.sendEmailToUsers(sendingEmails, notificationData);
                 }
+                
+                util.addEventToDataLayer('Activity', 'Venue', 'Add', newPlaceAdded);
             }
         };
         

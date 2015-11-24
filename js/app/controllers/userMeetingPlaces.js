@@ -6,7 +6,7 @@
     // Location map popup controller
     app.controller(
         'UserMeetingPlacesController',
-        ['$scope', 'modalInstance', 'placesProvider', function ($scope, modalInstance, placesProvider) {
+        ['$scope', 'modalInstance', 'placesProvider', 'util', function ($scope, modalInstance, placesProvider, util) {
 
         $scope.terms = placesProvider.getTerms();
         $scope.term = placesProvider.getCategory() || ($scope.terms.length > 0 ? $scope.terms[0].id : null);
@@ -26,6 +26,10 @@
                 });
             });
         });
+        
+        $scope.changeCategory = function () {
+            util.addEventToDataLayer('Activity', 'Venue', 'Change Category', $scope.term);
+        }
         
         $scope.confirm = function() {
             var places = angular.copy(_.filter($scope.places, 'selected'));
