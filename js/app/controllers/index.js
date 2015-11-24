@@ -102,6 +102,8 @@
                         };
                         $scope.currentUser.updateLocation(location);
                         $window.$('.search-box').val(location.shortName);
+                        
+                        util.addEventToDataLayer('Local Settings', 'Geo', 'Change Search Location', locality.shortName);
                     }, function(error) {
                         $window.alert('Failed to change location: ' + error);
                         console.log('geoLocation error', error);
@@ -152,6 +154,8 @@
                     location.type = 'auto';
                     location.saveTime = moment().utc().toISOString();
                     $scope.currentUser.updateLocation(location);
+                    
+                    util.addEventToDataLayer('Local Settings', 'Geo', 'Auto Detect', location.shortName);
 
                 }, function(error) {
                     $window.alert('Failed to change location: ' + error);
@@ -208,6 +212,8 @@
                         shortName: position.shortName
                     });
                     $scope.currentUser.updateLocation(location);
+                    
+                    util.addEventToDataLayer('Local Settings', 'Geo', 'Auto Detect', $scope.locationName);
                     
                     defer.resolve(options);
                 }, function (error) {
