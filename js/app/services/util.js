@@ -50,6 +50,12 @@
                     return results[1] || 0;
                 }
             },
+            getCorrectProtocolUrl: function(url) {
+                if (window.location.protocol === 'https:') {
+                    url = url.replace('http:', 'https:');
+                }
+                return url;
+            },
             getCurrentPage: function() {
                 if (window.location.href.indexOf('meet_me_here') > -1) {
                     return 4;              // meet me here

@@ -3,7 +3,7 @@
 
     var app = angular.module('mmh.services');
     
-    app.factory('dataProvider', ['$q', '$http', '$log', 'appConfig', function($q, $http, $log, appConfig) {
+    app.factory('dataProvider', ['$q', '$http', '$log', 'appConfig', 'util', function($q, $http, $log, appConfig, util) {
         return {
             getTerms: function() {
                 return [
@@ -118,9 +118,9 @@
                             'type': searchOptions.term,
                             'name': buss.name,
                             'url': buss.url,
-                            'rating_url': buss.rating_img_url,          // TODO: do we use this ?
+                            'rating_url': util.getCorrectProtocolUrl(buss.rating_img_url),          // TODO: do we use this ?
                             'rating': buss.rating,
-                            'image_url': buss.image_url,
+                            'image_url': util.getCorrectProtocolUrl(buss.image_url),
                             'display_address': buss.location.display_address,   // TODO: move this into location
                             'city': buss.location.city,                         //
                             'country_code': buss.location.country_code,         //
