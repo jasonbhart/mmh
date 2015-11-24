@@ -40,7 +40,7 @@
         var getLastNotifications = function (userId) {
             var deferred = $q.defer();
             
-            ref.child('notifications').child(userId).endAt().limit(10).once("value", function(snapshot) {
+            ref.child('notifications').child(userId).endAt().limitToLast(10).once("value", function(snapshot) {
                 var data = snapshot.val();
                 if (data) {
                     var arrayData = Object.keys(data).map(function (key) {
@@ -69,7 +69,7 @@
             var notificationRef = ref.child('notifications').child(userId);
             
             // new notification
-            notificationRef.endAt().limit(1).on('child_added', function() {
+            notificationRef.endAt().limitToLast(1).on('child_added', function() {
                 broadcastChange(userId);
             });
                       
