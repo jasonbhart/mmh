@@ -48,6 +48,10 @@
                             
                         });
                 });
+                
+                scope.jumpin = function() {
+                    util.addEventToDataLayer('Activity', 'Interaction', 'Jump In', null);
+                };
             }
         };
     }]);

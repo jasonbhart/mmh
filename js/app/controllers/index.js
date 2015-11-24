@@ -125,7 +125,7 @@
         };
         
         $scope.startTutorial = function() {
-            addEventToDataLayer('Tutorial', 'Start', 'Homepage', null);
+            util.addEventToDataLayer('Tutorial', 'Start', 'Homepage', null);
             
             if (sessionService.getViewedTutorialStatus()) {
                 $window.$('.first-greeting-bubble').remove();
@@ -136,7 +136,7 @@
                 postStepCallback: function (index, tip) {
                 },
                 postRideCallback: function() {
-                    addEventToDataLayer('Tutorial', 'Cancel', 'Homepage', null);
+                    util.addEventToDataLayer('Tutorial', 'Cancel', 'Homepage', null);
                 },
                 modal: true,
                 expose: true

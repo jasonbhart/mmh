@@ -539,7 +539,7 @@
             $scope.stage = 1;
             $scope.$apply();
             
-            addEventToDataLayer.addEventToDataLayer('Tutorial', 'Start', 'New Activity', null);
+            util.addEventToDataLayer('Tutorial', 'Start', 'New Activity', null);
             
             $window.$('#joyRideTipContent').joyride({
                 autoStart: true,
@@ -592,6 +592,10 @@
                 e.preventDefault();
                 window.open($(this).attr('href'), 'twitterShareWindow', 'height=450, width=550, top=' + ($(window).height() / 2 - 275) + ', left=' + ($(window).width() / 2 - 225) + ', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
                 return false;
+            });
+            
+            $window.$('body').on('click', '.joyride-close-tip', function() {
+                
             });
             
             googleMap.makeAutoComplete('location-autocomplete');
