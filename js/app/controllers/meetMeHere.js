@@ -65,7 +65,7 @@
                 if (position.coords.latitude && position.coords.longitude) {
                         options.coords = {lat: position.coords.latitude, lng: position.coords.longitude};
                     // Boston location for testing purpose
-//                        options.coords = {lat: '42.3133735', lng: '-71.0571571,12'};
+                        options.coords = {lat: '42.3133735', lng: '-71.0571571,12'};
 
                     $scope.coords = options.coords;
                     dataProvider.getSuggestions(options).then(function(suggestions) {
@@ -175,8 +175,28 @@
             meetingPromise.then(function(meeting) {
                 var meetingId = meeting.refs.current.key();
                 $scope.meetingId = meetingId;
-                $window.location = 'activity.html?act=' + meetingId;
+                //$window.location = 'activity.html?act=' + meetingId;
             });
+            
+            compareToDefaultSetting();
+        };
+        
+        var compareToDefaultSetting = function() {
+            
+            if ($scope.meeting_name) {
+                util.addEventToDataLayer('Meet Me Here Wizard', 'Step 1', 'Set Custom Title', $scope.meeting_name);
+            }
+            
+            var establishment = getFormatedEstablishment();
+            if ($scope.establishment === 'manual') {
+                if (typeof establishment === 'object' && establishment.length) {
+                    util.addEventToDataLayer('Meet Me Here Wizard', 'Step 1', 'Specific Business', establishment[0].name);
+                }
+            } else {
+                if (typeof establishment === 'object' && establishment.length) {
+                    util.addEventToDataLayer('New Activity Wizard', 'Step 1', 'Select Venue', establishment[0].name);
+                }
+            }
         };
         
         var getMeetingName = function (places) {
