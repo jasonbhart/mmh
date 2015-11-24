@@ -61,7 +61,23 @@
                 } else {
                     return 1;              // homepage
                 }
+            }, 
+            addEventToDataLayer: function(category, action, label, value) {
+                try {
+                    var data = {
+                        'event': 'event', 
+                        'eventCategory': category,
+                        'eventAction': action,
+                        'eventLabel': label,
+                        'eventValue': value
+                    }; 
+
+                    dataLayer.push(data);
+
+                } catch (e) {
+                    console.log(e);
+                }
             }
-        };
+        }
     }]);
 })();

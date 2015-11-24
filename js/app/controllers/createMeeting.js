@@ -182,7 +182,7 @@
         
         $scope.$watch('where', function (newValue, oldValue) {
             if (newValue !== 'other' && newValue != '1') {
-                addEventToDataLayer('Local Settings', 'Geo', 'Change Search Radius', newValue);
+                util.addEventToDataLayer('Local Settings', 'Geo', 'Change Search Radius', newValue);
             }
         });
         
@@ -430,6 +430,8 @@
                 meetingService.update($scope.meetingId, data);
             }
             
+            compareToDefaultSetting();
+            
         };
         
         var getMeetingName = function () {
@@ -537,7 +539,7 @@
             $scope.stage = 1;
             $scope.$apply();
             
-            addEventToDataLayer('Tutorial', 'Start');
+            addEventToDataLayer.addEventToDataLayer('Tutorial', 'Start', 'New Activity', null);
             
             $window.$('#joyRideTipContent').joyride({
                 autoStart: true,
@@ -564,37 +566,18 @@
                 postRideCallback: function() {
                     $scope.stage = 1;
                     $scope.$apply();
-                    addEventToDataLayer('Tutorial', 'Cancel');
+                    util.addEventToDataLayer('Tutorial', 'Cancel', 'New Activity', null);
                 },
                 modal: true,
                 expose: true
             });
         }
         
-        var addEventToDataLayer = function(category, action, label, value) {
-            try {
-                var data = {
-                    'event': 'event', 
-                    'eventCategory': category,
-                    'eventAction': action
-                };
-                
-                switch (category) {
-                    case 'Tutorial':
-                        data['eventLabel'] = 'New Activity';
-                        break;
-                    default:
-                        data['eventLabel'] = label;
-                        data['eventValue'] = value;
-                        break;
-                }
-                
-                dataLayer.push(data);
-                
-            } catch (e) {
-                console.log(e);
+        var compareToDefaultSetting = function() {
+            if ($scope.where === 'other' && $scope.other_location) {
+                util.addEventToDataLayer('Local Settings', 'Geo', 'Manual Type-In', $scope.other_location);
             }
-        }
+        };
         
         $window.$(document).ready(function () {
             $window.$('#contents').show();

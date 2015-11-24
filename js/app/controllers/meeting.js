@@ -920,7 +920,7 @@
         }
         
         $scope.startTutorial = function() {
-            addEventToDataLayer('Tutorial', 'Start');
+            addEventToDataLayer('Tutorial', 'Start', 'Activity', null);
             
             if (sessionService.getViewedTutorialStatus()) {
                 $window.$('.first-greeting-bubble').remove();
@@ -940,25 +940,13 @@
                         $window.$('.fake-group').hide();
                         $window.$('.no-group').show();
                     }
-                    addEventToDataLayer('Tutorial', 'Cancel');
+                    addEventToDataLayer('Tutorial', 'Cancel', 'Activity', null);
                 },
                 modal: true,
                 expose: true
             });
         }
         
-        var addEventToDataLayer = function(category, action) {
-            try {
-                dataLayer.push({ 
-                    'event': 'event', 
-                    'eventCategory': category,
-                    'eventAction': action, // Start, Cancel
-                    'eventLabel': 'Activity',  //Homepage, New Activity, Meet Me Here
-                });
-            } catch (e) {
-                console.log(e);
-            }
-        }
         
         $scope.createFromTemplate = function () {
             var times   = getTimeFromTemplate();
