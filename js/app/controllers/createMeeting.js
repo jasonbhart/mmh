@@ -180,6 +180,12 @@
             }
         });
         
+        $scope.$watch('where', function (newValue, oldValue) {
+            if (newValue !== 'other' && newValue != '1') {
+                util.addEventToDataLayer('Local Settings', 'Geo', 'Change Search Radius', newValue);
+            }
+        });
+        
         $scope.addOtherTimes = function() {
             $scope.times = [];
             $scope.addTimes();
@@ -424,6 +430,8 @@
                 meetingService.update($scope.meetingId, data);
             }
             
+            compareToDefaultSetting();
+            
         };
         
         var getMeetingName = function () {
@@ -531,7 +539,7 @@
             $scope.stage = 1;
             $scope.$apply();
             
-            addEventToDataLayer('Tutorial', 'Start');
+            util.addEventToDataLayer('Tutorial', 'Start', 'New Activity', null);
             
             $window.$('#joyRideTipContent').joyride({
                 autoStart: true,
@@ -558,25 +566,18 @@
                 postRideCallback: function() {
                     $scope.stage = 1;
                     $scope.$apply();
-                    addEventToDataLayer('Tutorial', 'Cancel');
+                    util.addEventToDataLayer('Tutorial', 'Cancel', 'New Activity', null);
                 },
                 modal: true,
                 expose: true
             });
         }
         
-        var addEventToDataLayer = function(category, action) {
-            try {
-                dataLayer.push({ 
-                    'event': 'event', 
-                    'eventCategory': category,
-                    'eventAction': action, // Start, Cancel
-                    'eventLabel': 'New Activity',  //Homepage, New Activity, Meet Me Here
-                });
-            } catch (e) {
-                console.log(e);
+        var compareToDefaultSetting = function() {
+            if ($scope.where === 'other' && $scope.other_location) {
+                util.addEventToDataLayer('Local Settings', 'Geo', 'Manual Type-In', $scope.other_location);
             }
-        }
+        };
         
         $window.$(document).ready(function () {
             $window.$('#contents').show();
@@ -591,6 +592,10 @@
                 e.preventDefault();
                 window.open($(this).attr('href'), 'twitterShareWindow', 'height=450, width=550, top=' + ($(window).height() / 2 - 275) + ', left=' + ($(window).width() / 2 - 225) + ', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
                 return false;
+            });
+            
+            $window.$('body').on('click', '.joyride-close-tip', function() {
+                
             });
             
             googleMap.makeAutoComplete('location-autocomplete');

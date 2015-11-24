@@ -9,6 +9,8 @@
             FACEBOOK: 'facebook'
         };
     });
+    
+    
 
     app.factory('sessionService', ['$rootScope', '$q', '$cookies', '$log', '$firebaseAuth', 'appConfig', 'authProviders', 'userService', 'meetingService', 'geoLocation', '$window', 'util',
             function($rootScope, $q, $cookies, $log, $firebaseAuth, appConfig, authProviders, userService, meetingService, geoLocation, $window, util) {
@@ -99,8 +101,12 @@
                     && authData.provider == authProviders.ANONYMOUS)
                     stateTransition = service.states.LOGOUT;
                 else if ($cookies.lastUserProvider == authProviders.ANONYMOUS
-                    && authData.provider != authProviders.ANONYMOUS)
+                            && authData.provider != authProviders.ANONYMOUS
+                        ) {
                     stateTransition = service.states.LOGIN;
+                    addEventToDataLayer('Login', authData.provider, authData);
+                }
+                    
             }
 
             $cookies.lastUserProvider = authData.provider;
@@ -132,6 +138,35 @@
         }
 
         var currentPage = util.getCurrentPage();
+        
+        var addEventToDataLayer = function(category, action, authData) {
+            try {
+                var data = { 
+                    'event': 'event', 
+                    'eventCategory': category,
+                    'eventAction': action
+                }
+                
+                if (currentPage === 1) {
+                    data['eventLabel'] = 'Homepage';
+                } else if (currentPage === 2) {
+                    data['eventLabel'] = 'Activity';
+                } else if (currentPage === 3) {
+                    data['eventLabel'] = 'New Activity';
+                } else if (currentPage === 4) {
+                    data['eventLabel'] = 'Meet Me Here';
+                }
+                
+                if (authData.auth && authData.facebook.cachedUserProfile && authData.facebook.cachedUserProfile.gender) {
+                    data['gender'] = authData.facebook.cachedUserProfile.gender;
+                }
+                
+                dataLayer.push(data);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+        
         service = {
             // state transitions
             states: {

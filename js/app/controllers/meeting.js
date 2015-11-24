@@ -549,6 +549,8 @@
                     whenId: group.when.when.id
                 };
                 historyService.addHistoryToUser($scope.currentUser.id, $scope.meeting.id, historyData);
+                
+                util.addEventToDataLayer('Activity', 'Interaction', 'RSVP', null);
             }
             $scope.meetingUser.joinGroup(
                 {
@@ -659,9 +661,13 @@
         $scope.togglePlace = function(place) {
             if (place.selected) {
                 $scope.meetingUser.toggleWhere(place.id, false);
+                
+                util.addEventToDataLayer('Activity', 'Interaction', 'Unselect Venue', place.name);
             } else {
                 $scope.meetingUser.toggleWhere(place.id, true);
                 $scope.addMeetingToUser();
+                
+                util.addEventToDataLayer('Activity', 'Interaction', 'Select Venue', place.name);
             }
             $scope.changingGroups = true;
         };
@@ -881,9 +887,13 @@
         $scope.toggleTime = function (time) {
             if (time.selected) {
                 $scope.meetingUser.toggleWhen(time.id, false);
+                
+                util.addEventToDataLayer('Activity', 'Interaction', 'Unselect Time', time.whenFormatted);
             } else {
                 $scope.meetingUser.toggleWhen(time.id, true);
                 $scope.addMeetingToUser();
+                
+                util.addEventToDataLayer('Activity', 'Interaction', 'Select Time', time.whenFormatted);
             }
             $scope.changingGroups = true;
         };
@@ -920,7 +930,7 @@
         }
         
         $scope.startTutorial = function() {
-            addEventToDataLayer('Tutorial', 'Start');
+            util.addEventToDataLayer('Tutorial', 'Start', 'Activity', null);
             
             if (sessionService.getViewedTutorialStatus()) {
                 $window.$('.first-greeting-bubble').remove();
@@ -940,25 +950,13 @@
                         $window.$('.fake-group').hide();
                         $window.$('.no-group').show();
                     }
-                    addEventToDataLayer('Tutorial', 'Cancel');
+                    util.addEventToDataLayer('Tutorial', 'Cancel', 'Activity', null);
                 },
                 modal: true,
                 expose: true
             });
         }
         
-        var addEventToDataLayer = function(category, action) {
-            try {
-                dataLayer.push({ 
-                    'event': 'event', 
-                    'eventCategory': category,
-                    'eventAction': action, // Start, Cancel
-                    'eventLabel': 'Activity',  //Homepage, New Activity, Meet Me Here
-                });
-            } catch (e) {
-                console.log(e);
-            }
-        }
         
         $scope.createFromTemplate = function () {
             var times   = getTimeFromTemplate();
