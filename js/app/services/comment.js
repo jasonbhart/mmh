@@ -9,7 +9,15 @@
         var ref = new Firebase(appConfig.firebaseUrl);
         
         var addComment = function (meetingId, groupId, data) {
-            ref.child('comments').child(meetingId).child(groupId).push(data);
+            var commentRef = ref.child('comments').child(meetingId).child(groupId);
+            commentRef.once('value', function(snapshot) {
+                if (snapshot.val() === null) {
+                    var id = commentRef.push(data).key();
+                    commentRef.child(id).update({first: true});
+                } else {
+                    commentRef.push(data);
+                }
+            });   
         };
           
         var getComments = function (meetingId) {
