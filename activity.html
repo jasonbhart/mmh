@@ -203,8 +203,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                                     </li>
                                                 </ul>
                                                 <div class="comment-area">
-                                                    <a href="#none" class="readmore"><i class="fa fa-comments"></i> View 2 more comments</a>
-                                                    <div class="comment-item" ng-repeat="comment in comments[getGroupKey(group)]">
+                                                    <a class="readmore" ng-show="displayShowMoreComment(group)" ng-click="showMoreComment(group)"><i class="fa fa-comments"></i> View 2 more comments</a>
+                                                    <div class="comment-item" ng-repeat="comment in getCommentsToShow(group)">
                                                         <a href="#none" class="avatar"><img src="{{ comment.avatar || 'images/no-profile.jpg' }}" alt=""></a>
                                                         <div class="comment-info">
                                                             <a href="#none" class="tit">{{ comment.username }}</a>

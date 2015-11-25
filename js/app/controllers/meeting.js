@@ -18,6 +18,7 @@
         $scope.changingGroups = false;
         $scope.ended = false;
         $scope.comments = [];
+        $scope.numberOfCommentToShow = [];
         $scope.newComments = [];
        
                 
@@ -1104,5 +1105,37 @@
                 $scope.addComment(group);
             }
         };
+        
+        $scope.getNumberOfCommentToShow = function (group) {
+            var groupId = $scope.getGroupKey(group);
+            return $scope.numberOfCommentToShow[groupId] || 2;
+        };
+        
+        $scope.showMoreComment = function (group) {
+            var groupId = $scope.getGroupKey(group);
+            var currentNumber = $scope.getNumberOfCommentToShow(group);
+            $scope.numberOfCommentToShow[groupId] = currentNumber + 2;
+        }
+        
+        $scope.displayShowMoreComment = function (group) {
+            var groupId = $scope.getGroupKey(group);
+            var comments = $scope.comments[groupId] || {};
+            var numberOfComment = Object.keys(comments).length;
+            var numberToShow = $scope.getNumberOfCommentToShow(group);
+            return numberOfComment > numberToShow;
+        }
+        
+        $scope.getCommentsToShow = function (group) {
+            var groupId = $scope.getGroupKey(group);
+            var comments = $scope.comments[groupId] || {};
+            var commentArray = Object.keys(comments).map(function (key) {
+                return comments[key];
+            });
+            
+            var numberOfComment = Object.keys(comments).length;
+            var numberToShow = $scope.getNumberOfCommentToShow(group);
+            var startIndex = numberOfComment > numberToShow ? numberOfComment - numberToShow : 0;
+            return commentArray.slice(startIndex, numberOfComment);
+        }
     }]);
 })();
