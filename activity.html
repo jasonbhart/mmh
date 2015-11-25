@@ -58,6 +58,7 @@
         <script src="js/app/services/category.js"></script>
         <script src="js/app/services/notification.js"></script>
         <script src="js/app/services/email.js"></script>
+        <script src="js/app/services/comment.js"></script>
         <script src="js/app/controllers.js"></script>
         <script src="js/app/controllers/authModal.js"></script>
         <script src="js/app/controllers/locationMap.js"></script>
@@ -203,27 +204,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                                 </ul>
                                                 <div class="comment-area">
                                                     <a href="#none" class="readmore"><i class="fa fa-comments"></i> View 2 more comments</a>
-                                                    <div class="comment-item">
-                                                        <a href="#none" class="avatar"><img src="image/temp/avatar_02.jpg" alt=""></a>
+                                                    <div class="comment-item" ng-repeat="comment in comments[getGroupKey(group)]">
+                                                        <a href="#none" class="avatar"><img src="{{ comment.avatar || 'images/no-profile.jpg' }}" alt=""></a>
                                                         <div class="comment-info">
-                                                            <a href="#none" class="tit">username</a>
-                                                            <span class="txt"> It is a long established fact that a reader will be distracted by the readable content of a page when </span>
-                                                            <span class="date grey-text"> November 4 at 10:43pm</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="comment-item">
-                                                        <a href="#none" class="avatar"><img src="image/temp/avatar_02.jpg" alt=""></a>
-                                                        <div class="comment-info">
-                                                            <a href="#none" class="tit">username</a>
-                                                            <span class="txt"> It is a long established fact that a reader will be distracted=)))</span>
-                                                            <span class="date grey-text"> November 4 at 10:43pm</span>
+                                                            <a href="#none" class="tit">{{ comment.username }}</a>
+                                                            <span class="txt"> {{ comment.content }}</span>
+                                                            <span class="date grey-text"> {{ getCommentTime(comment.time) }}</span>
                                                         </div>
                                                     </div>
                                                     <div class="wirtecoment">
-                                                        <span class="avatar"><img src="image/temp/avatar_01.jpg" alt=""></span>
+                                                        <span class="avatar"><img src="{{currentUser.user.profileImageURL || 'images/no-profile.jpg'}}" alt=""></span>
                                                         <div class="write">
-                                                            <input class="" type="text" placeholder="Write a comment..." />
-                                                            <button class="btn waves-effect waves-light">Send</button>
+                                                            <input class="" type="text" placeholder="Write a comment..." ng-model="newComments[getGroupKey(group)]" ng-keyup="checkCommentKey($event, group)">
+                                                            <button class="btn waves-effect waves-light" ng-click="addComment(group)">Send</button>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -4,8 +4,8 @@
     var app = angular.module('mmh.controllers');
     
     
-    app.controller('meetingController', ['$scope', '$q', '$log', '$firebaseObject', '$firebaseArray', 'dialogs', 'dataProvider', 'sessionService', 'meetingService', 'userService', 'geoLocation', 'userGroupBuilder','$window', 'util', 'notificationService', 'emailService','localMeetingService', 'categoryService','historyService',
-            function($scope, $q, $log, $firebaseObject, $firebaseArray, dialogs, dataProvider, sessionService, meetingService, userService, geoLocation, userGroupBuilder, $window, util, notificationService, emailService, localMeetingService, categoryService, historyService) {
+    app.controller('meetingController', ['$scope', '$q', '$log', '$firebaseObject', '$firebaseArray', 'dialogs', 'dataProvider', 'sessionService', 'meetingService', 'userService', 'geoLocation', 'userGroupBuilder','$window', 'util', 'notificationService', 'emailService','localMeetingService', 'categoryService','historyService','commentService',
+            function($scope, $q, $log, $firebaseObject, $firebaseArray, dialogs, dataProvider, sessionService, meetingService, userService, geoLocation, userGroupBuilder, $window, util, notificationService, emailService, localMeetingService, categoryService, historyService, commentService) {
 
         // get from the session
         $scope.timeFormat = 'h:mmA';
@@ -17,6 +17,8 @@
         $scope.currentMeetingId = util.getUrlParams('act');
         $scope.changingGroups = false;
         $scope.ended = false;
+        $scope.comments = [];
+        $scope.newComments = [];
        
                 
         var formattingData = {
@@ -1066,6 +1068,41 @@
             } else {
                 setTimeout(activateFacebookSDK, 500);
             }   
+        };        
+        
+        $scope.addComment = function (group) {
+            var meetingId = $scope.currentMeetingId,
+            groupId = $scope.getGroupKey(group),
+            content = $scope.newComments[groupId];
+            var data = {
+                userId: $scope.currentUser.user.id || '',
+                username: $scope.currentUser.user.fullName || 'Anonymous',
+                avatar: $scope.currentUser.user.profileImageURL || '',
+                time: moment().utc().toISOString(),
+                content: content
+            }
+            commentService.addComment(meetingId, groupId, data);
+            $scope.newComments[groupId] = '';
+        };
+        
+        $scope.getCommentTime = function (isoString) {
+            return moment(isoString).format('MMMM Do') + ' at ' + moment(isoString).format('h:mma');
+        }
+        
+        commentService.trackComment($scope.currentMeetingId);
+        
+        $scope.$on('comment.changed', function(evt, data) {
+            $scope.comments = data;
+        });
+        
+        $scope.getGroupKey = function (group) {
+            return group.where.$id + '+' + group.when.when.id;
+        };
+        
+        $scope.checkCommentKey = function (event, group) {
+            if (event.keyCode === 13) {
+                $scope.addComment(group);
+            }
         };
     }]);
 })();
