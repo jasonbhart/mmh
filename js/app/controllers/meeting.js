@@ -20,6 +20,7 @@
         $scope.comments = [];
         $scope.numberOfCommentToShow = [];
         $scope.newComments = [];
+        $scope.groupTimeout = null;
        
                 
         var formattingData = {
@@ -425,6 +426,14 @@
         });
         
         function buildUserGroups(formattingData) {
+            if (!$scope.currentUser) {
+                clearTimeout($scope.groupTimeout);
+                $scope.groupTimeout = setTimeout(function() {
+                    $scope.userGroups = buildUserGroups(formattingData);
+                }, 500);
+                return [];
+            }
+            
             var whenMap = {};
             _.forEach(formattingData.when, function(w) {
                 whenMap[w.id] = w.when;
@@ -497,7 +506,7 @@
                     });
                 }
             });
-
+            
             // find names that occur more than once
             var userNames = {};
             _.forOwn(users, function(info) {
