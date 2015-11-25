@@ -499,3 +499,15 @@ img{max-width: 100%;}
 
 .auto-group .just-ex{position:absolute; z-index:99; font-weight:700; width:100%; left:0px; top:20px; text-align:center;}
 .auto-group .just-ex span{display:inline-block; border-radius:30px; font-size:25px; background:#ccc; opacity:.8; color:#fff; padding:0 30px;}
+.comment-area{margin:20px -20px -20px; padding:20px;border-top:1px solid #ddd;background:#f6f7f8  none;}
+.comment-area .readmore{display:block; margin-bottom:15px; color:#1a8dbc ;}
+.comment-area .wirtecoment, .comment-area .comment-item{position:relative; padding-left:55px; margin:0 0 10px; min-height:39px;}
+.comment-area .comment-item:last-child{margin-top:0;}
+.comment-area .comment-item a{color:#1a8dbc ;}
+.comment-area .comment-item .tit{font-weight:700;}
+.comment-area .avatar{position:absolute;width:39px; border:1px solid #ededed ; font-size:0; top:0; left:0}
+.comment-area .wirtecoment{margin-bottom:0;}
+.comment-area .wirtecoment .write{position: relative; padding-right:80px; height:39px;}
+.comment-area .wirtecoment input{position: relative;z-index: 2;float: left; width: 100%; margin: 0; background:#fff;}
+.comment-area .wirtecoment .btn{border-top-left-radius: 0;border-bottom-left-radius: 0; position:absolute; top:0; right:0; margin:0; z-index:99; height:39px; padding:0 .8em}
+.comment-area .date{display:block; font-size:12px;}
