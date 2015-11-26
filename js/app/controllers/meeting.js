@@ -179,15 +179,8 @@
                         userObj.removeUnusedActivities(user.id);
                         $scope.meetingList = data;
                     });
-                    
-                    
                 });
             };
-            
-            if (!sessionService.getViewedTutorialStatus()) {
-                $scope.startTutorial();
-                sessionService.setViewedTutorialStatus();
-            }
             
             initAuth(sessionService.getCurrentUser());
             
@@ -1150,5 +1143,16 @@
         $scope.getCorrectProtocolUrl = function(url) {
             return util.getCorrectProtocolUrl(url);
         };
+        
+        $window.$(document).ready(function() {
+            sessionService.ready.then(function() {
+                if (!sessionService.getViewedTutorialStatus()) {
+                    setTimeout(function(){
+                        $scope.startTutorial();
+                        sessionService.setViewedTutorialStatus();
+                    }, 100);
+                }
+            });
+        });
     }]);
 })();

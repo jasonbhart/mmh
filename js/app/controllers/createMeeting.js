@@ -48,11 +48,6 @@
                     
                 });
             };
-            
-            if (!sessionService.getViewedTutorialStatus()) {
-                sessionService.setViewedTutorialStatus();
-                $scope.startTutorial();
-            }
                 
             initAuth(sessionService.getCurrentUser());
 
@@ -663,6 +658,15 @@
             });
             
             googleMap.makeAutoComplete('location-autocomplete');
+            
+            sessionService.ready.then(function() {
+                if (!sessionService.getViewedTutorialStatus()) {
+                    setTimeout(function(){
+                        $scope.startTutorial();
+                        sessionService.setViewedTutorialStatus();
+                    }, 100);
+                }
+            });
         });
 
     }]);

@@ -28,14 +28,8 @@
                         userObj.removeUnusedActivities(user.id);
                         $scope.meetingList = data;
                     });
-                        
                 });
             };
-            
-            if (!sessionService.getViewedTutorialStatus()) {
-                $scope.startTutorial();
-                sessionService.setViewedTutorialStatus();
-            }
             
             initAuth(sessionService.getCurrentUser());
             
@@ -270,6 +264,15 @@
             $window.$('.categories-nav ul').on('click', 'li.level-0', function() {
                 $window.$('.categories-nav ul li.level-0.active').removeClass('active');
                 $window.$(this).addClass('active');
+            });
+            
+            sessionService.ready.then(function() {
+                if (!sessionService.getViewedTutorialStatus()) {
+                    setTimeout(function(){
+                        $scope.startTutorial();
+                        sessionService.setViewedTutorialStatus();
+                    }, 100);
+                }
             });
         });
     }]);
