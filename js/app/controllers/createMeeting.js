@@ -193,6 +193,7 @@
         
         $scope.$watch('share', function (newValue, oldValue) {
             if (newValue === '0') {
+                util.addEventToDataLayer('New Activity Wizard', 'Step 4', 'Finish', 'Make New Friend');
                 $scope.finish();
             }
         });
@@ -425,6 +426,8 @@
                     addMeetingToCategory(data);
                     addMeetingToUser(data);
                     $window.$('.loading-wrap').hide();
+                    
+                    util.addEventToDataLayer('New Activity Wizard', 'Step 4', 'Create Meeting', meetingId);
                 });
             } else {
                 meetingService.update($scope.meetingId, data);
@@ -616,13 +619,27 @@
             $window.$('.fb-share').click(function(e) {
                 e.preventDefault();
                 window.open($(this).attr('href'), 'fbShareWindow', 'height=450, width=550, top=' + ($(window).height() / 2 - 275) + ', left=' + ($(window).width() / 2 - 225) + ', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
+                util.addEventToDataLayer('New Activity Wizard', 'Step 4', 'Share', 'Facebook');
                 return false;
             });
             
             $window.$('.twitter-share').click(function(e) {
                 e.preventDefault();
                 window.open($(this).attr('href'), 'twitterShareWindow', 'height=450, width=550, top=' + ($(window).height() / 2 - 275) + ', left=' + ($(window).width() / 2 - 225) + ', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
+                util.addEventToDataLayer('New Activity Wizard', 'Step 4', 'Share', 'Twitter');
                 return false;
+            });
+            
+            $window.$('#email').click(function(e) {
+                util.addEventToDataLayer('New Activity Wizard', 'Step 4', 'Share', 'Email');
+            });
+            
+            $window.$('#copy').click(function(e) {
+                util.addEventToDataLayer('New Activity Wizard', 'Step 4', 'Share', 'Copy');
+            });
+            
+            $window.$('.finish-button').click(function(e) {
+                util.addEventToDataLayer('New Activity Wizard', 'Step 4', 'Finish', 'Main Button');
             });
             
             $window.$('body').on('click', '.joyride-close-tip', function() {
