@@ -75,6 +75,20 @@
                 return;
             }
             
+            switch ($scope.stage) {
+                case 1:
+                    fireStep1Events();
+                    break;
+                case 2:
+                    fireStep2Events();
+                    break;
+                case 3:
+                    fireStep3Events();
+                    break;
+                default:
+                    break;
+            }
+            
             $scope.stage ++;
             
             if ($scope.stage === 3) {
@@ -433,8 +447,6 @@
                 meetingService.update($scope.meetingId, data);
             }
             
-            compareToDefaultSetting();
-            
         };
         
         var getMeetingName = function () {
@@ -576,11 +588,7 @@
             });
         }
         
-        var compareToDefaultSetting = function() {
-            if ($scope.where === 'other' && $scope.other_location) {
-                util.addEventToDataLayer('Local Settings', 'Geo', 'Manual Type-In', $scope.other_location);
-            }
-            
+        var fireStep1Events = function () {
             if ($scope.meeting_name) {
                 util.addEventToDataLayer('New Activity Wizard', 'Step 1', 'Set Custom Title', $scope.meeting_name);
             }
@@ -589,11 +597,15 @@
                 var eventValue = $scope.what !== 'other' ? $scope.what : $scope.term;
                 util.addEventToDataLayer('New Activity Wizard', 'Step 1', 'Change Category', eventValue);
             }
-            
+        }
+        
+        var fireStep2Events = function () {
             if ($scope.when !== 'now') {
                 util.addEventToDataLayer('New Activity Wizard', 'Step 2', 'Change Timeframe', $scope.when);
             }
-            
+        }
+        
+        var fireStep3Events = function () {
             if ($scope.where != '1') {
                 util.addEventToDataLayer('New Activity Wizard', 'Step 3', 'Change Search Radius', $scope.where);
             }
@@ -602,8 +614,12 @@
             if (typeof establishment === 'object' && establishment.length) {
                 util.addEventToDataLayer('New Activity Wizard', 'Step 3', 'Select Venue', establishment[0].name);
             }
-        };
-        
+            
+            if ($scope.where === 'other' && $scope.other_location) {
+                util.addEventToDataLayer('Local Settings', 'Geo', 'Manual Type-In', $scope.other_location);
+            }
+        }
+   
         $scope.toggleSubcategory = function (subcategory) {
             if ($scope.selectedCategory[subcategory]) {
                 util.addEventToDataLayer('New Activity Wizard', 'Step 1', 'Check Sub-category', subcategory);
