@@ -430,7 +430,7 @@
                 clearTimeout($scope.groupTimeout);
                 $scope.groupTimeout = setTimeout(function() {
                     $scope.userGroups = buildUserGroups(formattingData);
-                }, 500);
+                }, 50);
                 return [];
             }
             
@@ -952,7 +952,7 @@
                 $window.$('.first-greeting-bubble').remove();
             }
             
-            if (!$scope.userGroups.groups.length) {
+            if (!sessionService.getViewedTutorialStatus() || !$scope.userGroups.groups.length) {
                 $window.$('.fake-group').show();
                 $window.$('.no-group').hide();
             }
@@ -962,7 +962,7 @@
                 postStepCallback: function (index, tip) {
                 },
                 postRideCallback: function() {
-                    if (!$scope.userGroups.groups.length) {
+                    if (!sessionService.getViewedTutorialStatus() || !$scope.userGroups.groups.length) {
                         $window.$('.fake-group').hide();
                         $window.$('.no-group').show();
                     }
