@@ -509,5 +509,6 @@ img{max-width: 100%;}
 .comment-area .wirtecoment{margin-bottom:0;}
 .comment-area .wirtecoment .write{position: relative; padding-right:80px; height:39px;}
 .comment-area .wirtecoment input{position: relative;z-index: 2;float: left; width: 100%; margin: 0; background:#fff;}
+.comment-area .wirtecoment input[type=text]:focus{box-shadow:none;}
 .comment-area .wirtecoment .btn{border-top-left-radius: 0;border-bottom-left-radius: 0; position:absolute; top:0; right:0; margin:0; z-index:99; height:39px; padding:0 .8em}
 .comment-area .date{display:block; font-size:12px;}
