@@ -164,6 +164,10 @@
                 
         };
         
+        $scope.getCorrectProtocolUrl = function(url) {
+            return util.getCorrectProtocolUrl(url);
+        };
+        
         var shouldUseSavedLocation = function (userLocation) {
             var useSavedLocation = true;
             if (!userLocation) {

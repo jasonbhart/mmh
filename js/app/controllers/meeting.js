@@ -1146,5 +1146,9 @@
             var startIndex = numberOfComment > numberToShow ? numberOfComment - numberToShow : 0;
             return commentArray.slice(startIndex, numberOfComment);
         }
+        
+        $scope.getCorrectProtocolUrl = function(url) {
+            return util.getCorrectProtocolUrl(url);
+        };
     }]);
 })();

@@ -106,7 +106,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <h3 class="title"><a ng-href="{{ meeting.url }}">{{ getMeetingName(meeting, true) }}</a></h3>
                         <div class="wrap">
                             <div class="info">
-                                <div class="thumb"><img ng-src="{{meeting.where.image_url ? meeting.where.image_url : 'images/default_place_thumb.gif'}}" alt=""></div>
+                                <div class="thumb"><img ng-src="{{meeting.where.image_url ? getCorrectProtocolUrl(meeting.where.image_url) : 'images/default_place_thumb.gif'}}" alt=""></div>
                                 <div class="des">
                                     <p class="address"><span class="icon"></span>{{ meeting.where.location.display_address }}<span class="subtext">{{ meeting.where.name }}</span></p>
                                     <div class="member-list">

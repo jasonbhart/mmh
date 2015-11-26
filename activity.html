@@ -144,10 +144,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                                 {{ where.name }}
                                                  <div class="tooltip-pleaces">
                                                     <i class="fa fa-caret-down arrow"></i>
-                                                    <a class="thumb"><img ng-src="{{ where.where.image_url }}" alt=""></a>
+                                                    <a class="thumb"><img ng-src="{{ getCorrectProtocolUrl(where.where.image_url) }}" alt=""></a>
                                                     <div class="cont-data">
                                                         <h3 class="title"><a target="_blank" href="{{ where.where.url }}">{{ where.name }}</a></h3>
-                                                        <img ng-src="{{ where.where.rating_url }}" alt="">
+                                                        <img ng-src="{{ getCorrectProtocolUrl(where.where.rating_url) }}" alt="">
                                                         <span class="str-list">{{ where.where.categories[0][0] ? where.where.categories[0][0] : '' }}</span>
                                                         <address>
                                                             {{ where.where.location.display_address }}
@@ -180,9 +180,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                             <div class="box">
                                                 <div class="info best-places">
                                                     <div class="pleaces-info button-span">
-                                                        <a class="thumb"><img ng-src="{{group.where.image_url}}" alt=""></a>
+                                                        <a class="thumb"><img ng-src="{{getCorrectProtocolUrl(group.where.image_url)}}" alt=""></a>
                                                         <div class="cont-data">
-                                                            <img ng-src="{{group.where.rating_url}}" alt="">
+                                                            <img ng-src="{{getCorrectProtocolUrl(group.where.rating_url)}}" alt="">
                                                             <span class="str-list ng-binding">{{ group.where.categories[0][0] }}</span>
                                                             <address class="ng-binding">
                                                                 {{ group.where.location.display_address }}
