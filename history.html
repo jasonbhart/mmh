@@ -98,14 +98,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             </header><!--//header-->
             <div id="contents">
                 <div class="row contents">
-                    <div id="contLeft" class="col l8 s12">
+                    <div class="col l8 s12">
                         <div class="box-history" >
                             <h2 class="title-page"><span class="icon"></span>History</h2>
-                            <div class="wrap" ng-if="history.length">
-                                <!--<p class="date grey-text">TUESDAY, OCTOBER 27</p>-->
-                                <ul class="list" ng-repeat="meeting in history">
+                            <div class="wrap" ng-if="history.length" ng-repeat="meetings in history">
+                                <p class="date grey-text">{{ meetings[0].date }}</p>
+                                <ul class="list" ng-repeat="meeting in meetings | orderBy : 'time' : true">
                                     <li>
-                                        <span class="categories">{{ meeting.place.type}}</span>
                                         <h3 class="title">You "<span class="grey-text">RSVPed</span>" on meeting "<a ng-href="activity.html?act={{ meeting.id }}">{{ getMeetingName(meeting, true)}}</a>"</h3>
                                         <p>{{ meeting.place.categories[0][0]}} / {{ meeting.place.name}} / <span class="grey-text">{{ meeting.place.display_address}}</span></p>
                                     </li>
