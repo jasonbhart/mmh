@@ -14,10 +14,10 @@
         };
         
            
-        var getLastHistory = function (userId) {
+        var getLastHistory = function (userId, limit) {
             var deferred = $q.defer();
             
-            ref.child('history').child(userId).endAt().limitToLast(10).once("value", function(snapshot) {
+            ref.child('history').child(userId).endAt().limitToLast(limit).once("value", function(snapshot) {
                 var data = snapshot.val();
                 if (data) {
                     var arrayData = Object.keys(data).map(function (key) {

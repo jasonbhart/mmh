@@ -12,6 +12,8 @@
         $scope.rsvpMeetingList = [];
         $scope.currentPage = 5;
         $scope.history = [];
+        $scope.numberOfItem = 10;
+        $scope.showedAll = false;
         
         sessionService.ready.then(function() {
             var initAuth = function(user) {
@@ -24,19 +26,11 @@
                     });
                 });
                 
-                historyService.getLastHistory(user.id).then(function(history) {
-                    var historyByDate = [];
-                    for (var i in history) {
-                        var date = moment(history[i].time).format('dddd MMMM, Do');
-                        history[i].date = date;
-                        
-                        historyByDate[date] || (historyByDate[date] = []);
-                        historyByDate[date].push(history[i]);
+                historyService.getLastHistory(user.id, $scope.numberOfItem).then(function(history) {
+                    $scope.history = categoryHistoryByDate(history);
+                    if (history.length < $scope.numberOfItem) {
+                        $scope.showedAll = true;
                     }
-                    $scope.history = Object.keys(historyByDate).map(function(date) {
-                        return historyByDate[date];
-                    }).reverse();
-                    console.log($scope.history);
                 }); 
             }; 
             
@@ -46,12 +40,34 @@
 
         });
         
+        var categoryHistoryByDate = function (history) {
+            var historyByDate = [];
+            for (var i in history) {
+                var date = moment(history[i].time).format('dddd MMMM, Do');
+                history[i].date = date;
+
+                historyByDate[date] || (historyByDate[date] = []);
+                historyByDate[date].push(history[i]);
+            }
+            return Object.keys(historyByDate).map(function(date) {
+                return historyByDate[date];
+            }).reverse();
+        }
+        
         $scope.getMeetingName = function(meeting, includeTime) {
             return meetingService.getMeetingName(meeting, includeTime);
         };
         
         $scope.getDate = function (isoString) {
             return moment(isoString).format('MMMM Do YYYY');
+        }
+        
+        $scope.showAllHistory = function () {
+            historyService.getLastHistory($scope.currentUser.id, 100).then(function(history) {
+                $scope.history = categoryHistoryByDate(history);
+                $scope.showedAll = true;
+            });
+            
         }
         
     }]);

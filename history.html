@@ -109,8 +109,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                         <p>{{ meeting.place.categories[0][0]}} / {{ meeting.place.name}} / <span class="grey-text">{{ meeting.place.display_address}}</span></p>
                                     </li>
                                 </ul>
-                                <!--<div class="btn-bottom center-align"><a href="#none" class="btn red btn-large waves-effect waves-light">Show All</a></div>-->
+                                
                             </div>
+                            <div class="btn-bottom center-align" ng-if="history.length" ng-hide="showedAll" ng-click="showAllHistory()"><a href="#none" class="btn red btn-large waves-effect waves-light">Show All</a></div>
                             <div class="wrap" ng-if="!history.length">
                                 No history
                             </div>
