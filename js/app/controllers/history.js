@@ -25,8 +25,18 @@
                 });
                 
                 historyService.getLastHistory(user.id).then(function(history) {
-                    $scope.history = history.reverse();
-                    console.log(history);
+                    var historyByDate = [];
+                    for (var i in history) {
+                        var date = moment(history[i].time).format('dddd MMMM, Do');
+                        history[i].date = date;
+                        
+                        historyByDate[date] || (historyByDate[date] = []);
+                        historyByDate[date].push(history[i]);
+                    }
+                    $scope.history = Object.keys(historyByDate).map(function(date) {
+                        return historyByDate[date];
+                    }).reverse();
+                    console.log($scope.history);
                 }); 
             }; 
             
