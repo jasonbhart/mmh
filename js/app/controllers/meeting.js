@@ -629,21 +629,30 @@
                 return dataProvider.getActivities();
             },
             getPlaces: function(term) {
-                var options = { term: term, limit: 10 };
-                if ($scope.meeting.specificLocation) {
-                    options.location = $scope.meeting.specificLocation;
-                } else if ($scope.currentUser.user.location) {
-                    options.coords = $scope.currentUser.user.location.coords;
-                    options.radius = util.convertMilesToKms($scope.currentUser.user.location.radius);
-
-                }
+                var options = {term: term};
+                options = $scope.getMeetingLocationOptions(options);
                 return dataProvider.getSuggestions(options);
             },
             getCategory: function() {
                 return $scope.meeting.category || '';
+            },
+            getMeetingOptions: function() {
+                return $scope.getMeetingLocationOptions({});
             }
         }
 
+        $scope.getMeetingLocationOptions = function(options) {
+            options.limit = 10;
+            
+            if ($scope.meeting.specificLocation) {
+                options.location = $scope.meeting.specificLocation;
+            } else if ($scope.currentUser.user.location) {
+                options.coords = $scope.currentUser.user.location.coords;
+                options.radius = util.convertMilesToKms($scope.currentUser.user.location.radius);
+            }
+            return options;
+        }
+        
         $scope.addPlaces = function() {
             var dialog = dialogs.userMeetingPlaces(placesProvider);
             
