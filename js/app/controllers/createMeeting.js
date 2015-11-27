@@ -1,8 +1,8 @@
 ;(function () {
     "use strict";
     var app = angular.module('mmh.controllers');
-    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util', 'categoryService', 'userService','gatheringService','localMeetingService','googleMap',
-        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService, util, categoryService, userService, gatheringService, localMeetingService, googleMap) {
+    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util', 'categoryService', 'userService','gatheringService','localMeetingService','googleMap','errorLoggingService',
+        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService, util, categoryService, userService, gatheringService, localMeetingService, googleMap, errorLoggingService) {
         $scope.MAX_STAGE = 4;
         $scope.stage = 1; 
         $scope.what = 'restaurants';
@@ -273,6 +273,14 @@
                     categories: establishment.categories || {}
                 }];
             } catch (e) {
+                var data = {
+                    content: "unable to parse establishment",
+                    message: e.message,
+                    page: 'new activity wizard',
+                    _function: 'getFormatedEstablishment',
+                    establishment: establishment
+                };
+                errorLoggingService.addLog(data);
                 return [];
             }
         }

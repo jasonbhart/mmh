@@ -4,8 +4,8 @@
     var app = angular.module('mmh.controllers');
 
     // get data from yelp
-    app.controller('IndexController', ['$scope', 'meetingInfo', 'sessionService', 'util', 'geoLocation','$window', 'googleMap','categoryService', 'appConfig', 'userService', 'meetingService', '$firebaseObject', '$q',
-            function ($scope, meetingInfo, sessionService, util, geoLocation, $window, googleMap, categoryService, appConfig, userService, meetingService, $firebaseObject, $q) {
+    app.controller('IndexController', ['$scope', 'meetingInfo', 'sessionService', 'util', 'geoLocation','$window', 'googleMap','categoryService', 'appConfig', 'userService', 'meetingService', '$firebaseObject', '$q','errorLoggingService',
+            function ($scope, meetingInfo, sessionService, util, geoLocation, $window, googleMap, categoryService, appConfig, userService, meetingService, $firebaseObject, $q, errorLoggingService) {
         $scope.currentUser = null;
         $scope.locationName = '';
         $scope.categories = [];
@@ -103,6 +103,14 @@
                         console.log('geoLocation error', error);
                     });
                 } catch (e) {
+                    var data = {
+                        content: "unable to save location",
+                        message: e.message,
+                        page: 'homepage',
+                        _function: 'save location',
+                        position: $scope.mapLocation.position
+                    };
+                    errorLoggingService.addLog(data);
                     console.log("unable to save location", e);
                 }
             };

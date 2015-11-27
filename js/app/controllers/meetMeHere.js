@@ -1,8 +1,8 @@
 ;(function () {
     "use strict";
     var app = angular.module('mmh.controllers');
-    app.controller('MeetMeHereController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util', 'categoryService', 'userService','gatheringService',
-        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService, util, categoryService, userService, gatheringService) {
+    app.controller('MeetMeHereController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util', 'categoryService', 'userService','gatheringService','errorLoggingService',
+        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService, util, categoryService, userService, gatheringService, errorLoggingService) {
 
         $scope.suggestions = {};
         $scope.timeFormat = 'h:mmA';
@@ -140,6 +140,14 @@
                     categories: establishment.categories || {}
                 }];
             } catch (e) {
+                 var data = {
+                    content: "unable to parse establishment",
+                    message: e.message,
+                    page: 'meet me here wizard',
+                    _function: 'getFormatedEstablishment',
+                    establishment: establishment
+                };
+                errorLoggingService.addLog(data);
                 return [];
             }
         }
