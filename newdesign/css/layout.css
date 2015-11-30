@@ -28,7 +28,7 @@ html, body{height:100%;}
 .dropdown-content .arow{position:absolute;width:24px; height:13px; top:-13px; right:20px; background-position:0 -975px;}
 .dropdown-content a{text-decoration:none;}
 #header .account{float:left;}
-#header .account a{color:#9e9b98; font-size:13px;}
+#header .account a{color:#9e9b98; font-size:13px;display: block;height: 30px;}
 #header .account .thumb{border-radius:50%; overflow:hidden; width:25px; height:25px; display:inline-block; vertical-align:middle; margin-right:5px; border:1px solid #dedede;}
 #header .account .thumb img{width:100%;}
 #header .account .info .icon{background-position:0 -441px; width:10px; height:5px; display:inline-block; vertical-align:middle; margin-left:3px;}
