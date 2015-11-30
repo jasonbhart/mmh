@@ -21,6 +21,10 @@
             }
         });
             
+        $scope.selectBusiness = function(index) {
+            $window.$('#rating_image_' + index).click();
+        };
+            
         $scope.showPlaceSuggestion = function() {
             var options = placesProvider.getMeetingOptions();
             
