@@ -1086,6 +1086,10 @@
             var meetingId = $scope.currentMeetingId,
             groupId = $scope.getGroupKey(group),
             content = $scope.newComments[groupId];
+        
+            if (!$scope.newComments[groupId]) {
+                return false;
+            }
             var data = {
                 userId: $scope.currentUser.user.id || '',
                 username: $scope.currentUser.user.fullName || 'Anonymous',
