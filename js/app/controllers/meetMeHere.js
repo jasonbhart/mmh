@@ -55,7 +55,7 @@
         
         function getPlaceSuggestions() {
             var options = {
-                'sort' : '2',
+                'sort' : 'distance',
                 'limit': '3',
                 'radius': util.convertMilesToKms($scope.radius)
             };
@@ -95,7 +95,7 @@
         };
         
         $scope.addManualBusiness = function() {
-            var options = {};
+            var options = {sort: 'distance'};
             if ($scope.coords) {
                 options.coords = $scope.coords;
                 options.radius = util.convertMilesToKms($scope.radius);

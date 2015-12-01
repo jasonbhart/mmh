@@ -78,7 +78,7 @@
                     if (options.sort) {
                         searchOptions.sort = options.sort;
                     } else {
-                        searchOptions.sort = 'distance';
+                        searchOptions.sort = 'highest_rate';
                     }
                     
                     //category filter
