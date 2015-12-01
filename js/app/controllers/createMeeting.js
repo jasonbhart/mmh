@@ -92,6 +92,12 @@
             }
             
             if ($scope.stage === $scope.MAX_STAGE) {
+                if ($scope.currentUser.isAnonymous()) {
+                    $scope.stage --;
+                    alert('Please Login to Create');
+                    dialogs.auth();
+                    return;
+                }
                 createMeeting();
             }
         };
