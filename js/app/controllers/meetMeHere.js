@@ -153,6 +153,12 @@
         }
         
         $scope.createMeeting = function() {
+            if ($scope.currentUser.isAnonymous()) {
+                    alert('Please Login to Create');
+                    dialogs.auth();
+                    return;
+                }
+            
             if ($scope.establishment === 'manual' && Object.keys($scope.manualBusinessInfo).length === 0) {
                 alert('Please select a business');
                 $scope.addManualBusiness();
