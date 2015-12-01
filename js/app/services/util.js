@@ -51,6 +51,9 @@
                 }
             },
             getCorrectProtocolUrl: function(url) {
+                if (typeof url !== 'string') {
+                    return '';
+                }
                 if (window.location.protocol === 'https:') {
                     url = url.replace('http:', 'https:');
                 }
