@@ -207,7 +207,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                                 <div class="comment-area">
                                                     <a class="readmore" ng-show="displayShowMoreComment(group)" ng-click="showMoreComment(group)"><i class="fa fa-comments"></i> View 2 more comments</a>
                                                     <div class="comment-item" ng-repeat="comment in getCommentsToShow(group)">
-                                                        <a href="#none" class="avatar"><img src="{{ comment.avatar || 'images/no-profile.jpg' }}" alt=""></a>
+                                                        <a href="#none" class="avatar"><img ng-src="{{ comment.avatar || 'images/no-profile.jpg' }}" alt=""></a>
                                                         <div class="comment-info">
                                                             <a href="#none" class="tit">{{ comment.username }}</a>
                                                             <span class="txt"> {{ comment.content }}</span>
@@ -215,7 +215,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                                         </div>
                                                     </div>
                                                     <div class="wirtecoment">
-                                                        <span class="avatar"><img src="{{currentUser.user.profileImageURL || 'images/no-profile.jpg'}}" alt=""></span>
+                                                        <span class="avatar"><img ng-src="{{currentUser.user.profileImageURL || 'images/no-profile.jpg'}}" alt=""></span>
                                                         <div class="write">
                                                             <input class="" type="text" placeholder="Write a comment..." ng-model="newComments[getGroupKey(group)]" ng-keyup="checkCommentKey($event, group)">
                                                             <button class="btn waves-effect waves-light" ng-click="addComment(group)">Send</button>

@@ -77,6 +77,8 @@
                     // sort result
                     if (options.sort) {
                         searchOptions.sort = options.sort;
+                    } else {
+                        searchOptions.sort = 'distance';
                     }
                     
                     //category filter
