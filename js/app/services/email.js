@@ -8,6 +8,10 @@
             if (!notification) {
                 return '';
             }
+            
+            if (notification.emailBody) {
+                return notification.emailBody;
+            }
 
             var text = '';
 
@@ -38,7 +42,7 @@
             var emailData = {
                 from: appConfig.sendingEmail,
                 to: emails,
-                subject: notificationData.meetName,
+                subject: notificationData.meetName || notificationData.title,
                 content: getEmailBody(notificationData),
                 replyTo: [appConfig.replyEmail]
             };

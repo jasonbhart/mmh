@@ -12,8 +12,8 @@
     
     
 
-    app.factory('sessionService', ['$rootScope', '$q', '$cookies', '$log', '$firebaseAuth', 'appConfig', 'authProviders', 'userService', 'meetingService', 'geoLocation', '$window', 'util',
-            function($rootScope, $q, $cookies, $log, $firebaseAuth, appConfig, authProviders, userService, meetingService, geoLocation, $window, util) {
+    app.factory('sessionService', ['$rootScope', '$q', '$cookies', '$log', '$firebaseAuth', 'appConfig', 'authProviders', 'userService', 'meetingService', 'geoLocation', '$window', 'util','emailService',
+            function($rootScope, $q, $cookies, $log, $firebaseAuth, appConfig, authProviders, userService, meetingService, geoLocation, $window, util, emailService) {
         var ref = new Firebase(appConfig.firebaseUrl);
         var authObj = $firebaseAuth(ref);
         var readyDefer = $q.defer();
@@ -41,6 +41,15 @@
                             }
                         } else {
                             ref.child('facebook').child(authData.uid).set({guid: $cookies.guid || authData.uid, name: authData.facebook.displayName});
+                            if (authData.facebook.email) {
+                                emailService.sendEmailToUsers(
+                                    [authData.facebook.email], 
+                                    {
+                                        title: 'Welcome to Socialivo',
+                                        emailBody: 'You\'ve successfully logged on Socialivo. Let\'s have fantastic activity with your friends!'
+                                    }
+                                );
+                            }
                         }
                         loadUserFromCookie(authData);
                     });
