@@ -22,7 +22,7 @@
         });
             
         $scope.selectBusiness = function(index) {
-            $window.$('#rating_image_' + index).click();
+            $window.$('#filled-in-box-' + index).click();
         };
             
         $scope.showPlaceSuggestion = function() {
