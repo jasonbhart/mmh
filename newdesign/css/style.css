@@ -260,6 +260,7 @@ img{max-width: 100%;}
 .tooltip-pleaces .arrow{position:absolute; bottom:-11px; left:15px; color:#f1f1f1; font-size:30px; line-height:12px}
 .info:hover .tooltip-pleaces{display:block;}
 .place-info:hover .tooltip-pleaces{display:block;}
+.time-info:hover .tooltip-pleaces{display:block;color:#6b6b6b}
 .tooltip-pleaces .title a{font-size:15px; font-weight:700;}
 .tooltip-pleaces .rate{margin-bottom:5px;}
 .tooltip-pleaces address{font-style:normal;}

@@ -162,9 +162,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                     <p>Times</p>
                                     <div class="box-white white times-area">
                                         <ul class="choose-list">
-                                            <li ng-class="when.selected ? 'selected' : ''" ng-repeat="when in usersInfo.current.when" ng-click="toggleTime(when)">
+                                            <li ng-class="when.selected ? 'selected' : ''" class="time-info" ng-repeat="when in usersInfo.current.when" ng-click="toggleTime(when)">
                                                 <a class="icon" title="Delete">Delete</a>
                                                 {{ when.whenFormatted }}
+                                                <div class="tooltip-pleaces">
+                                                    <i class="fa fa-caret-down arrow"></i>
+                                                    {{when.fullInfoFormatted}}
+                                                </div>
                                             </li>
                                             <li class="forbtn"><span class="add-times button-span"><a class="btn btn-add waves-effect waves-light" ng-click="addTimes()"><i class="icon"></i> Add</a></span></li>
                                         </ul>
