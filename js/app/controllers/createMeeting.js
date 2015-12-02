@@ -94,7 +94,7 @@
             if ($scope.stage === $scope.MAX_STAGE) {
                 if ($scope.currentUser.isAnonymous()) {
                     $scope.stage --;
-                    alert('Please Login to Create');
+                    alert('Please login so we can create this activity...');
                     dialogs.auth();
                     return;
                 }

@@ -154,7 +154,7 @@
         
         $scope.createMeeting = function() {
             if ($scope.currentUser.isAnonymous()) {
-                    alert('Please Login to Create');
+                    alert('Please login so we can create this activity...');
                     dialogs.auth();
                     return;
                 }
