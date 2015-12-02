@@ -955,6 +955,11 @@
                 $window.$('.first-greeting-bubble').remove();
             }
             
+            if (sessionService.getViewedTutorialStatus(1) || sessionService.getViewedTutorialStatus(2)) {
+                // if viewed homepage or index page, remove common tutorial
+                $window.$('.common-tooltip').remove();
+            }
+            
             if (!sessionService.getViewedTutorialStatus() || !$scope.userGroups.groups.length) {
                 $window.$('.fake-group').show();
                 $window.$('.no-group').hide();

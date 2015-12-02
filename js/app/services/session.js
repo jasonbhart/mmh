@@ -186,7 +186,10 @@
             setMeetingId: function(id) {
                 meetingId = id;
             },
-            getViewedTutorialStatus: function() {
+            getViewedTutorialStatus: function(currentPage) {
+                if (!currentPage) {
+                    currentPage = util.getCurrentPage();
+                }
                 if (currentPage === 1 && $cookies.viewedHomeTutorial) {
                     return true;
                 } else if (currentPage === 2 && $cookies.viewedMeetingTutorial) {
