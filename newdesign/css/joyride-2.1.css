@@ -127,11 +127,15 @@ body {
 }
 
 .joyride-tip-guide.left-menu span.joyride-nub.left {
-    top: 6px !important;
+    top: 8px !important;
 }
 
 .joyride-tip-guide.right-menu span.joyride-nub.right {
-    top: 6px !important;
+    top: 8px !important;
+}
+
+.joyride-tip-guide.notification-tooltip span.joyride-nub.right {
+    top: 2px !important;
 }
 
 .joyride-tip-guide span.joyride-nub.top-right {
