@@ -70,6 +70,7 @@
                         id: when.id,
                         when: when.when,
                         whenFormatted: when.when.format(timeFormat),
+                        fullInfoFormatted: when.when.format('dddd MMMM, Do h:mmA'),
                         selected: userWhen.indexOf(when.id) >= 0
                     };
                 });
@@ -491,7 +492,7 @@
                         where: where,
                         when: {
                             when: when,
-                            formatted: when.when.format($scope.timeFormat)
+                            formatted: when.when.format($scope.timeFormat)                           
                         },
                         hasJoined: function(userId) {
                             return joined.indexOf(userId) >= 0;
