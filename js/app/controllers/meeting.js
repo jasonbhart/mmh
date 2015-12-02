@@ -995,7 +995,8 @@
                 where: places,
                 users: users,
                 timeTitle: changeDateToToday($scope.meeting.timeTitle || $scope.meeting.createdDate),
-                specific_location: $scope.meeting.specific_location || ''
+                specific_location: $scope.meeting.specific_location || '',
+                category: $scope.meeting.category || 'Other'
             };
 
             $window.$('.loading-wrap').show();
@@ -1023,11 +1024,7 @@
         
 
         var addMeetingToCategory = function(data) {
-            if (data.where[0] && data.where[0].type) {
-                var categoryId = data.where[0].type;
-            } else {
-                var categoryId = 'Other';
-            }
+            var categoryId = data.category;
             
             var meetingData = {
                 id: data.meetingId,

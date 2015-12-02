@@ -370,6 +370,10 @@
             get: function(id) {
                 return new Meeting(id, appConfig, $rootScope, $q, $firebaseObject, $firebaseArray, $log, localMeetingService);
             },
+            getRaw: function (id) {
+                var ref = new Firebase(meetsUrl);
+                return $firebaseObject(ref.child(id));
+            },
             convertWhen: function(when) {
                 return moment.utc(when).local();
             },

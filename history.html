@@ -57,6 +57,7 @@
         <script src="js/app/services/history.js"></script>
         <script src="js/app/services/notification.js"></script>
         <script src="js/app/services/email.js"></script>
+        <script src="js/app/services/category.js"></script>
         <script src="js/app/controllers.js"></script>
         <script src="js/app/controllers/authModal.js"></script>
         <script src="js/app/controllers/history.js"></script>
@@ -106,9 +107,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                 <p class="date grey-text">{{ meetings[0].date }}</p>
                                 <ul class="list" ng-repeat="meeting in meetings | orderBy : 'time' : true">   
                                     <li>
-                                            <a class="btn red waves-effect waves-light right">
-                                                Create Activity
-                                            </a>
+                                        <a class="btn red waves-effect waves-light right" ng-click="createActivity(meeting.id)">
+                                            Create Activity
+                                        </a>
                                         <h3 class="title">You "<span class="grey-text">RSVPed</span>" on meeting "<a ng-href="activity.html?act={{ meeting.id }}">{{ getMeetingName(meeting, true)}}</a>"</h3>
                                         <p>{{ meeting.place.categories[0][0]}} / {{ meeting.place.name}} / <span class="grey-text">{{ meeting.place.display_address}}</span></p>
                                     </li>

@@ -4,8 +4,8 @@
     var app = angular.module('mmh.controllers');
 
     // get data from yelp
-    app.controller('HistoryController', ['$scope', 'meetingInfo', 'sessionService', 'util', 'geoLocation','$window', 'googleMap','historyService', 'appConfig', 'userService', 'meetingService', '$firebaseObject', '$q',
-            function ($scope, meetingInfo, sessionService, util, geoLocation, $window, googleMap, historyService, appConfig, userService, meetingService, $firebaseObject, $q) {
+    app.controller('HistoryController', ['$scope', 'meetingInfo', 'sessionService', 'util', 'geoLocation','$window', 'googleMap','historyService', 'appConfig', 'userService', 'meetingService', '$firebaseObject', '$q','categoryService',
+            function ($scope, meetingInfo, sessionService, util, geoLocation, $window, googleMap, historyService, appConfig, userService, meetingService, $firebaseObject, $q, categoryService) {
         $scope.currentUser = null;
         $scope.baseUrl = 'https://www.socialivo.com/';
         var ref = new Firebase(appConfig.firebaseUrl + '/meets');
@@ -69,6 +69,83 @@
             });
             
         }
+        
+        $scope.createActivity = function (meetId) {
+            $window.$('.loading-wrap').show();
+            meetingService.getRaw(meetId).$loaded(function(meetData) {
+                var times   = getTimeFromTemplate(meetData.when);
+                var places  = getPlaceFromTemplate(meetData.where);
+                var users = {};
+                if ($scope.currentUser && $scope.currentUser.id) {
+                    users[$scope.currentUser.id] = {
+                        joined: true,
+                        where: Object.keys(places),
+                        when: Object.keys(times)
+                    };
+                }
+                var data = {
+                    name: meetData.name,
+                    createdDate: moment().utc().toISOString(),
+                    when: times,
+                    where: places,
+                    users: users,
+                    timeTitle: changeDateToToday(meetData.timeTitle || meetData.createdDate),
+                    specific_location: meetData.specific_location || '',
+                    category: meetData.category || 'Other'
+                };
+                
+                var meetingPromise = meetingService.create(data);
+                meetingPromise.then(function(meeting) {
+                    var meetingId = meeting.refs.current.key();
+                    
+                    data.meetingId = meetingId;
+                    $scope.redirectUrl = 'activity.html?act=' + meetingId;
+
+                    addMeetingToCategory(data);
+                    $window.$('.loading-wrap').hide();
+
+                    setTimeout(function() {
+                        $window.location.href = $scope.redirectUrl;
+                    }, 1000);
+                });
+            });
+        }
+        
+        var getTimeFromTemplate = function (oldTimes) {
+            var result  = [];
+            var times   = angular.copy(oldTimes);
+           
+            for (var i in times) {
+                result.push(changeDateToToday(times[i].$value));
+            }
+            return result;
+        };
+        
+        var getPlaceFromTemplate = function (oldPlaces) {
+            var result   = [];
+            var places   = angular.copy(oldPlaces);
+            for (var i in places) {
+                result.push(places[i]);
+            }
+            return result;
+        };
+        
+        var changeDateToToday = function (pastMoment) {
+            var timeWithoutDate = moment(pastMoment).format('HH:mm:ss');
+            return moment(timeWithoutDate, 'HH:mm:ss').utc().toISOString();
+        };
+        var addMeetingToCategory = function(data) {
+            var categoryId = data.category;
+            
+            var meetingData = {
+                id: data.meetingId,
+                name: data.name,
+                createdDate: data.createdDate,
+                timeTitle: data.timeTitle
+            } ;
+            categoryService.addMeetingToCategory(categoryId, categoryId, meetingData);
+        }
+        
         
     }]);
 })();
