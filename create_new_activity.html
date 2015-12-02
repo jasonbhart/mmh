@@ -114,11 +114,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             </ul>
                         </div>
                         <div class="frm-creat" ng-show="stage == 1">
-                            <div class="row activity-title">
+                            <div class="row activity-title button-span">
                                 <h3 class="title">Title of the activity (optional)</h3>
                                 <input type="text" placeholder="Activity title" ng-model="meeting_name" style="max-width:600px;" />
                             </div>
-                            <div class="row select-what">
+                            <div class="row select-what button-span">
                                 <h3 class="title">What do you want to do? </h3>
                                 <ul class="option">
                                     <li>
@@ -126,7 +126,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                             <input class="with-gap" ng-model="what" value="restaurants" id="what01" type="radio"/>
                                             <label for="what01">Share a meal</label>
                                         </span>
-                                        <div ng-show="what=='restaurants'" class="check-area select-subcagetory">
+                                        <div ng-show="what=='restaurants'" class="check-area select-subcagetory button-span">
                                             <span style="margin-left: 30px;">
                                                 <input class="filled-in" type="checkbox" ng-model="allSubCategory" id="allSubCategory"> 
                                                 <label for="allSubCategory">Select All</label> 
@@ -215,7 +215,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             <div class="row">
                                 <h3 class="title">When do you want to do this? </h3>
                                 
-                                <ul class="option time-options">
+                                <ul class="option time-options button-span">
                                     <li><input class="with-gap" ng-model="when" id="when00" value="now" type="radio" />
                                         <label for="when00">Now</label></li>
                                     <li><input class="with-gap" ng-model="when" id="when01" value="one_hour_later" type="radio" checked />
@@ -240,7 +240,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         </div>
                         <div class="frm-creat" ng-show="stage == 3">
                             <div class="row">
-                                <h3 class="title where-do">Where do you want to do this? </h3>
+                                <h3 class="title where-do button-span">Where do you want to do this? </h3>
                                 <ul class="option">
                                     <li><input class="with-gap" ng-model="where" ng-change="updatePlaceSuggestion()" id="where01" value="1" type="radio"  checked />
                                         <label for="where01">Within 1 miles of my current location (default; walkable) </label></li>
@@ -252,7 +252,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                 <div class="row">
                                     <input class="location-autocomplete" type="text" placeholder="Enter Neighborhood, Address, City, State or Zip" ng-model="other_location" ng-blur="setTimeoutForUpdatePlaceSuggestion()" ng-show="where=='other'"style="max-width:300px;" />
                                 </div>
-                                <h3 class="title highest-rated">Here are the highest rated establishments in the search area {{locationName}} </h3>
+                                <h3 class="title highest-rated button-span">Here are the highest rated establishments in the search area {{locationName}} </h3>
                                 <label style="font-style: italic; font-size: 15px">{{noSuggestionLabel}}</label>
                                 <ul class="option best-places">
                                     <li ng-repeat="place in suggestions">
@@ -286,7 +286,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         </div>
                         <div class="frm-creat" ng-show="stage == 4">
                             <div class="row">
-                                <h3 class="title social-sharing">How do you wish to share your activity? </h3>
+                                <h3 class="title social-sharing button-span">How do you wish to share your activity? </h3>
                                 <ul class="option">
                                     <li><input class="with-gap" ng-model="share" value="1" id="share" type="radio"/>
                                         <label for="share">Share via...</label>
@@ -309,7 +309,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                             </span>
                                         </div>
                                     </li>
-                                    <li class = "make-new-friends"><input class="with-gap" ng-model="share" value="0" id="skip" type="radio"/>
+                                    <li class = "make-new-friends button-span"><input class="with-gap" ng-model="share" value="0" id="skip" type="radio"/>
                                         <label for="skip">Make new friends (skip sharing for now)</label>
                                     </li>
                                 </ul>

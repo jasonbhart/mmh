@@ -490,7 +490,7 @@ img{max-width: 100%;}
 .auto-detect-location {
     margin-top: 7px;
 }
-.button-span{display: block; padding: 5px;}
+.button-span{display: block; padding: 5px !important;}
 .button-span .btn{margin: 0 !important;}
 .account {margin-top:-3px};
 
