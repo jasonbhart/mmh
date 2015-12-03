@@ -989,8 +989,8 @@
             if ($scope.currentUser && $scope.currentUser.id) {
                 users[$scope.currentUser.id] = {
                     joined: true,
-                    where: Object.keys(places),
-                    when: Object.keys(times)
+                    where: util.getFirebaseKeys(places),
+                    when: util.getFirebaseKeys(times)
                 };
             }
             var data = {
@@ -1041,16 +1041,17 @@
         }
         
         var getTimeFromTemplate = function () {
-            var result  = [];
+            var result  = {};
             var times   = angular.copy($scope.meeting.when);
             for (var i in times) {
-                result.push(changeDateToToday(times[i].$value));
+                var key = util.generateKey();
+                result[key] = changeDateToToday(times[i].$value);
             }
             return result;
         }
         
         var getPlaceFromTemplate = function () {
-            var result   = [];
+            var result   = {};
             var places   = angular.copy($scope.meeting.where);
             for (var i in places) {
                 var place = {
@@ -1063,7 +1064,8 @@
                     type: places[i].type || '',
                     url: places[i].url || ''
                 };
-                result.push(place);
+                var key = util.generateKey();
+                result[key] = place;
             }
             return result;
         };
