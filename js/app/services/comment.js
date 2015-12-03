@@ -8,8 +8,8 @@
     function($rootScope, appConfig, $firebaseObject, $q) {
         var ref = new Firebase(appConfig.firebaseUrl);
         
-        var addComment = function (meetingId, groupId, data) {
-            var commentRef = ref.child('comments').child(meetingId).child(groupId);
+        var addComment = function (meetingId, data) {
+            var commentRef = ref.child('comments').child(meetingId);
             commentRef.once('value', function(snapshot) {
                 if (snapshot.val() === null) {
                     var id = commentRef.push(data).key();

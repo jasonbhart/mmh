@@ -91,7 +91,7 @@ h3.title{font-size:18px; font-weight:500;}
 .choose-setting .member .thumb{float:left; width:35px; height:35px; border:1px solid #ddd; overflow:hidden; margin-right:10px;}
 .choose-setting .member .thumb img{width:35px;}
 .choose-setting .member p{margin:0; font-size:12px; display:table-cell;}
-.choose-setting .box-gray{font-size:14px; padding:0 20px 20px}
+.choose-setting .box-gray{font-size:14px;}
 .choose-setting .box-gray .btn{margin:3px 0; background:#67bcdb;}
 .choose-setting .box-gray .btn:hover{background:#e44424;}
 .choose-setting .box-gray p{margin:0; padding-top:20px; font-weight:500;}
@@ -500,7 +500,7 @@ img{max-width: 100%;}
 
 .auto-group .just-ex{position:absolute; z-index:99; font-weight:700; width:100%; left:0px; top:20px; text-align:center;}
 .auto-group .just-ex span{display:inline-block; border-radius:30px; font-size:25px; background:#ccc; opacity:.8; color:#fff; padding:0 30px;}
-.comment-area{margin:20px -20px -20px; padding:20px;border-top:1px solid #ddd;background:#f6f7f8  none;}
+.comment-area{margin:20px -20px 0; padding:20px;border-top:1px solid #ddd;background:#f6f7f8  none;}
 .comment-area .readmore{display:block; margin-bottom:15px; color:#1a8dbc ;}
 .comment-area .wirtecoment, .comment-area .comment-item{position:relative; padding-left:55px; margin:0 0 10px; min-height:39px;}
 .comment-area .comment-item:last-child{margin-top:0;}
@@ -513,3 +513,5 @@ img{max-width: 100%;}
 .comment-area .wirtecoment input[type=text]:focus{box-shadow:none;}
 .comment-area .wirtecoment .btn{border-top-left-radius: 0;border-bottom-left-radius: 0; position:absolute; top:0; right:0; margin:0; z-index:99; height:39px; padding:0 .8em}
 .comment-area .date{display:block; font-size:12px;}
+.meet-setting{padding:0 20px; background:#fff none; border:1px solid #ddd;}
+.meet-setting .box-white{background:#f8f4f0 none;}
