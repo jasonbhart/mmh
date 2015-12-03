@@ -242,7 +242,6 @@
                 var establishment = JSON.parse(business);
                 $scope.manualBusinessInfo = establishment;
                 $scope.showManualBusiness = true;
-                $scope.establishment = JSON.parse(establishment);
             });
         };
         

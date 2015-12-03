@@ -15,8 +15,7 @@
         $scope.currentPage = util.getCurrentPage();
         $scope.establishment = 'other';
         
-        var defaultManualBusinessLabel = "Enter a specific business";
-        $scope.manualBusinessLabel = defaultManualBusinessLabel;
+        $scope.showManualBusiness = false;
         $scope.manualBusinessInfo = {};
         
         $window.$('.loading-wrap').show();
@@ -68,9 +67,9 @@
             var currentLocation = geoLocation.getPosition();
             currentLocation.then(function(position) {
                 if (position.coords.latitude && position.coords.longitude) {
-                        options.coords = {lat: position.coords.latitude, lng: position.coords.longitude};
+//                        options.coords = {lat: position.coords.latitude, lng: position.coords.longitude};
                     // Boston location for testing purpose
-//                        options.coords = {lat: '42.3133735', lng: '-71.0571571,12'};
+                        options.coords = {lat: '42.3133735', lng: '-71.0571571,12'};
 
                     $scope.coords = options.coords;
                     dataProvider.getSuggestions(options).then(function(suggestions) {
@@ -114,8 +113,8 @@
                     return;
                 }
                 var establishment = JSON.parse(business);
-                $scope.manualBusinessLabel = defaultManualBusinessLabel + ' (' + establishment.name + ' - ' + establishment.location.display_address + ')';
                 $scope.manualBusinessInfo = establishment;
+                $scope.showManualBusiness = true;
             });
         };
         
@@ -124,6 +123,8 @@
             if ($scope.establishment === 'other') {
                 if (typeof $scope.suggestions[0] === 'object') {
                     establishment = JSON.stringify($scope.suggestions[0]);
+                } else if (Object.keys($scope.manualBusinessInfo).length > 0) {
+                    establishment = JSON.stringify($scope.manualBusinessInfo);
                 } else {
                     return [];
                 }
