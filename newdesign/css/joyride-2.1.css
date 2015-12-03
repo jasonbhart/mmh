@@ -134,8 +134,8 @@ body {
     top: 8px !important;
 }
 
-.joyride-tip-guide.notification-tooltip span.joyride-nub.right {
-    top: 2px !important;
+.joyride-tip-guide.notification-tooltip {
+    top: 15px !important;
 }
 
 .joyride-tip-guide span.joyride-nub.top-right {
