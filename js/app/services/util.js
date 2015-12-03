@@ -86,6 +86,24 @@
                 } catch (e) {
                     console.log(e);
                 }
+            },
+            generateKey: function () {
+                var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz_";
+                var string_length = 19;
+                var randomstring = '-';
+                for (var i = 0; i < string_length; i++) {
+                    var rnum = Math.floor(Math.random() * chars.length);
+                    randomstring += chars.substring(rnum, rnum + 1);
+                }
+                return randomstring;
+            },
+            getFirebaseKeys: function (firebaseObject) {
+                var result = {};
+                for (var i in firebaseObject) {
+                    var key = this.generateKey();
+                    result[key] = i;
+                }
+                return result;
             }
         }
     }]);
