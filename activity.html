@@ -200,7 +200,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                         <span class="circle"><i class="fa fa-arrow-down"></i></span>
                                     </div>
                                     <div class="group" ng-if="userGroups.groups.length">
-                                        <h3 class="title suitable-groups">These groups match your indicated preferences. Click on the RSVP button to confirm the one you will be attending:</h3>
+                                        <h3 class="title suitable-groups button-span">These groups match your indicated preferences. Click on the RSVP button to confirm the one you will be attending:</h3>
                                         <div class="block auto-group group" ng-repeat="group in userGroups.groups">
                                             <h4 class="location">{{ group.where.name }} {{getMeetingLocation(group.where)}}</h4>
                                             <div class="box">
@@ -234,7 +234,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                         </div>
                                     </div>
                                     <div class="group fake-group" style="display:none;">
-                                        <h3 class="title suitable-groups">These groups match your indicated preferences. Click on the RSVP button to confirm the one you will be attending:</h3>
+                                        <h3 class="title suitable-groups button-span">These groups match your indicated preferences. Click on the RSVP button to confirm the one you will be attending:</h3>
                                         <div class="block auto-group group">
                                             <h4 class="location">Example venue (address)</h4>
                                             <div class="box">
@@ -306,23 +306,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <h2 id="logo"><a>Socialivo</a></h2>
             <p>This is the Socialivo tour of an 'Activity' page. You can skip this tutorial by clicking on the 'X' in the corner or continue by clicking 'Next'.</p>
         </li>
-        <li data-id="home" data-text="Next" class="custom tooltip-ml left-menu" data-options="tipLocation:right;tipAnimation:pop">
+        <li data-id="home" data-text="Next" class="custom tooltip-ml left-menu common-tooltip" data-options="tipLocation:right;tipAnimation:pop">
             <h2>Home</h2>
             <p>Go to the Socialivo home page</p>
         </li>
-        <li data-id="new_meet" data-text="Next" class="custom mb-menu-create tooltip-ml left-menu" data-options="tipLocation:right;tipAnimation:pop">
+        <li data-id="new_meet" data-text="Next" class="custom mb-menu-create tooltip-ml left-menu common-tooltip" data-options="tipLocation:right;tipAnimation:pop">
             <h2>New Activity</h2>
             <p>Create a new activity of your own.</p>
         </li>
-        <li data-id="meet_me_here" data-text="Next" class="custom tooltip-ml left-menu" data-options="tipLocation:right;tipAnimation:pop">
+        <li data-id="meet_me_here" data-text="Next" class="custom tooltip-ml left-menu common-tooltip" data-options="tipLocation:right;tipAnimation:pop">
             <h2>"Meet me here"</h2>
             <p>Have your friends meet you now at your current location.</p>
         </li>
-        <li data-id="meet" data-text="Next" class="custom mb-menu-create tooltip-ml left-menu" data-options="tipLocation:right;tipAnimation:pop">
+        <li data-id="meet" data-text="Next" class="custom mb-menu-create tooltip-ml left-menu common-tooltip" data-options="tipLocation:right;tipAnimation:pop">
             <h2>Activities</h2>
             <p>Find all the activities you are participating in here.</p>
         </li>
-        <li data-id="notification-icon-dot" class="mb-alert tooltip-mr notification-tooltip" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+        <li data-id="notification-icon-dot" class="mb-alert tooltip-mr right-menu notification-tooltip common-tooltip" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
             <div id="header">
                 <div class="notifications">
                     <a class="dropdown-button info on" href="#">
@@ -333,7 +333,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <h2>Notifications</h2>
             <p>See all of your notifications about activities you are participating in here</p>
         </li>
-        <li data-class="account" class="mb-user tooltip-mr right-menu" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
+        <li data-class="account" class="mb-user tooltip-mr right-menu common-tooltip" data-button="Next" data-options="tipLocation:left;ipAnimation:fade">
             <h2>Profile</h2>
             <p>Managing your profile and account settings here.</p>
         </li>
