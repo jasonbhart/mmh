@@ -247,9 +247,14 @@
         };
         
         function getISOFormatedTimes() {
-            return $scope.times.map(function(time){
-                return time.utc().toISOString();
-            });
+            var result = {};
+            
+            for (var i in $scope.times) {
+                var key = util.generateKey();
+                var time = angular.copy($scope.times[i])
+                result[key] = time.utc().toISOString();
+            }
+            return result;
         }
         
         function getFormatedEstablishment() {
@@ -268,7 +273,9 @@
             
             try {
                 establishment = JSON.parse(establishment);
-                return [{
+                var key = util.generateKey();
+                var result = {};
+                result[key] = {
                     name: establishment.name || "Unknown",
                     url: establishment.url || "Unknown",
                     rating_url: establishment.rating_url || "Unknown",
@@ -278,7 +285,8 @@
                     image_url: establishment.image_url || "",
                     location: establishment.location || {},
                     categories: establishment.categories || {}
-                }];
+                };
+                return result;
             } catch (e) {
                 var data = {
                     content: "unable to parse establishment",
@@ -409,8 +417,8 @@
             if ($scope.currentUser && $scope.currentUser.id) {
                 users[$scope.currentUser.id] = {
                     joined: true,
-                    where: Object.keys(places),
-                    when: Object.keys(times)
+                    where: util.getFirebaseKeys(places),
+                    when: util.getFirebaseKeys(times)
                 };
             }
             var data = {

@@ -17,9 +17,9 @@
         $scope.currentMeetingId = util.getUrlParams('act');
         $scope.changingGroups = false;
         $scope.ended = false;
-        $scope.comments = [];
-        $scope.numberOfCommentToShow = [];
-        $scope.newComments = [];
+        $scope.comments = {};
+        $scope.numberOfCommentToShow = 2;
+        $scope.newComment = null;
         $scope.groupTimeout = null;
        
                 
@@ -989,8 +989,8 @@
             if ($scope.currentUser && $scope.currentUser.id) {
                 users[$scope.currentUser.id] = {
                     joined: true,
-                    where: Object.keys(places),
-                    when: Object.keys(times)
+                    where: util.getFirebaseKeys(places),
+                    when: util.getFirebaseKeys(times)
                 };
             }
             var data = {
@@ -1041,16 +1041,17 @@
         }
         
         var getTimeFromTemplate = function () {
-            var result  = [];
+            var result  = {};
             var times   = angular.copy($scope.meeting.when);
             for (var i in times) {
-                result.push(changeDateToToday(times[i].$value));
+                var key = util.generateKey();
+                result[key] = changeDateToToday(times[i].$value);
             }
             return result;
         }
         
         var getPlaceFromTemplate = function () {
-            var result   = [];
+            var result   = {};
             var places   = angular.copy($scope.meeting.where);
             for (var i in places) {
                 var place = {
@@ -1063,7 +1064,8 @@
                     type: places[i].type || '',
                     url: places[i].url || ''
                 };
-                result.push(place);
+                var key = util.generateKey();
+                result[key] = place;
             }
             return result;
         };
@@ -1085,12 +1087,11 @@
             }   
         };        
         
-        $scope.addComment = function (group) {
+        $scope.addComment = function () {
             var meetingId = $scope.currentMeetingId,
-            groupId = $scope.getGroupKey(group),
-            content = $scope.newComments[groupId];
+            content = $window.$('#new-comment').val();
         
-            if (!$scope.newComments[groupId]) {
+            if (!content) {
                 return false;
             }
             var data = {
@@ -1100,8 +1101,9 @@
                 time: moment().utc().toISOString(),
                 content: content
             }
-            commentService.addComment(meetingId, groupId, data);
-            $scope.newComments[groupId] = '';
+            commentService.addComment(meetingId, data);
+            $scope.newComment = '';
+            $window.$('#new-comment').val('');
         };
         
         $scope.getCommentTime = function (isoString) {
@@ -1118,43 +1120,38 @@
             return group.where.$id + '+' + group.when.when.id;
         };
         
-        $scope.checkCommentKey = function (event, group) {
+        $scope.checkCommentKey = function (event) {
             if (event.keyCode === 13) {
-                $scope.addComment(group);
+                $scope.addComment();
             }
         };
         
-        $scope.getNumberOfCommentToShow = function (group) {
-            var groupId = $scope.getGroupKey(group);
-            return $scope.numberOfCommentToShow[groupId] || 2;
+        $scope.getNumberOfCommentToShow = function () {
+            return $scope.numberOfCommentToShow;
         };
         
-        $scope.showMoreComment = function (group) {
-            var groupId = $scope.getGroupKey(group);
-            var currentNumber = $scope.getNumberOfCommentToShow(group);
-            $scope.numberOfCommentToShow[groupId] = currentNumber + 2;
-        }
+        $scope.showMoreComment = function () {
+            $scope.numberOfCommentToShow += 2;
+        };
         
-        $scope.displayShowMoreComment = function (group) {
-            var groupId = $scope.getGroupKey(group);
-            var comments = $scope.comments[groupId] || {};
+        $scope.displayShowMoreComment = function () {
+            var comments = $scope.comments;
             var numberOfComment = Object.keys(comments).length;
-            var numberToShow = $scope.getNumberOfCommentToShow(group);
+            var numberToShow = $scope.getNumberOfCommentToShow();
             return numberOfComment > numberToShow;
-        }
+        };
         
-        $scope.getCommentsToShow = function (group) {
-            var groupId = $scope.getGroupKey(group);
-            var comments = $scope.comments[groupId] || {};
+        $scope.getCommentsToShow = function () {
+            var comments = $scope.comments;
             var commentArray = Object.keys(comments).map(function (key) {
                 return comments[key];
             });
             
             var numberOfComment = Object.keys(comments).length;
-            var numberToShow = $scope.getNumberOfCommentToShow(group);
+            var numberToShow = $scope.getNumberOfCommentToShow();
             var startIndex = numberOfComment > numberToShow ? numberOfComment - numberToShow : 0;
             return commentArray.slice(startIndex, numberOfComment);
-        }
+        };
         
         $scope.getCorrectProtocolUrl = function(url) {
             return util.getCorrectProtocolUrl(url);

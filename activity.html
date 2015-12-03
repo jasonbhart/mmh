@@ -134,44 +134,65 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                         <b>Your Location:</b> {{ usersInfo.current.user.getLocationName() }} (<a ng-click="changeLocation()">change</a>)</p>
                                 </div>
                                 <div class="box-gray">
-                                    <p>
-                                        Places 
-                                        <span ng-if="meeting.specificLocation">({{meeting.specificLocation}})</span>
-                                    </p>
-                                    <div class="box-white white places-area">
-                                        <ul class="choose-list">
-                                            <li ng-class="where.selected ? 'selected' : ''" class="place-info" ng-repeat="where in usersInfo.current.where" ng-click="togglePlace(where)">
-                                                <a class="icon" title="Delete">Delete</a>
-                                                {{ where.name }}
-                                                 <div class="tooltip-pleaces">
-                                                    <i class="fa fa-caret-down arrow"></i>
-                                                    <a class="thumb"><img ng-src="{{ getCorrectProtocolUrl(where.where.image_url) }}" alt=""></a>
-                                                    <div class="cont-data">
-                                                        <h3 class="title"><a target="_blank" href="{{ where.where.url }}">{{ where.name }}</a></h3>
-                                                        <img ng-src="{{ getCorrectProtocolUrl(where.where.rating_url) }}" alt="">
-                                                        <span class="str-list">{{ where.where.categories[0][0] ? where.where.categories[0][0] : '' }}</span>
-                                                        <address>
-                                                            {{ where.where.location.display_address }}
-                                                        </address>
+                                    <div class="meet-setting">
+                                        <p>
+                                            Places 
+                                            <span ng-if="meeting.specificLocation">({{meeting.specificLocation}})</span>
+                                        </p>
+                                        <div class="box-white places-area">
+                                            <ul class="choose-list">
+                                                <li ng-class="where.selected ? 'selected' : ''" class="place-info" ng-repeat="where in usersInfo.current.where" ng-click="togglePlace(where)">
+                                                    <a class="icon" title="Delete">Delete</a>
+                                                    {{ where.name }}
+                                                     <div class="tooltip-pleaces">
+                                                        <i class="fa fa-caret-down arrow"></i>
+                                                        <a class="thumb"><img ng-src="{{ getCorrectProtocolUrl(where.where.image_url) }}" alt=""></a>
+                                                        <div class="cont-data">
+                                                            <h3 class="title"><a target="_blank" href="{{ where.where.url }}">{{ where.name }}</a></h3>
+                                                            <img ng-src="{{ getCorrectProtocolUrl(where.where.rating_url) }}" alt="">
+                                                            <span class="str-list">{{ where.where.categories[0][0] ? where.where.categories[0][0] : '' }}</span>
+                                                            <address>
+                                                                {{ where.where.location.display_address }}
+                                                            </address>
+                                                        </div>
                                                     </div>
+                                                </li>
+                                                <li class="forbtn"><span class="add-places button-span"><a class="btn btn-add waves-effect waves-light" ng-click="addPlaces()"><i class="icon"></i> Add</a></span></li>
+                                            </ul>
+                                        </div>
+                                        <p>Times</p>
+                                        <div class="box-white times-area">
+                                            <ul class="choose-list">
+                                                <li ng-class="when.selected ? 'selected' : ''" class="time-info" ng-repeat="when in usersInfo.current.when" ng-click="toggleTime(when)">
+                                                    <a class="icon" title="Delete">Delete</a>
+                                                    {{ when.whenFormatted }}
+                                                    <div class="tooltip-pleaces">
+                                                        <i class="fa fa-caret-down arrow"></i>
+                                                        {{when.fullInfoFormatted}}
+                                                    </div>
+                                                </li>
+                                                <li class="forbtn"><span class="add-times button-span"><a class="btn btn-add waves-effect waves-light" ng-click="addTimes()"><i class="icon"></i> Add</a></span></li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="comment-area">
+                                            <a class="readmore" ng-show="displayShowMoreComment()" ng-click="showMoreComment()"><i class="fa fa-comments"></i> View 2 more comments</a>
+                                            <div class="comment-item" ng-repeat="comment in getCommentsToShow()">
+                                                <a href="#none" class="avatar"><img ng-src="{{ comment.avatar || 'images/no-profile.jpg' }}" alt=""></a>
+                                                <div class="comment-info">
+                                                    <a href="#none" class="tit">{{ comment.username }}</a>
+                                                    <span class="txt"> {{ comment.content }}</span>
+                                                    <span class="date grey-text"> {{ getCommentTime(comment.time) }}</span>
                                                 </div>
-                                            </li>
-                                            <li class="forbtn"><span class="add-places button-span"><a class="btn btn-add waves-effect waves-light" ng-click="addPlaces()"><i class="icon"></i> Add</a></span></li>
-                                        </ul>
-                                    </div>
-                                    <p>Times</p>
-                                    <div class="box-white white times-area">
-                                        <ul class="choose-list">
-                                            <li ng-class="when.selected ? 'selected' : ''" class="time-info" ng-repeat="when in usersInfo.current.when" ng-click="toggleTime(when)">
-                                                <a class="icon" title="Delete">Delete</a>
-                                                {{ when.whenFormatted }}
-                                                <div class="tooltip-pleaces">
-                                                    <i class="fa fa-caret-down arrow"></i>
-                                                    {{when.fullInfoFormatted}}
+                                            </div>
+                                            <div class="wirtecoment">
+                                                <span class="avatar"><img ng-src="{{currentUser.user.profileImageURL || 'images/no-profile.jpg'}}" alt=""></span>
+                                                <div class="write">
+                                                    <input class="" type="text" placeholder="Write a comment..." id="new-comment" ng-model="newComment" ng-keyup="checkCommentKey($event)">
+                                                    <button class="btn waves-effect waves-light" ng-click="addComment()">Send</button>
                                                 </div>
-                                            </li>
-                                            <li class="forbtn"><span class="add-times button-span"><a class="btn btn-add waves-effect waves-light" ng-click="addTimes()"><i class="icon"></i> Add</a></span></li>
-                                        </ul>
+                                            </div>
+                                        </div>
                                     </div>
                                     
                                     <div class="line">
@@ -208,24 +229,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                                         <i class="icon"></i>{{ user.user.fullName }} <span ng-if="needsGroupUserDetails(userGroups, user)">(you)</span>
                                                     </li>
                                                 </ul>
-                                                <div class="comment-area">
-                                                    <a class="readmore" ng-show="displayShowMoreComment(group)" ng-click="showMoreComment(group)"><i class="fa fa-comments"></i> View 2 more comments</a>
-                                                    <div class="comment-item" ng-repeat="comment in getCommentsToShow(group)">
-                                                        <a href="#none" class="avatar"><img ng-src="{{ comment.avatar || 'images/no-profile.jpg' }}" alt=""></a>
-                                                        <div class="comment-info">
-                                                            <a href="#none" class="tit">{{ comment.username }}</a>
-                                                            <span class="txt"> {{ comment.content }}</span>
-                                                            <span class="date grey-text"> {{ getCommentTime(comment.time) }}</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="wirtecoment">
-                                                        <span class="avatar"><img ng-src="{{currentUser.user.profileImageURL || 'images/no-profile.jpg'}}" alt=""></span>
-                                                        <div class="write">
-                                                            <input class="" type="text" placeholder="Write a comment..." ng-model="newComments[getGroupKey(group)]" ng-keyup="checkCommentKey($event, group)">
-                                                            <button class="btn waves-effect waves-light" ng-click="addComment(group)">Send</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                
                                             </div>
                                         </div>
                                     </div>
