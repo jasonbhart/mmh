@@ -67,9 +67,9 @@
             var currentLocation = geoLocation.getPosition();
             currentLocation.then(function(position) {
                 if (position.coords.latitude && position.coords.longitude) {
-//                        options.coords = {lat: position.coords.latitude, lng: position.coords.longitude};
+                        options.coords = {lat: position.coords.latitude, lng: position.coords.longitude};
                     // Boston location for testing purpose
-                        options.coords = {lat: '42.3133735', lng: '-71.0571571,12'};
+//                        options.coords = {lat: '42.3133735', lng: '-71.0571571,12'};
 
                     $scope.coords = options.coords;
                     dataProvider.getSuggestions(options).then(function(suggestions) {
