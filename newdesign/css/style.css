@@ -56,7 +56,7 @@ h3.title{font-size:18px; font-weight:500;}
 .other-meetings .info{padding:15px 20px;}
 .other-meetings .rspvBox{padding:15px 20px;}
 .other-meetings p{margin:0; margin-top:10px;}
-.your-location, .meeting-top, .choose-setting{margin-bottom:30px;}
+.your-location, .meeting-top {margin-bottom:30px;}
 .your-location .map{height:210px; overflow:hidden;}
 .your-location .des{border:1px solid #ddd; padding:5px 10px; font-size:18px; margin-top:15px;}
 .your-location .des .icon{background-position:0 -514px; margin-right:10px; display:inline-block; width:21px; height:22px; vertical-align:middle;}
