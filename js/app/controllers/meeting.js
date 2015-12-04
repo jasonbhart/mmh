@@ -1164,6 +1164,10 @@
             return commentArray.slice(startIndex, numberOfComment);
         };
         
+        $scope.isToday = function (isoString) {
+            return moment().format('YYYYMMDD') <= moment(isoString).format('YYYYMMDD');
+        };
+        
         $scope.getCorrectProtocolUrl = function(url) {
             return util.getCorrectProtocolUrl(url);
         };

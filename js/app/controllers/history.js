@@ -70,6 +70,10 @@
             
         }
         
+        $scope.isToday = function (isoString) {
+            return moment().format('YYYYMMDD') <= moment(isoString).format('YYYYMMDD');
+        };
+        
         $scope.createActivity = function (meetId) {
             $window.$('.loading-wrap').show();
             meetingService.getRaw(meetId).$loaded(function(meetData) {

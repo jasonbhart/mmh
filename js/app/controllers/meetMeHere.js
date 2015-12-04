@@ -204,6 +204,10 @@
             compareToDefaultSetting();
         };
         
+        $scope.isToday = function (isoString) {
+            return moment().format('YYYYMMDD') <= moment(isoString).format('YYYYMMDD');
+        };
+        
         var compareToDefaultSetting = function() {
             
             if ($scope.meeting_name) {

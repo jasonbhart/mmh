@@ -89,7 +89,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <li ng-class="currentPage == 4 ? 'active' : ''"id="meet_me_here"><a href="meet_me_here.html" class="waves-effect waves-ripple"><span class="icon icon-history"></span>Meet Me Here</a></li>
                 <li ng-class="currentPage == 2 ? 'active' : ''" id="meet" ><a class="waves-effect waves-ripple" ng-click="currentPage = 2"><span class="icon icon-invite"></span>Activities</a>
                     <ul class="subtab-left">
-                        <li ng-repeat="meeting in meetingList"  ng-class="(meeting.id == currentMeetingId) ? 'active' : ''">
+                        <li ng-repeat="meeting in meetingList" ng-if="isToday(meeting.createdDate)"  ng-class="(meeting.id == currentMeetingId) ? 'active' : ''">
                             <a ng-href="{{'/activity.html?act=' + meeting.id}}" class="waves-effect waves-ripple active">
                                 <i class="fa fa fa-angle-right"></i>
                                 {{getMeetingName(meeting, false)}}

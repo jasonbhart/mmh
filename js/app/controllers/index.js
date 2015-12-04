@@ -123,7 +123,6 @@
         });
         
         $scope.isToday = function (isoString) {
-            console.log(moment().format('YYYYMMDD'), '-', moment(isoString).format('YYYYMMDD'));
             return moment().format('YYYYMMDD') <= moment(isoString).format('YYYYMMDD');
         };
         

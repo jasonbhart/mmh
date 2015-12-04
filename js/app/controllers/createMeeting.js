@@ -646,6 +646,10 @@
             
         }
         
+        $scope.isToday = function (isoString) {
+            return moment().format('YYYYMMDD') <= moment(isoString).format('YYYYMMDD');
+        };
+        
         $window.$(document).ready(function () {
             $window.$('#contents').show();
             
