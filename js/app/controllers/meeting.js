@@ -397,27 +397,38 @@
                         $scope.userGroups = buildUserGroups(formattingData);
                     });
                 });
+                
+                var finished = checkIfFinished(angular.copy($scope.meeting.when));
+                
+                if (finished) {
+                     $scope.ended = true;
+                
+                    $scope.addPlaces = false;
+                    $scope.togglePlace = false;
+                    $scope.addTimes = false;
+                    $scope.toggleTime = false;
+                    $scope.joinGroup = false;
+                    $scope.changeLocation = false;
+                }
+                
             });
-            
-            var diff = moment().diff(moment($scope.meeting.createdDate));
             
             activateFacebookSDK();
             
-            
-            if (diff > 1000 * 3600 * 24) {
-                $scope.ended = true;
-                
-                $scope.addPlaces = false;
-                $scope.togglePlace = false;
-                $scope.addTimes = false;
-                $scope.toggleTime = false;
-                $scope.joinGroup = false;
-                $scope.changeLocation = false;
-            }
         }, function() {
             $log.log('No such activity');
             $window.location = '/index.html';
         });
+        
+        var checkIfFinished = function (times) {
+            var finished = true;
+            _.forEach(times, function(time) {
+                if (moment().diff(moment(time.$value)) < 3600 * 1000) {
+                    finished = false;
+                }
+            });
+            return finished;
+        };
         
         function buildUserGroups(formattingData) {
             if (!$scope.currentUser) {
