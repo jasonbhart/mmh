@@ -56,7 +56,7 @@ h3.title{font-size:18px; font-weight:500;}
 .other-meetings .info{padding:15px 20px;}
 .other-meetings .rspvBox{padding:15px 20px;}
 .other-meetings p{margin:0; margin-top:10px;}
-.your-location, .meeting-top, .choose-setting{margin-bottom:30px;}
+.your-location, .meeting-top {margin-bottom:30px;}
 .your-location .map{height:210px; overflow:hidden;}
 .your-location .des{border:1px solid #ddd; padding:5px 10px; font-size:18px; margin-top:15px;}
 .your-location .des .icon{background-position:0 -514px; margin-right:10px; display:inline-block; width:21px; height:22px; vertical-align:middle;}
@@ -508,7 +508,7 @@ img{max-width: 100%;}
 .comment-area .comment-item .tit{font-weight:700;}
 .comment-area .avatar{position:absolute;width:39px; border:1px solid #ededed ; font-size:0; top:0; left:0}
 .comment-area .wirtecoment{margin-bottom:0;}
-.comment-area .wirtecoment .write{position: relative; padding-right:80px; height:39px;}
+.comment-area .wirtecoment .write{position: relative; padding-right:53px; height:39px;}
 .comment-area .wirtecoment input{position: relative;z-index: 2;float: left; width: 100%; margin: 0; background:#fff;}
 .comment-area .wirtecoment input[type=text]:focus{box-shadow:none;}
 .comment-area .wirtecoment .btn{border-top-left-radius: 0;border-bottom-left-radius: 0; position:absolute; top:0; right:0; margin:0; z-index:99; height:39px; padding:0 .8em}
