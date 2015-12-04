@@ -122,6 +122,11 @@
             $scope.categories = data;
         });
         
+        $scope.isToday = function (isoString) {
+            console.log(moment().format('YYYYMMDD'), '-', moment(isoString).format('YYYYMMDD'));
+            return moment().format('YYYYMMDD') <= moment(isoString).format('YYYYMMDD');
+        };
+        
         $scope.getMeetingName = function(meeting, includeTime) {
             return meetingService.getMeetingName(meeting, includeTime);
         };

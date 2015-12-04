@@ -183,7 +183,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             <li ng-repeat="category in categories" class="level-0 category-name" ng-show="category.meetings">
                                 <a><i class="icon"></i>{{category.name}}</a>
                                 <ul class="subtab">
-                                    <li ng-repeat="meeting in category.meetings">
+                                    <li ng-repeat="meeting in category.meetings" ng-if="isToday(meeting.createdDate)">
                                         <a href="activity.html?act={{meeting.id}}">{{getMeetingName(meeting, true)}}</a>
                                     </li>
                                 </ul>
