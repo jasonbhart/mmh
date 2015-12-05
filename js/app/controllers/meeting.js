@@ -772,7 +772,7 @@
                         // onsite notification - temporary disable
                         //notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
                         
-                        if ($scope.usersInfo.others[i].user.user.email) {
+                        if ($scope.usersInfo.others[i].user.user.email && !$scope.usersInfo.others[i].user.user.disableEmailNoti) {
                             sendingEmails.push($scope.usersInfo.others[i].user.user.email);
                             
                         }
@@ -810,7 +810,7 @@
                         // onsite notification - temporary disable
                         notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
                         
-                        if ($scope.usersInfo.others[i].user.user.email) {
+                        if ($scope.usersInfo.others[i].user.user.email && !$scope.usersInfo.others[i].user.user.disableEmailNoti) {
                             sendingEmails.push($scope.usersInfo.others[i].user.user.email);
                             
                         }
@@ -843,7 +843,7 @@
                         // onsite notification - temporary disable
                         //notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
                         
-                        if ($scope.usersInfo.others[i].user.user.email) {
+                        if ($scope.usersInfo.others[i].user.user.email && !$scope.usersInfo.others[i].user.user.disableEmailNoti) {
                             sendingEmails.push($scope.usersInfo.others[i].user.user.email);
                             
                         }
@@ -879,8 +879,7 @@
                     if (typeof $scope.usersInfo.others[i] === 'object') {
                         // onsite notification
                         notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
-                        
-                        if ($scope.usersInfo.others[i].user.user.email) {
+                        if ($scope.usersInfo.others[i].user.user.email && !$scope.usersInfo.others[i].user.user.disableEmailNoti) {
                             sendingEmails.push($scope.usersInfo.others[i].user.user.email);
                         }
                     }

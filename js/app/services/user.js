@@ -61,6 +61,22 @@
                         $log.log("user.js - change location error");
                     });
                 },
+                getDisableEmailNoti: function() {
+                    if (this.user.disableEmailNoti)
+                        return this.user.disableEmailNoti;
+                    return false;
+                },
+                setDisableEmailNoti: function(value) {
+                    this.user.disableEmailNoti = value;
+                    this.user.$save().then(function (ref) {
+                        $log.log("Change disableEmailNoti success for user " + id);
+                    }, function (error) {
+                        $log.log("user.js - change disableEmailNoti error");
+                        return false;
+                    });
+                    
+                    return true;
+                },
                 removePassedActivities: function () {
                     var meetingList = this.meetingList;
                     _.forEach(meetingList, function(meeting, meetingId) {
