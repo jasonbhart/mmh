@@ -6,13 +6,13 @@
     var commonCategories =
         {
             "shopping":[
-                {"alias":"fashion", "parents":["shopping"], "title":"Go shopping for clothes"},
-                {"alias":"media", "parents":["shopping"], "title":"Hang at the book store"}
+                {"alias":"fashion", "parents":["shopping"], "title":"...for clothes"},
+                {"alias":"media", "parents":["shopping"], "title":"...for books"}
             ],
             "nightlife":[
-                {"alias":"cocktailbars,lounges,pubs,divebars,irish_pubs", "parents":["nightlife"], "title":"Get a drink"},
-                {"alias":"beergardens,beerbar,beerhall", "parents":["food"], "title":"Grab a craft beer"},
-                {"alias":"winetastingroom,wine_bars,champagne_bars", "parents":["food"], "title":"Drink some wine"},
+                {"alias":"cocktailbars,lounges,pubs,divebars,irish_pubs", "parents":["nightlife"], "title":"Get drinks"},
+                {"alias":"beergardens,beerbar,beerhall", "parents":["food"], "title":"Grab a beer"},
+                {"alias":"winetastingroom,wine_bars,champagne_bars", "parents":["food"], "title":"Drink wine"},
                 {"alias":"danceclubs,countrydancehalls", "parents":["nightlife"], "title":"Go dancing"},
                 {"alias":"karaoke", "parents":["nightlife"], "title":"Sing karaoke"},
                 {"alias":"poolhalls", "parents":["nightlife"], "title":"Play pool"},
@@ -77,14 +77,14 @@
                 {"alias":"tours", "parents":["hotelstravel"], "title":"Take a tour"},
             ],
             "active":[
-                {"alias":"basketballcourts", "parents":["active"], "title":"Shoot some hoops"},
-                {"alias":"battingcages", "parents":["active"], "title":"Hit some baseballs"},
+                {"alias":"basketballcourts", "parents":["active"], "title":"Shoot hoops"},
+                {"alias":"battingcages", "parents":["active"], "title":"Hit baseballs"},
                 {"alias":"bowling", "parents":["active"], "title":"Go bowling"},
                 {"alias":"discgolf", "parents":["active"], "title":"Play discgolf"},
                 {"alias":"gun_ranges", "parents":["active"], "title":"Shoot guns"},
-                {"alias":"golf", "parents":["active"], "title":"Play a round of golf"},
-                {"alias":"hiking", "parents":["active"], "title":"Go for a hike"},
-                {"alias":"paintball", "parents":["active"], "title":"Play some paintball"},
+                {"alias":"golf", "parents":["active"], "title":"Play golf"},
+                {"alias":"hiking", "parents":["active"], "title":"Go hiking"},
+                {"alias":"paintball", "parents":["active"], "title":"Play paintball"},
             ],
             "pets":[
                 {"alias":"animalshelters,petadoption", "parents":["pets"], "title":"Adopt a pet"},
@@ -98,15 +98,15 @@
                 {"alias":"streetart", "parents":["arts"], "title":"Participate in street art"}
             ],
             "bars":[
-                {"alias":"beerbar,divebars,irish_pubs,pubs,sportsbars", "parents":["food"], "title":"Grab a craft beer"},
-                {"alias":"wine_bars,champagne_bars", "parents":["food"], "title":"Drink some wine"},
-                {"alias":"cocktailbars,lounges,sportsbars",  "parents":["food"], "title":"Enjoy a cocktail"},
+                {"alias":"beerbar,divebars,irish_pubs,pubs,sportsbars", "parents":["food"], "title":"Drink beer"},
+                {"alias":"wine_bars,champagne_bars", "parents":["food"], "title":"Drink wine"},
+                {"alias":"cocktailbars,lounges,sportsbars",  "parents":["food"], "title":"Enjoy cocktails"},
 
             ],
             "coffee":[
-                {"alias":"coffee", "parents":["food"], "title":"Go to coffee shop"},
-                {"alias":"gelato,icecream", "parents":["food"], "title":"Get some ice cream"},
-                {"alias":"desserts", "parents":["food"], "title":"Get dessert"}
+                {"alias":"coffee", "parents":["food"], "title":"At a coffee shop"},
+                {"alias":"gelato,icecream", "parents":["food"], "title":"...and ice cream"},
+                {"alias":"desserts", "parents":["food"], "title":"...and dessert"}
             ],
             "beautysvc":[
                 {"alias":"eroticmassage", "parents":["beautysvc"], "title":"Get a massage"},

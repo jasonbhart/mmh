@@ -23,15 +23,15 @@
             },
             getActivities: function() {
                 return [
-                    { id: 'restaurants', name: 'Share a meal' },
-                    { id: 'bars', name: 'Get a drink'},
-                    { id: 'coffee', name: 'Have coffee'},
-                    { id: 'nightlife', name: 'Enjoy the nightlife' },
+                    { id: 'restaurants', name: 'Go eat' },
+                    { id: 'bars', name: 'Get drinks'},
+                    { id: 'coffee', name: 'Grab coffee'},
+                    { id: 'nightlife', name: 'Enjoy nightlife' },
                     { id: 'shopping', name: 'Go shopping' },
                     { id: 'active', name: 'Play sports' },
                     { id: 'arts', name: 'Enjoy the arts' },
                     { id: 'beautysvc', name: 'Pamper yourself' },
-                    { id: 'localflavor', name: 'Find local events' },
+                    { id: 'localflavor', name: 'Local events' },
                 ];
             },
             
