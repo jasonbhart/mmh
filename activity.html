@@ -219,6 +219,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                                         <span class="time">Start: <b class="red-text">{{ group.when.formatted }}</b></span>
                                                         <a class="btn waves-effect waves-light" ng-click="joinGroup(group)">{{ group.hasJoined(currentUser.id) ? 'Leave' : 'RSVP' }}</a>
                                                     </div>
+                                                    <a ng-click="getICSFile(group)" download="event.ics" ng-show="group.hasJoined(currentUser.id)" style="float:right;">ADD TO CALENDAR</a>
                                                 </div>
                                                 <div class="title-member-chose">
                                                     <span>{{ group.users.length }} people have chosen:</span>

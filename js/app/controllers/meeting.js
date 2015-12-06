@@ -1167,6 +1167,32 @@
             return moment().format('YYYYMMDD') <= moment(isoString).format('YYYYMMDD');
         };
         
+        $scope.getICSFile = function (group) {
+            var time = angular.copy(group.when.when.when);
+            time = time.utc();
+            var calendarContent = 
+            "BEGIN:VCALENDAR" + "\r\n" + 
+            "VERSION:2.0" + "\r\n" + 
+            "PRODID:socialivo.com" + "\r\n" + 
+            "BEGIN:VEVENT" + "\r\n" + 
+            "UID:" + $scope.meeting.id + "--" + util.generateKey() + "\r\n" + 
+            "DTSTAMP:" + time.format('YYYYMMDDTHHmmss') + 'Z' + "\r\n" + 
+            "ORGANIZER;CN=Jason:MAILTO:jason@socialivo.com" + "\r\n" + 
+            "DTSTART:" + time.format('YYYYMMDDTHHmmss') + 'Z' + "\r\n" + 
+            "DTEND:" + time.add(1, 'hours').format('YYYYMMDDTHHmmss') + 'Z' + "\r\n" + 
+            "SUMMARY:" + $scope.meeting.name + " at " + group.where.name + "\r\n" + 
+            "END:VEVENT" + "\r\n" + 
+            "END:VCALENDAR";
+    
+            var href = 'data:text/calendar;charset=utf-8,' + encodeURI(calendarContent);
+            
+            var link = document.createElement("a");
+            link.setAttribute("href", href);
+            link.setAttribute("download", "ivent.ics");
+
+            link.click();
+        };
+        
         $scope.getCorrectProtocolUrl = function(url) {
             return util.getCorrectProtocolUrl(url);
         };
