@@ -1188,7 +1188,7 @@
             
             var link = document.createElement("a");
             link.setAttribute("href", href);
-            link.setAttribute("download", "ivent.ics");
+            link.setAttribute("download", "event.ics");
 
             link.click();
         };
