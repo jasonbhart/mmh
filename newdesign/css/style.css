@@ -415,6 +415,11 @@ img{max-width: 100%;}
    .box-meeting .auto-group .info .box-gray .btn{float:right;}
    .box-history .list li{padding-right:20px;}
    .box-history .list .categories{display:inline-block; position:static; margin-bottom:10px;}
+   .box-meeting{margin-right:-30px; margin-left:-30px;border-left:0; border-right:0;}
+   .choose-setting>.box-gray{margin-left:-20px; margin-right:-20px;}
+   .comment-area .avatar{width:25px !important; line-height:0;}
+   .comment-area .wirtecoment, .comment-area .comment-item{padding-left:30px !important; min-height:25px !important;}
+   .comment-area{padding:10px !important; line-height:1.3em;}
 }
 @media only screen and (max-width : 520px){
 .best-places li{padding-right:0}
@@ -425,6 +430,8 @@ img{max-width: 100%;}
 .meeting-top .info .thumb{max-width:25%;}
 #contents{padding:15px 0 100px;}
 .tagline{font-size:13px; font-weight:700; font-style:normal; padding-right:0;}
+.box-meeting{margin-right:-10px; margin-left:-10px;}
+.choose-setting>.box-gray{margin-left:-20px; margin-right:-20px;}
 }
 .pac-container {
     z-index: 999999;
