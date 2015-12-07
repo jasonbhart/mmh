@@ -165,9 +165,13 @@
             return Object.keys($scope.selectedCategory).filter(function(value){return $scope.selectedCategory[value];}).join(',');
         };
         
-        $scope.$watch('allSubCategory', function(newValue, oldValue) {
-            resetSelectedCategory(newValue);
-        });
+//        $scope.$watch('allSubCategory', function(newValue, oldValue) {
+//            resetSelectedCategory(newValue);
+//        });
+
+        $scope.clickAllSubCategory = function() {
+            resetSelectedCategory($scope.allSubCategory);
+        }
         
         $scope.$watch('what', function (newValue, oldValue) {
             var term = ($scope.what !== 'other') ? $scope.what : $scope.term;
@@ -642,6 +646,7 @@
                 util.addEventToDataLayer('New Activity Wizard', 'Step 1', 'Check Sub-category', subcategory);
             } else {
                 util.addEventToDataLayer('New Activity Wizard', 'Step 1', 'Uncheck Sub-category', subcategory);
+                $scope.allSubCategory = false;
             }
             
         }
