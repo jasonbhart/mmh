@@ -100,6 +100,12 @@
             
             e.stopPropagation();
         });
+        $('.notifications .dropdown-button').click(function() {
+            if ($('#notifications-info').is(':visible')) {
+                $('#notifications-info').hide();
+                return false;
+            }
+        });
         $('body').click(function() {
             $('#notifications-info').hide();
         });
