@@ -5,23 +5,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
         <title>Socialivo</title>
         <!-- CSS  -->
-        <link href='newdesign/image/favicon.ico' type='image/x-icon' rel='shortcut icon' />
-        <link href="newdesign/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-        <link href="css/font-awesome.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-        <link href="newdesign/css/layout.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-        <link href="newdesign/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-        <link href="newdesign/css/joyride-2.1.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+        <link href='design/image/favicon.ico' type='image/x-icon' rel='shortcut icon' />
+        <link href="design/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+        <link href="design/css/font-awesome.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+        <link href="design/css/layout.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+        <link href="design/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+        <link href="design/css/joyride-2.1.css" type="text/css" rel="stylesheet" media="screen,projection"/>
         <!--  Scripts-->
-        <script src="newdesign/js/jquery-2.1.1.min.js"></script>
-        <script src="newdesign/js/materialize.min.js"></script>
+        <script src="design/js/jquery-2.1.1.min.js"></script>
+        <script src="design/js/materialize.min.js"></script>
         <script src="js/moment-with-locales.js"></script>        
-        <script src="newdesign/js/bootstrap-datetimepicker.js"></script>
-        <script src="newdesign/js/jquery.selectBox.js"></script>
-        <script src="newdesign/js/prism.js"></script>
-        <script src="newdesign/js/init.js"></script>
-        <script src="newdesign/js/jquery.cookie.js"></script>
-        <script src="newdesign/js/jquery.joyride-2.1.js"></script>
-        <script src="newdesign/js/modernizr.mq.js"></script>
+        <script src="design/js/bootstrap-datetimepicker.js"></script>
+        <script src="design/js/jquery.selectBox.js"></script>
+        <script src="design/js/prism.js"></script>
+        <script src="design/js/init.js"></script>
+        <script src="design/js/jquery.cookie.js"></script>
+        <script src="design/js/jquery.joyride-2.1.js"></script>
+        <script src="design/js/modernizr.mq.js"></script>
 
         <script src="//cdn.firebase.com/js/client/2.2.9/firebase.js"></script>
         <script src="js/lodash.js"></script>
@@ -333,7 +333,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                 <div class="hidden-share">
                                     <a class="fb-share" id="fb-share" style="display: none" href="{{ 'https://www.facebook.com/sharer/sharer.php?sdk=joey&u=' + getFacebookSharingUrl() + '&display=popup&ref=plugin&src=share_button' }}">FB share</a>
                                     <a class="twitter-share" id="twitter-share" style="display: none" href="{{ 'https://twitter.com/intent/tweet?original_referer=https%3A%2F%2Fsocialivo.com%2Fcreate_new_activity.html&ref_src=twsrc%5Etfw&text=' + getShareEmailSubject() + '&tw_p=tweetbutton&url=' + shareUrl}}">Twitter share</a>
-                                    <a id="sharing_email" style="display: none" href="mailto:?subject={{getShareEmailSubject() | escape}}&body={{getShareEmailBody() | escape}}" title="Send an email"><img src="newdesign/image/icon-m.gif" alt="Send an email"></a>
+                                    <a id="sharing_email" style="display: none" href="mailto:?subject={{getShareEmailSubject() | escape}}&body={{getShareEmailBody() | escape}}" title="Send an email"><img src="design/image/icon-m.gif" alt="Send an email"></a>
                                     <textarea class="link" id="sharing_url" style="display: none">{{ shareUrl }}</textarea>
                                 </div>
                             </div>
