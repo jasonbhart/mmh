@@ -152,6 +152,9 @@
             categoryService.addMeetingToCategory(categoryId, categoryId, meetingData);
         }
         
+        $scope.formatTime = function (isoString) {
+            return moment(isoString).format('h:mm A');
+        }
         
     }]);
 })();

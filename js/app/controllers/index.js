@@ -51,7 +51,10 @@
                                         if (typeof meetingInfo.where.location !== 'undefined') {
                                             meetingInfo.where.location.display_address = meetingInfo.where.location.display_address.replace('undefined', '');
                                         }
-                                        if ($scope.rsvpMeetingList.indexOf(meetingInfo) === -1) {
+                                        if (
+                                            $scope.rsvpMeetingList.indexOf(meetingInfo) === -1
+                                            && $scope.isToday(meetingInfo.timeTitle)
+                                        ) {
                                             $scope.rsvpMeetingList.push(meetingInfo);
                                         }
                                     });
@@ -267,8 +270,11 @@
                                 if (typeof meeting.where.location !== 'undefined') {
                                     meeting.where.location.display_address = meeting.where.location.display_address.replace('undefined', '');
                                 }
-                                $scope.otherMeetings.push(meeting);
-                                $scope.$apply();
+                                if (meeting.createdAt && $scope.isToday(meeting.createdAt)) {
+                                    $scope.otherMeetings.push(meeting);
+                                    $scope.$apply();
+                                }
+                                
                             }
 
                             $window.$('.loading-wrap').hide();
