@@ -195,8 +195,9 @@
                 
                 if (state == sessionService.states.LOGOUT) {
                     $scope.usersInfo.current.user = user;
-                    $scope.userGroups = buildUserGroups(formattingData);
                 }
+                
+                $scope.userGroups = buildUserGroups(formattingData);
                 
                 $scope.addMeetingToUser();
             });        
