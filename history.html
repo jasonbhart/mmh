@@ -111,8 +111,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                         <a class="btn red waves-effect waves-light right" ng-click="createActivity(meeting.id)">
                                             Create Activity
                                         </a>
-                                        <h3 class="title">You "<span class="grey-text">RSVPed</span>" on meeting "<a ng-href="activity.html?act={{ meeting.id }}">{{ getMeetingName(meeting, true)}}</a>"</h3>
+                                        <h3 class="title">You "<span class="grey-text">RSVPed</span>" on meeting "<a ng-href="activity.html?act={{ meeting.id }}">{{ getMeetingName(meeting, false)}}</a>"</h3>
                                         <p>{{ meeting.place.categories[0][0]}} / {{ meeting.place.name}} / <span class="grey-text">{{ meeting.place.display_address}}</span></p>
+                                        <p>{{formatTime(meeting.time)}}</p>
                                     </li>
                                 </ul>
                                 
