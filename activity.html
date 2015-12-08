@@ -178,7 +178,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                         <div class="comment-area">
                                             <a class="readmore" ng-show="displayShowMoreComment()" ng-click="showMoreComment()"><i class="fa fa-comments"></i> View 2 more comments</a>
                                             <div class="comment-item" ng-repeat="comment in getCommentsToShow()">
-                                                <a href="#none" class="avatar"><img ng-src="{{ comment.avatar || 'images/no-profile.jpg' }}" alt=""></a>
+                                                <a href="#none" class="avatar"><img ng-src="{{ comment.avatar || '/design/image/no-profile.jpg' }}" alt=""></a>
                                                 <div class="comment-info">
                                                     <a href="#none" class="tit">{{ comment.username }}</a>
                                                     <span class="txt"> {{ comment.content }}</span>
@@ -186,7 +186,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                                 </div>
                                             </div>
                                             <div class="wirtecoment">
-                                                <span class="avatar"><img ng-src="{{currentUser.user.profileImageURL || 'images/no-profile.jpg'}}" alt=""></span>
+                                                <span class="avatar"><img ng-src="{{currentUser.user.profileImageURL || '/design/image/no-profile.jpg'}}" alt=""></span>
                                                 <div class="write">
                                                     <input class="" type="text" placeholder="Write a comment..." id="new-comment" ng-model="newComment" ng-keyup="checkCommentKey($event)">
                                                     <button class="btn waves-effect waves-light" ng-click="addComment()">Send</button>
