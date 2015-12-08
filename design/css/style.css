@@ -101,7 +101,7 @@ h3.title{font-size:18px; font-weight:500;}
 .choose-list li.forbtn .selected-time{background: #ddd;height: 28px;display: block;line-height: 27px;padding: 0 10px;border-radius: 4px;padding-left: 5px;}
 .btn-add .icon{background-position:-14px -572px !important; width:12px !important; height:14px !important; margin-right:1px; vertical-align:middle;}
 .pop-user-detail .user .thumb{border:1px solid #ddd; width:100px; height:100px; overflow:hidden; margin-bottom:10px;}
-.other-member li .thumb{margin-bottom:10px;}
+.other-member li .thumb{margin-bottom:10px;max-height: 100px;overflow: hidden;}
 .pop-user-detail .user .thumb img{width:100px;}
 .other-member .list{margin-left:-20px;}
 .other-member li .thumb img{max-width:100%;border:1px solid #ddd;}
@@ -352,7 +352,7 @@ img{max-width: 100%;}
 .box-setting a{color:#3987cb;}
 .box-setting .btn{color:#fff;}
 .box-border{border:1px solid #ddd; padding:10px 20px;}
-.box-setting .acc-info{position:relative; padding-right:230px;}
+.box-setting .acc-info{position:relative; padding-right:160px;}
 .box-setting .acc-info .acc-photo{position:absolute; right:20px; top:0px; max-width:130px; max-height: 130px;overflow:hidden}
 .box-setting .acc-info li{border-bottom:1px solid #ddd; padding-bottom:10px; margin-bottom:10px}
 .box-setting .acc-info li:last-child{border-bottom:0; margin-bottom:0; padding-bottom:0;}
@@ -417,7 +417,7 @@ img{max-width: 100%;}
    .box-history .list .categories{display:inline-block; position:static; margin-bottom:10px;}
    .box-meeting{margin-right:-30px; margin-left:-30px;border-left:0; border-right:0;}
    .choose-setting>.box-gray{margin-left:-20px; margin-right:-20px;}
-   .comment-area .avatar{width:25px !important; line-height:0;}
+   .comment-area .avatar{width:25px !important; line-height:0;max-height:25px !important;}
    .comment-area .wirtecoment, .comment-area .comment-item{padding-left:30px !important; min-height:25px !important;}
    .comment-area{padding:10px !important; line-height:1.3em;}
 }
@@ -525,7 +525,7 @@ img{max-width: 100%;}
 .comment-area .comment-item:last-child{margin-top:0;}
 .comment-area .comment-item a{color:#1a8dbc ;}
 .comment-area .comment-item .tit{font-weight:700;}
-.comment-area .avatar{position:absolute;width:39px; border:1px solid #ededed ; font-size:0; top:0; left:0}
+.comment-area .avatar{position:absolute;width:39px; border:1px solid #ededed ;font-size:0; top:0; left:0; max-height:39px; overflow: hidden;}
 .comment-area .wirtecoment{margin-bottom:0;}
 .comment-area .wirtecoment .write{position: relative; padding-right:53px; height:39px;}
 .comment-area .wirtecoment input{position: relative;z-index: 2;float: left; width: 100%; margin: 0; background:#fff;}
