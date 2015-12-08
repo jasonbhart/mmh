@@ -962,10 +962,6 @@
         $scope.startTutorial = function() {
             util.addEventToDataLayer('Tutorial', 'Start', 'Activity', null);
             
-            if (sessionService.getViewedTutorialStatus()) {
-                $window.$('.first-greeting-bubble').remove();
-            }
-            
             if (sessionService.getViewedTutorialStatus(1) || sessionService.getViewedTutorialStatus(2)) {
                 // if viewed homepage or index page, remove common tutorial
                 $window.$('.common-tooltip').remove();
