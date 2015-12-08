@@ -5,23 +5,23 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
 	<title>Socialivo</title>
 	<!-- CSS  -->
-    <link href='newdesign/image/favicon.ico' type='image/x-icon' rel='shortcut icon' />
-    <link href="newdesign/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <link href="css/font-awesome.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <link href="newdesign/css/layout.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <link href="newdesign/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <link href="newdesign/css/joyride-2.1.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href='design/image/favicon.ico' type='image/x-icon' rel='shortcut icon' />
+    <link href="design/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="design/css/font-awesome.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="design/css/layout.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="design/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="design/css/joyride-2.1.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <!--  Scripts-->
-    <script src="newdesign/js/jquery-2.1.1.min.js"></script>
-        <script src="newdesign/js/materialize.min.js"></script>
+    <script src="design/js/jquery-2.1.1.min.js"></script>
+        <script src="design/js/materialize.min.js"></script>
         <script src="js/moment-with-locales.js"></script>
-        <script src="newdesign/js/bootstrap-datetimepicker.js"></script>
-        <script src="newdesign/js/jquery.selectBox.js"></script>
-        <script src="newdesign/js/prism.js"></script>
-        <script src="newdesign/js/init.js"></script>
-        <script src="newdesign/js/jquery.cookie.js"></script>
-        <script src="newdesign/js/jquery.joyride-2.1.js"></script>
-        <script src="newdesign/js/modernizr.mq.js"></script>
+        <script src="design/js/bootstrap-datetimepicker.js"></script>
+        <script src="design/js/jquery.selectBox.js"></script>
+        <script src="design/js/prism.js"></script>
+        <script src="design/js/init.js"></script>
+        <script src="design/js/jquery.cookie.js"></script>
+        <script src="design/js/jquery.joyride-2.1.js"></script>
+        <script src="design/js/modernizr.mq.js"></script>
         
         <script src="//cdn.firebase.com/js/client/2.2.9/firebase.js"></script>
         <script src="js/lodash.js"></script>
@@ -108,7 +108,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <h3 class="title"><a ng-href="{{ meeting.url }}">{{ getMeetingName(meeting, true) }}</a></h3>
                         <div class="wrap">
                             <div class="info">
-                                <div class="thumb"><img ng-src="{{meeting.where.image_url ? getCorrectProtocolUrl(meeting.where.image_url) : 'images/default_place_thumb.gif'}}" alt=""></div>
+                                <div class="thumb"><img ng-src="{{meeting.where.image_url ? getCorrectProtocolUrl(meeting.where.image_url) : 'design/image/default_place_thumb.gif'}}" alt=""></div>
                                 <div class="des">
                                     <p class="address"><span class="icon"></span>{{ meeting.where.location.display_address }}<span class="subtext">{{ meeting.where.name }}</span></p>
                                     <div class="member-list">
