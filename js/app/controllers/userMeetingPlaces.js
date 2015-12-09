@@ -13,6 +13,7 @@
         $scope.places = [];
         $scope.business_name = '';
         $scope.searchSuggestion = null;
+        $scope.sort = 'highest_rate';
 
         $window.$('#business_name').keyup(function(){
             clearTimeout($scope.searchSuggestion);
@@ -37,6 +38,8 @@
                 options.term = $scope.business_name;
                 options.location = null;
             }
+            
+            options.sort = $scope.sort;
 
             dataProvider.getSuggestions(options).then(function(suggestions) {
                 $scope.places = suggestions;
@@ -44,7 +47,13 @@
         };
 
         $scope.$watch('term', function(value) {
-            placesProvider.getPlaces(value).then(function(places) {
+            placesProvider.getPlaces(value, $scope.sort).then(function(places) {
+                $scope.places = places;
+            });
+        });
+        
+        $scope.$watch('sort', function(value) {
+            placesProvider.getPlaces($scope.term, value).then(function(places) {
                 $scope.places = places;
             });
         });

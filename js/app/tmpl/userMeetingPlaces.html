@@ -9,10 +9,20 @@
                 </div>
                 <div class="col s12">
                     <span class="col s12 m3">Search by category:</span>
-                    <div class="col s12 m9">
+                    <div class="col s12 m5">
                         <select class="select-jq browser-default" style="width: auto" ng-model="term" ng-change="changeCategory()">
                             <option value="{{ item.id }}" class="{{ item.id }}" ng-repeat="item in terms" ng-selected="item.id == term">{{ item.name }}</option>
                         </select>
+                    </div>
+                    <div class="col s12 m4">
+                        <span class="col s12">
+                            <input class="with-gap" ng-model="sort" id="sort00" value="highest_rate" type="radio" />
+                            <label for="sort00">Sort by rating</label>
+                        </span>
+                        <span class="col s12">
+                            <input class="with-gap" ng-model="sort" id="sort01" value="distance" type="radio" />
+                            <label for="sort01">Sort by distance</label>
+                        </span>
                     </div>
                 </div>
             </div>

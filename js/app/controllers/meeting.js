@@ -641,8 +641,8 @@
             getTerms: function() {
                 return dataProvider.getActivities();
             },
-            getPlaces: function(term) {
-                var options = {term: term};
+            getPlaces: function(term, sort) {
+                var options = {term: term, sort: sort};
                 options = $scope.getMeetingLocationOptions(options);
                 return dataProvider.getSuggestions(options);
             },
