@@ -557,7 +557,8 @@
                 id: $scope.meetingId,
                 name: data.name,
                 createdDate: data.createdDate,
-                timeTitle: data.timeTitle
+                timeTitle: data.timeTitle,
+                expireTime: meetingService.getExpireTime(data.when)
             } ;
             categoryService.addMeetingToCategory(categoryId, categoryName, meetingData);
         }

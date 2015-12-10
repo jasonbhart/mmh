@@ -910,6 +910,9 @@
                     });
                 });
                 
+                var expireTime = meetingService.getExpireTime(angular.copy(times));
+                categoryService.updateExpireTime($scope.meeting.category, $scope.meeting.id, expireTime);
+                
                 $scope.addMeetingToUser();
             });
         };
