@@ -536,3 +536,4 @@ img{max-width: 100%;}
 .meet-setting .box-white{background:#f8f4f0 none;}
 #login-form .other-connect .fa {line-height: 40px;}
 .icon-social .fa {line-height: 30px;}
+.side-nav li#meet ul{display: block;}
