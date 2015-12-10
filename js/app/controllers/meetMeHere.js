@@ -19,6 +19,11 @@
         $scope.manualBusinessInfo = {};
         
         $window.$('.loading-wrap').show();
+        var reloadTimeout = setTimeout(function() {
+            if (confirm('This page is not fully loaded due to slow internet connection. Do you want to reload now?')) {
+                $window.location.reload();
+            }
+        }, 30000);
         
         sessionService.ready.then(function() {
             var initAuth = function(user) {
@@ -76,16 +81,19 @@
                         $scope.suggestions = suggestions;
                         $('#contents').show();
                         $window.$('.loading-wrap').hide();
+                        clearTimeout(reloadTimeout);
                     }, function (error){
                         $('#no-suggestion').show();
                         $('#contents').show();
                         $window.$('.loading-wrap').hide();
+                        clearTimeout(reloadTimeout);
                     });
                 }
                 
             }, function() {
                 $('#contents').show();
                 $window.$('.loading-wrap').hide();
+                clearTimeout(reloadTimeout);
             });
         }
         

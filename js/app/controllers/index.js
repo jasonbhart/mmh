@@ -18,6 +18,11 @@
         $scope.saveLocationTimeout = null;
         
         $window.$('.loading-wrap').show();
+        var reloadTimeout = setTimeout(function() {
+            if (confirm('This page is not fully loaded due to slow internet connection. Do you want to reload now?')) {
+                $window.location.reload();
+            }
+        }, 30000);
         
         sessionService.ready.then(function() {
             var initAuth = function(user) {
@@ -60,9 +65,11 @@
                                     });
                                     
                                     $window.$('.loading-wrap').hide();
+                                    clearTimeout(reloadTimeout);
                                 });
                             } else {
                                 $window.$('.loading-wrap').hide();
+                                clearTimeout(reloadTimeout);
                             }
                         });
                     });

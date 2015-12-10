@@ -21,7 +21,7 @@
         $scope.numberOfCommentToShow = 2;
         $scope.newComment = null;
         $scope.groupTimeout = null;
-       
+        
                 
         var formattingData = {
             where: [],
