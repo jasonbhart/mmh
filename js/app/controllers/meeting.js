@@ -21,7 +21,7 @@
         $scope.numberOfCommentToShow = 2;
         $scope.newComment = null;
         $scope.groupTimeout = null;
-       
+        
                 
         var formattingData = {
             where: [],
@@ -909,6 +909,9 @@
                         $scope.meetingUser.toggleWhen(whenId, true);
                     });
                 });
+                
+                var expireTime = meetingService.getExpireTime(angular.copy(times));
+                categoryService.updateExpireTime($scope.meeting.category, $scope.meeting.id, expireTime);
                 
                 $scope.addMeetingToUser();
             });

@@ -386,6 +386,21 @@
             getFacebookSharingUrlWithoutEncode: function(meetingId, meetingName) {
                 return appConfig.shareFacebookUrl + '?data=' + meetingId + '---' + meetingName;
             },
+            getExpireTime: function (times) {
+                var expireTime = "";
+                _.forEach(times, function(time) {
+                    if (typeof time === 'object') {
+                        var timeString = time.utc().toISOString();
+                    } else {
+                        var timeString = time;
+                    }
+                    
+                    if (timeString > expireTime) {
+                        expireTime = timeString;
+                    }
+                });
+                return expireTime;
+            },
             migrateUser: function(meetingId, srcUserId, dstUserId, keepSrc, overwrite) {
                 var defer = $q.defer();
                 var meetingsRef = new Firebase(meetsUrl);

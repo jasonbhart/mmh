@@ -13,7 +13,7 @@
                 if (snapshot.val() === null) {
                     categoryRef.set({id: categoryId, name: categoryName, meetings: [meeting]});
                 } else {
-                    categoryRef.child('meetings').push(meeting);
+                    categoryRef.child('meetings').child(meeting.id).set(meeting);
                 }
             }); 
         };
@@ -26,7 +26,8 @@
             _.forEach(categoriesObject, function (category, categoryName) {
                 if (category && category.meetings) {
                     _.forEach(category.meetings, function(meeting, meetingId) {
-                        if (moment().diff(moment(meeting.createdDate)) > 86400 * 1000) {
+                        var expireTime = meeting.expireTime || meeting.timeTitle;
+                        if (moment().diff(moment(expireTime)) > 3600 * 1000) {
                             delete category.meetings[meetingId];
                         }
                     });
@@ -37,12 +38,23 @@
             });
             categoriesObject.$save();
 
-        }
+        };
+        
+        var updateExpireTime = function (categoryId, meetId, expireTime) {
+            var categoryRef = ref.child(categoryId).child('meetings').child(meetId);
+            categoryRef.once('value', function(snapshot) {
+                // if category does not exist
+                if (snapshot.val() !== null) {
+                    categoryRef.update({expireTime: expireTime});
+                } 
+            }); 
+        };
         
         return {
             addMeetingToCategory: addMeetingToCategory,
             getCategories: getCategories,
-            removePassedActivity: removePassedActivity
+            removePassedActivity: removePassedActivity,
+            updateExpireTime: updateExpireTime
         }
     }]);
 })();
