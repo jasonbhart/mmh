@@ -35,7 +35,7 @@ html, body{height:100%;}
 #header .account .thumb img{width:100%;}
 #header .account .info .icon{background-position:0 -441px; width:10px; height:5px; display:inline-block; vertical-align:middle; margin-left:3px;}
 #header .account .info:hover .icon{background-position:-10px -441px;}
-#header .account .info:hover{color:#e44424;}
+#header .account .info:hover{color:#e44424; text-decoration: none;}
 header .button-collapse{position:absolute; top:10px; left:10px; width:50px; height:42px;color:#404040;border-radius: 0;text-align: center;line-height:40px;font-size: 30px; border:1px solid #dcdcdc;}
 #header .notifications{float:left; border-right:1px solid #dcd5d6; margin-right:10px; padding-right:10px; position:relative; margin-top:3px;}
 #header .notifications .dropdown-button .icon{background-position:0 -416px; display:block; width:22px; height:23px;}
