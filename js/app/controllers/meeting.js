@@ -1174,11 +1174,12 @@
             "BEGIN:VEVENT" + "\r\n" + 
             "UID:" + $scope.meeting.id + "--" + util.generateKey() + "\r\n" + 
             "DTSTAMP:" + time.format('YYYYMMDDTHHmm') + '00Z' + "\r\n" + 
-            "ORGANIZER;CN=Jason:MAILTO:jason@socialivo.com" + "\r\n" + 
+            "ORGANIZER;CN=" + ( $scope.currentUser.user.fullName || "Jason") +
+            ":MAILTO:" + ($scope.currentUser.user.email || "jason@socialivo.com") + "\r\n" + 
             "DTSTART:" + time.format('YYYYMMDDTHHmm') + '00Z' + "\r\n" + 
             "DTEND:" + time.add(1, 'hours').format('YYYYMMDDTHHmm') + '00Z' + "\r\n" + 
             "SUMMARY:" + $scope.meeting.name + "\r\n" + 
-            "LOCATION:" + group.where.name + " - " + group.where.location.display_address + "\r\n" + 
+            "LOCATION:" + group.where.name + ", " + group.where.location.display_address + "\r\n" + 
             "END:VEVENT" + "\r\n" + 
             "END:VCALENDAR";
     
