@@ -203,13 +203,19 @@
             });        
         });
         
-        $scope.addMeetingToUser = function(){
+        $scope.addMeetingToUser = function(expireTime){
+            
+            if (!expireTime) {
+                expireTime = meetingService.getExpireTime(angular.copy($scope.meeting.when));
+            }
+            
             // add meeting to user if not added yet
             var meetingData = {
                 id: $scope.meeting.id,
                 name: $scope.meeting.name,
                 createdDate: $scope.meeting.timeTitle || moment().utc().toISOString(),
-                timeTitle: $scope.meeting.timeTitle || ''
+                timeTitle: $scope.meeting.timeTitle || '',
+                expireTime: expireTime
             };
             userService.addMeetingToUser($scope.currentUser.id, meetingData).then(function(){
                 console.log('Activity ' + meetingData.id + ' added to User: ' + $scope.currentUser.id);
@@ -913,7 +919,7 @@
                 var expireTime = meetingService.getExpireTime(angular.copy(times));
                 categoryService.updateExpireTime($scope.meeting.category, $scope.meeting.id, expireTime);
                 
-                $scope.addMeetingToUser();
+                $scope.addMeetingToUser(expireTime);
             });
         };
         
@@ -1020,7 +1026,7 @@
                 var meetingId = meeting.refs.current.key();
                 if (data.where.length > 0) {
                     // add place to the local Events
-                    localMeetingService.add(meetingId, '0', data.where[0].location.coordinate).then(function() {
+                    localMeetingService.add(meetingId, '0', data.where[0].location.coordinate, data.timeTitle).then(function() {
                         console.log('Added meeting to local meeting lists');
                     });
                 }

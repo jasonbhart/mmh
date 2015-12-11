@@ -16,11 +16,13 @@
              * @param {string} whereId
              * @param {Object} location { lat: float, lng: float }
              */
-            add: function(meetingId, whereId, location) {
+            add: function(meetingId, whereId, location, expireTime) {
+                var currentTime = moment().utc().toISOString();
                 var ref = localMeets.push({
                     meeting: meetingId,
                     where: whereId,
-                    createdAt: moment().utc().toISOString()
+                    createdAt: currentTime,
+                    expireTime: expireTime || currentTime
                 });
                 
                 $log.log('localMeetingsService: add key', ref.key());
@@ -82,8 +84,9 @@
                     $rootScope.$applyAsync(function() {
                         $q.all(deferreds).then(function(meetings) {
                             meetings = _.filter(meetings, function(meeting) {
+                                var expireTime = meeting.expireTime || meeting.createdAt;
                                 return meeting && meeting.createdAt &&
-                                       moment().diff(moment(meeting.createdAt)) < 86400 * 1000;
+                                       moment().diff(moment(expireTime)) < 3600 * 1000;
                             });                  // filter out empty values produces by resolve()
                             defer.resolve(meetings.slice(0, options.count));        // we can have more than limit because of deferreds
                         });

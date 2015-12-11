@@ -446,7 +446,7 @@
                     var meetingId = meeting.refs.current.key();
                     if (data.where.length > 0) {
                         // add place to the local Events
-                        localMeetingService.add(meetingId, '0', data.where[0].location.coordinate).then(function() {
+                        localMeetingService.add(meetingId, '0', data.where[0].location.coordinate, data.timeTitle).then(function() {
                             console.log('Added meeting to local meeting lists');
                         });
                     }
