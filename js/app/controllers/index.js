@@ -59,6 +59,7 @@
                                         if (
                                             $scope.rsvpMeetingList.indexOf(meetingInfo) === -1
                                             && $scope.isToday(meetingInfo.timeTitle)
+                                            && moment().diff(moment(meetingInfo.timeTitle)) < 3600 * 1000
                                         ) {
                                             $scope.rsvpMeetingList.push(meetingInfo);
                                         }
