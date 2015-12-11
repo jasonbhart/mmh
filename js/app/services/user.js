@@ -81,7 +81,8 @@
                     var meetingList = this.meetingList;
                     _.forEach(meetingList, function(meeting, meetingId) {
                         if (meeting && meeting.id) {
-                            if (moment().diff(moment(meeting.createdDate)) > 86400 * 1000) {
+                            var expireTime = meeting.expireTime || meeting.timeTitle;
+                            if (moment().diff(moment(expireTime)) > 3600 * 1000) {
                                 delete meetingList[meetingId];
                             }
                         }
@@ -194,21 +195,13 @@
             addMeetingToUser: function(userId, meetingData) {
                 var defer = $q.defer();
                 var ref = new Firebase(appConfig.firebaseUrl + '/users').child(userId);
+                ref.child('meetings').child(meetingData.id).set(meetingData, function(error) {
+                    if (error)
+                        defer.reject(error);
+                    else
+                        defer.resolve();
+                });
 
-                ref.child('meetings').child(meetingData.id).once('value', function(snapshot) {
-                    // if meeting does not exist
-                    if (snapshot.val() === null) {
-                        ref.child('meetings').child(meetingData.id).set(meetingData, function(error) {
-                            if (error)
-                                defer.reject(error);
-                            else
-                                defer.resolve();
-                        });
-                    }
-                    
-                    defer.resolve();
-                }); 
-                
                 return defer.promise;
             },
             get: function(id) {

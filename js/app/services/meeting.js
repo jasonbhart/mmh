@@ -389,7 +389,9 @@
             getExpireTime: function (times) {
                 var expireTime = "";
                 _.forEach(times, function(time) {
-                    if (typeof time === 'object') {
+                    if (typeof time === 'object' && time.$value) {
+                        var timeString = time.$value;
+                    } else if (typeof time === 'object') {
                         var timeString = time.utc().toISOString();
                     } else {
                         var timeString = time;
