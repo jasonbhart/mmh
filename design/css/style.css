@@ -151,7 +151,7 @@ h3.title{font-size:18px; font-weight:500;}
 .timepicker-wrap .box-inner{display:inline-block; width:230px; height:38px; vertical-align:middle;}
 .timepicker-wrap .box-inner .list-unstyled{margin: 0;}
 .timepicker-wrap .table-condensed .btn-area{position:relative;}
-.timepicker-wrap .table-condensed .btn-area .hour, .timepicker-wrap .table-condensed .btn-area .minute{position:absolute; left:50px; width:20px; height:19px; line-height:19px; padding-top:4px;}
+.timepicker-wrap .table-condensed .btn-area .hour, .timepicker-wrap .table-condensed .btn-area .minute{position:absolute; left:50px; width:20px; height:19px; line-height:19px; padding-top:2px;}
 .timepicker-wrap .table-condensed .btn-area .hour .fa, .timepicker-wrap .table-condensed .btn-area .minute .fa{font-size:17px; display:block; line-height:19px; text-align:center;}
 .timepicker-wrap .middleRow .hour, .timepicker-wrap .middleRow .minute, .timepicker-wrap .middleRow .am-pm{display:inline-block; margin-right:8px;}
 .timepicker-wrap .middleRow .am-pm{margin-right:0;}
@@ -160,7 +160,8 @@ h3.title{font-size:18px; font-weight:500;}
 .timepicker-wrap .table-condensed .btn-area .minute{left:140px;}
 .timepicker-wrap .bottomRow.btn-area .material-icons{line-height:9px !important;}
 .timepicker-wrap .topRow.btn-area .material-icons{line-height:28px !important;}
-.timepicker-wrap .bottomRow.btn-area .hour, .timepicker-wrap .bottomRow.btn-area .minute{top:-24px; padding:0 0 4px;}
+.timepicker-wrap .bottomRow.btn-area .hour, .timepicker-wrap .bottomRow.btn-area .minute{top:-22px;}
+.activity .timepicker-wrap .bottomRow.btn-area .hour, .activity .timepicker-wrap .bottomRow.btn-area .minute{    top: -27px;  height: 21px;}
 .timepicker-wrap .bottomRow.btn-area .hour .fa, .timepicker-wrap .bottomRow.btn-area .minute .fa{line-height:12px;}
 .timepicker-wrap .bottomRow.btn-area a{display:block;}
 .timepicker-wrap .btn-area a:hover{text-decoration:none;}
