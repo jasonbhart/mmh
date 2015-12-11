@@ -36,57 +36,67 @@
                 });
             };
             
-            initAuth(sessionService.getCurrentUser());
-            
-            userService.get($scope.currentUser.id).then(function(userObj) {
-                userObj.meetingList.$loaded().then(function(data) {
-                    angular.forEach(data, function (meeting, key) {
-                        var userGroupRef = ref.child(meeting.id).child('users').child($scope.currentUser.id).child('group');
-                        userGroupRef.once('value', function(snapshot) {
-                            if (snapshot.val() !== null) {
-                                var groupInfo = snapshot.val();
-                                var meetingRef = new Firebase(appConfig.firebaseUrl + '/meets/' + meeting.id);
-                                var rsvpMeeting = $firebaseObject(meetingRef);
-                                rsvpMeeting.$loaded().then(function(data) {
-                                    var firstWhereId = groupInfo.where || Object.keys(data.where)[0];
-                                    var firstWhenId = groupInfo.when || '0';
-                                    var passingData = {meetingId: meeting.id, whereId: firstWhereId, whenId: firstWhenId};
+            var getRsvpedActivity = function () {
+                userService.get($scope.currentUser.id).then(function(userObj) {
+                    userObj.meetingList.$loaded().then(function(data) {
+                        angular.forEach(data, function (meeting, key) {
+                            var userGroupRef = ref.child(meeting.id).child('users').child($scope.currentUser.id).child('group');
+                            userGroupRef.once('value', function(snapshot) {
+                                if (snapshot.val() !== null) {
+                                    var groupInfo = snapshot.val();
+                                    var meetingRef = new Firebase(appConfig.firebaseUrl + '/meets/' + meeting.id);
+                                    var rsvpMeeting = $firebaseObject(meetingRef);
+                                    rsvpMeeting.$loaded().then(function(data) {
+                                        var firstWhereId = groupInfo.where || Object.keys(data.where)[0];
+                                        var firstWhenId = groupInfo.when || '0';
+                                        var passingData = {meetingId: meeting.id, whereId: firstWhereId, whenId: firstWhenId};
 
-                                    meetingInfo.getMeetingInfo(passingData).then(function(meetingInfo) {
-                                        if (typeof meetingInfo.where.location !== 'undefined') {
-                                            meetingInfo.where.location.display_address = meetingInfo.where.location.display_address.replace('undefined', '');
-                                        }
-                                        if (
-                                            $scope.rsvpMeetingList.indexOf(meetingInfo) === -1
-                                            && $scope.isToday(meetingInfo.timeTitle)
-                                            && moment().diff(moment(meetingInfo.timeTitle)) < 3600 * 1000
-                                        ) {
-                                            $scope.rsvpMeetingList.push(meetingInfo);
-                                        }
+                                        meetingInfo.getMeetingInfo(passingData).then(function(meetingInfo) {
+                                            if (typeof meetingInfo.where.location !== 'undefined') {
+                                                meetingInfo.where.location.display_address = meetingInfo.where.location.display_address.replace('undefined', '');
+                                            }
+                                            if (
+                                                $scope.rsvpMeetingList.indexOf(meetingInfo) === -1
+                                                && $scope.isToday(meetingInfo.timeTitle)
+                                                && moment().diff(moment(meetingInfo.timeTitle)) < 3600 * 1000
+                                            ) {
+                                                $scope.rsvpMeetingList.push(meetingInfo);
+                                            }
+                                        });
+
+                                        $window.$('.loading-wrap').hide();
+                                        clearTimeout(reloadTimeout);
                                     });
-                                    
+                                } else {
                                     $window.$('.loading-wrap').hide();
                                     clearTimeout(reloadTimeout);
-                                });
-                            } else {
-                                $window.$('.loading-wrap').hide();
-                                clearTimeout(reloadTimeout);
-                            }
+                                }
+                            });
                         });
                     });
                 });
-            });
+            }
+            
+            var getMapAndLocalEvents = function () {
+                $scope.locationName = $scope.currentUser.getLocationName();
+            
+                var userLocation = $scope.currentUser.getLocation();
+
+                drawMap(userLocation).then(function(mapOptions) {
+                    getLocalEvents(mapOptions);
+                });
+            }
+            
+            initAuth(sessionService.getCurrentUser());
+            
+            
                 
-            $scope.locationName = $scope.currentUser.getLocationName();
             
-            var userLocation = $scope.currentUser.getLocation();
-            
-            drawMap(userLocation).then(function(mapOptions) {
-                getLocalEvents(mapOptions);
-            });
           // listen for the future auth change events
             $scope.$on('auth.changed', function(evt, user) {
                 initAuth(user);
+                getRsvpedActivity();
+                getMapAndLocalEvents();
             });
             $scope.$on('position.changed', function(evt, result) {
                 $scope.mapLocation = result;    
@@ -282,10 +292,12 @@
                             }
 
                             $window.$('.loading-wrap').hide();
+                            clearTimeout(reloadTimeout);
                         });
                     });
                 } else {
                     $window.$('.loading-wrap').hide();
+                    clearTimeout(reloadTimeout);
                 }
             });
         };
