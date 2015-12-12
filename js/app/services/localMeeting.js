@@ -84,7 +84,9 @@
                     $rootScope.$applyAsync(function() {
                         $q.all(deferreds).then(function(meetings) {
                             meetings = _.filter(meetings, function(meeting) {
-                                var expireTime = meeting.expireTime || meeting.createdAt;
+                                if (meeting) {
+                                    var expireTime = meeting.expireTime || meeting.createdAt;
+                                }
                                 return meeting && meeting.createdAt &&
                                        moment().diff(moment(expireTime)) < 3600 * 1000;
                             });                  // filter out empty values produces by resolve()
