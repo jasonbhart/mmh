@@ -121,7 +121,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     <h2 class="title-page" ng-if="rsvpMeetingList.length">Your Activities</h2>
                     <div class="box-gray meeting-top" ng-if="rsvpMeetingList" ng-repeat="meeting in rsvpMeetingList">
                         <span class="meetingLabel">{{ meeting.type }}</span>
-                        <h3 class="title"><a ng-href="{{ meeting.url }}">{{ getMeetingName(meeting, true) }}</a></h3>
+                        <h3 class="title"><a ng-href="{{ meeting.url }}">{{ getMeetingName(meeting, false) }}</a></h3>
                         <div class="wrap">
                             <div class="info">
                                 <div class="thumb"><img ng-src="{{meeting.where.image_url ? getCorrectProtocolUrl(meeting.where.image_url) : 'design/image/default_place_thumb.gif'}}" alt=""></div>
@@ -158,7 +158,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             <li ng-repeat="meeting in otherMeetings">
                                 <div class="info">
                                     <span class="meetingLabel">{{ meeting.type }}</span>
-                                    <h3 class="title"><a ng-href="{{ meeting.url }}">{{ getMeetingName(meeting, true)}}</a></h3>
+                                    <h3 class="title"><a ng-href="{{ meeting.url }}">{{ getMeetingName(meeting, false)}}</a></h3>
                                     <p class="address"><span class="icon"></span>{{ meeting.where.location.display_address }}<span class="subtext">{{ meeting.where.name }}</span></p>
                                     <p ng-if="meeting.users.length == 1">1 person going</p>
                                     <p ng-if="meeting.users.length > 1">{{ meeting.users.length }} people going</p>
@@ -200,7 +200,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                 <a><i class="icon"></i>{{category.name}}</a>
                                 <ul class="subtab">
                                     <li ng-repeat="meeting in category.meetings" ng-if="isToday(meeting.createdDate)">
-                                        <a href="activity.html?act={{meeting.id}}">{{getMeetingName(meeting, true)}}</a>
+                                        <a href="activity.html?act={{meeting.id}}">{{getMeetingName(meeting, false)}}</a>
                                     </li>
                                 </ul>
                             </li>
