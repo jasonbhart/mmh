@@ -41,20 +41,26 @@
             
             options.sort = $scope.sort;
 
+            $window.$('.loading-wrap').show();
             dataProvider.getSuggestions(options).then(function(suggestions) {
                 $scope.places = suggestions;
+                $window.$('.loading-wrap').hide();
             });
         };
 
         $scope.$watch('term', function(value) {
+            $window.$('.loading-wrap').show();
             placesProvider.getPlaces(value, $scope.sort).then(function(places) {
                 $scope.places = places;
+                $window.$('.loading-wrap').hide();
             });
         });
         
         $scope.$watch('sort', function(value) {
+            $window.$('.loading-wrap').show();
             placesProvider.getPlaces($scope.term, value).then(function(places) {
                 $scope.places = places;
+                $window.$('.loading-wrap').hide();
             });
         });
         

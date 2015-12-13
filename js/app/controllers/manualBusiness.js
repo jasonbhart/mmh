@@ -42,8 +42,10 @@
                 options.sort = $scope.sort;
                 
                 options.limit = 5;
+                $window.$('.loading-wrap').show();
                 dataProvider.getSuggestions(options).then(function(suggestions) {
                     $scope.places = suggestions;
+                    $window.$('.loading-wrap').hide();
                 });
             };
             
