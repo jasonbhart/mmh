@@ -19,6 +19,7 @@
                     if (!value)
                         return;
                     dateTimePicker = elem.find('.datetimepicker').datetimepicker({
+                        defaultDate: moment().add(15, 'minutes'),
                         format: value,
                         inline: true,
                         sideBySide: true,
@@ -31,6 +32,7 @@
                     dateTimePicker = dateTimePicker.data('DateTimePicker');
                     
                     // initial set model value (date) (apply stepping and update model)
+                    ngModelCtrl.$viewValue = ngModelCtrl.$viewValue.add(15, 'minutes');
                     dateTimePicker.date(ngModelCtrl.$viewValue);
                     
                     ngModelCtrl.$render = function() {
