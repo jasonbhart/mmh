@@ -7,6 +7,8 @@
         var resultDefer = $q.defer();
 
         var ref = new Firebase(appConfig.firebaseUrl + '/meets');
+        
+        var loadingTimeout = null;
         ref = ref.child(meetingId);
         ref.once('value', function (snap) {
             if (!snap.exists()) {
@@ -208,13 +210,24 @@
                                 state = !exists;
                             }
 
+                            clearTimeout(loadingTimeout);
+                            loadingTimeout = setTimeout(function() {
+                                $('.loading-wrap').show();
+                            }, 500);
+                            
                             if (exists && !state) {      // remove
                                 $log.log('toggleWhere Remove: ', snap.ref().toString(), snap.val());
                                 var id = _.keys(snap.val())[0];
-                                snap.ref().child(id).remove();
+                                snap.ref().child(id).remove(function() {
+                                    clearTimeout(loadingTimeout);
+                                    $('.loading-wrap').hide();
+                                });
                             } else if (!exists && state) {      // add
                                 $log.log('toggleWhere Add: ', snap.ref().toString(), snap.val());
-                                snap.ref().push(whereId);
+                                snap.ref().push(whereId, function() {
+                                    clearTimeout(loadingTimeout);
+                                    $('.loading-wrap').hide();
+                                });
                             }
                         });
                     };
@@ -231,13 +244,25 @@
                                 state = !exists;
                             }
 
+                            clearTimeout(loadingTimeout);
+                            loadingTimeout = setTimeout(function() {
+                                $('.loading-wrap').show();
+                            }, 500);
                             if (exists && !state) {      // remove
                                 $log.log('toggleWhen Remove: ', snap.ref().toString(), snap.val());
                                 var id = _.keys(snap.val())[0];
-                                snap.ref().child(id).remove();
+                                snap.ref().child(id).remove(function(){
+                                    clearTimeout(loadingTimeout);
+                                    $('.loading-wrap').hide();
+                                });
+                                
                             } else if (!exists && state) {      // add
                                 $log.log('toggleWhen Add: ', snap.ref().toString(), snap.val());
-                                snap.ref().push(whenId);
+                                snap.ref().push(whenId, function () {
+                                    clearTimeout(loadingTimeout);
+                                    $('.loading-wrap').hide();
+                                });
+                                
                             }
                         });
                     };
@@ -294,15 +319,23 @@
                                 return;
 
                             // remove all where and when and set only those in the joined group
+                            clearTimeout(loadingTimeout);
+                            loadingTimeout = setTimeout(function() {
+                                $('.loading-wrap').show();
+                            }, 500);
                             var whereRef = userObj.refs.where.push(result.group.whereId, function() {
                                 var data = {};
                                 data[whereRef.key()] = result.group.whereId;
                                 userObj.refs.where.set(data);
+                                clearTimeout(loadingTimeout);
+                                $('.loading-wrap').hide();
                             });
                             var whenRef = userObj.refs.when.push(result.group.whenId, function() {
                                 var data = {};
                                 data[whenRef.key()] = result.group.whenId;
                                 userObj.refs.when.set(data);
+                                clearTimeout(loadingTimeout);
+                                $('.loading-wrap').hide();
                             });
                         });
                     };

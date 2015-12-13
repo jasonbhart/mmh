@@ -91,6 +91,7 @@
 
                 var defer = $q.defer();
                 $http.get(appConfig.dataUrl, { params: searchOptions }).then(function(response) {
+                    $('.loading-wrap').hide();
                     var data = response.data;
                     if (!data) {
                         defer.reject('Empty response');
