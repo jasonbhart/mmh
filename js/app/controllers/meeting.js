@@ -928,13 +928,17 @@
                 $scope.meetingUser.toggleWhen(time.id, false);
                 
                 util.addEventToDataLayer('Activity', 'Interaction', 'Unselect Time', time.whenFormatted);
-            } else {
+                $scope.changingGroups = true;
+            } else if (moment().diff(time.when) <= 0) {
                 $scope.meetingUser.toggleWhen(time.id, true);
                 $scope.addMeetingToUser();
                 
                 util.addEventToDataLayer('Activity', 'Interaction', 'Select Time', time.whenFormatted);
+                $scope.changingGroups = true;
+            } else {
+                alert ('This time is passed, please select another time!');
             }
-            $scope.changingGroups = true;
+            
         };
         
         $scope.addTime = function($event, place) {
