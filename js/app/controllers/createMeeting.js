@@ -232,7 +232,7 @@
         });
         
         function roundTime(moment) {
-            return moment.subtract(moment.minute()%15, 'minutes');
+            return moment.subtract(moment.minute()%15, 'minutes').seconds(0).millisecond(0);
         }
         
         $scope.addManualBusiness = function() {
