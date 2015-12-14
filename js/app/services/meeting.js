@@ -575,6 +575,8 @@
 
                         if (!whereId)
                             whereId = _.keys(meeting.where)[0];
+                        
+                        var whenId = descr.whenId || _.keys(meeting.when)[0];
 
                         var id = snap.key();
                         var joinedUser = [];
@@ -590,8 +592,9 @@
                             users: joinedUser,
                             where: meeting.where[whereId],
                             url: service.getSharingUrl(id),
-                            timeTitle: meeting.timeTitle,
-                            allUsers: meeting.users
+                            timeTitle: meeting.when[whenId],
+                            when: meeting.when[whenId],
+                            allUsers: meeting.users,
                         };
                         
                         $rootScope.$applyAsync(function() {
