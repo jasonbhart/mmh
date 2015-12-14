@@ -263,6 +263,9 @@
                                     $('.loading-wrap').hide();
                                 });
                                 
+                            } else {
+                                clearTimeout(loadingTimeout);
+                                $('.loading-wrap').hide();
                             }
                         });
                     };

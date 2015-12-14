@@ -708,6 +708,7 @@
         
         var timesProvider = {
             getTimes: function() {
+                return [];
                 var formatted = formattingData.formatWhen($scope.meetingUser.when, $scope.timeFormat);
                 return _.map(formatted, function(time) {
                     return time.when;
@@ -906,7 +907,7 @@
                 addTimeNotification(angular.copy($scope.meeting.when), times);
                 $log.log('Show times result:', times);
                 // remove times
-                $scope.meetingUser.removeAllWhen();
+//                $scope.meetingUser.removeAllWhen();
                 
                 // add times
                 _.forEach(times, function(time) {

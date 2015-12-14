@@ -125,7 +125,7 @@
         
         var timesProvider = {
             getTimes: function() {
-                return [].concat($scope.times);
+                return [];
             },
             format: function(time) {
                 return time.format($scope.timeFormat);
@@ -136,7 +136,19 @@
             var dialog = dialogs.userMeetingTimes(timesProvider);
             dialog.result.then(function(times) {
                 $log.log('Show times result:', times);
-                $scope.times = times;
+                _.forEach(times, function(newTime) {
+                    var isNew = true;
+                    _.forEach($scope.times, function (oldTime) {
+                        if (newTime.diff(oldTime) === 0) {
+                            isNew = false;
+                        }
+                    });
+                    
+                    if (isNew) {
+                        $scope.times.push(newTime);
+                    }
+                });
+//                $scope.times = times;
             });
         };
         
