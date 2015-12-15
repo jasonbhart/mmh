@@ -118,10 +118,23 @@
         var getTimeFromTemplate = function (oldTimes) {
             var result  = {};
             var times   = angular.copy(oldTimes);
+            
+            var minTime =   moment()
+                            .add(15, 'minutes')
+                            .subtract(moment().minute()%15, 'minutes')
+                            .seconds(0).millisecond(0)
+                            .utc().toISOString();
            
             for (var i in times) {
                 var key = util.generateKey();
-                result[key] = changeDateToToday(times[i].$value);
+                var newTime = changeDateToToday(times[i]);
+                if (minTime <= newTime) {
+                    result[key] = newTime;
+                }
+            }
+            if (_.isEmpty(result)) {
+                var key = util.generateKey();
+                result[key] = minTime;
             }
             return result;
         };
