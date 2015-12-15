@@ -567,7 +567,7 @@
                         country_code: group.where.country_code || '',  
                         type: group.where.type || '',
                         image_url: group.where.image_url || '',
-                        categories: group.where.categories
+                        categories: group.where.categories || []
                     },
                     whereId: group.where.$id,
                     whenId: group.when.when.id
@@ -1064,9 +1064,21 @@
         var getTimeFromTemplate = function () {
             var result  = {};
             var times   = angular.copy($scope.meeting.when);
+            var minTime =   moment()
+                            .add(15, 'minutes')
+                            .subtract(moment().minute()%15, 'minutes')
+                            .seconds(0).millisecond(0)
+                            .utc().toISOString();
             for (var i in times) {
                 var key = util.generateKey();
-                result[key] = changeDateToToday(times[i].$value);
+                var newTime = changeDateToToday(times[i].$value);
+                if (minTime <= newTime) {
+                    result[key] = newTime;
+                }
+            }
+            if (_.isEmpty(result)) {
+                var key = util.generateKey();
+                result[key] = minTime;
             }
             return result;
         }
@@ -1193,6 +1205,7 @@
             "DTSTART:" + time.format('YYYYMMDDTHHmm') + '00Z' + "\r\n" + 
             "DTEND:" + time.add(1, 'hours').format('YYYYMMDDTHHmm') + '00Z' + "\r\n" + 
             "SUMMARY:" + $scope.meeting.name + "\r\n" + 
+            "DESCRIPTION:" + $scope.getSharingUrl() + "\r\n" + 
             "LOCATION:" + group.where.name + ", " + group.where.location.display_address + "\r\n" + 
             "END:VEVENT" + "\r\n" + 
             "END:VCALENDAR";
