@@ -111,6 +111,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                     {{getMeetingName(meeting, false)}}
                                 </a>
                             </li>
+                            <li ng-show="meetingList.$value === null" style="font-style: italic;">
+                                No current activities
+                            </li>
                         </ul>
                     </li>
                 </ul>
