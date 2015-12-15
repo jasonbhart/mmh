@@ -157,46 +157,47 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                 </div>
                                 <div class="box-gray">
                                     <div class="meet-setting">
-                                        <p>
-                                            Places 
-                                            <span ng-if="meeting.specificLocation">({{meeting.specificLocation}})</span>
-                                        </p>
-                                        <div class="box-white places-area">
-                                            <ul class="choose-list">
-                                                <li ng-class="where.selected ? 'selected' : ''" class="place-info" ng-repeat="where in usersInfo.current.where" ng-click="togglePlace(where)">
-                                                    <a class="icon" title="Delete">Delete</a>
-                                                    {{ where.name }}
-                                                     <div class="tooltip-pleaces">
-                                                        <i class="fa fa-caret-down arrow"></i>
-                                                        <a class="thumb"><img ng-src="{{ getCorrectProtocolUrl(where.where.image_url) }}" alt=""></a>
-                                                        <div class="cont-data">
-                                                            <h3 class="title"><a target="_blank" href="{{ where.where.url }}">{{ where.name }}</a></h3>
-                                                            <img ng-src="{{ getCorrectProtocolUrl(where.where.rating_url) }}" alt="">
-                                                            <span class="str-list">{{ where.where.categories[0][0] ? where.where.categories[0][0] : '' }}</span>
-                                                            <address>
-                                                                {{ where.where.location.display_address }}
-                                                            </address>
+                                        <div class="place-and-time-setting button-span">
+                                            <p>
+                                                Places 
+                                                <span ng-if="meeting.specificLocation">({{meeting.specificLocation}})</span>
+                                            </p>
+                                            <div class="box-white places-area">
+                                                <ul class="choose-list">
+                                                    <li ng-class="where.selected ? 'selected' : ''" class="place-info" ng-repeat="where in usersInfo.current.where" ng-click="togglePlace(where)">
+                                                        <a class="icon" title="Delete">Delete</a>
+                                                        {{ where.name }}
+                                                         <div class="tooltip-pleaces">
+                                                            <i class="fa fa-caret-down arrow"></i>
+                                                            <a class="thumb"><img ng-src="{{ getCorrectProtocolUrl(where.where.image_url) }}" alt=""></a>
+                                                            <div class="cont-data">
+                                                                <h3 class="title"><a target="_blank" href="{{ where.where.url }}">{{ where.name }}</a></h3>
+                                                                <img ng-src="{{ getCorrectProtocolUrl(where.where.rating_url) }}" alt="">
+                                                                <span class="str-list">{{ where.where.categories[0][0] ? where.where.categories[0][0] : '' }}</span>
+                                                                <address>
+                                                                    {{ where.where.location.display_address }}
+                                                                </address>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </li>
-                                                <li class="forbtn"><span class="add-places button-span" ng-show="!ended"><a class="btn btn-add waves-effect waves-light" ng-click="addPlaces()"><i class="icon"></i> Add</a></span></li>
-                                            </ul>
+                                                    </li>
+                                                    <li class="forbtn"><span class="add-places button-span" ng-show="!ended"><a class="btn btn-add waves-effect waves-light" ng-click="addPlaces()"><i class="icon"></i> Add</a></span></li>
+                                                </ul>
+                                            </div>
+                                            <p>Times</p>
+                                            <div class="box-white times-area">
+                                                <ul class="choose-list">
+                                                    <li ng-class="when.selected ? 'selected' : ''" class="time-info" ng-repeat="when in usersInfo.current.when" ng-click="toggleTime(when)">
+                                                        <a class="icon" title="Delete">Delete</a>
+                                                        {{ when.whenFormatted }}
+                                                        <div class="tooltip-pleaces">
+                                                            <i class="fa fa-caret-down arrow"></i>
+                                                            {{when.fullInfoFormatted}}
+                                                        </div>
+                                                    </li>
+                                                    <li class="forbtn"><span class="add-times button-span" ng-show="!ended"><a class="btn btn-add waves-effect waves-light" ng-click="addTimes()"><i class="icon"></i> Add</a></span></li>
+                                                </ul>
+                                            </div>
                                         </div>
-                                        <p>Times</p>
-                                        <div class="box-white times-area">
-                                            <ul class="choose-list">
-                                                <li ng-class="when.selected ? 'selected' : ''" class="time-info" ng-repeat="when in usersInfo.current.when" ng-click="toggleTime(when)">
-                                                    <a class="icon" title="Delete">Delete</a>
-                                                    {{ when.whenFormatted }}
-                                                    <div class="tooltip-pleaces">
-                                                        <i class="fa fa-caret-down arrow"></i>
-                                                        {{when.fullInfoFormatted}}
-                                                    </div>
-                                                </li>
-                                                <li class="forbtn"><span class="add-times button-span" ng-show="!ended"><a class="btn btn-add waves-effect waves-light" ng-click="addTimes()"><i class="icon"></i> Add</a></span></li>
-                                            </ul>
-                                        </div>
-
                                         <div class="comment-area">
                                             <a class="readmore" ng-show="displayShowMoreComment()" ng-click="showMoreComment()"><i class="fa fa-comments"></i> View 2 more comments</a>
                                             <div class="comment-item" ng-repeat="comment in getCommentsToShow()">
@@ -375,6 +376,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <li data-class="add-times" data-button="Next" class="mb-meeting-add tooltip-mt" data-options="tipLocation:bottom;ipAnimation:pop">
             <h3>Add Time Suggestion</h3>
             <p>Suggest a new time for this activity to occur.</p>
+        </li>
+        <li data-class="place-and-time-setting" data-button="Next" class="mb-meeting-add tooltip-mt" data-options="tipLocation:bottom;ipAnimation:pop">
+            <p>Now select your preferences for when and where.</p>
         </li>
         <li data-class="suitable-groups" data-button="Next" class="mb-what-do tooltip-mt" data-options="tipLocation:bottom;ipAnimation:fade">
             <p>This area will show you where there are groups of consensus (if any) with others participating in this activity.</p>
