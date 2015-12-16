@@ -876,6 +876,8 @@
                 var notificationData = {
                     type: 'group',
                     status: '1',
+                    time: newGroupAdded.when.when.when.toISOString(),
+                    place: newGroupAdded.where.name,
                     value: newGroupAdded.when.formatted + ' - ' + newGroupAdded.where.name,
                     createdAt: moment().utc().toISOString(),
                     meetId: $scope.meeting.id,
