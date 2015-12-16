@@ -882,21 +882,34 @@
                     meetName: $scope.meeting.name
                 };
                 
-                var sendingEmails = [];
-                for (var i in $scope.usersInfo.others) {
-                    if (typeof $scope.usersInfo.others[i] === 'object') {
-                        // onsite notification
-                        notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
-                        if ($scope.usersInfo.others[i].user.user.email && !$scope.usersInfo.others[i].user.user.disableEmailNoti) {
-                            sendingEmails.push($scope.usersInfo.others[i].user.user.email);
+                var groupId = newGroupAdded.when.when.id + '-' + newGroupAdded.where.$id;
+                
+                var groupObject = meetingService.checkGroupExisted($scope.meeting.id, groupId);
+                
+                groupObject.$loaded(function(snapshot) {
+                    if (snapshot.$value === null) {
+                        groupObject.createdAt = moment().toISOString();
+                        groupObject.$save();
+                        
+                        var sendingEmails = [];
+                        for (var i in $scope.usersInfo.others) {
+                            if (typeof $scope.usersInfo.others[i] === 'object') {
+                                // onsite notification
+                                notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
+                                if ($scope.usersInfo.others[i].user.user.email && !$scope.usersInfo.others[i].user.user.disableEmailNoti) {
+                                    sendingEmails.push($scope.usersInfo.others[i].user.user.email);
+                                }
+                            }
+                        }
+
+                        // email notification
+                        if (sendingEmails.length > 0) {
+                            emailService.sendEmailToUsers(sendingEmails, notificationData);
                         }
                     }
-                }
+                });
                 
-                // email notification
-                if (sendingEmails.length > 0) {
-                    emailService.sendEmailToUsers(sendingEmails, notificationData);
-                }
+                
             }
             $scope.changingGroups = false;
         };
