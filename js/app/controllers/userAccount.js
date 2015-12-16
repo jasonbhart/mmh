@@ -51,7 +51,11 @@
             } else if (notification.type === 'place') {
                 text = 'New place <b>' + notification.value + '</b> added to <b> ' + notification.meetName + '</b>';
             } else if (notification.type === 'group') {
-                text = 'New group <b>' + notification.value + '</b> added to <b> ' + notification.meetName + '</b>';
+                if (notification.time && notification.place) {
+                    text = 'New group <b>' + moment(notification.time).format('h:mmA') + ' - ' + notification.place + '</b> added to <b> ' + notification.meetName + '</b>';
+                } else {
+                    text = 'New group <b>' + notification.value + '</b> added to <b> ' + notification.meetName + '</b>';
+                }
             } else if (notification.type === 'user') {
                 text = 'New user <b>' + notification.value + '</b> joined activity <b> ' + notification.meetName + '</b>';
             } else if (notification.type === 'rsvp') {

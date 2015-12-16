@@ -410,6 +410,10 @@
                 var ref = new Firebase(meetsUrl);
                 return $firebaseObject(ref.child(id));
             },
+            checkGroupExisted: function (meetId, groupId) {
+                var ref = new Firebase(meetsUrl);
+                return $firebaseObject(ref.child(meetId).child(groupId));
+            },
             convertWhen: function(when) {
                 return moment.utc(when).local();
             },
