@@ -284,7 +284,7 @@
                                 if (typeof meeting.where.location !== 'undefined') {
                                     meeting.where.location.display_address = meeting.where.location.display_address.replace('undefined', '');
                                 }
-                                if (meeting.createdAt && $scope.isToday(meeting.createdAt)) {
+                                if (meeting.createdDate && $scope.isToday(meeting.createdDate)) {
                                     $scope.otherMeetings.push(meeting);
                                     $scope.$apply();
                                 }

@@ -602,6 +602,7 @@
                             timeTitle: meeting.when[whenId],
                             when: meeting.when[whenId],
                             allUsers: meeting.users,
+                            createdDate: meeting.createdDate
                         };
                         
                         $rootScope.$applyAsync(function() {
