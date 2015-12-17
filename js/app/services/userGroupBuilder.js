@@ -57,6 +57,7 @@
         }
         
         this.build = function (allPlaces, allTimes, users, currentUser) {
+            this.cleanup(users);
             var allGroups = {};
             _.forEach(allPlaces, function(place) {
                 _.forEach(allTimes, function(time){
@@ -79,7 +80,20 @@
                         allGroups[groupId].count ++;
                     });
                 });
+                
+                
             });
+            
+            // if rsvped one group, get that group only
+            _.forEach(users, function(user) {
+                if (user.userId === currentUser.id && user.group) {
+                    var groupId = user.group.where + '-' + user.group.when;
+                    var joinedGroup = allGroups[groupId];
+                    allGroups = {};
+                    allGroups[groupId] = joinedGroup;
+                }
+            });
+            
             return _.filter(allGroups, function (group) {
                 return group.count >= 2;
             });
