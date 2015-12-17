@@ -29,6 +29,7 @@
         $scope.suggestionTimeout = null;
         $scope.suggestionCache = {};
         $scope.locationName = '';
+        $scope.showTip = false;
         
         $scope.showManualBusiness = false;
         $scope.manualBusinessInfo = {};
@@ -363,6 +364,9 @@
                     $scope.suggestionCache[$scope.where] = suggestions;
                     if (suggestions.length == 0) {
                         $scope.noSuggestionLabel = 'Sorry, we were unable to find an establishment in your area. Try changing locations.';
+                        $scope.showTip = false;
+                    } else if (suggestions.length < 3) {
+                        $scope.showTip = true;
                     }
                     $window.$('.loading-wrap').hide();
                 }, function (error){

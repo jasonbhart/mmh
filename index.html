@@ -148,12 +148,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                 </div>
                             </div>
                             <div class="rspvBox">
-                                <div class="date-time" style="display: none">
-                                    <span class="date">Sun Jun 28</span>
-                                    <span class="time">2:00 PM</span>
+                                <div class="date-time">
+                                    <span class="time">{{meeting.formatedTime}}</span>
                                 </div>
                                 <div class="rspv">
-                                    <p><span class="going button-span"><a ng-href="{{ meeting.url }}" class="btn waves-effect waves-light">Going</a></span></p>
+                                    <span class="going button-span"><a ng-href="{{ meeting.url }}" class="btn waves-effect waves-light">Going</a></span>
                                 </div>
                             </div>
                         </div>
@@ -171,9 +170,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                     <p ng-if="meeting.users.length > 1">{{ meeting.users.length }} people going</p>
                                 </div>
                                 <div class="rspvBox">
-                                    <div class="date-time" style="display: none">
-                                        <span class="date">Sun Jun 28</span>
-                                        <span class="time">2:00 PM</span>
+                                    <div class="date-time">
+                                        <span class="time">{{ meeting.formatedTime }}</span>
                                     </div>
                                     <div class="rspv">
                                         <b>Want to go?</b>

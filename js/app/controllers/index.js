@@ -60,6 +60,7 @@
                                                 && $scope.isToday(meetingInfo.timeTitle)
                                                 && moment().diff(moment(meetingInfo.timeTitle)) < 3600 * 1000
                                             ) {
+                                                meetingInfo.formatedTime = $scope.formatTime(meetingInfo.when);
                                                 $scope.rsvpMeetingList.push(meetingInfo);
                                             }
                                         });
@@ -285,6 +286,7 @@
                                     meeting.where.location.display_address = meeting.where.location.display_address.replace('undefined', '');
                                 }
                                 if (meeting.createdDate && $scope.isToday(meeting.createdDate)) {
+                                    meeting.formatedTime = $scope.formatTime(meeting.when);
                                     $scope.otherMeetings.push(meeting);
                                     $scope.$apply();
                                 }
@@ -317,5 +319,9 @@
                 }
             });
         });
+        
+        $scope.formatTime = function (isoString) {
+            return moment(isoString).format('h:mm A');
+        }
     }]);
 })();

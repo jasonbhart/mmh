@@ -37,8 +37,8 @@ h3.title{font-size:18px; font-weight:500;}
 .contents{padding:0; margin:0;}
 .meetingLabel{display:inline-block; clear:both; border-radius:4px; font-style:italic; font-size:12px; color:#3b3738; height:25px; line-height:25px; padding:0 15px; background:#ddd;}
 .meeting-top .wrap{position:relative;}
-.meeting-top .title{font-size:24px;}
-.meeting-top .info{margin-right:140px; overflow:hidden;border-right:1px solid #ddd; padding-right:15px;}
+.meeting-top .title{font-size:24px; display:inline-block}
+.meeting-top .info{margin-right:145px; overflow:hidden;padding-right:15px;background:url(../image/arrow.png) no-repeat 100% 25px; background-size:52px 44px; padding-right:45px;}
 .meeting-top .info .thumb{float:left; max-width:166px; overflow:hidden; max-height:166px; border:1px solid #ddd; margin-right:15px;}
 .meeting-top .info .thumb img{max-width:100%;}
 .meeting-top .info .des{display:table-cell; font-size:12px;}
@@ -46,9 +46,10 @@ h3.title{font-size:18px; font-weight:500;}
 .meeting-top .info .member-list li{display:inline-block; margin-right:3px;}
 .meeting-top .info .member-list .bordered{display:block; border:1px solid #ddd; width:35px; height:35px; overflow:hidden;}
 .rspvBox{position:absolute; top:0; font-size:14px;}
+.rspvBox .date-time{background:url(../image/clock-icon.png) no-repeat 0 0; padding-left:30px; background-size:24px 24px; font-size:18px; font-weight:700;margin-bottom:20px;}
 .rspvBox .date{display:block; font-weight:700;}
 .rspvBox .time{color: #e44424}
-.meeting-top .rspvBox{right:0;}
+.meeting-top .rspvBox{right:0; width:135px; background:#fff none; border:1px solid #ddd; padding:10px 12px 15px; border-radius:4px;}
 .rspvBox .rspv{margin-top:10px;}
 .rspvBox .rspv p{margin-top:5px;}
 .meeting-top .btn, .other-meetings .btn{font-size:18px; height:35px; line-height:37px;}
@@ -364,15 +365,6 @@ img{max-width: 100%;}
 .select-area .sort span:first-child{margin-left:10px;}
 
 
-@media only screen and (min-width : 1280px){
-.meeting-top .info{margin-right:25%;}
-.meeting-top .rspvBox{width:22%; font-size:18px;}
-.meeting-top .rspvBox .date{display:inline; margin-right:3px;}
-.meeting-top .rspvBox .date-time{margin-bottom:25px; font-size:16px;}
-.meeting-top .rspvBox .date:after{content:","}
-.meeting-top .rspvBox .rspv p{display:inline-block;}
-.meeting-top .rspvBox .rspv b{margin-right:10px;}
-}
 @media only screen and (min-width : 993px){
 .other-meetings li{padding-left:160px;}
 .other-meetings .info{border-left:1px solid #ddd;}
@@ -383,12 +375,10 @@ img{max-width: 100%;}
 .other-meetings.homepage .rspvBox{left: inherit; right:0;}
 }
 @media only screen and (max-width : 992px){
-.meeting-top .info{margin-right:0;border:0; padding-right:0;}
-.rspvBox{position:inherit; margin-top:20px; border-top:1px solid #ddd; font-size:16px; padding-top:5px;}
-.rspvBox .date{display:inline; margin-right:3px;}
-.rspvBox .date:after{content:","}
-.rspvBox .rspv p{display:inline-block; margin:0;}
-.rspvBox .rspv b{margin-right:10px;}
+.other-meetings .rspvBox{position: inherit; padding-top:0;}
+.other-meetings .rspvBox .rspv{ margin: 20px -20px 0;border-top: 1px solid #ddd;padding:10px 20px 0}
+.other-meetings .rspvBox .rspv p{display: inline-block; margin: 0;}
+.other-meetings .rspvBox .date-time{margin-bottom:0;}
 #contRight, #contLeft{float:none; width:100%;}
 #contRight{margin-top:30px;}
 #contRight .meetingLabel{position:inherit;}
@@ -405,6 +395,10 @@ img{max-width: 100%;}
 
 }
 @media only screen and (max-width : 650px){
+.meeting-top .info{margin-right:0;border:0; padding-right:0;background:none;}
+.meeting-top .rspvBox{position:inherit; width:auto; border:none;background:none;}
+.meeting-top .rspvBox .rspv{ margin:0;border-top: 1px solid #ddd;padding:15px 0 0}
+.meeting-top .rspvBox .date-time{margin-bottom:8px;}
 .box-meeting .title-page{padding:15px;}
 .box-meeting .share{position:relative; text-align:right; margin-right:-10px; top:0;}
 .box-meeting .share .fb-share-button, .box-meeting .share .twitter-share, .box-meeting .share .email-share, .box-meeting .share .label{margin:0 2px; vertical-align:top}
@@ -514,7 +508,7 @@ img{max-width: 100%;}
 }
 .button-span{display: block; padding: 5px !important;}
 .button-span .btn{margin: 0 !important;}
-.account {margin-top:-3px};
+.account {margin-top:-3px}
 
 .passed-box{background:#fff none; margin-bottom:-2px; padding:10px 15px 0;position:relative;}
 .label-passed{display:inline-block;background:#f8f4f0  none; border-radius:4px; padding:5px 10px; font-size:13px; font-weight:700; color:#929292 ; text-transform:uppercase;}
