@@ -474,7 +474,11 @@
             });
             
             // build groups
-            var groups = userGroupBuilder.build(builderUsers, whenMap, $scope.currentUser);
+//            var groups = userGroupBuilder.build(builderUsers, whenMap, $scope.currentUser);
+            
+            var allPlaces = _.map(formattingData.where, function(where){return where.$id});
+            var allTimes = _.map(formattingData.when, function(when){return when.id});
+            var groups = userGroupBuilder.build(allPlaces, allTimes, builderUsers, $scope.currentUser);
 
             // format groups
             var result = [];
