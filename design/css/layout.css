@@ -29,6 +29,7 @@ html, body{height:100%;}
 .dropdown-content a{text-decoration:none;}
 #header .account{float:left;}
 #header .account a{color:#9e9b98; font-size:13px;display: block;height: 30px;}
+#header .account a.info{height:40px;}
 #account-info{top: 34px !important;};
 #header .account .dropdown-content{margin-top:34px;} 
 #header .account .thumb{border-radius:50%; overflow:hidden; width:25px; height:25px; display:inline-block; vertical-align:middle; margin-right:5px; border:1px solid #dedede;}
