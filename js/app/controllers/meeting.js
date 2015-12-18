@@ -605,7 +605,7 @@
         };
         
         $scope.getShareEmailSubject = function() {
-            return "MEET ME HERE: " + $scope.getMeetingName($scope.meeting, true);
+            return $scope.getShareMeetingName($scope.meeting);
         };
         $scope.getShareEmailBody = function() {
             return "Click the link to view activity details: \r\n" + meetingService.getSharingUrl($scope.meeting.id);
@@ -983,6 +983,68 @@
         $scope.getMeetingName = function(meeting, includeTime) {
             return meetingService.getMeetingName(meeting, includeTime);
         };
+        
+        $scope.getShareMeetingName = function (meeting) {
+            if (!meeting || !meeting.users || !$scope.currentUser || !$scope.currentUser.user) {
+                return '';
+            }
+            var title = meeting.name || '',
+                whenId = '',
+                whereId = '',
+                time = '',
+                place = '';
+            
+            
+            // get correct time and place
+            _.forEach (meeting.users, function(user) {
+                if (user.$id === $scope.currentUser.user.$id) {
+                    if (user.group) {
+                        whenId = user.group.when;
+                        whereId = user.group.where;
+                    } else {
+                        if (user.when) {
+                            whenId = user.when[Object.keys(user.when)[0]];
+                        }
+                        if (user.where) {
+                            whereId = user.where[Object.keys(user.where)[0]];
+                        }
+                    }
+                    
+                }
+            });
+            
+            // get default time/place if not chosen anything
+            if (whenId) {
+                _.forEach(meeting.when, function(meetingTime) {
+                    if (meetingTime.$id === whenId) {
+                        time = meetingTime.$value;
+                    }
+                })
+            } else if (meeting.when && meeting.when[0]){
+                time = meeting.when[0].$value;
+            }
+            
+            if (whereId) {
+                _.forEach(meeting.where, function(meetingPlace) {
+                    if (meetingPlace.$id === whereId) {
+                        place = meetingPlace.name;
+                    }
+                })
+            } else if (meeting.where && meeting.where[0]) {
+                place = meeting.where[0].name;
+            }
+            
+            var metadata = '';
+            if (place && time) {
+                metadata = ' (' + place + ' @ ' +  moment(time).format('h:mmA') + ')';
+            } else if (place) {
+                metadata = ' (' + place + ')';
+            } else if (time) {
+                metadata = ' ('  +  moment(time).format('h:mmA') + ')';
+            }
+            
+            return title + metadata;
+        }
         
         $scope.copy = function() {
             document.getElementById("sharing_url").style.display = 'block';

@@ -492,7 +492,7 @@
             }
             
             var yelpTerm = ($scope.what !== 'other') ? $scope.what : $scope.term;
-            var name = '';
+            var name = 'Let\'s ';
             
             for (var i in $scope.terms) {
                 if ($scope.terms[i].id === yelpTerm) {
