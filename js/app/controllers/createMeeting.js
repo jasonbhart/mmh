@@ -528,7 +528,7 @@
                 name: getMeetingName(),
                 timeTitle: time ? time.utc().toISOString() : ''
             };
-            return encodeURIComponent(meetingService.getFacebookSharingUrl($scope.meetingId, $scope.getMeetingName(meetingData, true)));
+            return encodeURIComponent(meetingService.getFacebookSharingUrl($scope.meetingId, $scope.getShareMeetingName(meetingData)));
         };
         
         $scope.getShareEmailSubject = function() {
@@ -537,7 +537,7 @@
                 name: getMeetingName(),
                 timeTitle: time ? time.utc().toISOString() : ''
             };
-            return "MEET ME HERE: " + $scope.getMeetingName(meetingData, true);
+            return $scope.getShareMeetingName(meetingData);
         };
         
          $scope.getShareEmailBody = function() {
@@ -547,6 +547,40 @@
         $scope.getMeetingName = function(meeting, includeTime) {
             return meetingService.getMeetingName(meeting, includeTime);
         };
+        
+        $scope.getShareMeetingName = function (meeting) {
+            if (!meeting || !meeting.name) {
+                return '';
+            }
+            var time = '', place = '';
+            if ($scope.times && $scope.times[0]) {
+                time = $scope.times[0].format('h:mmA');
+            }
+            
+            if ($scope.establishment === 'other') {
+                place = '';
+            } else if ($scope.establishment === 'manual') {
+                place = $scope.manualBusinessInfo.name;
+            } else if ($scope.establishment){
+                try {
+                    var establishment = JSON.parse($scope.establishment);
+                    place = establishment.name;
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+            
+            var metadata = '';
+            if (place && time) {
+                metadata = ' (' + place + ' @ ' +  time + ')';
+            } else if (place) {
+                metadata = ' (' + place + ')';
+            } else if (time) {
+                metadata = ' ('  +  time + ')';
+            }
+            
+            return meeting.name + metadata;
+        }
         
         var addMeetingToUser = function(data) {
             var userId = $scope.currentUser.id;
