@@ -21,8 +21,9 @@
         $scope.numberOfCommentToShow = 2;
         $scope.newComment = null;
         $scope.groupTimeout = null;
+        $scope.categoryIconClass = '';
+        $window.$('.loading-wrap').show();
         
-                
         var formattingData = {
             where: [],
             when: [],
@@ -270,6 +271,10 @@
 
         meetingPromise.then(function(meeting) {
             $scope.meeting = meeting;
+            $scope.categoryIconClass = $scope.meeting.category ? $scope.meeting.category : '';
+            $window.$('.title-page').show();
+            $window.$('.loading-wrap').hide();
+            
             sessionService.setMeetingId($scope.meeting.id);
 
             if (!util.getUrlParams('act')) {
@@ -423,6 +428,7 @@
             activateFacebookSDK();
             
         }, function() {
+            $window.$('.loading-wrap').hide();
             $log.log('No such activity');
             $window.location = '/index.html';
         });

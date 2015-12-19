@@ -196,34 +196,35 @@ h3.title{font-size:18px; font-weight:500;}
 .selectBox-inline.selectBox-disabled{color:#888 !important}
 .selectBox-inline.selectBox-disabled .selectBox-options a{background-color:transparent !important}
 .select-areaa:hover{text-decoration:none;}
-.selectBox-options li a,.selectBox-dropdown .selectBox-label{background:url(../image/best_of_yelp.png) no-repeat 0 0;}
-.selectBox-dropdown .restaurants, .selectBox-options .restaurants a{background-position:-4px -1758px}
-.selectBox-dropdown .food, .selectBox-options .food a{background-position:-4px -718px}
-.selectBox-dropdown .nightlife, .selectBox-options .nightlife a{background-position:-4px -1278px}
-.selectBox-dropdown .drink, .selectBox-options .drink a{background-position:-4px -1278px}
-.selectBox-dropdown .shopping, .selectBox-options .shopping a{background-position:-4px -1838px}
-.selectBox-dropdown .bars, .selectBox-options .bars a{background-position:-4px -1278px}
-.selectBox-dropdown .american-new, .selectBox-options .american-new a{background-position:-4px -1758px}
-.selectBox-dropdown .breakfast-brunch, .selectBox-options .breakfast-brunch a{background-position:-4px -1758px}
-.selectBox-dropdown .coffee-tea, .selectBox-options .coffee-tea a{background-position:-4px -318px}
-.selectBox-dropdown .beauty-spas, .selectBox-options .beauty-spas a{background-position:-4px -238px}
-.selectBox-dropdown .health-medical, .selectBox-options .health-medical a{background-position:-4px -798px}
-.selectBox-dropdown .home-services, .selectBox-options .home-services a{background-position:-4px -878px}
-.selectBox-dropdown .automotive, .selectBox-options .automotive a{background-position:-4px -158px}
-.selectBox-dropdown .local-services, .selectBox-options .local-services a{background-position:-4px -1118px}
-.selectBox-dropdown .event-services, .selectBox-options .event-services a{background-position:-4px -558px}
-.selectBox-dropdown .arts-entertainment, .selectBox-options .arts-entertainment a{background-position:-4px -78px}
-.selectBox-dropdown .active-life, .selectBox-options .active-life a{background-position:-4px 2px}
-.selectBox-dropdown .hotels-travel, .selectBox-options .hotels-travel a{background-position:-4px -958px}
-.selectBox-dropdown .pets, .selectBox-options .pets a{background-position:-4px -1358px}
-.selectBox-dropdown .professional-services, .selectBox-options .professional-services a{background-position:-4px -1438px}
-.selectBox-dropdown .local-flavor, .selectBox-options .local-flavor a{background-position:-4px -1038px}
-.selectBox-dropdown .education, .selectBox-options .education a{background-position:-4px -478px}
-.selectBox-dropdown .public-government, .selectBox-options .public-government a{background-position:-4px -1518px}
-.selectBox-dropdown .real-estate, .selectBox-options .real-estate a{background-position:-4px -1598px}
-.selectBox-dropdown .financial-services, .selectBox-options .financial-services a{background-position:-4px -640px}
-.selectBox-dropdown .mass-media, .selectBox-options .mass-media a{background-position:-4px -1198px}
-.selectBox-dropdown .religious-organizations, .selectBox-options .religious-organizations a{background-position:-4px -1678px}
+.selectBox-options li a,.selectBox-dropdown .selectBox-label, .title-page .activity-icon a{background:url(../image/best_of_yelp.png) no-repeat 0 0;}
+.title-page .activity-icon a {display: inline-block; width: 36px; height: 30px; margin-top: -10px;vertical-align: middle;}
+.selectBox-dropdown .restaurants, .selectBox-options .restaurants a, .title-page .restaurants a {background-position:-4px -1758px}
+.selectBox-dropdown .food, .selectBox-options .food a, .title-page .food a{background-position:-4px -718px}
+.selectBox-dropdown .nightlife, .selectBox-options .nightlife a, .title-page .nightlife a{background-position:-4px -1278px}
+.selectBox-dropdown .drink, .selectBox-options .drink a, .title-page .drink a{background-position:-4px -1278px}
+.selectBox-dropdown .shopping, .selectBox-options .shopping a, .title-page .shopping a{background-position:-4px -1838px}
+.selectBox-dropdown .bars, .selectBox-options .bars a, .title-page .bars a{background-position:-4px -1278px}
+.selectBox-dropdown .american-new, .selectBox-options .american-new a, .title-page .american-new a{background-position:-4px -1758px}
+.selectBox-dropdown .breakfast-brunch, .selectBox-options .breakfast-brunch a, .title-page .breakfast-brunch a{background-position:-4px -1758px}
+.selectBox-dropdown .coffee-tea, .selectBox-options .coffee-tea a, .title-page .coffee-tea a{background-position:-4px -318px}
+.selectBox-dropdown .beauty-spas, .selectBox-options .beauty-spas a, .title-page .beauty-spas a{background-position:-4px -238px}
+.selectBox-dropdown .health-medical, .selectBox-options .health-medical a, .title-page .health-medical a{background-position:-4px -798px}
+.selectBox-dropdown .home-services, .selectBox-options .home-services a, .title-page .home-services a{background-position:-4px -878px}
+.selectBox-dropdown .automotive, .selectBox-options .automotive a, .title-page .automotive a{background-position:-4px -158px}
+.selectBox-dropdown .local-services, .selectBox-options .local-services a, .title-page .local-services a{background-position:-4px -1118px}
+.selectBox-dropdown .event-services, .selectBox-options .event-services a, .title-page .event-services a{background-position:-4px -558px}
+.selectBox-dropdown .arts-entertainment, .selectBox-options .arts-entertainment a, .title-page .arts-entertainment a{background-position:-4px -78px}
+.selectBox-dropdown .active-life, .selectBox-options .active-life a, .title-page .active-life a{background-position:-4px 2px}
+.selectBox-dropdown .hotels-travel, .selectBox-options .hotels-travel a, .title-page .hotels-travel a{background-position:-4px -958px}
+.selectBox-dropdown .pets, .selectBox-options .pets a, .title-page .pets a{background-position:-4px -1358px}
+.selectBox-dropdown .professional-services, .selectBox-options .professional-services a, .title-page .professional-services a{background-position:-4px -1438px}
+.selectBox-dropdown .local-flavor, .selectBox-options .local-flavor a, .title-page .local-flavor a{background-position:-4px -1038px}
+.selectBox-dropdown .education, .selectBox-options .education a, .title-page .education a{background-position:-4px -478px}
+.selectBox-dropdown .public-government, .selectBox-options .public-government a, .title-page .public-government a{background-position:-4px -1518px}
+.selectBox-dropdown .real-estate, .selectBox-options .real-estate a, .title-page .real-estate a{background-position:-4px -1598px}
+.selectBox-dropdown .financial-services, .selectBox-options .financial-services a, .title-page .financial-services a{background-position:-4px -640px}
+.selectBox-dropdown .mass-media, .selectBox-options .mass-media a, .title-page .mass-media a{background-position:-4px -1198px}
+.selectBox-dropdown .religious-organizations, .selectBox-options .religious-organizations a, .title-page .religious-organizations a{background-position:-4px -1678px}
 [type="checkbox"].filled-in:not(:checked) + label:after{border:1px solid #c8c8c8;}
 [type="checkbox"].filled-in:checked + label:before{border-right: 4px solid #aad760;border-bottom: 3px solid #aad760;top: -8px;   left: 0;width: 12px;height: 21px;}
 [type="checkbox"].filled-in:checked + label:after{border: 1px solid #aad760;background-color: #fff;}
