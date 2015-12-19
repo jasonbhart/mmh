@@ -140,10 +140,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <div class="wrap">
                             <div class="choose-setting" ng-if="usersInfo.current">
                                 <div class="share" ng-if="usersInfo.current" ng-hide="ended">
-                                    <div class="fb-share-button fb_iframe_widget" data-href="{{ getFacebookSharingUrl() }}" data-layout="button"></div>
-                                    <div class="twitter-share">
-                                        <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{getShareEmailSubject()}}" data-url="{{ getSharingUrl() }}" data-count="none">Tweet</a>
-                                    </div>
+                                    <span class="button facebook"><span class="icon-social"><i class="fa fa-facebook"></i></span><span class="text">Share</span></span>
+                                    <span class="button twitter"><span class="icon-social"><i class="fa fa-twitter"></i></span><span class="text">Tweet</span></span>
+                                    
                                     <div class="email-share">
                                         <a href="mailto:?subject={{getShareEmailSubject() | escape}}&body={{getShareEmailBody() | escape}}" title="Send an email"><img src="design/image/icon-m.gif" alt="Send an email"></a>
                                     </div>
@@ -313,7 +312,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                     </ul>
                                 </div>
                             </div>
-                            
+                            <div class="hidden-share">
+                                <a class="fb-share" id="fb-share" style="display: none" href="{{ 'https://www.facebook.com/sharer/sharer.php?sdk=joey&u=' + getFacebookSharingUrl() + '&display=popup&ref=plugin&src=share_button' }}">FB share</a>
+                                <a class="twitter-share" id="twitter-share" style="display: none" href="{{ 'https://twitter.com/intent/tweet?original_referer=' + getSharingUrl(true) + '&ref_src=twsrc%5Etfw&text=' + getShareEmailSubject() + '&tw_p=tweetbutton&url=' + getSharingUrl(true)}}">Twitter share</a>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -596,12 +596,21 @@
                 && (userGroups.isMultiName(user.id) || user.isAnonymous());
         }
 
-        $scope.getSharingUrl = function() {
+        $scope.getSharingUrl = function(shouldEncode) {
+            if (!$scope.meeting) {
+                return '';
+            }
+            if (shouldEncode) {
+                return encodeURIComponent(meetingService.getSharingUrl($scope.meeting.id));
+            }
             return meetingService.getSharingUrl($scope.meeting.id);
         };
         
-        $scope.getFacebookSharingUrl = function() {       
-            return meetingService.getFacebookSharingUrl($scope.meeting.id, $scope.getMeetingName($scope.meeting, true));
+        $scope.getFacebookSharingUrl = function() {    
+            if (!$scope.meeting) {
+                return '';
+            }
+            return meetingService.getFacebookSharingUrl($scope.meeting.id, $scope.getShareMeetingName($scope.meeting));
         };
         
         $scope.getShareEmailSubject = function() {
@@ -1312,6 +1321,13 @@
                         sessionService.setViewedTutorialStatus();
                     }, 100);
                 }
+            });
+            
+            $window.$('.box-meeting').on('click', '.button.facebook', function() {
+                window.open($('.fb-share').attr('href'), 'fbShareWindow', 'height=450, width=550, top=' + ($(window).height() / 2 - 275) + ', left=' + ($(window).width() / 2 - 225) + ', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
+            });
+            $window.$('.box-meeting').on('click', '.button.twitter', function(e) {
+                window.open($('.twitter-share').attr('href'), 'twitterShareWindow', 'height=450, width=550, top=' + ($(window).height() / 2 - 275) + ', left=' + ($(window).width() / 2 - 225) + ', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
             });
         });
     }]);
