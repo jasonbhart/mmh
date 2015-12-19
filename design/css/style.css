@@ -538,9 +538,5 @@ img{max-width: 100%;}
 .box-meeting .share .button.facebook {background: #3b5998;}
 .box-meeting .share .button.twitter {background: #00acee;}
 .box-meeting .share .button.facebook .text, .box-meeting .share .button.twitter .text {font-size: 11px;margin-left: 5px;}
-.box-meeting .share .button.facebook span, .box-meeting .share .button.twitter span {
-    vertical-align: middle;
-}
-.box-meeting .share .button.facebook .fa, .box-meeting .share .button.twitter .fa {
-    line-height: 20px;
-}
+.box-meeting .share .button.facebook span, .box-meeting .share .button.twitter span {vertical-align: middle;}
+.box-meeting .share .button.facebook .fa, .box-meeting .share .button.twitter .fa {line-height: 20px;}
