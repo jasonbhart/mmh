@@ -20,6 +20,9 @@
                     <label>
                         <div class="info">
                             <h3 class="title" ng-click="selectBusiness($index)"><a>{{ place.name }}</a></h3>
+                            <address style="font-size: 12px;">
+                                {{ place.location.display_address }}
+                            </address>
                             <img ng-src="{{ place.rating_url }}" id="rating_image_{{$index}}" alt="">
                             <!--<stars-rating rating="{{ place.rating }}"></stars-rating>-->
                             <div class="tooltip-pleaces">
@@ -30,7 +33,7 @@
                                     <img ng-src="{{ place.rating_url }}" alt="">
                                     <span class="str-list">{{ place.categories[0][0] ? place.categories[0][0] : '' }}</span>
                                     <address>
-                                        {{ place.location.display_address }}
+                                        {{ place.distance | number:0}} meters from here
                                     </address>
                                 </div>
                             </div>

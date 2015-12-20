@@ -30,6 +30,9 @@
                 <li class="row" ng-repeat="place in places">
                     <div class="info" ng-click="selectBusiness($index)">
                         <h3 class="title"><a>{{ place.name }}</a></h3>
+                        <address>
+                            {{ place.location.display_address }}
+                        </address>
                         <img ng-src="{{ place.rating_url }}" alt="">
                         <!--<stars-rating rating="{{ place.rating }}"></stars-rating>-->
                         <div class="tooltip-pleaces">
@@ -38,9 +41,10 @@
                             <div class="cont-data">
                                 <h3 class="title"><a target="_blank" href="{{ place.url }}">{{ place.name }}</a></h3>
                                 <img ng-src="{{ place.rating_url }}" alt="">
+                                <span class="str-list">{{ place.categories[0][0] ? place.categories[0][0] : '' }}</span>
                                 <!--<span class="str-list">Eastern Market</span>-->
                                 <address>
-                                    {{ place.location.display_address }}
+                                    {{ place.distance | number:0}} meters from here
                                 </address>
                             </div>
                         </div>
