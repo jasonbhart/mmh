@@ -52,7 +52,7 @@
                 text = 'New place <b>' + notification.value + '</b> added to <b> ' + notification.meetName + '</b>';
             } else if (notification.type === 'group') {
                 if (notification.time && notification.place) {
-                    text = 'New group <b>' + moment(notification.time).format('h:mmA') + ' - ' + notification.place + '</b> added to <b> ' + notification.meetName + '</b>';
+                    text = 'New group <b>' +  notification.place + ' @ ' + moment(notification.time).format('h:mmA') + '</b> added to <b> ' + notification.meetName + '</b>';
                 } else {
                     text = 'New group <b>' + notification.value + '</b> added to <b> ' + notification.meetName + '</b>';
                 }
