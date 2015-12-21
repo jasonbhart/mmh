@@ -244,10 +244,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                 </ul>
                                 <div class="box-white white">
                                     <ul class="choose-list">
-                                        <li ng-repeat="time in times" class="forbtn">
-                                            <span class="selected-time">
-                                                <a class="icon" title="Delete" ng-click="removeTime(time)">Delete</a>
+                                        <li ng-repeat="time in times" class="selected">
+                                            <span class="selected-time" style="margin-left: 3px">
                                                 {{ time.format(timeFormat) }}
+                                                <a class="icon"></a>
                                             </span>
                                         </li>
                                         <li class="forbtn" ng-hide="times.length == 0"><span class="add-times button-span"><a class="btn btn-add waves-effect waves-light" ng-click="addTimes()"><i class="icon"></i> Add</a></span></li>
