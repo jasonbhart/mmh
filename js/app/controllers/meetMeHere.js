@@ -206,11 +206,36 @@
             meetingPromise.then(function(meeting) {
                 var meetingId = meeting.refs.current.key();
                 $scope.meetingId = meetingId;
-                $window.location = 'activity.html?act=' + meetingId;
+                addMeetingToCategory(data);
+                
+                setTimeout(function() {
+                    $window.location = 'activity.html?act=' + meetingId;
+                }, 1000);
+                
             });
             
-            compareToDefaultSetting();
+            compareToDefaultSetting(data);
         };
+        
+        var addMeetingToCategory = function(data) {
+            var categoryId = 'Others';
+            
+            for (var i in data.where) {
+                if (data.where[i].type) {
+                    categoryId = data.where[i].type;
+                    break;
+                }
+            }
+            
+            var meetingData = {
+                id: $scope.meetingId,
+                name: data.name,
+                createdDate: data.createdDate,
+                timeTitle: data.timeTitle,
+                expireTime: meetingService.getExpireTime(data.when)
+            } ;
+            categoryService.addMeetingToCategory(categoryId, categoryId, meetingData);
+        }
         
         $scope.isToday = function (isoString) {
             return moment().format('YYYYMMDD') <= moment(isoString).format('YYYYMMDD');
