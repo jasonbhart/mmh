@@ -579,8 +579,11 @@
                 metadata = ' ('  +  time + ')';
             }
             
-            return meeting.name + metadata;
-        }
+            var result = meeting.name  + metadata;     
+            result = result.replace('&', 'and');
+            
+            return result;
+        };
         
         var addMeetingToUser = function(data) {
             var userId = $scope.currentUser.id;

@@ -1058,7 +1058,10 @@
                 metadata = ' ('  +  moment(time).format('h:mmA') + ')';
             }
             
-            return title + metadata;
+            var result = title + metadata;     
+            result = result.replace('&', 'and');
+            
+            return result;
         }
         
         $scope.copy = function() {
