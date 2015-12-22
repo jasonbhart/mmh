@@ -421,10 +421,10 @@
                 return appConfig.shareUrlBase + '?act=' + meetingId;
             },
             getFacebookSharingUrl: function(meetingId, meetingName) {
-                return appConfig.shareFacebookUrl + '?data=' + meetingId + '---' + encodeURIComponent(meetingName);
+                return appConfig.shareFacebookUrl + '?data=' + meetingId + '*---*' + encodeURIComponent(meetingName);
             },
             getFacebookSharingUrlWithoutEncode: function(meetingId, meetingName) {
-                return appConfig.shareFacebookUrl + '?data=' + meetingId + '---' + meetingName;
+                return appConfig.shareFacebookUrl + '?data=' + meetingId + '*---*' + meetingName;
             },
             getExpireTime: function (times) {
                 var expireTime = "";
