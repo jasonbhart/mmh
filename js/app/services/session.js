@@ -196,6 +196,8 @@
                     return true;
                 } else if (currentPage === 3 && $cookies.viewedNewMeetTutorial) {
                     return true;
+                } else if (currentPage === 4 && $cookies.viewedMeetMeHereTutorial) {
+                    return true;
                 } else {
                     return false;
                 }
@@ -207,6 +209,8 @@
                     $window.$.cookie("viewedMeetingTutorial", 1, { expires : 10000 });
                 } else if (currentPage === 3) {
                     $window.$.cookie("viewedNewMeetTutorial", 1, { expires : 10000 });
+                } else if (currentPage === 4) {
+                    $window.$.cookie("viewedMeetMeHereTutorial", 1, { expires : 10000 });
                 }
             },
             init: function() {

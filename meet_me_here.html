@@ -117,11 +117,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <div class="row creat-new">
                     <div class="col s12">
                         <div class="frm-creat">
-                            <div class="row activity-title">
+                            <div class="row activity-title button-span">
                                 <h3 class="title">Title of this activity (optional)</h3>
                                 <input type="text" placeholder="Activity title" ng-model="meeting_name" style="max-width:600px;" />
                             </div>
-                            <h3 class="title highest-rated">Here are the closest establishments near you...</h3>
+                            <h3 class="title highest-rated button-span">Here are the closest establishments near you...</h3>
                             <label id="no-suggestion" style="font-style: italic; font-size: 15px; display: none;">
                                 Sorry, we were unable to find an establishment in your location. Try to <strong><a style="cursor: pointer" ng-click="enterSpecificBusines()">search</a></strong> the place
                             </label>
@@ -182,6 +182,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             </div><!--//contents-->
             <footer class="page-footer white"></footer><!--//footer-->
         </div>
+        
+        <!-- Tip Content -->
+        <ol id="joyRideTipContent">
+            <li data-class="activity-title" data-button="Next" class="mb-input-name tooltip-mt further-from-top" data-options="tipLocation:bottom;ipAnimation:fade">
+                <p>Give your activity some flare by giving it a uniquely descriptive title, if you want.</p>
+            </li>
+            <li data-class="highest-rated" data-button="Next" class="mb-input-name tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
+                <p>We will show you the highest rated venues in the area. You can select one of these...</p>
+            </li>
+            <li data-class="specific-business" data-button="Next" class="mb-what-an tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
+                <p>...or you can tell us exactly where you want to go.</p>
+            </li>
+            <li data-class="create-button" data-button="Close" class="last-tip mb-btn-next tooltip-mr" data-options="tipLocation:left;ipAnimation:fade">
+                <p>Save your new activity and start sharing it with friends!</p>
+            </li>
+        </ol>
+        
         <div class="loading-wrap" style="display:none"></div>
     </body>
 </html>

@@ -82,11 +82,13 @@
                         $('#contents').show();
                         $window.$('.loading-wrap').hide();
                         clearTimeout(reloadTimeout);
+                        $scope.autoTutorial();
                     }, function (error){
                         $('#no-suggestion').show();
                         $('#contents').show();
                         $window.$('.loading-wrap').hide();
                         clearTimeout(reloadTimeout);
+                        $scope.autoTutorial();
                     });
                 }
                 
@@ -269,5 +271,33 @@
             }
             return 'Meet Me Here';
         };
+        
+        $scope.startTutorial = function() {
+            util.addEventToDataLayer('Tutorial', 'Start', 'Meet Me Here', null);
+            
+            $window.$('#joyRideTipContent').joyride({
+                autoStart: true,
+                postStepCallback: function (index, tip) {
+                },
+                postRideCallback: function() {
+                    util.addEventToDataLayer('Tutorial', 'Cancel', 'Meet Me Here', null);
+                },
+                modal: true,
+                expose: true
+            });
+        }
+        
+        $scope.autoTutorial = function() {
+            $window.$(document).ready(function () {
+                sessionService.ready.then(function() {
+                    if (!sessionService.getViewedTutorialStatus()) {
+                        setTimeout(function(){
+                            $scope.startTutorial();
+                            sessionService.setViewedTutorialStatus();
+                        }, 100);
+                    }
+                });
+            });
+        }
     }]);
 })();
