@@ -130,7 +130,8 @@
                             'location': {
                                 'display_address': buss.location.display_address.join(', ')
                             },
-                            'categories': buss.categories
+                            'categories': buss.categories,
+                            'display_phone': buss.display_phone
                         };
                         
                         if (buss.location.coordinate) {
