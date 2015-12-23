@@ -229,6 +229,16 @@
         });
         
         $scope.$watch('share_social', function (newValue, oldValue) {
+            if (newValue) {
+                $window.$('.loading-wrap').show();
+                var checkActCreated = setInterval(function(){
+                    if ($scope.meetingId !== '') {
+                        $window.$('.loading-wrap').hide();
+                        clearInterval(checkActCreated);
+                    }
+                }, 50);
+            }
+            
             if (newValue === 'facebook') {
                 document.getElementById("fb-share").click()
             } else if (newValue === 'twitter') {
