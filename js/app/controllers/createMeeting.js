@@ -230,19 +230,44 @@
         
         $scope.$watch('share_social', function (newValue, oldValue) {
             if (newValue === 'facebook') {
-                document.getElementById("fb-share").click()
+                var callback = function(){
+                    document.getElementById("fb-share").click();
+                };
+                $scope.startSharing(callback);
             } else if (newValue === 'twitter') {
-                document.getElementById("twitter-share").click()
+                var callback = function(){
+                    document.getElementById("twitter-share").click();
+                };
+                $scope.startSharing(callback);
+                
             } else if (newValue === 'email') {
-                document.getElementById("sharing_email").click()
+                var callback = function(){
+                    document.getElementById("sharing_email").click();
+                };
+                $scope.startSharing(callback);
+                
             } else if (newValue === 'copy'){
-                document.getElementById("sharing_url").style.display = 'block';
-                document.getElementById("sharing_url").select();
-                document.execCommand('copy');
-                document.getElementById("sharing_url").style.display = 'none';
-                alert(meetingService.getSharingUrl($scope.meetingId) + '\n copied to clipboard');
+                var callback = function(){
+                    document.getElementById("sharing_url").style.display = 'block';
+                    document.getElementById("sharing_url").select();
+                    document.execCommand('copy');
+                    document.getElementById("sharing_url").style.display = 'none';
+                    alert(meetingService.getSharingUrl($scope.meetingId) + '\n copied to clipboard');
+                };
+                $scope.startSharing(callback);
             }
         });
+        
+        $scope.startSharing = function(callback) {
+            $window.$('.loading-wrap').show();
+            var checkActCreated = setInterval(function(){
+                if ($scope.meetingId !== '') {
+                    clearInterval(checkActCreated);
+                    $window.$('.loading-wrap').hide();
+                    callback();
+                }
+            }, 50);
+        }
         
         function roundTime(moment) {
             return moment.subtract(moment.minute()%15, 'minutes').seconds(0).millisecond(0);
