@@ -13,6 +13,9 @@
             $scope.searchSuggestion = null;
             $scope.sort = options.sort || 'highest_rate';
             
+            $scope.term = options.term || '';
+            $scope.category_filter = options.category_filter || '';
+            
             $window.$('#business_name').keyup(function(){
                 clearTimeout($scope.searchSuggestion);
                 if ($window.$('#business_name').val) {
@@ -37,6 +40,14 @@
                 } else {
                     options.term = $scope.business_name;
                     options.location = null;
+                }
+                
+                if (!options.term) {
+                    options.term = $scope.term;
+                }
+                
+                if ($scope.category_filter) {
+                    options.category_filter = $scope.category_filter;
                 }
                 
                 options.sort = $scope.sort;
