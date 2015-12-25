@@ -274,7 +274,11 @@
         }
         
         $scope.addManualBusiness = function() {
-            var dialog = dialogs.addManualBusiness($scope.getWhereQueryOptions({}, true));
+            var options = {
+                term: ($scope.what !== 'other') ? $scope.what : $scope.term,
+                category_filter: ($scope.what !== 'other') ? $scope.what : $scope.term
+            }
+            var dialog = dialogs.addManualBusiness($scope.getWhereQueryOptions(options, true));
             dialog.result.then(function(business) {
                 if (Object.keys(JSON.parse(business)).length === 0) {
                     alert('Please select a business');
@@ -370,6 +374,8 @@
             } else if ($scope.what === 'bars') {
                 // add category filter to avoid "barbecue" category when searching term = "bars"
                 options.category_filter = 'bars';
+            } else {
+                options.category_filter = ($scope.what !== 'other') ? $scope.what : $scope.term
             }
             
             var timeout = ($scope.where !== 'other') ? 1000 : 0;
