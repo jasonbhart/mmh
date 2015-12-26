@@ -23,7 +23,7 @@
         }
         
         $scope.noSuggest = function() {
-            $window.location = 'activity.html?act=' + $scope.currentMeetingId + '&rsvp=1';
+            $window.location = 'activity.html?act=' + $scope.currentMeetingId;
         }
     }]);
 })();
