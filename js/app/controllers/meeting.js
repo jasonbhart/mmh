@@ -423,6 +423,36 @@
                     $scope.changeLocation = false;
                 }
                 
+                if (util.getUrlParams('addTime')) {
+                    sessionService.ready.then(function() {
+                        $scope.addTimes();
+                    });
+                }
+                
+                if (util.getUrlParams('addPlace')) {
+                    sessionService.ready.then(function() {
+                        $scope.addPlaces();
+                    });
+                }
+                
+                if (util.getUrlParams('rsvp')) {
+                    sessionService.ready.then(function() {
+                        $scope.usersInfo.setCurrentId($scope.currentUser.id);
+                        meeting.addUser($scope.currentUser.id).then(function() {
+                            meeting.getUser($scope.currentUser.id).then(function(meetingUser) {
+                                $scope.meetingUser = meetingUser;
+                                
+                                if ($scope.usersInfo.current.where[0] && !$scope.usersInfo.current.where[0].selected) {
+                                    $scope.togglePlace($scope.usersInfo.current.where[0]);
+                                }
+
+                                if ($scope.usersInfo.current.when[0] && !$scope.usersInfo.current.when[0].selected) {
+                                    $scope.toggleTime($scope.usersInfo.current.when[0]);
+                                }
+                            });
+                        });
+                    });
+                }
             });
             
             activateFacebookSDK();
