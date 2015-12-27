@@ -58,8 +58,24 @@
             );
         };
         
+        var unsubscribeAll = function (userId) {
+            var ref = new Firebase(appConfig.firebaseUrl);
+            return ref.child('unsubsribe').child(userId).set(1);
+        }
+        
+        var unsubscribeActivity = function (activityId, userId) {
+            var ref = new Firebase(appConfig.firebaseUrl);
+            return ref.child('meets').child(activityId).child('unsubsribe').child(userId).set(1);
+        }
+        
+        var getUnsubscribeLink = function (activityId, userId) {
+            return appConfig.productionBasePath + 'unsubscribe.html?activity=' + activityId + '&user=' + userId;
+        };
+        
         return {
-            sendEmailToUsers: sendEmailToUsers
+            sendEmailToUsers: sendEmailToUsers,
+            unsubscribeAll: unsubscribeAll,
+            unsubscribeActivity: unsubscribeActivity
         };
     }]);
 })();

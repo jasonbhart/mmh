@@ -5,6 +5,7 @@
 
     app.service('appConfig', function() {
         this.basePath = '';
+        this.productionBasePath = 'https://www.socialivo.com/';
         this.dataUrl = 'https://edgeprod.com:8081/';
         this.shareFacebookUrl = 'http://socialivo.com:8080/shareFacebook';
         this.firebaseUrl = 'https://radiant-heat-9175.firebaseio.com';
