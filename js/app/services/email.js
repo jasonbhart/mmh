@@ -4,7 +4,7 @@
     var app = angular.module('mmh.services');
     
     app.factory('emailService', ['appConfig', '$q', '$http', function(appConfig, $q, $http) {
-        var getEmailBody = function(notification) {
+        var getEmailBody = function(email, notification) {
             if (!notification) {
                 return '';
             }
@@ -35,41 +35,49 @@
                  +  "\r\n" + appConfig.shareUrlBase + '?act=' + notification.meetId;
             
             text += "\r\n \r\n \r\n This email address isn't monitored. Replies to this email will be ignored.";
+            
+            text += "\r\n \r\n To unsubscribe from this acitvity, please click the link below:";
+            text += "\r\n" + getUnsubscribeLink(notification.meetId, email);
+            text += "\r\n \r\n To unsubscribe all activities from Socialivo, please click:";
+            text += "\r\n" + getUnsubscribeLink('all', email);
+            
             return text;
         };
         
         var sendEmailToUsers = function (emails, notificationData) {
-            var emailData = {
-                from: appConfig.sendingEmail,
-                to: emails,
-                subject: notificationData.meetName || notificationData.title,
-                content: getEmailBody(notificationData),
-                replyTo: [appConfig.replyEmail]
-            };
-            console.log(emailData);
-            
-            $http.post(appConfig.sendEmailURL, emailData).then(
-                function() {
-                    console.log('Sending Email successfully');
-                }, 
-                function() {
-                    console.log('Sending Email fail');
-                }
-            );
+            for (var i in emails) {
+                var emailData = {
+                    from: appConfig.sendingEmail,
+                    to: [emails[i]],
+                    subject: notificationData.meetName || notificationData.title,
+                    content: getEmailBody(emails[i], notificationData),
+                    replyTo: [appConfig.replyEmail]
+                };
+                console.log(emailData);
+
+                $http.post(appConfig.sendEmailURL, emailData).then(
+                    function() {
+                        console.log('Sending Email successfully');
+                    }, 
+                    function() {
+                        console.log('Sending Email fail');
+                    }
+                );
+            }
         };
         
         var unsubscribeAll = function (userId) {
             var ref = new Firebase(appConfig.firebaseUrl);
-            return ref.child('unsubsribe').child(userId).set(1);
+            return ref.child('unsubsribe').push(userId);
         }
         
         var unsubscribeActivity = function (activityId, userId) {
             var ref = new Firebase(appConfig.firebaseUrl);
-            return ref.child('meets').child(activityId).child('unsubsribe').child(userId).set(1);
+            return ref.child('meets').child(activityId).child('unsubsribe').push(userId);
         }
         
         var getUnsubscribeLink = function (activityId, userId) {
-            return appConfig.productionBasePath + 'unsubscribe.html?activity=' + activityId + '&user=' + userId;
+            return appConfig.productionBasePath + 'unsubscribe.html?activity=' + activityId + '&user=' + encodeURIComponent(userId);
         };
         
         return {

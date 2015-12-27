@@ -10,6 +10,8 @@
             return false;
         }
         
+        userId = decodeURIComponent(userId);
+        
         if (!meetingId || meetingId === 'all') {
             emailService.unsubscribeAll(userId);
         } else {
