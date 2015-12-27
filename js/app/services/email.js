@@ -68,22 +68,51 @@
         
         var unsubscribeAll = function (userId) {
             var ref = new Firebase(appConfig.firebaseUrl);
-            return ref.child('unsubsribe').push(userId);
+            return ref.child('unsubscribe').push(userId);
         }
         
         var unsubscribeActivity = function (activityId, userId) {
             var ref = new Firebase(appConfig.firebaseUrl);
-            return ref.child('meets').child(activityId).child('unsubsribe').push(userId);
+            return ref.child('meets').child(activityId).child('unsubscribe').push(userId);
         }
         
         var getUnsubscribeLink = function (activityId, userId) {
             return appConfig.productionBasePath + 'unsubscribe.html?activity=' + activityId + '&user=' + encodeURIComponent(userId);
         };
         
+        var getUnsubscribeList = function (activityId) {
+            var mainDefer = $q.defer();
+            
+            var result = [];
+            var ref = new Firebase(appConfig.firebaseUrl);
+            ref.child('unsubscribe').on('value', function(unsubAllUsers) {
+                unsubAllUsers = unsubAllUsers.val();
+                if (unsubAllUsers) {
+                    for (var i in unsubAllUsers) {
+                        result.push(unsubAllUsers[i]);
+                    }
+                }
+                
+                ref.child('meets').child(activityId).child('unsubscribe').on('value', function(unsubActUsers) {
+                    unsubActUsers = unsubActUsers.val();
+                    if (unsubActUsers) {
+                        for (var i in unsubActUsers) {
+                            result.push(unsubActUsers[i]);
+                        }
+                    }
+                    
+                    mainDefer.resolve(result);
+                });
+            });
+            
+            return mainDefer.promise;
+        };
+        
         return {
             sendEmailToUsers: sendEmailToUsers,
             unsubscribeAll: unsubscribeAll,
-            unsubscribeActivity: unsubscribeActivity
+            unsubscribeActivity: unsubscribeActivity,
+            getUnsubscribeList: getUnsubscribeList
         };
     }]);
 })();

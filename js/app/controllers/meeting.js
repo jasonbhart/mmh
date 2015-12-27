@@ -22,7 +22,13 @@
         $scope.newComment = null;
         $scope.groupTimeout = null;
         $scope.categoryIconClass = '';
+        $scope.unsubscribeList = [];
         $window.$('.loading-wrap').show();
+        
+        emailService.getUnsubscribeList($scope.currentMeetingId).then(function(unsubscribeList) {
+            $scope.unsubscribeList = unsubscribeList;
+            console.log(unsubscribeList);
+        });
         
         var formattingData = {
             where: [],
@@ -829,9 +835,12 @@
                         // onsite notification - temporary disable
                         //notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
                         
-                        if ($scope.usersInfo.others[i].user.user.email && !$scope.usersInfo.others[i].user.user.disableEmailNoti) {
-                            sendingEmails.push($scope.usersInfo.others[i].user.user.email);
-                            
+                        if (
+                                $scope.usersInfo.others[i].user.user.email && 
+                                !$scope.usersInfo.others[i].user.user.disableEmailNoti &&
+                                $scope.unsubscribeList.indexOf($scope.usersInfo.others[i].user.user.email) === -1
+                            ) {
+                            sendingEmails.push($scope.usersInfo.others[i].user.user.email); 
                         }
                     }
                 }
@@ -867,7 +876,11 @@
                         // onsite notification - temporary disable
                         notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
                         
-                        if ($scope.usersInfo.others[i].user.user.email && !$scope.usersInfo.others[i].user.user.disableEmailNoti) {
+                        if (
+                                $scope.usersInfo.others[i].user.user.email && 
+                                !$scope.usersInfo.others[i].user.user.disableEmailNoti &&
+                                $scope.unsubscribeList.indexOf($scope.usersInfo.others[i].user.user.email) === -1
+                            ) {
                             sendingEmails.push($scope.usersInfo.others[i].user.user.email);
                             
                         }
@@ -900,7 +913,11 @@
                         // onsite notification - temporary disable
                         //notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
                         
-                        if ($scope.usersInfo.others[i].user.user.email && !$scope.usersInfo.others[i].user.user.disableEmailNoti) {
+                        if (
+                                $scope.usersInfo.others[i].user.user.email && 
+                                !$scope.usersInfo.others[i].user.user.disableEmailNoti &&
+                                $scope.unsubscribeList.indexOf($scope.usersInfo.others[i].user.user.email) === -1
+                            ) {
                             sendingEmails.push($scope.usersInfo.others[i].user.user.email);
                             
                         }
@@ -947,7 +964,11 @@
                             if (typeof $scope.usersInfo.others[i] === 'object') {
                                 // onsite notification
                                 notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
-                                if ($scope.usersInfo.others[i].user.user.email && !$scope.usersInfo.others[i].user.user.disableEmailNoti) {
+                                if (
+                                        $scope.usersInfo.others[i].user.user.email && 
+                                        !$scope.usersInfo.others[i].user.user.disableEmailNoti &&
+                                        $scope.unsubscribeList.indexOf($scope.usersInfo.others[i].user.user.email) === -1
+                                    ) {
                                     sendingEmails.push($scope.usersInfo.others[i].user.user.email);
                                 }
                             }
