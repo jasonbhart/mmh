@@ -4,7 +4,7 @@
     var app = angular.module('mmh.services');
     
     app.factory('emailService', ['appConfig', '$q', '$http', function(appConfig, $q, $http) {
-        var getEmailBody = function(notification) {
+        var getEmailBody = function(notification, template) {
             if (!notification) {
                 return '';
             }
@@ -31,31 +31,41 @@
                         
             }
             
-            text += "\r\n" + "\r\n" + 'Click here to see everyone who is participating in this activity'
-                 +  "\r\n" + appConfig.shareUrlBase + '?act=' + notification.meetId;
+            text += "<br/>" + "<br/>" + 'Click here to see everyone who is participating in this activity'
+                 +  "<br/>" + appConfig.shareUrlBase + '?act=' + notification.meetId;
             
-            text += "\r\n \r\n \r\n This email address isn't monitored. Replies to this email will be ignored.";
-            return text;
+            text += "<br/><br/><br/>  This email address isn't monitored. Replies to this email will be ignored.";
+            
+            var params = template.split('*---content---*');
+            return params[0] + text + params[1];
         };
         
         var sendEmailToUsers = function (emails, notificationData) {
-            var emailData = {
-                from: appConfig.sendingEmail,
-                to: emails,
-                subject: notificationData.meetName || notificationData.title,
-                content: getEmailBody(notificationData),
-                replyTo: [appConfig.replyEmail]
-            };
-            console.log(emailData);
-            
-            $http.post(appConfig.sendEmailURL, emailData).then(
-                function() {
-                    console.log('Sending Email successfully');
-                }, 
-                function() {
-                    console.log('Sending Email fail');
-                }
-            );
+            $http({
+                method: 'GET',
+                url: '/js/app/tmpl/email.html'
+            }).then(function (response) {
+                var emailData = {
+                    from: appConfig.sendingEmail,
+                    to: emails,
+                    subject: notificationData.meetName || notificationData.title,
+                    content: 
+                    getEmailBody(notificationData, response.data),
+                    replyTo: [appConfig.replyEmail]
+                };
+                console.log(emailData);
+
+                $http.post(appConfig.sendEmailURL, emailData).then(
+                    function() {
+                        console.log('Sending Email successfully');
+                    }, 
+                    function() {
+                        console.log('Sending Email fail');
+                    }
+                );
+            }, function(response) {
+                console.log('CAN NOT GET EMAIL TEMPLATE: ', response);
+            });
         };
         
         return {

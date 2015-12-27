@@ -14,7 +14,7 @@
         this.geoLocationTimeout = 20000;    // (20 sec)
         this.sendingEmail = 'no-reply@socialivo.com';
         this.replyEmail = 'jason@socialivo.com';
-        this.sendEmailURL = 'https://edgeprod.com:8081/sendEmail';
-//        this.sendEmailURL = 'http://localhost:8080/sendEmail';
+//        this.sendEmailURL = 'https://edgeprod.com:8081/sendEmail';
+        this.sendEmailURL = 'http://localhost:8080/sendEmail';
     });
 })();
