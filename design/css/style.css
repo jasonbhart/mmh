@@ -364,7 +364,31 @@ img{max-width: 100%;}
 .box-setting .title{margin-top:30px;}
 .select-area .sort{margin-top: 6px;}
 .select-area .sort span:first-child{margin-left:10px;}
-
+.landing-page{min-height:100%;position:relative;}
+.landing-page .contents{position:relative; max-width:910px; margin:0 auto; padding:40px 5px;}
+.landing-page .logo a{background:url(../image/logo-landingpage.png) no-repeat 0 0; height:68px; width:300px; display:inline-block; text-indent:-99999em;}
+.landing-page .tag-line{border:0; border-bottom:1px solid #d0d0d1; margin:30px 0 45px; padding-bottom:15px; font-size:31px; color:#8a8c8e; font-style:normal; text-align:center;line-height:32px; display:block;}
+.landing-page .box-info{background-color:#f4f4f4; border-radius:6px; margin-bottom:40px; padding:30px;}
+.landing-page .box-info .inner{position:relative; padding-right:160px;}
+.landing-page .box-info .title{font-size:24px; font-weight:700;margin:0 0 18px;}
+.landing-page .box-info .title a{text-decoration:underline;}
+.landing-page .pleaces-info .thumb{float:left; width:75px;margin-right:10px;}
+.landing-page .pleaces-info .str-list{display:block; margin-top:8px;}
+.landing-page .pleaces-info .cont-data{display:table-cell;}
+.landing-page .time-clock{position:absolute; top:0; right:0; background:url(../image/arrow.png) no-repeat 0 20px; padding-left:85px;}
+.landing-page .time-clock .box{background:#fff; border:1px solid #ddd; padding:12px; border-radius:4px;}
+.landing-page .time-clock .clock, .landing-page .time-clock .time{display:block;}
+.landing-page .time-clock .clock{background:url(../image/clock-icon.png) no-repeat 50% 0; height:40px; margin-bottom:10px;}
+.landing-page .time-clock .time{color:#e44725; font-size:21px; font-weight:700;}
+.landing-page .btn-area{text-align:center; font-weight:500;}
+.landing-page .btn-area .btn{font-size:32px; margin:0 10px; height:60px; line-height:60px;}
+.landing-page .btn-area .orange{background-color:#e47125 !important;}
+.landing-page .step2 .btn-area{margin-top:30px;}
+.landing-page .step2 .btn-area .btn{text-transform:capitalize; font-size:18px; height:40px; line-height:40px; margin:5px 2px; padding:0 15px;}
+.landing-page .step2 .btn-area .btn-place{background:#67bcdb url(../image/palce_icon.png) no-repeat 10px 50%; padding-left:32px;}
+.landing-page .step2 .btn-area .btn-time{background:#67bcdb url(../image/clock-icon-white.png) no-repeat 10px 50%; padding-left:40px;}
+.landing-page .step2 .btn-area .btn .fa{font-size:15px; margin-left:3px;}
+@media only screen and (min-width : 769px){.landing-page{background:url(../image/bg_landingpage.jpg) no-repeat 0 0; background-size:cover;}hr{display:none;}.landing-page .tag-line{color:#585858;border-bottom-color:#c1c1c1}.landing-page .box-info{background-color:rgba(255,255,255,.7); border:1px solid #c2c2c2;}}
 
 @media only screen and (min-width : 993px){
 .other-meetings li{padding-left:160px;}
@@ -393,7 +417,11 @@ img{max-width: 100%;}
 .meetingLabel{float:right; margin-left:10px;}
 .meeting-top .title {margin-top:-4px;}
 .other-meetings h3.title{margin-top: 5px;}
-
+.landing-page .tag-line{font-size:24px;}
+.landing-page{border-top:5px solid #66bcde; border-bottom:15px solid #3b3738;}
+.landing-page .contents{padding-top:2px;}
+.landing-page .line{border:0; border-bottom:5px solid #e44725; position:absolute; width:100%; bottom:0; left:0; margin:0;}
+.landing-page .box-info{padding:20px;}
 }
 @media only screen and (max-width : 650px){
 .meeting-top .info{margin-right:0;border:0; padding-right:0;background:none;}
@@ -430,6 +458,11 @@ img{max-width: 100%;}
 .tagline{font-size:13px; font-weight:700; font-style:normal; padding-right:0;}
 .box-meeting{margin-right:-10px; margin-left:-10px;}
 .choose-setting>.box-gray{margin-left:-20px; margin-right:-20px;}
+.landing-page .box-info .inner{padding-right:0;}
+.landing-page .box-info .time-clock{position:static; margin-top:20px; background-position:50% 0; padding-left:0; text-align:center;}
+.landing-page .box-info .time-clock .time, .landing-page .box-info .time-clock .clock{display:inline-block;margin-bottom:0; vertical-align:middle; font-size:26px;}
+.landing-page .box-info .time-clock .time:before{content:"Start "; color:#6b6b6b;}
+.landing-page .box-info .time-clock .clock{width:40px; vertical-align:middle;margin-right:5px;}
 }
 .pac-container {
     z-index: 999999;
