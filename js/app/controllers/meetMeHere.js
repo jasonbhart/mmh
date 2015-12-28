@@ -157,7 +157,8 @@
                     type: establishment.type || "Unknown",
                     image_url: establishment.image_url || "",
                     location: establishment.location || {},
-                    categories: establishment.categories || {}
+                    categories: establishment.categories || {},
+                    display_phone: establishment.display_phone || ""
                 };
                 return result;
             } catch (e) {
