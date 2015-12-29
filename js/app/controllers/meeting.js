@@ -22,7 +22,13 @@
         $scope.newComment = null;
         $scope.groupTimeout = null;
         $scope.categoryIconClass = '';
+        $scope.unsubscribeList = [];
         $window.$('.loading-wrap').show();
+        
+        emailService.getUnsubscribeList($scope.currentMeetingId).then(function(unsubscribeList) {
+            $scope.unsubscribeList = unsubscribeList;
+            console.log(unsubscribeList);
+        });
         
         var formattingData = {
             where: [],
@@ -423,6 +429,36 @@
                     $scope.changeLocation = false;
                 }
                 
+                if (util.getUrlParams('addTime')) {
+                    sessionService.ready.then(function() {
+                        $scope.addTimes();
+                    });
+                }
+                
+                if (util.getUrlParams('addPlace')) {
+                    sessionService.ready.then(function() {
+                        $scope.addPlaces();
+                    });
+                }
+                
+                if (util.getUrlParams('rsvp')) {
+                    sessionService.ready.then(function() {
+                        $scope.usersInfo.setCurrentId($scope.currentUser.id);
+                        meeting.addUser($scope.currentUser.id).then(function() {
+                            meeting.getUser($scope.currentUser.id).then(function(meetingUser) {
+                                $scope.meetingUser = meetingUser;
+                                
+                                if ($scope.usersInfo.current.where[0] && !$scope.usersInfo.current.where[0].selected) {
+                                    $scope.togglePlace($scope.usersInfo.current.where[0]);
+                                }
+
+                                if ($scope.usersInfo.current.when[0] && !$scope.usersInfo.current.when[0].selected) {
+                                    $scope.toggleTime($scope.usersInfo.current.when[0]);
+                                }
+                            });
+                        });
+                    });
+                }
             });
             
             activateFacebookSDK();
@@ -799,9 +835,12 @@
                         // onsite notification - temporary disable
                         //notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
                         
-                        if ($scope.usersInfo.others[i].user.user.email && !$scope.usersInfo.others[i].user.user.disableEmailNoti) {
-                            sendingEmails.push($scope.usersInfo.others[i].user.user.email);
-                            
+                        if (
+                                $scope.usersInfo.others[i].user.user.email && 
+                                !$scope.usersInfo.others[i].user.user.disableEmailNoti &&
+                                $scope.unsubscribeList.indexOf($scope.usersInfo.others[i].user.user.email) === -1
+                            ) {
+                            sendingEmails.push($scope.usersInfo.others[i].user.user.email); 
                         }
                     }
                 }
@@ -837,7 +876,11 @@
                         // onsite notification - temporary disable
                         notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
                         
-                        if ($scope.usersInfo.others[i].user.user.email && !$scope.usersInfo.others[i].user.user.disableEmailNoti) {
+                        if (
+                                $scope.usersInfo.others[i].user.user.email && 
+                                !$scope.usersInfo.others[i].user.user.disableEmailNoti &&
+                                $scope.unsubscribeList.indexOf($scope.usersInfo.others[i].user.user.email) === -1
+                            ) {
                             sendingEmails.push($scope.usersInfo.others[i].user.user.email);
                             
                         }
@@ -870,7 +913,11 @@
                         // onsite notification - temporary disable
                         //notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
                         
-                        if ($scope.usersInfo.others[i].user.user.email && !$scope.usersInfo.others[i].user.user.disableEmailNoti) {
+                        if (
+                                $scope.usersInfo.others[i].user.user.email && 
+                                !$scope.usersInfo.others[i].user.user.disableEmailNoti &&
+                                $scope.unsubscribeList.indexOf($scope.usersInfo.others[i].user.user.email) === -1
+                            ) {
                             sendingEmails.push($scope.usersInfo.others[i].user.user.email);
                             
                         }
@@ -917,7 +964,11 @@
                             if (typeof $scope.usersInfo.others[i] === 'object') {
                                 // onsite notification
                                 notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
-                                if ($scope.usersInfo.others[i].user.user.email && !$scope.usersInfo.others[i].user.user.disableEmailNoti) {
+                                if (
+                                        $scope.usersInfo.others[i].user.user.email && 
+                                        !$scope.usersInfo.others[i].user.user.disableEmailNoti &&
+                                        $scope.unsubscribeList.indexOf($scope.usersInfo.others[i].user.user.email) === -1
+                                    ) {
                                     sendingEmails.push($scope.usersInfo.others[i].user.user.email);
                                 }
                             }

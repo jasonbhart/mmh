@@ -418,7 +418,7 @@
                 return moment.utc(when).local();
             },
             getSharingUrl: function(meetingId) {
-                return appConfig.shareUrlBase + '?act=' + meetingId;
+                return appConfig.shareLandingPageUrl + '?act=' + meetingId;
             },
             getFacebookSharingUrl: function(meetingId, meetingName) {
                 return appConfig.shareFacebookUrl + '?data=' + meetingId + '*---*' + encodeURIComponent(meetingName);

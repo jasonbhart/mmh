@@ -74,6 +74,10 @@
                         searchOptions.limit = options.limit;
                     }
                     
+                    if (searchOptions.radius && searchOptions.limit) {
+                        searchOptions.limit = parseInt(searchOptions.limit) + 5;
+                    }
+                    
                     // sort result
                     if (options.sort) {
                         searchOptions.sort = options.sort;
@@ -144,7 +148,13 @@
                         if (buss.distance)
                           suggestion.distance = buss.distance;
                       
-                        suggestions.push(suggestion);
+                        if (searchOptions.radius && suggestion.distance && searchOptions.radius < suggestion.distance) {
+                            return;
+                        }
+                      
+                        if (!options.limit || suggestions.length < options.limit) {
+                            suggestions.push(suggestion);
+                        } 
                     });
 
                     defer.resolve(suggestions);
