@@ -15,6 +15,7 @@
             var initAuth = function(user) {
                 $scope.currentUser = user;
                 $scope.disableEmailNoti = user.getDisableEmailNoti();
+                $scope.distance_unit = user.user.distance_unit || 'foot';
                 $window.$('.loading-wrap').hide();
                 console.log(user);
                 userService.get(user.id).then(function(userObj) {
@@ -31,6 +32,12 @@
             $scope.$on('auth.changed', function(evt, user) {
                 initAuth(user);
             });
+            
+            $scope.changeDistanceUnit = function() {
+                userService.get($scope.currentUser.id).then(function(userObj) {
+                    userObj.saveDistanceUnit($scope.distance_unit);
+                });
+            }
             
             $scope.setDisableEmailNotiConfig = function(value) {
                 userService.get($scope.currentUser.id).then(function(userObj) {

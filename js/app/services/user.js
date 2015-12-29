@@ -77,6 +77,11 @@
                     
                     return true;
                 },
+                saveDistanceUnit: function (value) {
+                    this.user.distance_unit = value;
+                    this.user.$save();
+                    return true;
+                },
                 removePassedActivities: function () {
                     var meetingList = this.meetingList;
                     _.forEach(meetingList, function(meeting, meetingId) {
