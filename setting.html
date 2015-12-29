@@ -122,18 +122,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                     <ul class="info">
                                         <li class="row">
                                             <div class="col s12 l3 tit">Name:</div>
-                                            <div class="col s12 l9">{{currentUser.user.fullName}}
-                                            <!--<a class="edit" href="#none">edit</a></div>-->
+                                            <div class="col s12 l9">{{currentUser.user.fullName}}</div>
                                         </li>
                                         <li class="row">
                                             <div class="col s12 l3 tit">Email address:</div>
-                                            <div class="col s12 l9">{{currentUser.user.email}}
-                                            <!--<a class="edit" href="#none">edit</a></div>-->
+                                            <div class="col s12 l9">{{currentUser.user.email}}</div>
                                         </li>
                                         <li class="row">
                                             <div class="col s12 l3 tit">Location:</div>
-                                            <div class="col s12 l9">{{currentUser.getLocationName()}}
-                                            <!--<a class="edit" href="#none">edit</a></div>-->
+                                            <div class="col s12 l9">{{currentUser.getLocationName()}}</div>
+                                        </li>
+                                        <li class="row">
+                                            <div class="col s12 l3 tit">Distance unit:</div>
+                                            <div class="col s12 l9">
+                                                <span style="min-width: 100px;display: inline-block">
+                                                    <input class="with-gap" ng-model="distance_unit" value="foot" id="distance_unit_1" type="radio" ng-click="changeDistanceUnit()">
+                                                    <label for="distance_unit_1">Foot</label>
+                                                </span>
+                                                <span>
+                                                    <input class="with-gap" ng-model="distance_unit" value="meter" id="distance_unit_2" type="radio" ng-click="changeDistanceUnit()">
+                                                    <label for="distance_unit_2">Meter</label>
+                                                </span>
+                                            </div>
                                         </li>
                                     </ul>
                                 </div>
