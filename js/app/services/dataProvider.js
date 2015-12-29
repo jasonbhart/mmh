@@ -91,9 +91,22 @@
                     }
                 }
                 
+                var defer = $q.defer();
+                var cacheKey = JSON.stringify(searchOptions);
+                try {
+                    var cacheResult = $.cookie(cacheKey);
+                    if (cacheResult) {
+                        var suggestions = JSON.parse(cacheResult);
+                        defer.resolve(suggestions);
+                        return defer.promise;
+                    }
+                } catch (e) {
+                    console.log(e);
+                }
+                
+                
                 $log.log('dataProvider: getSuggestions: searchOptions', searchOptions);
 
-                var defer = $q.defer();
                 $http.get(appConfig.dataUrl, { params: searchOptions }).then(function(response) {
                     $('.loading-wrap').hide();
                     var data = response.data;
@@ -157,6 +170,7 @@
                         } 
                     });
 
+                    $.cookie(cacheKey, JSON.stringify(suggestions), {path: '/', expires: 1});
                     defer.resolve(suggestions);
                 }, function(response) {
                     $log.log('mmh.services:dataProvider:getSuggestions failed', response.status, response.statusText);
