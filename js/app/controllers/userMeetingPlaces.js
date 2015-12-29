@@ -14,6 +14,7 @@
         $scope.business_name = '';
         $scope.searchSuggestion = null;
         $scope.sort = 'highest_rate';
+        $scope.distance_unit = placesProvider.getDistanceUnit();
 
         $window.$('#business_name').keyup(function(){
             clearTimeout($scope.searchSuggestion);
@@ -75,6 +76,10 @@
         
         $scope.changeCategory = function () {
             util.addEventToDataLayer('Activity', 'Venue', 'Change Category', $scope.term);
+        }
+        
+        $scope.convertMetersToFeet = function (meters) {
+            return util.convertMetersToFeet(meters);
         }
         
         $scope.confirm = function() {

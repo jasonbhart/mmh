@@ -117,6 +117,8 @@
                 options.radius = util.convertMilesToKms($scope.radius);
             }
             
+            options.distance_unit = $scope.currentUser.user.distance_unit || 'foot';
+            
             var dialog = dialogs.addManualBusiness(options);
             dialog.result.then(function(business) {
                 if (Object.keys(JSON.parse(business)).length === 0) {

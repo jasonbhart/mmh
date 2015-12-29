@@ -41,6 +41,9 @@
             convertMilesToKms: function(miles) {
                 return miles * 1.609344;
             },
+            convertMetersToFeet: function(meters) {
+                return meters * 3.2808399;
+            },
             getUrlParams: function(name) {
                 var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
                 if (results == null){

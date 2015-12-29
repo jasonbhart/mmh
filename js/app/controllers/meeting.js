@@ -712,6 +712,9 @@
             },
             getMeetingOptions: function() {
                 return $scope.getMeetingLocationOptions({});
+            },
+            getDistanceUnit: function() {
+                return $scope.currentUser.user.distance_unit || 'foot';
             }
         }
 

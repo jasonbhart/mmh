@@ -6,7 +6,7 @@
     // Location map popup controller
     app.controller(
         'ManualBusinessController',
-        ['$scope', 'modalInstance', 'dataProvider', 'options', '$window', function ($scope, modalInstance, dataProvider, options, $window) {
+        ['$scope', 'modalInstance', 'dataProvider', 'options', '$window', 'util', function ($scope, modalInstance, dataProvider, options, $window, util) {
             $scope.business_name = '';
             $scope.business = {};
             $scope.places = [];
@@ -15,6 +15,7 @@
             
             $scope.term = options.term || '';
             $scope.category_filter = options.category_filter || '';
+            $scope.distance_unit = options.distance_unit || 'foot'
             
             $window.$('#business_name').keyup(function(){
                 clearTimeout($scope.searchSuggestion);
@@ -59,6 +60,10 @@
                     $window.$('.loading-wrap').hide();
                 });
             };
+            
+            $scope.convertMetersToFeet = function (meters) {
+                return util.convertMetersToFeet(meters);
+            }
             
             $scope.showPlaceSuggestion();
             

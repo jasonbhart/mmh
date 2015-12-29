@@ -276,7 +276,8 @@
         $scope.addManualBusiness = function() {
             var options = {
                 term: ($scope.what !== 'other') ? $scope.what : $scope.term,
-                category_filter: ($scope.what !== 'other') ? $scope.what : $scope.term
+                category_filter: ($scope.what !== 'other') ? $scope.what : $scope.term,
+                distance_unit: $scope.currentUser.user.distance_unit || 'foot'
             }
             var dialog = dialogs.addManualBusiness($scope.getWhereQueryOptions(options, true));
             dialog.result.then(function(business) {
