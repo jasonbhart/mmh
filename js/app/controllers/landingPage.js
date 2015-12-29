@@ -28,8 +28,9 @@
             
             $scope.meeting = meetData;
             $scope.time = moment($scope.meeting.timeTitle).format($scope.timeFormat);
-            var whereKeys = Object.keys($scope.meeting.where);
-            if (whereKeys[0]) {
+            
+            if ($scope.meeting.where) {
+                var whereKeys = Object.keys($scope.meeting.where);
                 $scope.place = $scope.meeting.where[whereKeys[0]];
             } else {
                 $window.location = 'activity.html?act=' + $scope.currentMeetingId;
