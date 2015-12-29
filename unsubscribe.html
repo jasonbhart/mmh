@@ -1,12 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="mmh">
+<html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-        <meta property="og:site_name" content="Socialivo"/>
-        <meta property="og:title" content="The WHO, WHEN, WHERE of what's hapenning right now"/>
-        <meta property="og:description" content="Click to join me or to suggest an alternative..."/>
-        <meta property="og:image" content="https://www.socialivo.com/design/image/favicon.png">
         <title>Socialivo</title>
         <!-- CSS  -->
         <link rel="apple-touch-icon" sizes="57x57" href="/design/image/favicon/apple-touch-icon-57x57.png"/>
@@ -56,29 +52,34 @@
 
         <script src="js/app.js"></script>
         <script src="js/app/directives.js"></script>
-        <script src="js/app/directives/dateTimePicker.js"></script>
-        <script src="js/app/directives/localMeetings.js"></script>
         <script src="js/app/directives/header.js"></script>
         <script src="js/app/directives/footer.js"></script>
         <script src="js/app/services.js"></script>
         <script src="js/app/services/appConfig.js"></script>
+        <script src="js/app/services/dataProvider.js"></script>
         <script src="js/app/services/dialogs.js"></script>
-        <script src="js/app/services/modal.js"></script>
-        <script src="js/app/services/user.js"></script>
         <script src="js/app/services/geoLocation.js"></script>
         <script src="js/app/services/localMeeting.js"></script>
+        <script src="js/app/services/meetingInfo.js"></script>
         <script src="js/app/services/meeting.js"></script>
+        <script src="js/app/services/modal.js"></script>
+        <script src="js/app/services/user.js"></script>
+        <script src="js/app/services/googleMap.js"></script>
         <script src="js/app/filters/customFilters.js"></script>
         <script src="js/app/services/session.js"></script>
         <script src="js/app/services/util.js"></script>
+        <script src="js/app/services/history.js"></script>
+        <script src="js/app/services/notification.js"></script>
         <script src="js/app/services/email.js"></script>
+        <script src="js/app/services/category.js"></script>
         <script src="js/app/controllers.js"></script>
         <script src="js/app/controllers/authModal.js"></script>
-        <script src="js/app/controllers/userAccount.js"></script>
         <script src="js/app/controllers/unsubscribe.js"></script>
+        <script src="js/app/controllers/userAccount.js"></script>
+        <script src="js/app/controllers/snippet.js"></script>
     </head>
-<body class="activity">
-    <!-- Google Tag Manager -->
+    <body>
+        <!-- Google Tag Manager -->
 <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-MC8MMV"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -87,11 +88,44 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-MC8MMV');</script>
 <!-- End Google Tag Manager -->
+        <div id="container" ng-app="mmh" ng-controller="UnsubscribeController">
+            <header>
+                <topnav></topnav>
+                <div class="container"><a href="#" data-activates="nav-mobile" class="button-collapse top-nav waves-effect waves-light circle hide-on-large-only"><i class="mdi-navigation-menu"></i></a></div>
+                <ul id="nav-mobile" class="side-nav fixed">
+                    <li ng-class="currentPage == 1 ? 'active' : ''" id="home"><a href="index.html" class="waves-effect waves-ripple"><span class="icon icon-home"></span>Home</a></li>
+                    <li ng-class="currentPage == 4 ? 'active' : ''"id="meet_me_here"><a href="meet_me_here.html" class="waves-effect waves-ripple"><span class="icon icon-history"></span>Meet Me Here</a></li>
+                    <li ng-class="currentPage == 3 ? 'active' : ''" id="new_meet"><a href="create_new_activity.html" class="waves-effect waves-ripple"><span class="icon icon-new"></span>New Activity</a></li>
+                    <li ng-class="currentPage == 2 ? 'active' : ''" id="meet" ><a class="waves-effect waves-ripple" ng-click="currentPage = 2"><span class="icon icon-invite"></span>Activities</a>
+                        <ul class="subtab-left">
+                            <li ng-repeat="meeting in meetingList" ng-if="isToday(meeting.createdDate)"  ng-class="(meeting.id == currentMeetingId) ? 'active' : ''">
+                                <a ng-href="{{'/activity.html?act=' + meeting.id}}" class="waves-effect waves-ripple active">
+                                    <i class="fa fa fa-angle-right"></i>
+                                    {{getMeetingName(meeting, false)}}
+                                </a>
+                            </li>
+                            <li ng-show="meetingList.$value === null" style="font-style: italic;">
+                                No current activities
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </header><!--//header-->
+            <div id="contents">
+                <div class="row contents">
+                    <div class="col l8 s12">
+                            <h2 class="title-page"><span class="icon"></span>Unsubscribe</h2>
+                            <div class="wrap">
+                                You have been unsubscribed successfully!
+                            </div>
+                    </div>
 
-<div ng-controller="UnsubscribeController">
-    Unsubscribe successfully
-</div>
-    
-    <div class="loading-wrap" style="display:none"></div>
-</body>
+                </div>
+            </div><!--//contents-->
+            <footer class="page-footer white"></footer><!--//footer-->
+        </div>
+
+        <!-- Tip Content -->
+        <div class="loading-wrap" style="display:none"></div>
+    </body>
 </html>
