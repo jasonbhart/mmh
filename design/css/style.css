@@ -417,7 +417,9 @@ img{max-width: 100%;}
 .meetingLabel{float:right; margin-left:10px;}
 .meeting-top .title {margin-top:-4px;}
 .other-meetings h3.title{margin-top: 5px;}
-.landing-page .tag-line{font-size:24px;}
+.landing-page .logo{margin:15px 0 0}
+.landing-page .logo a{background-size:100% auto; width:270px;}
+.landing-page .tag-line{font-size:21px; margin-top:10px;}
 .landing-page{border-top:5px solid #66bcde; border-bottom:15px solid #3b3738;}
 .landing-page .contents{padding-top:2px;}
 .landing-page .line{border:0; border-bottom:5px solid #e44725; position:absolute; width:100%; bottom:0; left:0; margin:0;}
@@ -432,6 +434,8 @@ img{max-width: 100%;}
 .box-meeting .share{position:relative; text-align:right; margin-right:-10px; top:0;}
 .box-meeting .share .fb-share-button, .box-meeting .share .twitter-share, .box-meeting .share .email-share, .box-meeting .share .label{margin:0 2px; vertical-align:top}
 .box-meeting .share .label{display:inline-block;margin-top:-3px;}
+.landing-page .logo a{background-size:100% auto; width:220px;height:50px;}
+.landing-page .tag-line{font-size:16px; margin-top:-10px;line-height:24px;}
 }
 @media only screen and (max-width : 600px){
    #manual-business label{text-align: left;}
@@ -511,6 +515,8 @@ img{max-width: 100%;}
 .login-modal .modal-content{padding:0 24px 10px;}
 .login-modal #login-form:after{left:26%;}
 .login-modal #login-form:before{left:25%;}
+.landing-page .logo a{background-size:100% auto; width:190px;}
+.landing-page .tag-line{font-size:14px; line-height:18px;}
 }
 @media only screen and (max-width : 450px){.box-meeting .share .label{display:block; margin-bottom:3px;}.modal{width:95%;}}
 .gatheringType {min-width: 212px;}
