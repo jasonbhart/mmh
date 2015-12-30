@@ -14,28 +14,36 @@
         $scope.currentPage = util.getCurrentPage();
         $scope.currentMeetingId = util.getUrlParams('act');
         $window.$('.loading-wrap').show();
+        $scope.userName = '';
         
         // load meeting
         if (!$scope.currentMeetingId) {
             $window.location = '/index.html';
         }
         meetingService.getRaw($scope.currentMeetingId).$loaded(function(meetData) {
-            if (!meetData.name) {
+            var userIds = Object.keys(meetData.users);
+            userService.get(userIds[0]).then(function(userObj) {
+                $scope.userName = userObj.user.fullName;
+                $scope.$apply();
+                
+                if (!meetData.name) {
+                    $window.$('.loading-wrap').hide();
+                    $log.log('No such activity');
+                    $window.location = '/index.html';
+                }
+
+                $scope.meeting = meetData;
+                $scope.time = moment($scope.meeting.timeTitle).format($scope.timeFormat);
+
+                if ($scope.meeting.where) {
+                    var whereKeys = Object.keys($scope.meeting.where);
+                    $scope.place = $scope.meeting.where[whereKeys[0]];
+                } else {
+                    $window.location = 'activity.html?act=' + $scope.currentMeetingId;
+                }
+                $window.$('.title').show();
                 $window.$('.loading-wrap').hide();
-                $log.log('No such activity');
-                $window.location = '/index.html';
-            }
-            
-            $scope.meeting = meetData;
-            $scope.time = moment($scope.meeting.timeTitle).format($scope.timeFormat);
-            
-            if ($scope.meeting.where) {
-                var whereKeys = Object.keys($scope.meeting.where);
-                $scope.place = $scope.meeting.where[whereKeys[0]];
-            } else {
-                $window.location = 'activity.html?act=' + $scope.currentMeetingId;
-            }
-            $window.$('.loading-wrap').hide();
+            });
         });
         
         $scope.yes = function() {
