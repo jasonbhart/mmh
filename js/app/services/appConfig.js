@@ -16,6 +16,8 @@
         this.sendingEmail = 'no-reply@socialivo.com';
         this.replyEmail = 'jason@socialivo.com';
         this.sendEmailURL = 'https://edgeprod.com:8081/sendEmail';
+        this.sendPushNotificationURL = 'https://edgeprod.com:8081/sendPushNotification';
+//        this.sendPushNotificationURL = 'http://localhost:8080/sendPushNotification';
 //        this.sendEmailURL = 'http://localhost:8080/sendEmail';
     });
 })();

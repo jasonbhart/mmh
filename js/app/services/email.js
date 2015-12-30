@@ -71,6 +71,17 @@
             })
         };
         
+        var sendPushNotification = function (resgistrationIds) {
+            $http.post(appConfig.sendPushNotificationURL, {resgistrationIds: resgistrationIds}).then(
+                function() {
+                    console.log('Sending Notification successfully');
+                }, 
+                function() {
+                    console.log('Sending Notification fail');
+                }
+            );
+        }
+        
         var unsubscribeAll = function (userId) {
             var ref = new Firebase(appConfig.firebaseUrl);
             return ref.child('unsubscribe').push(userId);
@@ -117,7 +128,8 @@
             sendEmailToUsers: sendEmailToUsers,
             unsubscribeAll: unsubscribeAll,
             unsubscribeActivity: unsubscribeActivity,
-            getUnsubscribeList: getUnsubscribeList
+            getUnsubscribeList: getUnsubscribeList,
+            sendPushNotification: sendPushNotification
         };
     }]);
 })();
