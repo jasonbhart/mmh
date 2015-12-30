@@ -91,9 +91,10 @@
                     }
                 }
                 
+                var defer = $q.defer();
+                
                 $log.log('dataProvider: getSuggestions: searchOptions', searchOptions);
 
-                var defer = $q.defer();
                 $http.get(appConfig.dataUrl, { params: searchOptions }).then(function(response) {
                     $('.loading-wrap').hide();
                     var data = response.data;
