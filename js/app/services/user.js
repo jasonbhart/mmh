@@ -82,6 +82,11 @@
                     this.user.$save();
                     return true;
                 },
+                saveRegistrationId: function (value) {
+                    this.user.registrationId = value;
+                    this.user.$save();
+                    return true;
+                },
                 removePassedActivities: function () {
                     var meetingList = this.meetingList;
                     _.forEach(meetingList, function(meeting, meetingId) {
