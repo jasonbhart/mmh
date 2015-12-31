@@ -68,9 +68,9 @@
             } else if (notification.type === 'rsvp') {
                 text = 'User <b>' + notification.value + '</b> joined activity <b> ' 
                         + notification.meetName + '('
-                        + moment(notification.time).format('h:mmA') 
-                        + ' - ' 
-                        + notification.place + ')</b>';
+                        + notification.place 
+                        + ' @ ' 
+                        + moment(notification.time).format('h:mmA') + ')</b>';
             }
             return $sce.trustAsHtml(text);
         }

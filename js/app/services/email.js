@@ -20,14 +20,14 @@
             } else if (notification.type === 'place') {
                 text = 'New place ' + notification.value + ' added to ' + notification.meetName;
             } else if (notification.type === 'group') {
-                text = 'New group (' + notification.value + ') added to activity ' + notification.meetName;
+                text = 'New group (' + notification.place + ' @ ' + moment(notification.time).format('h:mmA') + ') added to activity ' + notification.meetName;
             } else if (notification.type === 'user') {
                 text = 'New user ' + notification.value + ' joined activity ' + notification.meetName;
             } else if (notification.type === 'rsvp') {
                 text = 'User ' + notification.value + ' has RSVP\'d to the activity \'' 
                         + notification.meetName.trim() + '\' ('
-                        + moment(notification.time).format('h:mmA') 
-                        + ' - ' + notification.place + ')';
+                        + notification.place 
+                        + ' @ ' + moment(notification.time).format('h:mmA') + ')';
                         
             }
             
@@ -50,24 +50,26 @@
                 method: 'GET',
                 url: '/js/app/tmpl/email.html'
             }).then(function (response) {
-                var emailData = {
-                    from: appConfig.sendingEmail,
-                    to: emails,
-                    subject: notificationData.meetName || notificationData.title,
-                    content: 
-                    getEmailBody(emails[i], notificationData, response.data),
-                    replyTo: [appConfig.replyEmail]
-                };
-                console.log(emailData);
+                for (var i in emails) {
+                    var emailData = {
+                        from: appConfig.sendingEmail,
+                        to: [emails[i]],
+                        subject: notificationData.meetName || notificationData.title,
+                        content: getEmailBody(emails[i], notificationData, response.data),
+                        replyTo: [appConfig.replyEmail]
+                    };
+                    console.log(emailData);
 
-                $http.post(appConfig.sendEmailURL, emailData).then(
-                    function() {
-                        console.log('Sending Email successfully');
-                    }, 
-                    function() {
-                        console.log('Sending Email fail');
-                    }
-                );
+                    $http.post(appConfig.sendEmailURL, emailData).then(
+                        function () {
+                            console.log('Sending Email successfully');
+                        },
+                        function () {
+                            console.log('Sending Email fail');
+                        }
+                    );
+                }
+                
             })
         };
         
