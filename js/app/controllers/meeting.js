@@ -971,6 +971,7 @@
                         groupObject.$save();
                         
                         var sendingEmails = [];
+                        var resgistrationIds = [];
                         for (var i in $scope.usersInfo.others) {
                             if (typeof $scope.usersInfo.others[i] === 'object') {
                                 // onsite notification
@@ -982,12 +983,19 @@
                                     ) {
                                     sendingEmails.push($scope.usersInfo.others[i].user.user.email);
                                 }
+                                if ($scope.usersInfo.others[i].user.user.registrationId) {
+                                    resgistrationIds.push($scope.usersInfo.others[i].user.user.registrationId);
+                                }
                             }
                         }
 
                         // email notification
                         if (sendingEmails.length > 0) {
                             emailService.sendEmailToUsers(sendingEmails, notificationData);
+                        }
+                        
+                        if (resgistrationIds.length > 0) {
+                            emailService.sendPushNotification(resgistrationIds);
                         }
                     }
                 });
