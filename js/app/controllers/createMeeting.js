@@ -646,6 +646,9 @@
                 timeTitle: data.timeTitle,
                 expireTime: meetingService.getExpireTime(data.when)
             } ;
+            if (Object.keys(data.where).length > 0) {
+                meetingData.place = data.where[Object.keys(data.where)[0]].name;
+            }
             categoryService.addMeetingToCategory(categoryId, categoryName, meetingData);
         }
         

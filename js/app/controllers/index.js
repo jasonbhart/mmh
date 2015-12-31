@@ -152,6 +152,20 @@
             return meetingService.getMeetingName(meeting, includeTime);
         };
         
+        $scope.getShareMeetingName = function (meeting) {
+            var metadata = '';
+            var place = meeting.place;
+            var time = meeting.timeTitle;
+            if (place && time) {
+                metadata = ' (' + place + ' @ ' +  moment(time).format('h:mmA') + ')';
+            } else if (place) {
+                metadata = ' (' + place + ')';
+            } else if (time) {
+                metadata = ' ('  +  moment(time).format('h:mmA') + ')';
+            }
+            return meeting.name + metadata;
+        }
+        
         $scope.startTutorial = function() {
             util.addEventToDataLayer('Tutorial', 'Start', 'Homepage', null);
             
