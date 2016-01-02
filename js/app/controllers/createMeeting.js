@@ -1,8 +1,8 @@
 ;(function () {
     "use strict";
     var app = angular.module('mmh.controllers');
-    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util', 'categoryService', 'userService','gatheringService','localMeetingService','googleMap','errorLoggingService',
-        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService, util, categoryService, userService, gatheringService, localMeetingService, googleMap, errorLoggingService) {
+    app.controller('CreateMeetingController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util', 'categoryService', 'userService','gatheringService','localMeetingService','googleMap','errorLoggingService','historyService',
+        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService, util, categoryService, userService, gatheringService, localMeetingService, googleMap, errorLoggingService, historyService) {
         $scope.MAX_STAGE = 4;
         $scope.stage = 1; 
         $scope.what = 'restaurants';
@@ -509,6 +509,7 @@
 
                     addMeetingToCategory(data);
                     addMeetingToUser(data);
+                    addMeetingToHistory(data);
                     $window.$('.loading-wrap').hide();
                     
                     util.addEventToDataLayer('New Activity Wizard', 'Step 4', 'Create Meeting', meetingId);
@@ -650,6 +651,20 @@
                 meetingData.place = data.where[Object.keys(data.where)[0]].name;
             }
             categoryService.addMeetingToCategory(categoryId, categoryName, meetingData);
+        }
+        
+        var addMeetingToHistory = function(data) {
+            var historyData = {
+                id: $scope.meetingId,
+                name: data.name,
+                timeTitle: data.timeTitle,
+                time: data.timeTitle,
+                type: 'created'
+            };
+            if (Object.keys(data.where).length > 0) {
+                historyData.place = data.where[Object.keys(data.where)[0]];
+            }
+            historyService.addHistoryToUser($scope.currentUser.id, $scope.meeting.id, historyData);
         }
         
         var getCategoryName = function (categoryId) {
