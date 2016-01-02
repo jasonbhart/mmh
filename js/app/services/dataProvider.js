@@ -117,48 +117,65 @@
 
                         return;
                     }
+                    
+                    $.ajax({
+                        url: '//freegeoip.net/json/',
+                        type: 'POST',
+                        dataType: 'jsonp',
+                        success: function (location) {
+                            var usIP = false;
+                            if (location.country_code === 'US') {
+                                usIP = true;
+                            }
+                            
+                            // initialize suggestions
+                            // TODO: move this onto nodejs side
+                            var suggestions = [];
+                            _.forEach(data.businesses, function(buss) {
+                                var suggestion = {
+                                    'type': searchOptions.term,
+                                    'name': buss.name,
+                                    'url': buss.url,
+                                    'rating_url': util.getCorrectProtocolUrl(buss.rating_img_url),          // TODO: do we use this ?
+                                    'rating': buss.rating,
+                                    'image_url': util.getCorrectProtocolUrl(buss.image_url),
+                                    'display_address': buss.location.display_address,   // TODO: move this into location
+                                    'city': buss.location.city,                         //
+                                    'country_code': buss.location.country_code,         //
+                                    'location': {
+                                        'display_address': buss.location.display_address.join(', ')
+                                    },
+                                    'categories': buss.categories,
+                                    'display_phone': usIP ? util.formatPhone(buss.display_phone).replace('+1 ', '') : util.formatPhone(buss.display_phone)
+                                };
 
-                    // initialize suggestions
-                    // TODO: move this onto nodejs side
-                    var suggestions = [];
-                    _.forEach(data.businesses, function(buss) {
-                        var suggestion = {
-                            'type': searchOptions.term,
-                            'name': buss.name,
-                            'url': buss.url,
-                            'rating_url': util.getCorrectProtocolUrl(buss.rating_img_url),          // TODO: do we use this ?
-                            'rating': buss.rating,
-                            'image_url': util.getCorrectProtocolUrl(buss.image_url),
-                            'display_address': buss.location.display_address,   // TODO: move this into location
-                            'city': buss.location.city,                         //
-                            'country_code': buss.location.country_code,         //
-                            'location': {
-                                'display_address': buss.location.display_address.join(', ')
-                            },
-                            'categories': buss.categories,
-                            'display_phone': buss.display_phone
-                        };
-                        
-                        if (buss.location.coordinate) {
-                            suggestion.location.coordinate = {
-                                lat: buss.location.coordinate.latitude,
-                                lng: buss.location.coordinate.longitude
-                            };
+                                if (buss.location.coordinate) {
+                                    suggestion.location.coordinate = {
+                                        lat: buss.location.coordinate.latitude,
+                                        lng: buss.location.coordinate.longitude
+                                    };
+                                }
+
+                                if (buss.distance)
+                                  suggestion.distance = buss.distance;
+
+                                if (searchOptions.radius && suggestion.distance && searchOptions.radius < suggestion.distance) {
+                                    return;
+                                }
+
+                                if (!options.limit || suggestions.length < options.limit) {
+                                    suggestions.push(suggestion);
+                                } 
+                            });
+
+                            defer.resolve(suggestions);
+                        },
+                        error: function(error) {
+                            alert('Can not detect user location from GEOIP.net');
+                            defer.reject(error);
                         }
-                        
-                        if (buss.distance)
-                          suggestion.distance = buss.distance;
-                      
-                        if (searchOptions.radius && suggestion.distance && searchOptions.radius < suggestion.distance) {
-                            return;
-                        }
-                      
-                        if (!options.limit || suggestions.length < options.limit) {
-                            suggestions.push(suggestion);
-                        } 
                     });
-
-                    defer.resolve(suggestions);
+                    
                 }, function(response) {
                     $log.log('mmh.services:dataProvider:getSuggestions failed', response.status, response.statusText);
                     defer.reject(response.statusText);
