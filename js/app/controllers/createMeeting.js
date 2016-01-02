@@ -664,7 +664,7 @@
             if (Object.keys(data.where).length > 0) {
                 historyData.place = data.where[Object.keys(data.where)[0]];
             }
-            historyService.addHistoryToUser($scope.currentUser.id, $scope.meeting.id, historyData);
+            historyService.addHistoryToUser($scope.currentUser.id, $scope.meetingId, historyData);
         }
         
         var getCategoryName = function (categoryId) {

@@ -1,8 +1,8 @@
 ;(function () {
     "use strict";
     var app = angular.module('mmh.controllers');
-    app.controller('MeetMeHereController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util', 'categoryService', 'userService','gatheringService','errorLoggingService',
-        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService, util, categoryService, userService, gatheringService, errorLoggingService) {
+    app.controller('MeetMeHereController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util', 'categoryService', 'userService','gatheringService','errorLoggingService','historyService',
+        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService, util, categoryService, userService, gatheringService, errorLoggingService, historyService) {
 
         $scope.suggestions = {};
         $scope.timeFormat = 'h:mmA';
@@ -214,6 +214,7 @@
                 var meetingId = meeting.refs.current.key();
                 $scope.meetingId = meetingId;
                 addMeetingToCategory(data);
+                addMeetingToHistory(data);
                 
                 setTimeout(function() {
                     $window.location = 'activity.html?act=' + meetingId;
@@ -223,6 +224,20 @@
             
             compareToDefaultSetting(data);
         };
+        
+        var addMeetingToHistory = function(data) {
+            var historyData = {
+                id: $scope.meetingId,
+                name: data.name,
+                timeTitle: data.timeTitle,
+                time: data.timeTitle,
+                type: 'created'
+            };
+            if (Object.keys(data.where).length > 0) {
+                historyData.place = data.where[Object.keys(data.where)[0]];
+            }
+            historyService.addHistoryToUser($scope.currentUser.id, $scope.meetingId, historyData);
+        }
         
         var addMeetingToCategory = function(data) {
             var categoryId = 'Others';
@@ -241,6 +256,9 @@
                 timeTitle: data.timeTitle,
                 expireTime: meetingService.getExpireTime(data.when)
             } ;
+            if (Object.keys(data.where).length > 0) {
+                meetingData.place = data.where[Object.keys(data.where)[0]].name;
+            }
             categoryService.addMeetingToCategory(categoryId, categoryId, meetingData);
         }
         
