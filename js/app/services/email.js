@@ -36,13 +36,11 @@
          
             text += "<br/><br/><br/>  This email address isn't monitored. Replies to this email will be ignored.";
             
-            text += "<br/> <br/> To unsubscribe from this acitvity, please click the link below:";
-            text += "<br/>" + getUnsubscribeLink(notification.meetId, email);
-            text += "<br/> <br/> To unsubscribe all activities from Socialivo, please click:";
-            text += "<br/>" + getUnsubscribeLink('all', email);
+            template = template.replace("*---content---*", text);
+            template = template.replace("*---unsubscribe_activity---*", getUnsubscribeLink(notification.meetId, email));
+            template = template.replace("*---unsubscribe_all---*", getUnsubscribeLink('all', email));
             
-            var params = template.split('*---content---*');
-            return params[0] + text + params[1];
+            return template;
         };
         
         var sendEmailToUsers = function (emails, notificationData) {
