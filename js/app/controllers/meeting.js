@@ -1040,8 +1040,14 @@
                 
                 util.addEventToDataLayer('Activity', 'Interaction', 'Select Time', time.whenFormatted);
                 $scope.changingGroups = true;
+            } else if (confirm("This time has already passed. Are you sure you want to select it?")){
+                $scope.meetingUser.toggleWhen(time.id, true);
+                $scope.addMeetingToUser();
+                
+                util.addEventToDataLayer('Activity', 'Interaction', 'Select Time', time.whenFormatted);
+                $scope.changingGroups = true;
             } else {
-                alert ('This time is passed, please select another time!');
+                $scope.addTimes();
             }
             
         };
