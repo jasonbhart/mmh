@@ -92,6 +92,34 @@
             return ref.child('meets').child(activityId).child('unsubscribe').push(userId);
         }
         
+        var subscribeAll = function (userId) {
+            var ref = new Firebase(appConfig.firebaseUrl);
+            ref.child('unsubscribe').once('value', function(snapshot) {
+                var unsubUsers = snapshot.val();
+                if (unsubUsers) {
+                    for (var i in unsubUsers) {
+                        if (unsubUsers[i] === userId) {
+                            ref.child('unsubscribe').child(i).remove();
+                        }
+                    }
+                }
+            });
+        }
+        
+        var subscribeActivity = function (activityId, userId) {
+            var ref = new Firebase(appConfig.firebaseUrl);
+            ref.child('meets').child(activityId).child('unsubscribe').once('value', function(snapshot) {
+                var unsubUsers = snapshot.val();
+                if (unsubUsers) {
+                    for (var i in unsubUsers) {
+                        if (unsubUsers[i] === userId) {
+                            ref.child('meets').child(activityId).child('unsubscribe').child(i).remove();
+                        }
+                    }
+                }
+            });
+        }
+        
         var getUnsubscribeLink = function (activityId, userId) {
             return appConfig.productionBasePath + 'unsubscribe.html?activity=' + activityId + '&user=' + encodeURIComponent(userId);
         };
@@ -128,6 +156,8 @@
             sendEmailToUsers: sendEmailToUsers,
             unsubscribeAll: unsubscribeAll,
             unsubscribeActivity: unsubscribeActivity,
+            subscribeAll: subscribeAll,
+            subscribeActivity: subscribeActivity,
             getUnsubscribeList: getUnsubscribeList,
             sendPushNotification: sendPushNotification
         };
