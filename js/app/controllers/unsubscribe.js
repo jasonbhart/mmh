@@ -4,6 +4,8 @@
     app.controller('UnsubscribeController', ['$scope', 'appConfig', 'emailService', 'util', 'sessionService', 'userService',
     function($scope, appConfig, emailService, util, sessionService, userService) {
         $scope.currentUser = null;
+        $scope.subcribeUrl = window.location.href.replace('unsubscribe.html', 'subscribe.html');
+        
         sessionService.ready.then(function() {
             var initAuth = function(user) {
                 $scope.currentUser = user;
