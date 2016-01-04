@@ -417,6 +417,9 @@
             convertWhen: function(when) {
                 return moment.utc(when).local();
             },
+            getActivityUrl: function(meetingId) {
+                return appConfig.shareUrlBase + '?act=' + meetingId;
+            },
             getSharingUrl: function(meetingId) {
                 return appConfig.shareLandingPageUrl + '?act=' + meetingId;
             },
@@ -598,7 +601,7 @@
                             name: meeting.name,
                             users: joinedUser,
                             where: meeting.where[whereId],
-                            url: service.getSharingUrl(id),
+                            url: service.getActivityUrl(id),
                             timeTitle: meeting.when[whenId],
                             when: meeting.when[whenId],
                             allUsers: meeting.users,
