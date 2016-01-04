@@ -146,7 +146,7 @@
                                         'display_address': buss.location.display_address.join(', ')
                                     },
                                     'categories': buss.categories,
-                                    'display_phone': usIP ? util.formatPhone(buss.display_phone).replace('+1 ', '') : util.formatPhone(buss.display_phone)
+                                    'display_phone': usIP ? util.formatPhone(buss.display_phone).replace('+1 ', '') : buss.display_phone
                                 };
 
                                 if (buss.location.coordinate) {
