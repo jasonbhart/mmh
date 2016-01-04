@@ -400,6 +400,15 @@
                         $scope.showTip = false;
                     } else if (suggestions.length < 3) {
                         $scope.showTip = true;
+                    } else {
+                        var showTip = true;
+                        for (var i in suggestions) { 
+                            if (suggestions[i].rating && suggestions[i].rating >= 4) {
+                                showTip = false;
+                                break;
+                            }
+                        }
+                        $scope.showTip = showTip;
                     }
                     $window.$('.loading-wrap').hide();
                 }, function (error){
