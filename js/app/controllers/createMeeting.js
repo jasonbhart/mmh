@@ -789,8 +789,9 @@
                 util.addEventToDataLayer('New Activity Wizard', 'Step 4', 'Finish', 'Main Button');
             });
             
-            $window.$('body').on('click', '.joyride-close-tip', function() {
-                
+            $window.$('ul.best-places').on('click', 'li', function() {
+                $scope.establishment = $(this).find('input[type=radio]').val();
+                $scope.$apply();
             });
             
             googleMap.makeAutoComplete('location-autocomplete');
