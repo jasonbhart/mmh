@@ -510,7 +510,7 @@ img{max-width: 100%;}
 .login-modal input{box-sizing:border-box; height:3.5rem}
 .login-modal .input-user label{font-size:14px; font-weight:700;}
 .login-modal .input-user .btn{width:100%; font-weight:700;}
-.login-modal .other-connect .connect{font-size: 15px;font-weight: 700;margin-bottom: 10px;}
+.login-modal .other-connect .connect{font-size: 15px;margin-bottom: 10px;font-style: italic}
 .login-modal .other-connect a{display:block;text-decoration: none; color: white;height:40px; line-height:40px; font-size:18px; border-radius:4px; padding:0 10px; margin-top:8px; text-align:center;}
 .login-modal .other-connect a.facebook { background: #3a589a;}
 .login-modal .other-connect a.twitter {display: none; background: #4099ff;}
