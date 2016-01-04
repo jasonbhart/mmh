@@ -109,6 +109,9 @@
                 return result;
             },
             formatPhone: function (phone) {
+                if (!phone) {
+                    return '';
+                }
                 var parts = phone.split('-');
                 return parts[0] + ' (' + parts[1] + ') ' + parts[2] + ' ' + parts[3];
             }
