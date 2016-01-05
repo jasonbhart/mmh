@@ -32,7 +32,7 @@
             }
             
             text += "<br/>" + "<br/>" + 'Click here to see everyone who is participating in this activity'
-                 +  "<br/>" + appConfig.shareUrlBase + '?act=' + notification.meetId;
+                 +  "<br/>" + appConfig.shareUrlBase + '?act=' + notification.meetId + '&utm_source=internal&utm_medium=email&utm_campaign=notifications';
          
             text += "<br/><br/><br/>  This email address isn't monitored. Replies to this email will be ignored.";
             
@@ -121,7 +121,7 @@
         }
         
         var getUnsubscribeLink = function (activityId, userId) {
-            return appConfig.productionBasePath + 'unsubscribe.html?activity=' + activityId + '&user=' + encodeURIComponent(userId);
+            return appConfig.productionBasePath + 'unsubscribe.html?activity=' + activityId + '&user=' + encodeURIComponent(userId) + '&utm_source=internal&utm_medium=email&utm_campaign=notfications';
         };
         
         var getUnsubscribeList = function (activityId) {
