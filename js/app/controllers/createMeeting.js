@@ -400,6 +400,15 @@
                         $scope.showTip = false;
                     } else if (suggestions.length < 3) {
                         $scope.showTip = true;
+                    } else {
+                        var showTip = true;
+                        for (var i in suggestions) { 
+                            if (suggestions[i].rating && suggestions[i].rating >= 4) {
+                                showTip = false;
+                                break;
+                            }
+                        }
+                        $scope.showTip = showTip;
                     }
                     $window.$('.loading-wrap').hide();
                 }, function (error){
@@ -789,8 +798,9 @@
                 util.addEventToDataLayer('New Activity Wizard', 'Step 4', 'Finish', 'Main Button');
             });
             
-            $window.$('body').on('click', '.joyride-close-tip', function() {
-                
+            $window.$('ul.best-places').on('click', 'li', function() {
+                $scope.establishment = $(this).find('input[type=radio]').val();
+                $scope.$apply();
             });
             
             googleMap.makeAutoComplete('location-autocomplete');

@@ -322,5 +322,11 @@
                 });
             });
         }
+        $window.$(document).ready(function() {
+            $window.$('ul.best-places').on('click', 'li', function() {
+                $scope.establishment = $(this).find('input[type=radio]').val();
+                $scope.$apply();
+            });
+        });
     }]);
 })();
