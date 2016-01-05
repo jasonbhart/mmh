@@ -121,7 +121,7 @@
         }
         
         var getUnsubscribeLink = function (activityId, userId) {
-            return appConfig.productionBasePath + 'unsubscribe.html?activity=' + activityId + '&user=' + encodeURIComponent(userId) + '&utm_source=internal&utm_medium=email&utm_campaign=notfications';
+            return appConfig.productionBasePath + 'unsubscribe.html?activity=' + activityId + '&user=' + encodeURIComponent(userId) + '&utm_source=internal&utm_medium=email&utm_campaign=notifications';
         };
         
         var getUnsubscribeList = function (activityId) {
