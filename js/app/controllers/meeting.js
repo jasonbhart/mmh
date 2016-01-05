@@ -23,6 +23,10 @@
         $scope.groupTimeout = null;
         $scope.categoryIconClass = '';
         $scope.unsubscribeList = [];
+        
+        if (document.referrer == '' || (!document.referrer.indexOf('socialivo.com') == -1 && !document.referrer.indexOf('mmh.app') == -1)) {
+            $window.location = meetingService.getSharingUrl($scope.currentMeetingId);
+        }
         $window.$('.loading-wrap').show();
         
         emailService.getUnsubscribeList($scope.currentMeetingId).then(function(unsubscribeList) {
