@@ -11,6 +11,7 @@
             $scope.clean = function() {
                 alert('Forbidden');return;
                 if ($scope.table === 'meeting') {
+                    return;
                     var meetingRef = ref.child('meets');
                     meetingRef.on('child_added', function (snapshot) {
                         var key = snapshot.key();
@@ -23,6 +24,7 @@
                         }
                     });
                 } else if ($scope.table === 'notification') {
+                    return;
                     var notificationRef = ref.child('notifications');
                     notificationRef.on('child_added', function (snapshot) {
                         var key = snapshot.key();
@@ -40,6 +42,23 @@
                         });
                         
                         
+                    });
+                } else if ($scope.table === 'user') {
+                    var userRef = ref.child('users');
+                    var i = 1;
+                    userRef.on('child_added', function (snapshot) {
+                        var key = snapshot.key();
+                        var userData = snapshot.val();
+                        var created = userData.createdDate || '';
+                        var diff = moment().diff(moment(created));
+                        var dayDiff = diff / 1000 / 3600 / 24;
+                        if (dayDiff > 7 && userData.provider === 'anonymous') {
+                            userRef.child(key).remove();
+                        } else if (typeof userData.provider === 'undefined') {
+                            userRef.child(key).remove();
+                        } else {
+                            console.log(i++);
+                        }
                     });
                 }
             };
