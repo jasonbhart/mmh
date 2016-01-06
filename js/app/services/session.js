@@ -89,18 +89,6 @@
         }
         
         function saveUser(userData, authData) {
-            userData.provider = authData.provider;
-            if (authData.provider == authProviders.FACEBOOK) {
-                userData.fullName = authData.facebook.displayName,
-                userData.profileImageURL = authData.facebook.profileImageURL;
-                userData.email = authData.facebook.email || null;
-                userData.loggedViaSocial = true;
-            } else if (authData.provider == authProviders.ANONYMOUS) {
-                userData.fullName = 'Anonymous';
-                userData.profileImageURL = null;
-                userData.email = null;
-                $cookies.lastAnonymousId = authData.uid;
-            }
 
             // state changes
             var stateTransition = null;
@@ -114,8 +102,25 @@
                         ) {
                     stateTransition = service.states.LOGIN;
                     addEventToDataLayer('Login', authData.provider, authData);
+                    
+                    if (!userData.loggedViaSocial) {
+                        addEventToDataLayer('New User', authData.provider, authData);
+                    }
                 }
                     
+            }
+            
+            userData.provider = authData.provider;
+            if (authData.provider == authProviders.FACEBOOK) {
+                userData.fullName = authData.facebook.displayName,
+                userData.profileImageURL = authData.facebook.profileImageURL;
+                userData.email = authData.facebook.email || null;
+                userData.loggedViaSocial = true;
+            } else if (authData.provider == authProviders.ANONYMOUS) {
+                userData.fullName = 'Anonymous';
+                userData.profileImageURL = null;
+                userData.email = null;
+                $cookies.lastAnonymousId = authData.uid;
             }
 
             $cookies.lastUserProvider = authData.provider;
