@@ -1365,6 +1365,10 @@
             return moment().format('YYYYMMDD') <= moment(isoString).format('YYYYMMDD');
         };
         
+        $scope.encodeURIComponent = function(word) {
+            return encodeURIComponent(word);
+        }
+        
         $scope.getICSFile = function (group) {
             var time = angular.copy(group.when.when.when);
             time = time.utc();

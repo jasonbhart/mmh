@@ -239,9 +239,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                                         <div class="cont-data">
                                                             <img ng-src="{{getCorrectProtocolUrl(group.where.rating_url)}}" alt="">
                                                             <span class="str-list ng-binding">{{ group.where.categories[0][0] }}</span>
-                                                            <address class="ng-binding">
+                                                            <a class="ng-binding" href="//maps.google.com/maps?q={{encodeURIComponent(group.where.location.display_address)}}">
                                                                 {{ group.where.location.display_address }}
-                                                            </address>
+                                                            </a>
                                                         </div>
                                                     </div>
                                                     <div class="box-gray rsvp-area button-span">
