@@ -522,7 +522,7 @@ img{max-width: 100%;}
 .login-modal .icon-close{right:0;}
 @media only screen and (max-width : 520px){
 .login-modal .input-user{padding:0 15px 5px 0; width:62%;}
-.login-modal .other-connect{padding:0 0 10px 10px; width:35%;}
+.login-modal .other-connect{padding:0 0 10px 10px; width:96%;}
 .login-modal .frm{margin:0 -10px;}
 .login-modal .modal-content{padding:0 24px 10px;}
 .login-modal #login-form:after{left:26%;}
