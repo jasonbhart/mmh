@@ -459,6 +459,14 @@
                                 if ($scope.usersInfo.current.when[0] && !$scope.usersInfo.current.when[0].selected) {
                                     $scope.toggleTime($scope.usersInfo.current.when[0]);
                                 }
+                                
+                                setTimeout(function(){
+                                    $scope.userGroups = buildUserGroups(formattingData);
+                                    if ($scope.userGroups.groups && $scope.userGroups.groups[0] && 
+                                            !$scope.userGroups.groups[0].hasJoined($scope.currentUser.id)) {
+                                        $scope.joinGroup($scope.userGroups.groups[0]);
+                                    }
+                                }, 500);
                             });
                         });
                     });
