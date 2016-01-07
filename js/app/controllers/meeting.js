@@ -24,7 +24,7 @@
         $scope.categoryIconClass = '';
         $scope.unsubscribeList = [];
         
-        if (document.referrer == '' || (!document.referrer.indexOf('socialivo.com') == -1 && !document.referrer.indexOf('mmh.app') == -1)) {
+        if (document.referrer == '' || (!document.referrer.indexOf('socialivo.com') == -1 && !document.referrer.indexOf('mmh.app') == -1 && !document.referrer.indexOf('localhost') == -1)) {
             $window.location = meetingService.getSharingUrl($scope.currentMeetingId);
         }
         $window.$('.loading-wrap').show();

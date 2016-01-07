@@ -79,6 +79,11 @@
             if ($scope.user && $scope.user.id) {
                 notificationService.removeNotification($scope.user.id, notificationId);
                 $scope.notifications.splice(key,1);
+                if ($scope.notifications.length === 0) {
+                    setTimeout(function() {
+                        $window.$('#notifications-info').hide();
+                    }, 100);
+                }
                 util.addEventToDataLayer('Notifications', 'Clear', null, notificationId);
             }
         };
