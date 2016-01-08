@@ -1201,13 +1201,14 @@
                     when: util.getFirebaseKeys(times)
                 };
             }
+            var timeTitle = times[Object.keys(times)[0]] || changeDateToToday($scope.meeting.timeTitle);
             var data = {
                 name: $scope.meeting.name,
                 createdDate: moment().utc().toISOString(),
                 when: times,
                 where: places,
                 users: users,
-                timeTitle: changeDateToToday($scope.meeting.timeTitle || $scope.meeting.createdDate),
+                timeTitle: timeTitle,
                 specific_location: $scope.meeting.specific_location || '',
                 category: $scope.meeting.category || 'Other'
             };
