@@ -83,17 +83,19 @@
                 if ($scope.currentUser && $scope.currentUser.id) {
                     users[$scope.currentUser.id] = {
                         joined: true,
+                        creator: true,
                         where: util.getFirebaseKeys(places),
                         when: util.getFirebaseKeys(times)
                     };
                 }
+                var timeTitle = times[Object.keys(times)[0]] || changeDateToToday(meetData.timeTitle);
                 var data = {
                     name: meetData.name,
                     createdDate: moment().utc().toISOString(),
                     when: times,
                     where: places,
                     users: users,
-                    timeTitle: changeDateToToday(meetData.timeTitle || meetData.createdDate),
+                    timeTitle: timeTitle,
                     specific_location: meetData.specific_location || '',
                     category: meetData.category || 'Other'
                 };

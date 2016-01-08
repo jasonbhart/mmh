@@ -24,7 +24,7 @@
         $scope.categoryIconClass = '';
         $scope.unsubscribeList = [];
         
-        if (document.referrer == '' || (!document.referrer.indexOf('socialivo.com') == -1 && !document.referrer.indexOf('mmh.app') == -1)) {
+        if (document.referrer == '' || (!document.referrer.indexOf('socialivo.com') == -1 && !document.referrer.indexOf('mmh.app') == -1 && !document.referrer.indexOf('localhost') == -1)) {
             $window.location = meetingService.getSharingUrl($scope.currentMeetingId);
         }
         $window.$('.loading-wrap').show();
@@ -1201,13 +1201,14 @@
                     when: util.getFirebaseKeys(times)
                 };
             }
+            var timeTitle = times[Object.keys(times)[0]] || changeDateToToday($scope.meeting.timeTitle);
             var data = {
                 name: $scope.meeting.name,
                 createdDate: moment().utc().toISOString(),
                 when: times,
                 where: places,
                 users: users,
-                timeTitle: changeDateToToday($scope.meeting.timeTitle || $scope.meeting.createdDate),
+                timeTitle: timeTitle,
                 specific_location: $scope.meeting.specific_location || '',
                 category: $scope.meeting.category || 'Other'
             };
