@@ -388,6 +388,7 @@ img{max-width: 100%;}
 .landing-page .step2 .btn-area .btn-place{background:#67bcdb url(../image/palce_icon.png) no-repeat 10px 50%; padding-left:32px;}
 .landing-page .step2 .btn-area .btn-time{background:#67bcdb url(../image/clock-icon-white.png) no-repeat 10px 50%; padding-left:40px;}
 .landing-page .step2 .btn-area .btn .fa{font-size:15px; margin-left:3px;}
+.landing-page .button-collapse{position:absolute; top:10px; left:10px; width:50px; height:42px;color:#404040;border-radius: 0;text-align: center;line-height:40px;font-size: 30px; border:1px solid #dcdcdc;}
 @media only screen and (min-width : 769px){.landing-page{background:url(../image/bg_landingpage.jpg) no-repeat 0 0; background-size:cover;}hr{display:none;}.landing-page .tag-line{color:#585858;border-bottom-color:#c1c1c1}.landing-page .box-info{background-color:rgba(255,255,255,.7); border:1px solid #c2c2c2;}}
 
 @media only screen and (min-width : 993px){

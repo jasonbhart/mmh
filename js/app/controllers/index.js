@@ -6,6 +6,9 @@
     // get data from yelp
     app.controller('IndexController', ['$scope', 'meetingInfo', 'sessionService', 'util', 'geoLocation','$window', 'googleMap','categoryService', 'appConfig', 'userService', 'meetingService', '$firebaseObject', '$q','errorLoggingService',
             function ($scope, meetingInfo, sessionService, util, geoLocation, $window, googleMap, categoryService, appConfig, userService, meetingService, $firebaseObject, $q, errorLoggingService) {
+        if ($window.$(window).width() < 760) {
+            $window.location = '/index_mobile.html';
+        }
         $scope.currentUser = null;
         $scope.locationName = '';
         $scope.categories = [];
@@ -290,6 +293,7 @@
         };
         
         var getLocalEvents = function(mapOptions) {
+            console.log('OPTIONSSS', mapOptions);
             meetingInfo.getLocal(mapOptions).then(function(results) {
                 if (results.length > 0) {
                     angular.forEach(results, function (meeting, key) {

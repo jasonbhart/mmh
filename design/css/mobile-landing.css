@@ -1,0 +1,105 @@
+*{box-sizing:border-box;}
+.address .txt{display:table-cell;}
+.mobile-page h2.title{font-size:24px; font-weight:700; padding:0 20px; margin:20px 0}
+.landing-page{padding:0;}
+.ui-overlay-a, .ui-overlay-a, .ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper{background:#f4f4f4;}
+.ui-overlay-a, .ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper{text-shadow:none}
+.header{background:#fff; border-bottom:1px solid #d0d0d1; padding:10px 0 0; margin-bottom:10px;}
+.landing-page .logo{margin:0;}
+.mobile-page .other-meetings .thumb{float:left; margin-right:15px;}
+.mobile-page .other-meetings .info{padding:0; display:table-cell}
+.mobile-page .buddy .title{margin:0 0 15px; font-weight:700;}
+.landing-page .tag-line{margin-top:-25px}
+.other-meetings p{margin:0}
+.mobile-page .time{background:url(../image/clock-icon.png) no-repeat 0 1px; background-size:25px auto; padding-left:35px; font-size:22px; color:#e44424; font-weight:700; margin-top:14px;}
+#container {
+    display: block;
+    height: 200px;
+    position: relative;
+    list-style-type: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin:0 10px 10px;
+}
+.buddy {
+    display: none;
+    background: #fff;
+    padding: 20px;
+    width: 100%;
+    min-height: 175px;
+    top: 12px;
+    left: 0;
+    position: absolute;
+    cursor: hand;
+    border:1px solid #dadada;
+    border-bottom-width:3px;
+}
+.mobile-page .box{border:1px solid #dadada;min-height:160px;box-shadow:0 0 3px #ccc;background:#fff;margin:3px 10px 0;}
+.mobile-page .box .inner{border:1px solid #dadada;min-height:160px;box-shadow:0 0 3px #ccc;background:#fff;margin:5px -6px 0;}
+.rotate-left {
+    transform: rotate(30deg) scale(0.8);
+    transition: 1.2s;
+    margin-left: 400px;
+    cursor: e-resize;
+    opacity: 0;
+    z-index:102
+}
+.rotate-right {
+    transform: rotate(-30deg) scale(0.8);
+    transition: 1.2s;
+    opacity: 0;
+    margin-left: -400px;
+    cursor: w-resize;
+    z-index:102
+}
+.avatar {
+    background: #222;
+    width: 340px;
+    height: 340px;
+    display: block;
+    margin-top: 10px;
+    margin-left: 10px;
+    background-size: 100% auto !important;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.like {
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-shadow: none;
+    width:100%;
+    height:100%;
+    background-color:rgba(102,188,222,.6); 	
+    background-image:url(../image/yes-swipe.png);
+    background-repeat:no-repeat;
+    background-position:50% 50%;
+}
+.dislike {
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-shadow: none;
+    width:100%;
+    height:100%;
+    background-color:rgba(228,71,37,.6); 	
+    background-image:url(../image/no-swipe.png);
+    background-repeat:no-repeat;
+    background-position:50% 50%;
+}
+.btn-tinder{display:inline-block; background:url(../image/no-off.png) no-repeat 100% 0; height:55px; line-height:55px; min-width:155px; padding:0 15px;}
+.btn-tinder span{display:block; background:url(../image/arrow-no-off.png) no-repeat 0 50%; padding-left:45px; font-size:30px; text-transform:uppercase; color:#9b9b9b;}
+.btn-tinder:hover span{cursor:}
+.btn-tinder.btn-left{background-image:url(../image/yes-off.png); background-position:0 0;}
+.btn-tinder.btn-left span{background-image:url(../image/arrow-yes-off.png); background-position:100% 50%; padding:0 45px 0 0;}
+.btn-tinder.yes span, .btn-tinder.no span {color:#e44725;}
+.btn-tinder.yes{background-image:url(../image/yes-on.png)}
+.btn-tinder.no{background-image:url(../image/no-on.png)}
+.btn-tinder.yes span{background-image:url(../image/arrow-yes-on.png)}
+.btn-tinder.no span{background-image:url(../image/arrow-no-on.png)}
+.mobile-page .finish{position:absolute; width:100%; height:310px;background:#f4f4f4; z-index:100; top:-2px; left:0; text-align:center; padding-top:20px; font-weight:700; color:#9b9b9b; font-size:24px;}
+.footer .txt{font-weight:700;color:#9b9b9b; font-size:18px; margin:10px 0 5px;}
