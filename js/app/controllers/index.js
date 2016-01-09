@@ -6,7 +6,7 @@
     // get data from yelp
     app.controller('IndexController', ['$scope', 'meetingInfo', 'sessionService', 'util', 'geoLocation','$window', 'googleMap','categoryService', 'appConfig', 'userService', 'meetingService', '$firebaseObject', '$q','errorLoggingService',
             function ($scope, meetingInfo, sessionService, util, geoLocation, $window, googleMap, categoryService, appConfig, userService, meetingService, $firebaseObject, $q, errorLoggingService) {
-        if ($window.$(window).width() < 760) {
+        if (!util.getUrlParams('callback') && $window.$(window).width() < 760) {
             $window.location = '/index_mobile.html';
         }
         $scope.currentUser = null;

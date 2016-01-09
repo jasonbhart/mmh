@@ -7,7 +7,7 @@
     app.controller('IndexMobileController', ['$scope', 'meetingInfo', 'sessionService', 'util', 'geoLocation','$window', 'googleMap','categoryService', 'appConfig', 'userService', 'meetingService', '$firebaseObject', '$q','errorLoggingService',
             function ($scope, meetingInfo, sessionService, util, geoLocation, $window, googleMap, categoryService, appConfig, userService, meetingService, $firebaseObject, $q, errorLoggingService) {
         if ($window.$(window).width() > 760) {
-            $window.location = '/index.html';
+            $window.location = '/index.html?callback=1';
         }
         $scope.currentUser = null;
         $scope.locationName = '';
@@ -134,7 +134,7 @@
                     });
                 } else {
                     $window.$('.loading-wrap').hide();
-                    $window.location = '/index.html';
+                    $window.location = '/index.html?callback=1';
                     clearTimeout(reloadTimeout);
                 }
             });
@@ -178,7 +178,7 @@
                 }
                 
                 if (this.id == 0) {
-                    $window.location = '/index.html';
+                    $window.location = '/index.html?callback=1';
                 }
                 
                 setTimeout(function () {
