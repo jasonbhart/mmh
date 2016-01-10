@@ -32,15 +32,15 @@
                     ref.child('facebook').child(authData.uid).once('value', function(snapshot){
                         var facebookData = snapshot.val();
                         if (facebookData) {
-                            previousGuid = $cookies.guid || null;
-                            $cookies.guid = facebookData.guid;
+                            previousGuid = $window.$.cookie('guid') || null;
+                            $window.$.cookie('guid', facebookData.guid, { expires: 30, path: '/' });
                             if (loggingIn) {
-                                var overwrite = (lastLoggedGuid === $cookies.guid);
-                                service.migrate(meetingId, previousGuid, $cookies.guid, false, overwrite);
+                                var overwrite = (lastLoggedGuid === $window.$.cookie('guid'));
+                                service.migrate(meetingId, previousGuid, $window.$.cookie('guid'), false, overwrite);
                                 loggingIn = false;
                             }
                         } else {
-                            ref.child('facebook').child(authData.uid).set({guid: $cookies.guid || authData.uid, name: authData.facebook.displayName});
+                            ref.child('facebook').child(authData.uid).set({guid: $window.$.cookie('guid') || authData.uid, name: authData.facebook.displayName});
                             if (authData.facebook.email) {
                                 emailService.sendEmailToUsers(
                                     [authData.facebook.email], 
@@ -66,8 +66,8 @@
         };
         
         function loadUserFromCookie(authData) {
-            if ($cookies.guid) {
-                ref.child('users').child($cookies.guid).once('value', function(snapshot) {
+            if ($window.$.cookie('guid')) {
+                ref.child('users').child($window.$.cookie('guid')).once('value', function(snapshot) {
                     var userData = snapshot.val() || {
                         id: authData.uid,
                         provider: authData.provider
@@ -75,14 +75,14 @@
                     saveUser(userData, authData);
                 });
             } else {
-                $cookies.guid = authData.uid;
+                $window.$.cookie('guid', authData.uid, { expires: 30, path: '/' });
                 var userData = {
                     id: authData.uid,
                     provider: authData.provider
                 };
                 saveUser(userData, authData);
                 if (loggingOut) {
-                    service.migrate(meetingId, previousGuid, $cookies.guid, true, false);
+                    service.migrate(meetingId, previousGuid, $window.$.cookie('guid'), true, false);
                     loggingOut = false;
                 }
             }
@@ -253,10 +253,10 @@
                 return authDefer.promise;
             },
             logout: function() {
-                previousGuid = $cookies.guid;
-                lastLoggedGuid = $cookies.guid;
+                previousGuid = $window.$.cookie('guid');
+                lastLoggedGuid = $window.$.cookie('guid');
                 loggingOut = true;
-                delete $cookies.guid;
+                $window.$.cookie('guid', null, { path: '/' });
                 authObj.$unauth();
             },
             getCurrentUser: function() {
@@ -266,7 +266,7 @@
              * Migrate data from anonymous user to current user
              */
             migrate: function(meetingId, srcUser, desUser, keepSrc, overwrite) {
-                if (!meetingId || !$cookies.guid || !desUser || srcUser === desUser)
+                if (!meetingId || !$window.$.cookie('guid') || !desUser || srcUser === desUser)
                     return;
                 meetingService.migrateUser(meetingId, srcUser, desUser, keepSrc, overwrite).then(function() {
                     console.log('migrated user', srcUser, desUser);
