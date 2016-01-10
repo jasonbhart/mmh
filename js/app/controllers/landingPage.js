@@ -21,8 +21,8 @@
             $window.location = '/index.html';
         }
         meetingService.getRaw($scope.currentMeetingId).$loaded(function(meetData) {
-            var userIds = Object.keys(meetData.users);
-            userService.get(userIds[0]).then(function(userObj) {
+            var creatorId = getCreatorId(meetData.users);
+            userService.get(creatorId).then(function(userObj) {
                 $scope.userName = userObj.user.fullName;
                 $scope.$apply();
                 
@@ -45,6 +45,15 @@
                 $window.$('.loading-wrap').hide();
             });
         });
+        
+        var getCreatorId = function(users) {
+            for (var i in users) {
+                if (users[i].creator) {
+                    return i;
+                }
+            }
+            return Object.keys(users)[0];
+        }
         
         $scope.yes = function() {
             $window.location = 'activity.html?act=' + $scope.currentMeetingId + '&rsvp=1';
