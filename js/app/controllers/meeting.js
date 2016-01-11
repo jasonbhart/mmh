@@ -23,6 +23,8 @@
         $scope.groupTimeout = null;
         $scope.categoryIconClass = '';
         $scope.unsubscribeList = [];
+        $scope.rsvpAfterLogin = false;
+        $scope.groupToRSVP = null;
         
         if (document.referrer == '' || (!document.referrer.indexOf('socialivo.com') == -1 && !document.referrer.indexOf('mmh.app') == -1 && !document.referrer.indexOf('localhost') == -1)) {
             $window.location = meetingService.getSharingUrl($scope.currentMeetingId);
@@ -197,7 +199,7 @@
             initAuth(sessionService.getCurrentUser());
             
             // listen for the future auth change events
-            $scope.$on('auth.changed', function(evt, user, state) {
+            $scope.$on('auth.changed', function(evt, user, state) {         
                 // redirect if state == auth -> anonymous
                 meetingUserSentinel.setUser(user);
                 $scope.usersInfo.setCurrentId(user.id);
@@ -211,6 +213,12 @@
                 $scope.userGroups = buildUserGroups(formattingData);
                 
                 $scope.addMeetingToUser();
+                
+                if ($scope.rsvpAfterLogin && $scope.groupToRSVP) {
+                    $scope.joinGroup($scope.groupToRSVP);
+                    $scope.rsvpAfterLogin = false;
+                    $scope.groupToRSVP = null;
+                }
             });        
         });
         
@@ -606,6 +614,16 @@
             if ($scope.currentUser.isAnonymous()) {
                 alert('Please Login to RSVP');
                 dialogs.auth();
+                $scope.rsvpAfterLogin = true;
+                $scope.groupToRSVP = group;
+                return;
+            }
+            
+            console.log($scope.meetingUser.userId);
+            if ($scope.meetingUser.userId !== $scope.currentUser.id) {
+                setTimeout(function(){
+                    $scope.joinGroup(group);
+                }, 1000);
                 return;
             }
             
@@ -633,7 +651,7 @@
                 historyService.addHistoryToUser($scope.currentUser.id, $scope.meeting.id, historyData);
                 
                 util.addEventToDataLayer('Activity', 'Interaction', 'RSVP', null);
-            }
+            }           
             $scope.meetingUser.joinGroup(
                 {
                     whereId: group.where.$id,

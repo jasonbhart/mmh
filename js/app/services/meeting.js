@@ -190,13 +190,14 @@
                     var userRefs = {
                         current: currentRef,
                         where: currentRef.child('where'),
-                        when: currentRef.child('when')
+                        when: currentRef.child('when')           
                     };
                     
                     var userObj = {
                         refs: userRefs,
                         where: $firebaseArray(userRefs.where),
-                        when: $firebaseArray(userRefs.when)
+                        when: $firebaseArray(userRefs.when),
+                        userId: userId
                     };
                     
                     userObj.toggleWhere = function (whereId, state) {
