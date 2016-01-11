@@ -54,9 +54,7 @@
                  */
                 updateLocation: function(location) {
                     this.user.location = location;
-                    $log.log(this.user);
                     this.user.$save().then(function (ref) {
-                        $log.log("Change location success for user " + id);
                     }, function (error) {
                         $log.log("user.js - change location error");
                     });
@@ -69,7 +67,6 @@
                 setDisableEmailNoti: function(value) {
                     this.user.disableEmailNoti = value;
                     this.user.$save().then(function (ref) {
-                        $log.log("Change disableEmailNoti success for user " + id);
                     }, function (error) {
                         $log.log("user.js - change disableEmailNoti error");
                         return false;
@@ -110,7 +107,6 @@
                                 if (!data.when && !data.where) {
                                     delete meetingList[meetingId];
                                     meetingList.$save();
-                                    console.log('removed meeting', meetingId);
                                 }
                             });
                         }
@@ -181,11 +177,6 @@
                         }
 
                         var userId = ref.key();
-
-                        if (userData.createdDate)
-                            $log.log("New User created", userId);
-                        else
-                            $log.log("User updated", userId);
 
                         // load meeting data
                         service.get(userId).then(function(user) {

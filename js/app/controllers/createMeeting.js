@@ -136,7 +136,6 @@
         $scope.addTimes = function() {
             var dialog = dialogs.userMeetingTimes(timesProvider);
             dialog.result.then(function(times) {
-                $log.log('Show times result:', times);
                 _.forEach(times, function(newTime) {
                     var isNew = true;
                     _.forEach($scope.times, function (oldTime) {
@@ -506,7 +505,6 @@
                     if (Object.keys(data.where).length > 0) {
                         // add place to the local Events
                         localMeetingService.add(meetingId, Object.keys(data.where)[0], data.where[Object.keys(data.where)[0]].location.coordinate, data.timeTitle).then(function() {
-                            console.log('Added meeting to local meeting lists');
                         });
                     }
                             
@@ -640,8 +638,6 @@
             userService.addMeetingToUser(userId, meetingData).then(function(error){
                 if (error) {
                     console.log('Can not add activity to User. Error: ' + error);
-                } else {
-                    console.log('Activity added to User: ' + userId);
                 }
             });
         }

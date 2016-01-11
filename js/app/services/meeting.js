@@ -83,7 +83,6 @@
                     }
 
                     if (exists && !state) {      // remove
-                        $log.log('toggleWhere Remove: ', snap.ref().toString(), snap.val());
                         var id = _.keys(snap.val())[0];
                         snap.ref().child(id).remove(function() {
                             // remove place from the local Events
@@ -92,7 +91,6 @@
                             });
                         });
                     } else if (!exists && state) {      // add
-                        $log.log('toggleWhere Add: ', snap.ref().toString(), snap.val());
                         var whereRef = snap.ref().push({
                             type: where.type,
                             name: where.name,
@@ -159,11 +157,9 @@
                     }
 
                     if (exists && !state) {      // remove
-                        $log.log('toggleMeetWhen Remove: ', snap.ref().toString(), snap.val());
                         var id = _.keys(snap.val())[0];
                         snap.ref().child(id).remove(function() { defer.resolve(); });
                     } else if (!exists && state) {      // add
-                        $log.log('toggleMeetWhen Add: ', snap.ref().toString(), snap.val());
                         var whenRef = snap.ref().push(whenMoment, function() { defer.resolve(whenRef.key()); });
                     }  else if (exists) {
                         defer.resolve(_.keys(snap.val())[0]);
@@ -217,14 +213,12 @@
                             }, 500);
                             
                             if (exists && !state) {      // remove
-                                $log.log('toggleWhere Remove: ', snap.ref().toString(), snap.val());
                                 var id = _.keys(snap.val())[0];
                                 snap.ref().child(id).remove(function() {
                                     clearTimeout(loadingTimeout);
                                     $('.loading-wrap').hide();
                                 });
                             } else if (!exists && state) {      // add
-                                $log.log('toggleWhere Add: ', snap.ref().toString(), snap.val());
                                 snap.ref().push(whereId, function() {
                                     clearTimeout(loadingTimeout);
                                     $('.loading-wrap').hide();
@@ -250,7 +244,6 @@
                                 $('.loading-wrap').show();
                             }, 500);
                             if (exists && !state) {      // remove
-                                $log.log('toggleWhen Remove: ', snap.ref().toString(), snap.val());
                                 var id = _.keys(snap.val())[0];
                                 snap.ref().child(id).remove(function(){
                                     clearTimeout(loadingTimeout);
@@ -258,7 +251,6 @@
                                 });
                                 
                             } else if (!exists && state) {      // add
-                                $log.log('toggleWhen Add: ', snap.ref().toString(), snap.val());
                                 snap.ref().push(whenId, function () {
                                     clearTimeout(loadingTimeout);
                                     $('.loading-wrap').hide();
@@ -295,12 +287,10 @@
                             }
 
                             if (exists && !state) {      // remove
-                                $log.log('User toggleJoinGroup Remove: ', snap.ref().toString(), snap.val());
                                 snap.ref().remove(function() {
                                     defer.resolve({group: group, joined: false});
                                 });
                             } else if (!exists && state) {      // add
-                                $log.log('User toggleJoinGroup Add: ', snap.ref().toString(), snap.val());
                                 snap.ref().set({
                                     where: group.whereId,
                                     when: group.whenId
@@ -353,7 +343,6 @@
             };
 
             $rootScope.$applyAsync(function() {
-                $log.log('Meeting loaded', meetingObj);
                 resultDefer.resolve(meetingObj);
             });
         });
@@ -383,8 +372,6 @@
                     }
 
                     var meetingId = postIdRef.key();
-
-                    $log.log("New activity created", meetingId);
 
                     // load meeting data
                     service.get(meetingId).then(function(meeting) {
@@ -618,7 +605,6 @@
                 return $q.all(deferreds).then(function(results) {
                     var map = {};
                     results = _.filter(results);
-                    $log.log('meetingService: getInfo:', results);
                     _.forEach(results, function(info) {
                         map[info.id] = info;
                     });

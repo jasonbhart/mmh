@@ -17,7 +17,6 @@
                 $scope.disableEmailNoti = user.getDisableEmailNoti();
                 $scope.distance_unit = user.user.distance_unit || 'foot';
                 $window.$('.loading-wrap').hide();
-                console.log(user);
                 userService.get(user.id).then(function(userObj) {
                     userObj.meetingList.$loaded().then(function(data) {
                         userObj.removePassedActivities();

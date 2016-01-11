@@ -78,7 +78,6 @@
                 });
 
                 defer.promise.then(function(position) {
-                    $log.log('getCurrentPosition success', position);
                 }, function(error) {
                     $log.log('getCurrentPosition error', error);
                 });
@@ -93,7 +92,6 @@
                 geocoder.geocode({
                     latLng: latLng,
                 }, function(result, status) {
-                    $log.log('geoDecode', lat, lng, result, status);
                     $rootScope.$applyAsync(function() {
                         if (status == google.maps.GeocoderStatus.OK) {
                             defer.resolve(result);
@@ -111,7 +109,6 @@
                 var defer = $q.defer();
                 this.geoDecode(lat, lng).then(
                     function(result) {
-                        $log.log('geoLocation getLocality result success', result);
                         var locality = null;
                         // find locality in the result
                         for (var i=0; i<result.length; i++) {

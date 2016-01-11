@@ -134,7 +134,6 @@
                             function(location) {
                                 location.radius = appConfig.defaultRadius;
                                 user.updateLocation(location);
-                                $log.log('geoLocation success', location);
                             }, function(error) {
                                 $log.log('geoLocation error', error);
                             }
@@ -269,7 +268,6 @@
                 if (!meetingId || !$window.$.cookie('guid') || !desUser || srcUser === desUser)
                     return;
                 meetingService.migrateUser(meetingId, srcUser, desUser, keepSrc, overwrite).then(function() {
-                    console.log('migrated user', srcUser, desUser);
                 });
             }
         };

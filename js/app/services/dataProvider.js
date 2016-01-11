@@ -93,8 +93,10 @@
                 
                 var defer = $q.defer();
                 
-                $log.log('dataProvider: getSuggestions: searchOptions', searchOptions);
-
+                if (appConfig.showConsoleLog) {
+                    $log.log('dataProvider: getSuggestions: searchOptions', searchOptions);
+                }
+                
                 $http.get(appConfig.dataUrl, { params: searchOptions }).then(function(response) {
                     var data = response.data;
                     if (!data) {

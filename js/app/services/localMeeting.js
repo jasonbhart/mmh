@@ -25,7 +25,6 @@
                     expireTime: expireTime || currentTime
                 });
                 
-                $log.log('localMeetingsService: add key', ref.key());
                 return $q.when(localMeetsGEO.set(ref.key(), [location.lat, location.lng]));
             },
             /**
@@ -34,7 +33,6 @@
              */
             remove: function(meetingId, whereId) {
                 var key = getKey(meetingId, whereId);
-                $log.log('localMeetingsService: remove key', key);
                 return $q.when(localMeetsGEO.remove(key));
             },
             /**

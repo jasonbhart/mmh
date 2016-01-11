@@ -70,7 +70,6 @@
             };
             
             var currentLocation = geoLocation.getPosition();
-            console.log('currentLocation', currentLocation);
             currentLocation.then(function(position) {
                 if (position.coords.latitude && position.coords.longitude) {
                         options.coords = {lat: position.coords.latitude, lng: position.coords.longitude};

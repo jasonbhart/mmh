@@ -20,12 +20,10 @@
                     opened: openDefered.promise,
                     rendered: renderDefered.promise,
                     close: function(result) {
-                        $log.log('modalInstance close');
                         onModalClose();
                         resultDefered.resolve(result);
                     },
                     dismiss: function(reason) {
-                        $log.log('modalInstance dismiss');
                         onModalClose();
                         resultDefered.reject(reason);
                     }
@@ -37,10 +35,8 @@
                     var modalElement = $compile(modalTemplate)(scope);
 
                     onModalClose = function() {
-                        $log.log('onModalClose');
                         modalElement.closeModal({
                             complete: function() {
-                                $log.log('onModalClose complete');
                                 scope.$destroy();
                             }
                         });
@@ -49,7 +45,6 @@
                     $document.find('body').append(modalElement);
                     
                     scope.$on('$destroy', function() {
-                        $log.log('scope destroy');
                         modalElement.closeModal();
                         modalElement.remove();
                     });
@@ -60,7 +55,6 @@
                             renderDefered.resolve(modalElement);
                         },
                         complete: function() {
-                            $log.log('modal complete');
                             resultDefered.reject('dismissed');
                             scope.$destroy();
                         }
@@ -84,9 +78,7 @@
                 });
                 
                 modalInstance.result.then(function() {
-                    $log.log('modalInstance result CLOSE');
                 }, function() {
-                    $log.log('modalInstance result DISMISS');
                 });
 
                 return modalInstance;

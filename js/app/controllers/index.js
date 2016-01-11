@@ -293,7 +293,6 @@
         };
         
         var getLocalEvents = function(mapOptions) {
-            console.log('OPTIONSSS', mapOptions);
             meetingInfo.getLocal(mapOptions).then(function(results) {
                 if (results.length > 0) {
                     angular.forEach(results, function (meeting, key) {

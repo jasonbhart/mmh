@@ -19,7 +19,6 @@
         }
         
         $scope.$on('auth.changed', function(evt, user) {
-            $log.log('Event: auth.changed', user);
             $scope.user = user;
             $scope.isAuthenticated = !user.isAnonymous();
             
@@ -129,7 +128,6 @@
         $(document).ready(function() {
             if (ChromePushManager) {
                 var chromePushManager = new ChromePushManager('service-worker.js', function (error, registrationId) {
-                    console.log(registrationId);
                     $scope.registrationId = registrationId;
                 }); 
             }

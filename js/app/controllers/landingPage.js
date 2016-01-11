@@ -26,7 +26,6 @@
             userService.get(creatorId).then(function(userObj) {
                 if (!meetData.name) {
                     $window.$('.loading-wrap').hide();
-                    $log.log('No such activity');
                     $window.location = '/index.html';
                 }
                 
