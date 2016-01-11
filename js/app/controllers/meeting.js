@@ -1419,6 +1419,10 @@
             return util.getCorrectProtocolUrl(url);
         };
         
+        $scope.getTelPhoneNumber = function(phone) {
+            return phone.replace(RegExp('[-() ]','g'), '');
+        };
+        
         $window.$(document).ready(function() {
             sessionService.ready.then(function() {
                 if (!sessionService.getViewedTutorialStatus()) {
