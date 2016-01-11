@@ -1216,7 +1216,8 @@
                 users[$scope.currentUser.id] = {
                     joined: true,
                     where: util.getFirebaseKeys(places),
-                    when: util.getFirebaseKeys(times)
+                    when: util.getFirebaseKeys(times),
+                    creator: true
                 };
             }
             var timeTitle = times[Object.keys(times)[0]] || changeDateToToday($scope.meeting.timeTitle);
