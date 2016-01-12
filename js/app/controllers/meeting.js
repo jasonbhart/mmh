@@ -467,6 +467,10 @@
                                     if ($scope.userGroups.groups && $scope.userGroups.groups[0] && 
                                             !$scope.userGroups.groups[0].hasJoined($scope.currentUser.id)) {
                                         $scope.joinGroup($scope.userGroups.groups[0]);
+                                        
+                                        if ($window.$('.fake-group').is(":visible")) {
+                                            $window.$('.fake-group').hide();
+                                        }
                                     }
                                 }, 500);
                             });
