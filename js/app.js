@@ -50,30 +50,21 @@
     }
     
     function mergeUserDataBySnapshots(srcUserSnap1, dstUserSnap2) {
-        console.log('userSnap1', srcUserSnap1.toString());
-        console.log('userSnap2', dstUserSnap2.toString());
-
         var srcUser1 = srcUserSnap1.val();
         var dstUser2 = dstUserSnap2.val() || {};
         var dstUserRef = dstUserSnap2.ref();
 
-        console.log('dstUserRef', dstUserRef);
-
         var newWhere = getObjectValuesDiff(srcUser1.where, dstUser2.where);
-        console.log('newWhere', newWhere);
         var whereRef = dstUserRef.child('where');
         for (var i=0; i<newWhere.length; i++) {
             whereRef.push(newWhere[i]);
         }
 
         var newWhen = getObjectValuesDiff(srcUser1.when, dstUser2.when);
-        console.log('newWhen', newWhen);
         var whenRef = dstUserRef.child('when');
         for (var i=0; i<newWhen.length; i++) {
             whenRef.push(newWhen[i]);
         }
-
-        console.log('mergeUserDataBySnapshots: done');
     }
 
     mmhApp.controller('main', ['$scope', '$q', '$window', '$log', '$cookies', '$firebaseObject', '$firebaseArray', 'geoLocation', 'userGroupBuilder', '$modal', 'dataProvider', 'util',
@@ -140,13 +131,10 @@
 
         // watch identity changes
         $scope.$watch('identity', function(newVal, oldVal) {
-            console.log('watch', newVal, oldVal);
-
             if (oldVal.id !== newVal.id) {
 
                 // merge user's meet data and remove anonymous user
                 if (oldVal.id !== undefined && oldVal.logged === false) {
-                    console.log('before remove anonymous user', oldVal.id);
                     
                     refs.meetUsers.orderByKey().equalTo(oldVal.id).once('value', function(meetAnonSnap) {
                         // anonymous doesn't exist
@@ -165,10 +153,8 @@
                         refs.meetUsers.orderByKey().equalTo(newVal.id).once('value', function(meetUserSnap) {
                             meetUserSnap = meetUserSnap.child(newVal.id);
 
-                            console.log('merge', meetAnonSnap.ref().toString(), meetUserSnap.ref().toString());
                             mergeUserDataBySnapshots(meetAnonSnap, meetUserSnap);
                             
-                            console.log('removing anonymous user', meetAnonRef.toString());
                             meetAnonRef.remove();
                             anonRef.remove();
                             initUser();
@@ -193,7 +179,6 @@
             var authResponse = {};
 
             function fbAuthStatusChange(response) {
-                console.log('auth.statusChanged', response);
 
                 // somewhy it happens twice
                 if (authResponse.status == response.status && authResponse.authResponse == response.authResponse)
@@ -201,11 +186,8 @@
                 
                 authResponse = response;
                 
-                console.log('auth.statusChanged after');
-
                 if (response.status == 'connected' && response.authResponse) {
                     $window.FB.api('/me', function(response) {
-                        console.log('Facebook: /me', response.id);
                         // user is authenticated, remove anonymousId cookie
                         delete $cookies[anonymousIdCookie];
 
@@ -220,7 +202,6 @@
                                 });
                             } else {
                                 var id = _.keys(snap.val())[0];
-                                console.log('FB user exists', response.id);
                                 changeUser(id, USER_TYPE_FACEBOOK);
                             }
                         });
@@ -287,12 +268,10 @@
         }
 
         function createAnonymousUser(onComplete) {
-            console.log('createAnonymousUser');
             createUser({
                 name: 'Anonymous',
                 logged: false
             }, function(ref) {
-                console.log('createAnonymousUser: ', ref.toString());
                 ref.update({ anonymousid: ref.key() }, function() {
                     onComplete(ref.key());
                 });
@@ -301,7 +280,6 @@
 
         function createUser(user, onComplete) {
             var ref = refs.users.push(user, function() {
-                console.log('createUser: ', ref.toString());
                 ref.update({
                     id: ref.key()
                 }, function() {
@@ -311,7 +289,6 @@
         }
  
         function changeUser(userId, userType) {
-            console.log('Change user: begin ', userId);
             refs.users.orderByChild('id').equalTo(userId).once('value', function(userSnap) {
                 if (!userSnap.exists())
                     return;
@@ -319,8 +296,6 @@
                 var val = userSnap.val();
                 var key = Object.keys(val)[0];
                 var user = val[key];
-
-                console.log('changeUser: found', user.id);
 
                 $scope.$apply(function() {
                     // load identity
@@ -333,7 +308,6 @@
         }
                             
         function initUser() {
-            $log.log('initUser');
 
             var id = $scope.identity.id;
             refs.meetUser = refs.meetUsers.child(id);
@@ -342,7 +316,6 @@
 
             meetUserObject.$loaded().then(function() {
                 // add current user to the current meeting
-                $log.log('initUser: meetId - ' + meetId.toString() + ', userId - ' + id.toString());
                 refs.userSuggestions = refs.suggestions.child(id);
                 refs.meetUser.update({joined: true});
                 refs.userWhere = refs.meetUser.child('where');
@@ -371,7 +344,6 @@
                         function(location) {
                             location.radius = DEFAULT_RADIUS;
                             changeLocation(refs.users.child(userObject.$id), location);
-                            $log.log('geoLocation success', location);
                         }, function(error) {
                             $log.log('geoLocation error', error);
                         }
@@ -469,7 +441,6 @@
                     function(location) {
                         location.radius = result.radius;
                         changeLocation(refs.users.child(userObject.$id), location);
-                        $log.log('geoLocation success', location);
                     }, function(error) {
                         $window.alert('Failed to change location: ' + error);
                         $log.log('geoLocation error', error);
@@ -480,7 +451,6 @@
 
         // helpers
         function makeSelectionTable() {
-            console.log('makeSelectionTable', $scope.suggestions, meetUsersArray, meetUsersArray.length, usersInfo);
 
             var data = {
                 user: null,
@@ -494,7 +464,6 @@
 
                 // meeting user record doesn't have related user
                 if (!formattingData.users[meetUser.$id]) {
-                    console.log(meetUser.$id.toString() + ' doesn\'t have user info');
                     return;
                 }
 
@@ -549,7 +518,6 @@
             $scope.selectionTable = data;
 
             $scope.userGroups = buildUserGroups(formattingData);
-            console.log('User Groups', $scope.userGroups);
         }
         
         function buildUserGroups(formattingData) {
@@ -676,12 +644,10 @@
                 }
                 
                 if (exists && !state) {      // remove
-                    $log.log('toggleJoinGroup Remove: ', snap.ref().toString(), snap.val());
                     snap.ref().remove(function() {
                         defer.resolve({group: group, joined: false});
                     });
                 } else if (!exists && state) {      // add
-                    $log.log('toggleJoinGroup Add: ', snap.ref().toString(), snap.val());
                     snap.ref().set({
                         where: group.whereId,
                         when: group.whenId
@@ -730,7 +696,6 @@
 
         // watch for meet users changes
         var meetUsersEventHandler = function(event) {
-            console.log('user watch', event, _.cloneDeep(meetUsersArray));
             if (event.event == 'child_added') {
                 // load user info
                 

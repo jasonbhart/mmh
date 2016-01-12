@@ -14,6 +14,7 @@
         $scope.currentPage = util.getCurrentPage();
         $scope.currentMeetingId = util.getUrlParams('act');
         $window.$('.loading-wrap').show();
+        $window.$('.time-clock').hide();
         $scope.userName = '';
         
         // load meeting
@@ -23,15 +24,16 @@
         meetingService.getRaw($scope.currentMeetingId).$loaded(function(meetData) {
             var creatorId = getCreatorId(meetData.users);
             userService.get(creatorId).then(function(userObj) {
+                if (!meetData.name) {
+                    $window.$('.loading-wrap').hide();
+                    $window.location = '/index.html';
+                }
+                
+                $window.$('.time-clock').show();
                 $scope.userName = userObj.user.fullName;
                 $scope.$apply();
                 
-                if (!meetData.name) {
-                    $window.$('.loading-wrap').hide();
-                    $log.log('No such activity');
-                    $window.location = '/index.html';
-                }
-
+                
                 $scope.meeting = meetData;
                 $scope.time = moment($scope.meeting.timeTitle).format($scope.timeFormat);
 

@@ -56,11 +56,9 @@
                         content: getEmailBody(emails[i], notificationData, response.data),
                         replyTo: [appConfig.replyEmail]
                     };
-                    console.log(emailData);
 
                     $http.post(appConfig.sendEmailURL, emailData).then(
                         function () {
-                            console.log('Sending Email successfully');
                         },
                         function () {
                             console.log('Sending Email fail');
@@ -74,7 +72,6 @@
         var sendPushNotification = function (resgistrationIds) {
             $http.post(appConfig.sendPushNotificationURL, {resgistrationIds: resgistrationIds}).then(
                 function() {
-                    console.log('Sending Notification successfully');
                 }, 
                 function() {
                     console.log('Sending Notification fail');

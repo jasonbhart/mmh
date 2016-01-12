@@ -45,13 +45,11 @@
 
                 // model -> view
                 ngModelCtrl.$formatters.push(function(modelValue) {
-                    console.log('DateTimePicker model -> view', modelValue);
                     return modelValue || moment().local();
                 });
                 
                 // view -> model
                 ngModelCtrl.$parsers.push(function(viewValue) {
-                    console.log('DateTimePicker view -> model', viewValue);
                     return viewValue;
                 });
                 

@@ -21,7 +21,6 @@
             getLatest: function() {
                 var defer = $q.defer();
                 localMeetingService.getLatest().then(function(meeting) {
-                    $log.log('meetingInfo: latest activity id', meeting);
                     meetingService.getInfo(meeting).then(function(meetingInfo) {
                         meetingInfo = meetingInfo[meeting.meetingId];
 
@@ -100,7 +99,6 @@
 
                 localMeetingService.search(options)
                         .then(function (meetings) {
-                    $log.log('meetingInfo: Local activities', meetings);
                     if (options.exclude) {
                         meetings = _.filter(meetings, function(meet) {
                             return options.exclude.indexOf(meet.meetingId) == -1;

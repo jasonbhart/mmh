@@ -23,6 +23,8 @@
         $scope.groupTimeout = null;
         $scope.categoryIconClass = '';
         $scope.unsubscribeList = [];
+        $scope.rsvpAfterLogin = false;
+        $scope.groupToRSVP = null;
         
         if (document.referrer == '' || (!document.referrer.indexOf('socialivo.com') == -1 && !document.referrer.indexOf('mmh.app') == -1 && !document.referrer.indexOf('localhost') == -1)) {
             $window.location = meetingService.getSharingUrl($scope.currentMeetingId);
@@ -31,7 +33,6 @@
         
         emailService.getUnsubscribeList($scope.currentMeetingId).then(function(unsubscribeList) {
             $scope.unsubscribeList = unsubscribeList;
-            console.log(unsubscribeList);
         });
         
         var formattingData = {
@@ -197,7 +198,7 @@
             initAuth(sessionService.getCurrentUser());
             
             // listen for the future auth change events
-            $scope.$on('auth.changed', function(evt, user, state) {
+            $scope.$on('auth.changed', function(evt, user, state) {         
                 // redirect if state == auth -> anonymous
                 meetingUserSentinel.setUser(user);
                 $scope.usersInfo.setCurrentId(user.id);
@@ -211,6 +212,12 @@
                 $scope.userGroups = buildUserGroups(formattingData);
                 
                 $scope.addMeetingToUser();
+                
+                if ($scope.rsvpAfterLogin && $scope.groupToRSVP) {
+                    $scope.joinGroup($scope.groupToRSVP);
+                    $scope.rsvpAfterLogin = false;
+                    $scope.groupToRSVP = null;
+                }
             });        
         });
         
@@ -229,20 +236,17 @@
                 expireTime: expireTime
             };
             userService.addMeetingToUser($scope.currentUser.id, meetingData).then(function(){
-                console.log('Activity ' + meetingData.id + ' added to User: ' + $scope.currentUser.id);
+//                console.log('Activity ' + meetingData.id + ' added to User: ' + $scope.currentUser.id);
             }, function(error){
                 console.log('Can not add activity to User. Error: ' + error);
             });
         }
         
         var sendNewUserJoinedNotification = function(user, meeting) {
-            console.log(user,meeting);
-            
             var userIds = Object.keys(meeting.users).map(function(value) {
                 return meeting.users[value].$id;
             }); 
             userIds = userIds.filter(function(value) {return value;});
-            console.log(userIds);
             
             var currentUserId = user.id;
             
@@ -321,7 +325,6 @@
             $q.all([whereDefer.promise, whenDefer.promise]).then(function() {
                 $scope.meeting.users.$ref().on('child_added', function(snap) {
                     var userId = snap.key();
-                    $log.log('meeting.js: Participant added to the activity');
 
                     var childRef = snap.ref();
                     var watch = {
@@ -407,7 +410,6 @@
                 });
 
                 $scope.meeting.users.$ref().on('child_removed', function(snap) {
-                    $log.log('User removed from the activity');
                     var userId = snap.key();
 //                    usersWatchList[userId].where.$destroy();
 //                    usersWatchList[userId].when.$destroy();
@@ -465,6 +467,10 @@
                                     if ($scope.userGroups.groups && $scope.userGroups.groups[0] && 
                                             !$scope.userGroups.groups[0].hasJoined($scope.currentUser.id)) {
                                         $scope.joinGroup($scope.userGroups.groups[0]);
+                                        
+                                        if ($window.$('.fake-group').is(":visible")) {
+                                            $window.$('.fake-group').hide();
+                                        }
                                     }
                                 }, 500);
                             });
@@ -477,7 +483,6 @@
             
         }, function() {
             $window.$('.loading-wrap').hide();
-            $log.log('No such activity');
             $window.location = '/index.html';
         });
         
@@ -606,6 +611,15 @@
             if ($scope.currentUser.isAnonymous()) {
                 alert('Please Login to RSVP');
                 dialogs.auth();
+                $scope.rsvpAfterLogin = true;
+                $scope.groupToRSVP = group;
+                return;
+            }
+            
+            if ($scope.meetingUser.userId !== $scope.currentUser.id) {
+                setTimeout(function(){
+                    $scope.joinGroup(group);
+                }, 1000);
                 return;
             }
             
@@ -633,7 +647,7 @@
                 historyService.addHistoryToUser($scope.currentUser.id, $scope.meeting.id, historyData);
                 
                 util.addEventToDataLayer('Activity', 'Interaction', 'RSVP', null);
-            }
+            }           
             $scope.meetingUser.joinGroup(
                 {
                     whereId: group.where.$id,
@@ -691,8 +705,6 @@
                 if (!result)
                     return;
                 
-                $log.log('Change location:', result);
-
                 geoLocation.getLocality(result.position.lat, result.position.lng).then(
                     function(locality) {
                         location = {
@@ -701,7 +713,6 @@
                             shortName: locality.shortName
                         };
                         currentUser.updateLocation(location);
-                        $log.log('geoLocation success', location);
                     }, function(error) {
                         $window.alert('Failed to change location: ' + error);
                         $log.log('geoLocation error', error);
@@ -747,7 +758,6 @@
             
             dialog.result.then(function(places) {
                 addPlaceNotification(angular.copy($scope.meeting.where), places);
-                $log.log('Show places result:', places);
                 _.forEach(places, function(place) {
 
                     $scope.meeting.toggleWhere(place, true).then(function(whereId) {
@@ -882,7 +892,6 @@
                     meetId: $scope.meeting.id,
                     meetName: $scope.meeting.name
                 };
-                console.log(notificationData);
                 
                 var sendingEmails = [];
                 var resgistrationIds = [];
@@ -1021,7 +1030,6 @@
             var dialog = dialogs.userMeetingTimes(timesProvider);
             dialog.result.then(function(times) {
                 addTimeNotification(angular.copy($scope.meeting.when), times);
-                $log.log('Show times result:', times);
                 // remove times
 //                $scope.meetingUser.removeAllWhen();
                 
@@ -1221,7 +1229,6 @@
                 if (data.where.length > 0) {
                     // add place to the local Events
                     localMeetingService.add(meetingId, '0', data.where[0].location.coordinate, data.timeTitle).then(function() {
-                        console.log('Added meeting to local meeting lists');
                     });
                 }
 
@@ -1414,6 +1421,10 @@
         
         $scope.getCorrectProtocolUrl = function(url) {
             return util.getCorrectProtocolUrl(url);
+        };
+        
+        $scope.getTelPhoneNumber = function(phone) {
+            return phone.replace(RegExp('[-() ]','g'), '');
         };
         
         $window.$(document).ready(function() {

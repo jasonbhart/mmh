@@ -9,7 +9,6 @@
         var ref = new Firebase(appConfig.firebaseUrl);
         
         var addNotificationToUser = function (userId, notificationData) {
-            console.log('Adding notification to user', userId, notificationData);
             ref.child('notifications').child(userId).push(notificationData)
         };
         

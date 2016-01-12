@@ -9,7 +9,6 @@
         var ref = new Firebase(appConfig.firebaseUrl);
         
         var addHistoryToUser = function (userId, meetId, historyData) {
-            console.log('Adding history to user', userId, historyData);
             ref.child('history').child(userId).child(meetId).set(historyData);
         };
         
