@@ -170,8 +170,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                             </p>
                                             <div class="box-white places-area">
                                                 <ul class="choose-list">
-                                                    <li ng-class="where.selected ? 'selected' : ''" class="place-info" ng-repeat="where in usersInfo.current.where" ng-click="togglePlace(where)">
-                                                        <span style="margin-left: 3px">{{ where.name }}</span>
+                                                    <li ng-class="where.selected ? 'selected' : ''" class="place-info" ng-repeat="where in usersInfo.current.where">
+                                                        <span  ng-click="togglePlace(where)" style="margin-left: 3px">{{ where.name }}</span>
                                                         <a class="icon"></a>
                                                          <div class="tooltip-pleaces">
                                                             <i class="fa fa-caret-down arrow"></i>
@@ -192,8 +192,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                             <p>Times</p>
                                             <div class="box-white times-area">
                                                 <ul class="choose-list">
-                                                    <li ng-class="when.selected ? 'selected' : ''" class="time-info" ng-repeat="when in usersInfo.current.when" ng-click="toggleTime(when)">
-                                                        <span style="margin-left: 3px">{{ when.whenFormatted }}</span>
+                                                    <li ng-class="when.selected ? 'selected' : ''" class="time-info" ng-repeat="when in usersInfo.current.when">
+                                                        <span  ng-click="toggleTime(when)" style="margin-left: 3px">{{ when.whenFormatted }}</span>
                                                         <a class="icon"></a>
                                                         <div class="tooltip-pleaces">
                                                             <i class="fa fa-caret-down arrow"></i>

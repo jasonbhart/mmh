@@ -1424,6 +1424,9 @@
         };
         
         $scope.getTelPhoneNumber = function(phone) {
+            if (!phone) {
+                return '';
+            }
             return phone.replace(RegExp('[-() ]','g'), '');
         };
         
