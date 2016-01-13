@@ -100,11 +100,19 @@
         };
         
         $('.notifications').click(function(e) {
+            var left = 320;
+            var currentLeftPosition = $('.notifications').offset().left;
+            if (currentLeftPosition < left - 35) {
+                left = currentLeftPosition + 35;
+                $(this).find('.icon.arow').css({right: (340-left) + 'px'});
+            } else {
+                $(this).find('.icon.arow').css({right: '20px'});
+            }
             $('#notifications-info').css({
                 width: '0px',
                 position: 'absolute',
                 top: '0px',
-                left: '-320px',
+                left: '-' + left + 'px',
                 opacity: 1,
                 display: 'block'
             });
