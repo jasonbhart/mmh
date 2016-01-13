@@ -188,6 +188,7 @@
         }
         
         $window.$(document).ready(function() {
+            $.mobile.ajaxEnabled = false;
             $scope.fireSwipeEvent();
         });
         
