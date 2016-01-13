@@ -9,7 +9,7 @@
 .mobile-page .other-meetings .thumb{float:left; margin-right:15px;}
 .mobile-page .other-meetings .info{padding:0; display:table-cell}
 .mobile-page .buddy .title{margin:0 0 15px; font-weight:700;}
-.landing-page .tag-line{margin-top:-25px}
+.landing-page .tag-line{margin:-10px 5px 0}
 .other-meetings p{margin:0}
 .mobile-page .time{background:url(../image/clock-icon.png) no-repeat 0 1px; background-size:25px auto; padding-left:35px; font-size:22px; color:#e44424; font-weight:700; margin-top:14px;}
 #container {
