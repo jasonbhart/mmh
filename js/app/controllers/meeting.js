@@ -1432,7 +1432,7 @@
         
         $window.$(document).ready(function() {
             sessionService.ready.then(function() {
-                if (!sessionService.getViewedTutorialStatus()) {
+                if (!sessionService.getViewedTutorialStatus() && !util.getUrlParams('rsvp')) {
                     setTimeout(function(){
                         $scope.startTutorial();
                         sessionService.setViewedTutorialStatus();
