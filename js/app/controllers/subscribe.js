@@ -33,8 +33,10 @@
         userId = decodeURIComponent(userId);
         
         if (!meetingId || meetingId === 'all') {
+            util.addEventToDataLayer('Subscribe Page', 'Subscribe', 'All activity', userId);
             emailService.subscribeAll(userId);
         } else {
+            util.addEventToDataLayer('Subscribe Page', 'Subscribe', 'One activity', userId + ' @ ' + meetingId);
             emailService.subscribeActivity(meetingId, userId);
         }
         

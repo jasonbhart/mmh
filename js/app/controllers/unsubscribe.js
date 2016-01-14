@@ -35,8 +35,10 @@
         userId = decodeURIComponent(userId);
         
         if (!meetingId || meetingId === 'all') {
+            util.addEventToDataLayer('Unsubscribe Page', 'Unsubscribe', 'All activity', userId);
             emailService.unsubscribeAll(userId);
         } else {
+            util.addEventToDataLayer('Unsubscribe Page', 'Unsubscribe', 'One activity', userId + ' @ ' + meetingId);
             emailService.unsubscribeActivity(meetingId, userId);
         }
         

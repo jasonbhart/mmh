@@ -63,6 +63,7 @@
         }
         
         $scope.showAllHistory = function () {
+            util.addEventToDataLayer('History Page', 'Show all activities', null, null);
             historyService.getLastHistory($scope.currentUser.id, 100).then(function(history) {
                 $scope.history = categoryHistoryByDate(history);
                 $scope.showedAll = true;
@@ -75,6 +76,7 @@
         };
         
         $scope.createActivity = function (meetId) {
+            util.addEventToDataLayer('History Page', 'Create Activity', null, meetId);
             $window.$('.loading-wrap').show();
             meetingService.getRaw(meetId).$loaded(function(meetData) {
                 var times   = getTimeFromTemplate(meetData.when);
