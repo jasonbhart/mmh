@@ -108,12 +108,14 @@
                 }
                 return result;
             },
-            formatPhone: function (phone) {
+            formatUsPhone: function (phone) {
                 if (!phone) {
                     return '';
                 }
                 var parts = phone.split('-');
-                return parts[0] + ' (' + parts[1] + ') ' + parts[2] + ' ' + parts[3];
+                var formatedPhone = parts[0] + ' (' + parts[1] + ') ' + parts[2] + ' ' + parts[3];
+                
+                return formatedPhone.replace('+1 ', '');
             }
         }
     }]);
