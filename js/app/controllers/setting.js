@@ -1,5 +1,5 @@
 ;(function () {
-    "use strict";
+    //"use strict";
 
     var app = angular.module('mmh.controllers');
 
@@ -10,6 +10,19 @@
         $scope.disableEmailNoti = false;
         
         $window.$('.loading-wrap').show();
+        
+        loadingUserAccountFile = 'fail';
+        loadingUser = 'fail';
+        loadingNotification = 'fail';
+        registerServiceWorker = 'fail';
+        
+        setTimeout(function() {
+            var message = "Loading user account file " + loadingUserAccountFile + "\n" + 
+                          "Loading user " + loadingUser + "\n" + 
+                          "Loading notification " + loadingNotification + "\n" + 
+                          "Register service worker " + registerServiceWorker ;
+                  alert(message);
+        }, 15000);
         
         sessionService.ready.then(function() {
             var initAuth = function(user) {

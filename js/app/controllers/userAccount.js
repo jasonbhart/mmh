@@ -1,5 +1,5 @@
 ;(function () {
-    "use strict";
+    //"use strict";
 
     var app = angular.module('mmh.controllers');
     app.controller('UserAccountController', ['$scope', '$log', 'sessionService', 'dialogs', 'notificationService', '$sce', '$window','util', 'userService',
@@ -9,6 +9,8 @@
         $scope.countNotification = '';
         $scope.notifications = [];
         $scope.registrationId = '';
+        
+        loadingUserAccountFile = 'ok';
 
         $scope.login = function() { 
             dialogs.auth();
@@ -19,16 +21,19 @@
         }
         
         $scope.$on('auth.changed', function(evt, user) {
+            loadingUser = 'ok';
             $scope.user = user;
             $scope.isAuthenticated = !user.isAnonymous();
             
             notificationService.trackNotification(user.id);
+            loadingNotification = 'ok';
             
             if ($scope.registrationId) {
                 userService.get(user.id).then(function(userObj) {
                     userObj.saveRegistrationId($scope.registrationId);
                 });
             }
+            registerServiceWorker = 'ok';
         });
         
         $scope.$watch('countNotification', function (newValue, oldValue) {
