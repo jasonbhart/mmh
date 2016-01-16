@@ -58,12 +58,12 @@
         }
         
         $scope.yes = function() {
-            util.addEventToDataLayer('Landing Page', 'Step 1', 'Yes', $scope.currentMeetingId);
+            util.addEventToDataLayer('Landing Page', 'Step 1', 'Select Yes', $scope.currentMeetingId);
             $window.location = 'activity.html?act=' + $scope.currentMeetingId + '&rsvp=1';
         }
         
         $scope.no = function() {
-            util.addEventToDataLayer('Landing Page', 'Step 1', 'No', $scope.currentMeetingId);
+            util.addEventToDataLayer('Landing Page', 'Step 1', 'Select No', $scope.currentMeetingId);
             $window.location = 'landing_page_confirm.html?act=' + $scope.currentMeetingId;
         }
     }]);
