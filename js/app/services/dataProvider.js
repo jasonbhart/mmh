@@ -69,6 +69,9 @@
                     if (options.offset) {
                         searchOptions.offset = options.offset;
                     }
+                    if (options.name) {
+                        searchOptions.name = options.name;
+                    }
                     // search limit - number of fetch items upon cliking show more
                     if (options.limit) {
                         searchOptions.limit = options.limit;
