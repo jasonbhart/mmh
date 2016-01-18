@@ -1,0 +1,4 @@
+Options +FollowSymLinks
+RewriteEngine On
+RewriteCond %{HTTP_USER_AGENT} facebookexternalhit [NC]
+RewriteRule ^test2.php(.*)$ http://test.vohan.com/test3.php$1
