@@ -435,19 +435,19 @@
                     $scope.changeLocation = false;
                 }
                 
-                if (util.getUrlParams('addTime')) {
+                if (util.getUrlParams('addTime') && !$scope.ended) {
                     sessionService.ready.then(function() {
                         $scope.addTimes();
                     });
                 }
                 
-                if (util.getUrlParams('addPlace')) {
+                if (util.getUrlParams('addPlace') && !$scope.ended) {
                     sessionService.ready.then(function() {
                         $scope.addPlaces();
                     });
                 }
                 
-                if (util.getUrlParams('rsvp')) {
+                if (util.getUrlParams('rsvp') && !$scope.ended) {
                     sessionService.ready.then(function() {
                         $scope.usersInfo.setCurrentId($scope.currentUser.id);
                         meeting.addUser($scope.currentUser.id).then(function() {
@@ -489,7 +489,7 @@
         var checkIfFinished = function (times) {
             var finished = true;
             _.forEach(times, function(time) {
-                if (moment().diff(moment(time.$value)) < 3600 * 1000) {
+                if (moment().diff(moment(time.$value)) < 2 * 3600 * 1000) {
                     finished = false;
                 }
             });
@@ -1054,7 +1054,7 @@
                 
                 util.addEventToDataLayer('Activity', 'Interaction', 'Unselect Time', time.whenFormatted);
                 $scope.changingGroups = true;
-            } else if (moment().diff(time.when) <= 0) {
+            } else if (moment().diff(time.when) <= 2 * 3600 * 1000) {
                 $scope.meetingUser.toggleWhen(time.id, true);
                 $scope.addMeetingToUser();
                 
