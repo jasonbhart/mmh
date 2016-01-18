@@ -1,0 +1,5 @@
+Options +FollowSymLinks
+RewriteEngine On
+RewriteCond %{HTTP_USER_AGENT} facebookexternalhit [NC]
+RewriteRule ^activity.html(.*)$ http://socialivo.com:8080/shareFacebook$1 [L,R,NC]
+RewriteRule ^readme /README.md [L]

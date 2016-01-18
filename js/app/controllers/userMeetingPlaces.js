@@ -37,6 +37,7 @@
                 options.radius = null;
             } else {
                 options.term = $scope.business_name;
+                options.name = $scope.business_name;
                 options.location = null;
             }
             
