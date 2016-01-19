@@ -277,7 +277,14 @@
                 term: ($scope.what !== 'other') ? $scope.what : $scope.term,
                 category_filter: ($scope.what !== 'other') ? $scope.what : $scope.term,
                 distance_unit: $scope.currentUser.user.distance_unit || 'foot'
+            };
+            
+            // #432 modify the filter so that "sports bars" and "pubs" subcategories are also include in Go eat
+            if ($scope.what === 'restaurants') {
+                options.category_filter = 'restaurants,sportsbars,pubs';
             }
+                
+                
             var dialog = dialogs.addManualBusiness($scope.getWhereQueryOptions(options, true));
             dialog.result.then(function(business) {
                 if (Object.keys(JSON.parse(business)).length === 0) {
