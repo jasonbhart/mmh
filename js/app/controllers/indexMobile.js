@@ -159,7 +159,7 @@
                 }
                 var meetId = this.id;
                 setTimeout(function () {
-                    $window.location = meetingService.getActivityUrl($scope.otherMeetings[meetId].id)
+                    $window.location = meetingService.getActivityUrl($scope.otherMeetings[meetId].id) + '&rsvp=1';
                     $('#yes').removeClass('yes');
                 }, 500);
             });
