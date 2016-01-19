@@ -123,7 +123,7 @@
             
             e.stopPropagation();
         });
-        $('.notifications .dropdown-button').click(function() {
+        $('.notifications .dropdown-button .notification-icon').click(function() {
             if ($('#notifications-info').is(':visible')) {
                 $('#notifications-info').hide();
                 return false;
