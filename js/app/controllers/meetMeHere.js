@@ -187,6 +187,7 @@
                 $scope.addManualBusiness();
                 return;
             }
+            $window.$('.loading-wrap').show();
             
             var times   = getISOFormatedTimes();
             var places  = getFormatedEstablishment();
@@ -217,6 +218,7 @@
                 addMeetingToHistory(data);
                 
                 setTimeout(function() {
+                    $window.$('.loading-wrap').hide();
                     $window.location = 'activity.html?act=' + meetingId;
                 }, 1000);
                 
