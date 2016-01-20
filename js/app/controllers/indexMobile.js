@@ -163,7 +163,7 @@
                     $('#yes').removeClass('yes');
                 }, 500);
             });
-
+            
             $(".buddy").on("swipeleft", function () {
                 $('#no').addClass('no');
                 $(this).addClass('rotate-right').delay(700).fadeOut(1);
@@ -176,20 +176,42 @@
                 } else {
                     $("#left-right").hide();
                 }
-                
+
                 if (this.id == 0) {
                     $window.location = '/index.html?callback=1';
                 }
-                
+
                 setTimeout(function () {
                     $('#no').removeClass('no');
                 }, 500);
             });
         }
         
+        var findActiveBuddyId = function() {
+            var max = 0;
+            $(".buddy").each(function() {
+                if ($(this).is(":visible") && this.id > max){
+                   max = this.id;
+                }
+            });
+            
+            return max;
+        }
+        
         $window.$(document).ready(function() {
             $.mobile.ajaxEnabled = false;
             $scope.fireSwipeEvent();
+            
+            
+            $('#yes').click(function(){
+                var activeBuddy = findActiveBuddyId();
+                $("#" + activeBuddy).swiperight();
+            });
+            
+            $('#no').click(function(){
+                var activeBuddy = findActiveBuddyId();
+                $("#" + activeBuddy).swipeleft();
+            });
         });
         
         $scope.formatTime = function (isoString) {
