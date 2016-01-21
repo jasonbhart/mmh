@@ -242,14 +242,7 @@
         }
         
         var addMeetingToCategory = function(data) {
-            var categoryId = 'Others';
-            
-            for (var i in data.where) {
-                if (data.where[i].type) {
-                    categoryId = data.where[i].type;
-                    break;
-                }
-            }
+            var categoryId = 'Meet Me Here';
             
             var meetingData = {
                 id: $scope.meetingId,
