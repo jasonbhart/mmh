@@ -33,13 +33,16 @@
             });
             
             $scope.changeDistanceUnit = function() {
+                $window.$('.loading-wrap').show();
                 util.addEventToDataLayer('Setting Page', 'Change distance unit', $scope.distance_unit, null);
                 userService.get($scope.currentUser.id).then(function(userObj) {
                     userObj.saveDistanceUnit($scope.distance_unit);
+                    $window.$('.loading-wrap').hide();
                 });
             }
             
             $scope.setDisableEmailNotiConfig = function(value) {
+                $window.$('.loading-wrap').show();
                 if (value) {
                     util.addEventToDataLayer('Setting Page', 'Change email notification setting', 'Off', null);
                 } else {
@@ -48,6 +51,7 @@
                 userService.get($scope.currentUser.id).then(function(userObj) {
                     userObj.setDisableEmailNoti(value);
                     $scope.disableEmailNoti = value;
+                    $window.$('.loading-wrap').hide();
                 });
             };
         });
