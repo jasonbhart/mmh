@@ -136,7 +136,7 @@
                     <div class="buddy" id="{{$index}}" style="display: block;" ng-repeat="meeting in otherMeetings">
                         <h3 class="title"> Do you want to {{meeting.name}} at {{meeting.where.name}}?</h3>
                         <div class="other-meetings">
-                            <span class="thumb"><img ng-src="https://s3-media1.fl.yelpcdn.com/bphoto/_PMngQ-SRKg3EELZTEinhg/ms.jpg" alt=""></span>
+                            <span class="thumb"><img ng-src="{{meeting.where.image_url}}" alt=""></span>
                             <div class="info">
                                 <p class="address"><span class="icon"></span><span class="txt">{{ meeting.where.location.display_address }}<span class="subtext">{{ meeting.where.name }}</span></span></p>
                                 <p class="time">{{ meeting.formatedTime }}</p>
@@ -148,8 +148,8 @@
                 <div class="footer center">
                     <p class="txt">Do you want to go?</p>
                     <div class="btn-area">
-                        <span class='btn-right btn-tinder' id="no"><span>No</span></span>
-                        <span class='btn-left btn-tinder' id="yes"><span>Yes</span></span>
+                        <span class='btn-right btn-tinder' id="no" style="cursor: pointer;"><span>No</span></span>
+                        <span class='btn-left btn-tinder' id="yes" style="cursor: pointer;"><span>Yes</span></span>
                     </div>
                 </div>
             </div>
