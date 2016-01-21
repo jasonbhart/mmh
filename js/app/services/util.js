@@ -3,7 +3,7 @@
 
     var app = angular.module('mmh.services');
 
-    app.factory('util', ['appConfig', function(appConfig) {
+    app.factory('util', ['appConfig', '$http', function(appConfig, $http) {
         return {
             joinPaths: function() {
                 if (arguments.length == 0)
@@ -116,7 +116,7 @@
                 var formatedPhone = parts[0] + ' (' + parts[1] + ') ' + parts[2] + ' ' + parts[3];
                 
                 return formatedPhone.replace('+1 ', '');
+                    }
             }
-        }
     }]);
 })();

@@ -133,11 +133,33 @@
             $('#notifications-info').hide();
         });
         
+        var sendMessage = function (message) {
+            return new Promise(function (resolve, reject) {
+                var messageChannel = new MessageChannel();
+                messageChannel.port1.onmessage = function (event) {
+                    if (event.data.error) {
+                        reject(event.data.error);
+                    } else {
+                        resolve(event.data);
+                    }
+                };
+                if (navigator.serviceWorker && navigator.serviceWorker.controller && navigator.serviceWorker.controller.postMessage) {
+                    navigator.serviceWorker.controller.postMessage(message, [messageChannel.port2]);
+                }
+            });
+        }
+        
         $(document).ready(function() {
             if (ChromePushManager) {
                 var chromePushManager = new ChromePushManager('service-worker.js', function (error, registrationId) {
+                    console.log(registrationId);
                     $scope.registrationId = registrationId;
+                    sendMessage({action: 'send guid', guid: $.cookie('guid')});
                 }); 
+                setTimeout(function() {
+                    //navigator.serviceWorker.controller.postMessage({'hello': 'world'})
+                }, 1000);
+                
             }
             
         });
