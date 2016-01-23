@@ -457,9 +457,19 @@
                                 if ($scope.usersInfo.current.where[0] && !$scope.usersInfo.current.where[0].selected) {
                                     $scope.togglePlace($scope.usersInfo.current.where[0]);
                                 }
-
-                                if ($scope.usersInfo.current.when[0] && !$scope.usersInfo.current.when[0].selected) {
-                                    $scope.toggleTime($scope.usersInfo.current.when[0]);
+                                
+                                var selectedTimeIndex = 0;
+                                if (util.getUrlParams('selectedTime')) {
+                                    for (var key in $scope.usersInfo.current.when) {
+                                        if (util.getUrlParams('selectedTime') == $scope.usersInfo.current.when[key].id) {
+                                            selectedTimeIndex = key;
+                                            break;
+                                        }
+                                    }
+                                }
+                                
+                                if ($scope.usersInfo.current.when[selectedTimeIndex] && !$scope.usersInfo.current.when[selectedTimeIndex].selected) {
+                                    $scope.toggleTime($scope.usersInfo.current.when[selectedTimeIndex]);
                                 }
                                 
                                 setTimeout(function(){

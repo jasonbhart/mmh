@@ -17,6 +17,7 @@
         $window.$('.loading-wrap').show();
         $window.$('.time-clock').hide();
         $scope.userName = '';
+        $scope.selectedTime = false;
         
         // load meeting
         if (!$scope.currentMeetingId) {
@@ -47,7 +48,29 @@
 
 
                     $scope.meeting = meetData;
+                    
                     $scope.time = moment($scope.meeting.timeTitle).format($scope.timeFormat);
+                    var currentTime = moment().format($scope.timeFormat);
+                    var futureTime = false;
+                    
+                    // select the nearest future time with current time, and get its object key
+                    if ($scope.time < currentTime) {
+                        angular.forEach($scope.meeting.when, function (time, key) {
+                            var formattedTime = moment(time).format($scope.timeFormat);
+                            if (formattedTime > currentTime) {
+                                if (futureTime) {
+                                    if (formattedTime < $scope.time) {
+                                        $scope.time = formattedTime;
+                                        $scope.selectedTime = key;
+                                    }
+                                } else {
+                                    $scope.time = formattedTime;
+                                    futureTime = true;
+                                    $scope.selectedTime = key;
+                                }
+                            }
+                        });
+                    }
 
                     if ($scope.meeting.where) {
                         var whereKeys = Object.keys($scope.meeting.where);
@@ -71,7 +94,12 @@
 
             $scope.yes = function() {
                 util.addEventToDataLayer('Landing Page', 'Step 1', 'Select Yes', $scope.currentMeetingId);
-                $window.location = 'activity.html?act=' + $scope.currentMeetingId + '&rsvp=1';
+                var redirectUrl = 'activity.html?act=' + $scope.currentMeetingId + '&rsvp=1';
+                if ($scope.selectedTime) {
+                    redirectUrl += '&selectedTime=' + $scope.selectedTime;
+                }
+                
+                $window.location = redirectUrl;
             }
 
             $scope.no = function() {
