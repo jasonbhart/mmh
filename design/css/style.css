@@ -603,3 +603,7 @@ img{max-width: 100%;}
     .place-info:hover .tooltip-pleaces{display:none;}
     .time-info:hover .tooltip-pleaces{display:none;}
 }
+
+.alert-warning {color:#896d3b ;background-color:#fdf9ed ; border:1px solid #f6e1b4 ;padding:10px;margin-bottom:20px;border-radius: 4px; font-size:16px;}
+.alert-warning a{color:#896d3b ; text-decoration:underline;}
+.alert-warning .fa{font-size:20px; margin-right:5px; vertical-align:text-bottom;}
