@@ -30,6 +30,7 @@
         $scope.suggestionCache = {};
         $scope.locationName = '';
         $scope.showTip = false;
+        $scope.currentPosition = null;
         
         $scope.showManualBusiness = false;
         $scope.manualBusinessInfo = {};
@@ -451,19 +452,12 @@
                     options.coords = $scope.currentUser.user.location.coords;
                     $scope.locationName = '(' + $scope.currentUser.user.location.shortName + ')';
                 } else {
-                    var currentLocation = geoLocation.getCurrentLocation();
-                    currentLocation.then(function(position) {
-                        if (position.coords.lat && position.coords.lng) {
-                                options.coords = {lat: position.coords.lat, lng: position.coords.lng};
-                            // Boston location for testing purpose
-//                            options.coords = {lat: '42.3133735', lng: '-71.0571571,12'};
-                        }
-                        if (position.shortName) {
-                            $scope.locationName = '(' + position.shortName + ')';
-                        }
-                    }, function() {
-                        $log.log('Can not find current location');
-                    });
+                    if ($scope.currentPosition && $scope.currentPosition.coords.lat && $scope.currentPosition.coords.lng) {
+                        options.coords = {lat: $scope.currentPosition.coords.lat, lng: $scope.currentPosition.coords.lng};
+                    }
+                    if ($scope.currentPosition && $scope.currentPosition.shortName) {
+                        $scope.locationName = '(' + $scope.currentPosition.shortName + ')';
+                    }
                 }
 
                 options.radius = util.convertMilesToKms($scope.where);
@@ -772,6 +766,17 @@
         $scope.isToday = function (isoString) {
             return moment().format('YYYYMMDD') <= moment(isoString).format('YYYYMMDD');
         };
+        
+        var getCurrentLocation = function () {
+            var currentLocation = geoLocation.getCurrentLocation();
+            currentLocation.then(function(position) {
+                $scope.currentPosition = position;
+            }, function() {
+                $log.log('Can not find current location');
+            });
+        };
+        
+        getCurrentLocation();
         
         $window.$(document).ready(function () {
             $window.$('#contents').show();
