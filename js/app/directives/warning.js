@@ -14,6 +14,11 @@
                 }, function(){
                     scope.gpsDisabled = true;
                 }, {maximumAge: 60000});
+                
+                if (Notification && Notification.permission === 'denied') {
+                    scope.notificationDisabled = true;
+                }
+                
             }
         };
     }]);
