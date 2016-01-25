@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <meta property="og:site_name" content="Socialivo"/>
+    <meta property="og:title" content="The WHO, WHEN, WHERE of what's hapenning right now"/>
+    <meta property="og:description" content="Click to join me or to suggest an alternative..."/>
+    <meta property="og:image" content="https://www.socialivo.com/design/image/favicon.png">
+	<title>Socialivo</title>
+	<!-- CSS  -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/design/image/favicon/apple-touch-icon-57x57.png"/>
+    <link rel="apple-touch-icon" sizes="60x60" href="/design/image/favicon/apple-touch-icon-60x60.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="/design/image/favicon/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="76x76" href="/design/image/favicon/apple-touch-icon-76x76.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="/design/image/favicon/apple-touch-icon-114x114.png"/>
+    <link rel="apple-touch-icon" sizes="120x120" href="/design/image/favicon/apple-touch-icon-120x120.png"/>
+    <link rel="apple-touch-icon" sizes="144x144" href="/design/image/favicon/apple-touch-icon-144x144.png"/>
+    <link rel="apple-touch-icon" sizes="152x152" href="/design/image/favicon/apple-touch-icon-152x152.png"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="/design/image/favicon/apple-touch-icon-180x180.png"/>
+    <link rel="icon" type="image/png" href="/design/image/favicon/favicon-32x32.png" sizes="32x32"/>
+    <link rel="icon" type="image/png" href="/design/image/favicon/favicon-194x194.png" sizes="194x194"/>
+    <link rel="icon" type="image/png" href="/design/image/favicon/favicon-96x96.png" sizes="96x96"/>
+    <link rel="icon" type="image/png" href="/design/image/favicon/android-chrome-192x192.png" sizes="192x192"/>
+    <link rel="icon" type="image/png" href="/design/image/favicon/favicon-16x16.png" sizes="16x16"/>
+    <!-- <link rel="manifest" href="manifest.json"> -->
+    <link rel="manifest" href="/design/image/favicon/manifest.json"/>
+    <link rel="mask-icon" href="/design/image/favicon/safari-pinned-tab.svg" color="#5bbad5 "/>
+    <link rel="shortcut icon" href="/design/image/favicon/favicon.ico"/>
+    <meta name="apple-mobile-web-app-title" content="Socialivo"/>
+    <meta name="application-name" content="Socialivo"/>
+    <meta name="msapplication-TileColor" content="#696969 "/>
+    <meta name="msapplication-TileImage" content="/design/image/favicon/mstile-144x144.png"/>
+    <meta name="msapplication-config" content="/design/image/favicon/browserconfig.xml"/>
+    <meta name="theme-color" content="#ffffff "/>
+    <link href="design/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="design/css/font-awesome.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="design/css/layout.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="design/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="design/css/joyride-2.1.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <!--  Scripts-->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="design/js/materialize.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js"></script> 
+    <script src="design/js/bootstrap-datetimepicker.js"></script>
+    <script src="design/js/jquery.selectBox.js"></script>
+    <script src="design/js/prism.js"></script>
+    <script src="design/js/init.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="design/js/jquery.joyride-2.1.js"></script>
+    <script src="design/js/modernizr.mq.js"></script>
+
+    <script src="//cdn.firebase.com/js/client/2.2.9/firebase.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular-cookies.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angularFire/1.1.3/angularfire.min.js"></script>
+    <script src="js/rsvp.js"></script>
+    <script src="js/geofire.js"></script>
+    <script src="js/angular-materialize.js"></script>
+    <script src="js/ChromePushManager.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDqyBR4bu0xg0l9ypkVNs61agcZ14eAJN4"></script>
+
+    <script src="js/app.js"></script>
+    <script src="js/app/directives.js"></script>
+    <script src="js/app/directives/localMeetings.js"></script>
+    <script src="js/app/directives/warning.js"></script>
+    <script src="js/app/directives/footer.js"></script>
+    <script src="js/app/services.js"></script>
+    <script src="js/app/services/appConfig.js"></script>
+    <script src="js/app/services/dataProvider.js"></script>
+    <script src="js/app/services/dialogs.js"></script>
+    <script src="js/app/services/geoLocation.js"></script>
+    <script src="js/app/services/localMeeting.js"></script>
+    <script src="js/app/services/meetingInfo.js"></script>
+    <script src="js/app/services/meeting.js"></script>
+    <script src="js/app/services/modal.js"></script>
+    <script src="js/app/services/user.js"></script>
+    <script src="js/app/services/googleMap.js"></script>
+    <script src="js/app/filters/customFilters.js"></script>
+    <script src="js/app/services/session.js"></script>
+    <script src="js/app/services/util.js"></script>
+    <script src="js/app/services/category.js"></script>
+    <script src="js/app/services/notification.js"></script>
+    <script src="js/app/services/email.js"></script>
+    <script src="js/app/services/errorLogging.js"></script>
+    <script src="js/app/controllers.js"></script>
+    <script src="js/app/controllers/authModal.js"></script>
+    <script src="js/app/controllers/locationMap.js"></script>
+    <script src="js/app/controllers/userAccount.js"></script>
+    <script src="js/app/controllers/gps.js"></script>
+    <script src="js/app/controllers/snippet.js"></script>
+</head>
+<body>
+    <!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-MC8MMV"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MC8MMV');</script>
+<!-- End Google Tag Manager -->
+	<div id="container" class="homepage" ng-app="mmh" ng-controller="GpsController">
+		<header>
+			<nav id="header" class="top-nav">
+                <h1 id="logo"><a href="/">Socialivo</a><span id="logo-dot"></span></h1>
+                <span class="tagline">The WHO, WHEN, WHERE of WHAT's happening right now</span>
+                <div id="top-right" class="pull-right" ng-controller="UserAccountController">
+                    <div class="notifications">
+                        <a class="dropdown-button info on" href="#" data-activates="notifications-info" title="Notifications">
+                            <span id="notification-icon-dot"></span><i class="icon notification-icon"></i><span class="alert-bubble" ng-show="countNotification" ng-bind="countNotification"></span>
+                        </a>
+                        <div id="notifications-info" class="dropdown-content">
+                            <p class="notifLabel">Notifications</p>
+                            <ul>
+                                <li ng-repeat="(key, notification) in notifications">
+                                    <a class="notification-content" href="activity.html?act={{ notification.meetId }}" ng-bind-html="getNotificationText(notification)"></a>
+                                    <a class="icon" title="Delete" ng-click="clearNotification(key, notification.id)"></a>
+                                </li>
+                                <li ng-click="clearAllNotification()" ng-show="notifications.length"><a>CLEAR ALL</a></li>
+                            </ul>
+                            <span class="icon arow"></span>
+                        </div>
+                    </div>
+                    <div class="account button-span">
+                        <div class="user-link" ng-if="!isAuthenticated">
+                                <a class="btn btn-flat waves-effect waves-ripple modal-trigger" ng-click="login()">
+                                    <i class="fa fa-user"></i> Login/Signup
+                                </a>
+                        </div>
+                        <div ng-if="isAuthenticated">
+                            <a class="dropdown-button info" href="javascript:void(0)" data-activates="account-info" data-hover="true" dropdown>
+                                <span class="thumb"><img ng-src="{{ user.getProfileImageURL() }}" alt=""></span>
+                                <span class="name">
+                                    {{ user.fullName }}<i class="icon"></i>
+                                </span>
+                            </a>
+                            <div id="account-info" class="dropdown-content">
+                                <ul>
+                                    <!--<li><a href="#none">Profile</a></li>-->
+                                    <!--<li><a href="#none">Settings</a></li>-->
+                                    <li><a ng-click="startTutorial()">Page tour</a></li>
+                                    <li><a href="setting.html">Settings</a></li>
+                                    <li><a href="history.html">History</a></li>
+                                    <li><a ng-click="logout()">Logout</a></li>
+                                </ul>
+                                <span class="icon arow"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <div class="container"><a href="#" data-activates="nav-mobile" class="button-collapse top-nav waves-effect waves-light circle hide-on-large-only"><i class="mdi-navigation-menu"></i></a></div>
+            <ul id="nav-mobile" class="side-nav fixed">
+                <li ng-class="currentPage == 1 ? 'active' : ''" id="home"><a href="index.html?callback=1" class="waves-effect waves-ripple"><span class="icon icon-home"></span>Home</a></li>
+                <li ng-class="currentPage == 4 ? 'active' : ''"id="meet_me_here"><a href="meet_me_here.html" class="waves-effect waves-ripple"><span class="icon icon-history"></span>Meet Me Here</a></li>
+                <li ng-class="currentPage == 3 ? 'active' : ''" id="new_meet"><a href="create_new_activity.html" class="waves-effect waves-ripple"><span class="icon icon-new"></span>New Activity</a></li>
+                <li ng-class="currentPage == 2 ? 'active' : ''" id="meet" ><a class="waves-effect waves-ripple" ng-click="currentPage = 2"><span class="icon icon-invite"></span>Activities</a>
+                    <ul class="subtab-left">
+                        <li ng-repeat="meeting in meetingList" ng-if="isToday(meeting.createdDate)"  ng-class="(meeting.id == currentMeetingId) ? 'active' : ''">
+                            <a ng-href="{{'/activity.html?act=' + meeting.id}}" class="waves-effect waves-ripple active">
+                                <i class="fa fa fa-angle-right"></i>
+                                {{getMeetingName(meeting, false)}}
+                            </a>
+                        </li>
+                        <li ng-show="meetingList.$value === null" style="font-style: italic;">
+                            No current activities
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+		</header><!--//header-->
+		<div id="contents">
+			<div class="row">
+				<div class="col s12">
+					<div class="box-gps">
+						<h2 class="title-page"><i class="fa fa-bullseye"></i> Enabling Geolocation</h2>
+						<div class="wrap">
+							<p>Geolocation is the process of determining your location on Earth. waziggle uses this to search for special deals in your area. The browser you are using will ask you for your permission to give your location.</p>
+							<p>By default, your browser will have geolocation enabled. If you have disabled geolocation in your browser, it's easy to enable it again. Select your browser from the list below:</p>
+							<ul>
+								<li><a href="#IE">Internet Explorer</a></li>
+								<li><a href="#Firefox">Mozilla Firefox</a></li>
+								<li><a href="#Chrome">Chrome</a></li>
+								<li><a href="#Safari">Safari</a></li>
+								<li><a href="#Opera">Opera</a></li>
+							</ul>
+							<h3>What is Geolocation?</h3>
+							<p>Geolocation is the process of identifying your location via your mobile device, tablet, laptop or even desktop computer. The latitude and longitude of your location are then plotted on a map along with the locations of businesses who have special discounts that meet your search criteria.</p>
+							<p>By default, your browser will have geolocation enabled. If you have disabled geolocation in your browser, it's easy to <a href="https://waziggle.com/BrowserAllow.aspx" target="_blank">enable it again</a>.</p>
+							<h3>If you can get my location, do you know who I am?</h3>
+							<p>No. The only information known is there is a device at a location. That's it. waziggle cannot tell who you are or track anything you do.</p>
+							<h3>How accurate is Geolocation?</h3>
+							<p>Accuracy varies from location to location. Most of the time geolocation technology can pinpoint your location to within feet. However, in other areas it might be much more than that. It's typically a little more accurate on mobile devices (smart phones and tablets) than it is on desktop computers.</p>
+							<h3>What if I have chosen not to allow my browser to give my location and now I would like to give it?</h3>
+							<p>You can easily allow your browser to give your location. <a href="https://waziggle.com/BrowserAllow.aspx" target="_blank">Click here</a> to see how for each of the major browsers.</p>
+							<h3>Where can I learn more about Geolocation?</h3>
+							<ul>
+								<li><a href="http://en.wikipedia.org/wiki/Geolocation" target="_blank">Wikipedia</a></li>
+								<li><a href="http://www.mozilla.org/en-US/firefox/geolocation/" target="_blank">Mozilla</a></li>
+								<li><a href="http://www.pcworld.com/article/192803/geolo.html" target="_blank">PC World</a></li>
+							</ul>
+							<br>
+							<h4><a id="IE"></a><i class="fa fa-internet-explorer"></i> Internet Explorer</h4>
+							<p>Under Tools&gt;&gt; Internet Options&gt;&gt; Privacy - look under the Location section, press the "Clear Sites" button and be sure "Never allow websites to request your physical location" is unchecked. Press OK.</p>
+							<p class="center"><img src="design/image/IEPrivacy.jpg" alt="" id="ctl00_MainContentPlaceHolder_IEPrivacyImage1"></p>
+							<br>
+							<p>Then refresh the screen showing waziggle by pressing the F5 button and you should see a box appear asking for you permission to give your location. Select "Allow once" or Options for this site and "Always allow". Here's more information on geolocation in <a href="http://blogs.msdn.com/b/ie/archive/2011/02/17/w3c-geolocation-api-in-ie9.aspx" target="_blank">Internet Explorer</a>.</p>
+							<p class="center"><img src="design/image/IEallowbar.jpg" alt="" id="ctl00_MainContentPlaceHolder_IEAlowBarImage"></p>
+							<br>
+							<h4><a id="Firefox"></a><i class="fa fa-firefox"></i> Mozilla Firefox</h4>
+							<p>Open Firefox and navigate to waziggle.com. From the Tools menu at the top of your Firefox window (if it's not visible, press F11), select Page Info. Select the Permissions tab. Change the setting for Share Location.</p>
+							<p class="center"><img src="design/image/firefoxShareLoc.jpg" alt="" id="ctl00_MainContentPlaceHolder_Image1"></p>
+							<br>
+							<p>Then refresh the screen showing waziggle by pressing the F5 button and you should see a box appear asking for you permission to give your location. Select Share Location or choose from the dropdown list. Here's more information on geolocation from <a href="http://www.mozilla.org/en-US/firefox/geolocation/" target="_blank">Mozilla Firefox</a>.</p>
+							<p class="center"><img src="design/image/firefoxShareLoc2.jpg" alt="" id="ctl00_MainContentPlaceHolder_Image2"></p>
+							<br>
+							<h4><a id="Chrome"></a><i class="fa fa-chrome"></i> Chrome</h4>
+							<p>Click the Chrome menu icon <img src="design/image/chromeMenuIcon.jpg" alt="" id="ctl00_MainContentPlaceHolder_Image8"> on the Chrome Toolbar. Select Settings. Click Show Advanced Settings (at the bottom of screen). In the "Privacy" section click Content Settings. In the dialog that appears, scroll down to the "Location" section. Select your default permission for future location. Click Manage exceptions to remove previously-granted permissions or denials for specific sites.</p>
+							<p class="center"><img src="design/image/chromeSettings.jpg" alt="" id="ctl00_MainContentPlaceHolder_Image5"></p>
+							<br>
+							<p>Open Chrome and goto waziggle.com and you should see a box appear asking for your permission to give your location. Select Allow or choose from the dropdown list. Here's more information from <a href="http://support.google.com/chrome/bin/answer.py?hl=en&answer=142065" target="_blank">Google Chrome</a>.</p>
+							<p class="center";><img src="design/image/ChromePermissionBar.jpg" alt="" id="ctl00_MainContentPlaceHolder_Image7"></p>
+							<br>
+							<h4><a id="Safari"></a><i class="fa fa-safari"></i> Safari</h4>
+							<p>You can reset website authorizations in Safari 5 by choosing Reset Safari from the Safari menu, then enabling "Reset all location warnings" checkbox (don't select the other checkboxes unless you are sure you want to reset those as well).</p>
+							<p class="center"><img src="design/image/safariSettings.jpg" alt="" id="ctl00_MainContentPlaceHolder_Image11"></p>
+							<br>
+							<p>Open Safari and goto waziggle.com and you should see a box appear asking for your permission to give your location. Select Allow. Here's more information from <a href="http://support.apple.com/kb/HT4239" target="_blank">Apple</a>.</p>
+							<p class="center"><img src="design/image/safariPermission.jpg" alt="" id="ctl00_MainContentPlaceHolder_Image12"></p>
+							<br>
+							<h4><a id="Opera"></a><i class="fa fa-opera"></i> Opera</h4>
+							<p>From the Opera menu, go to Settings &gt; Preferences &gt; Advanced &gt; Network, and check "Enable geolocation".</p>
+							<p class="center"><img src="design/image/operaSettings.jpg" alt="" id="ctl00_MainContentPlaceHolder_Image13"></p>
+							<br>
+							<p>Open Opera and goto waziggle.com and you should see a box appear asking for your permission to give your location. Select Allow. Here's more information from <a href="http://help.opera.com/Mac/10.60/en/geolocation.html" target="_blank">Opera</a>.</p>
+							<p class="center"><img src="design/image/operaPermission.jpg" alt="" id="ctl00_MainContentPlaceHolder_Image14"></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!--//contents-->
+		<footer class="page-footer white">
+			<div class="social">
+				<span class="title">FOLLOW US</span>
+				<ul>
+					<li class="fb"><a class="icon waves-effect waves-light" href="#none" title="Facebook">Facebook</a></li>
+					<li class="youtube"><a class="icon waves-effect waves-light" href="#none" title="Youtube">Youtube</a></li>
+					<li class="twitter"><a class="icon waves-effect waves-light" href="#none" title="Twitter">Twitter</a></li>
+					<li class="google-plus"><a class="icon waves-effect waves-light" href="#none" title="Google Plus">Google Plus</a></li>
+					<li class="linkedin"><a class="icon waves-effect waves-light" href="#none" title="Linkedin">Linkedin</a></li>
+				</ul>
+			</div>
+			<div class="copyright">© Whatever Our Name Will Be. All rights reserved.</div>
+		</footer><!--//footer-->
+	</div>
+  </body>
+</html>

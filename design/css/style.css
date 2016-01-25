@@ -389,6 +389,15 @@ img{max-width: 100%;}
 .landing-page .step2 .btn-area .btn-time{background:#67bcdb url(../image/clock-icon-white.png) no-repeat 10px 50%; padding-left:40px;}
 .landing-page .step2 .btn-area .btn .fa{font-size:15px; margin-left:3px;}
 .landing-page .button-collapse{position:absolute; top:10px; left:10px; width:50px; height:42px;color:#404040;border-radius: 0;text-align: center;line-height:40px;font-size: 30px; border:1px solid #dcdcdc;}
+
+.box-gps{font-size:15px; width:80%; margin:0 auto;}
+.box-gps .title-page{font-size:35px;}
+.box-gps h3{font-size:28px;}
+.box-gps h4{font-size:22px; font-weight:700; color:#67bcdb;}
+.box-gps h4 .fa{font-size:34px;}
+.box-gps img{border:1px solid #ddd; border-radius:4px; overflow:hidden;}
+.box-gps a{color:#67bcdb;}
+
 @media only screen and (min-width : 769px){.landing-page{background:url(../image/bg_landingpage.jpg) no-repeat 0 0; background-size:cover;}hr{display:none;}.landing-page .tag-line{color:#585858;border-bottom-color:#c1c1c1}.landing-page .box-info{background-color:rgba(255,255,255,.7); border:1px solid #c2c2c2;}}
 
 @media only screen and (min-width : 993px){
@@ -427,6 +436,7 @@ img{max-width: 100%;}
 .landing-page .box-info{padding:20px;}
 .landing-page .box-info .title{font-size:20px}
 .landing-page .btn-area .btn{font-size:30px; height:50px; line-height:50px;}
+.box-gps{width:95%;}
 }
 @media only screen and (max-width : 650px){
 .meeting-top .info{margin-right:0;border:0; padding-right:0;background:none;}
