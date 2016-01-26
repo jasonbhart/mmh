@@ -18,6 +18,20 @@
             sessionService.logout();
         }
         
+        if ($window.$.cookie('user')) {
+            try {
+                var user = JSON.parse($window.$.cookie('user'));
+                user.getProfileImageURL = function (){
+                    return user.profileImageURL;
+                };
+                $scope.user = user;
+                $scope.isAuthenticated = (user.provider !== 'anonymous');
+                
+            } catch (e) {
+                console.log(e);
+            }
+        }
+        
         $scope.$on('auth.changed', function(evt, user) {
             $scope.user = user;
             $scope.isAuthenticated = !user.isAnonymous();

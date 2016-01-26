@@ -143,6 +143,14 @@
                 readyDefer.promise.then().then(function() {
                     $rootScope.$broadcast('auth.changed', user, stateTransition);
                 });
+                
+                var cacheUserObject = {
+                    id: user.user.$id,
+                    profileImageURL: user.user.profileImageURL,
+                    registrationId: user.user.registrationId,
+                    provider: user.user.provider
+                };
+                $window.$.cookie('user', JSON.stringify(cacheUserObject), { expires: 1, path: '/' });
 
                 readyDefer.resolve();
             }, function() {
