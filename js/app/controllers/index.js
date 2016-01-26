@@ -330,6 +330,7 @@
                     } else {
                         $window.$('.loading-wrap').hide();
                         clearTimeout(reloadTimeout);
+                        $window.$.cookie("local_event_" + $scope.currentUser.id, JSON.stringify({}), { expires : 0.05 });
                     }
                 });
             }
