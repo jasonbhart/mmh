@@ -114,10 +114,15 @@
             var cookieId = 'local_event_' + $scope.currentUser.id;
             if ($.cookie(cookieId)) {
                 $scope.otherMeetings = JSON.parse($.cookie(cookieId));
-                $scope.$apply();
-                $window.$('.loading-wrap').hide();
-                clearTimeout(reloadTimeout);
-                $scope.fireSwipeEvent();
+                if (Object.keys($scope.otherMeetings).length == 0) {
+                    $window.location = '/index.html?callback=1';
+                } else {
+                    $scope.$apply();
+                    $window.$('.loading-wrap').hide();
+                    $window.$('#contents').show();
+                    clearTimeout(reloadTimeout);
+                    $scope.fireSwipeEvent();
+                }
             } else {
                 meetingInfo.getLocal(mapOptions).then(function(results) {
                     var count = 0;
@@ -139,6 +144,7 @@
 
                                 }
                                 $window.$('.loading-wrap').hide();
+                                $window.$('#contents').show();
                                 clearTimeout(reloadTimeout);
                                 if (count == results.length) {
                                     $window.$.cookie("local_event_" + $scope.currentUser.id, JSON.stringify($scope.otherMeetings), { expires : 0.05 });
