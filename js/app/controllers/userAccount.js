@@ -84,8 +84,30 @@
                         + notification.place 
                         + ' @ ' 
                         + moment(notification.time).format('h:mmA') + ')</b>';
+            } else if (notification.type === 'comment') {
+                text = getCommentedUser(notification.users) + ' commented on an activity you are participating';
             }
             return $sce.trustAsHtml(text);
+        }
+        
+        var getCommentedUser = function(users) {
+            var result = '';
+            if (users.length <= 2) {
+                return '<b>' + users[0].name + '</b>';
+            } else if (users.length === 3) {
+                for (var i in users) {
+                    if (users[i].id !== $scope.user.id) {
+                        if (result === '') {
+                            result = '<b>' + users[i].name + '</b>';
+                        } else {
+                            result += ' and <b>' + users[i].name + '</b>';
+                        }
+                    }
+                }
+                return result;
+            } else {
+                return '<b>' + users[0].name + '</b>' + ' and <b>' + (users.length - 2) + ' others</b>';
+            }
         }
         
         $scope.clearNotification = function (key, notificationId) {

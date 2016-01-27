@@ -9,8 +9,28 @@
         var ref = new Firebase(appConfig.firebaseUrl);
         
         var addNotificationToUser = function (userId, notificationData) {
-            ref.child('notifications').child(userId).push(notificationData)
+            if (notificationData.type === 'comment') {
+                removeExistingCommentNotification(userId, notificationData.meetId);
+                setTimeout(function() {
+                    ref.child('notifications').child(userId).push(notificationData);
+                }, 1000);
+            } else {
+                ref.child('notifications').child(userId).push(notificationData);
+            }
         };
+        
+        var removeExistingCommentNotification = function(userId, meetId) {
+            ref.child('notifications').child(userId).endAt().limitToLast(10).once("value", function(snapshot) {
+                var data = snapshot.val();
+                if (data) {
+                    for (var i in data) {
+                        if (data[i].type === 'comment' && data[i].meetId === meetId) {
+                            ref.child('notifications').child(userId).child(i).remove();
+                        }
+                    }
+                } 
+            });
+        }
         
         var countUnreadNotifications = function (userId) {
             var deferred = $q.defer();
