@@ -272,15 +272,15 @@
                     defer.resolve(options);
                 }, function (error) {
                     $window.alert('Cannot detect current location. Set to default value');
-                    options.coords = {lat: 40.71875890364503, lng: -74.00626673281249};
+                    options.coords = {lat: 37.7749295, lng: -122.4194155};
                     
                     $scope.map = googleMap.drawMap(mapElement, options.coords, util.convertMilesToKms(1));
-                    $scope.locationName = 'NY, US';
+                    $scope.locationName = 'SF, US';
                     
                     var location = angular.extend(options, {
                         type: 'auto', 
                         saveTime:  moment().utc().toISOString(),
-                        shortName: 'NY, US'
+                        shortName: 'SF, US'
                     });
                     $scope.currentUser.updateLocation(location);
                     
