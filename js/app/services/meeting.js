@@ -108,8 +108,6 @@
                                 defer.resolve(id);
                             });
                         });
-                    } else if (exists) {
-                        defer.resolve(_.keys(snap.val())[0]);
                     } else {
                         defer.reject();
                     }
