@@ -9,7 +9,7 @@
             <div class="box-white">
                 <ul class="choose-list">
                     <li ng-repeat="time in times">
-                        <a class="icon" title="Delete" ng-click="removeTime(time)">Delete</a>{{ formatTime(time) }}
+                        <span style="margin-left: 3px;">{{ formatTime(time) }}</span><a class="icon delete" title="Delete" ng-click="removeTime(time)">Delete</a>
                     </li>
                 </ul>
             </div>
