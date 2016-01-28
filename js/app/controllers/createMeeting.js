@@ -31,6 +31,7 @@
         $scope.locationName = '';
         $scope.showTip = false;
         $scope.currentPosition = null;
+        $scope.browserPosition = null;
         
         $scope.showManualBusiness = false;
         $scope.manualBusinessInfo = {};
@@ -454,7 +455,12 @@
                 } else {
                     if ($scope.currentPosition && $scope.currentPosition.coords.lat && $scope.currentPosition.coords.lng) {
                         options.coords = {lat: $scope.currentPosition.coords.lat, lng: $scope.currentPosition.coords.lng};
+                    } else if ($scope.browserPosition) {
+                        options.coords = {lat: $scope.browserPosition.latitude, lng: $scope.browserPosition.longitude};
+                    } else {
+                        alert('Cannot detect location. Please enable GPS on you device.');
                     }
+                    
                     if ($scope.currentPosition && $scope.currentPosition.shortName) {
                         $scope.locationName = '(' + $scope.currentPosition.shortName + ')';
                     }
@@ -768,6 +774,11 @@
         };
         
         var getCurrentLocation = function () {
+            var browserLocation = geoLocation.getPosition();
+            browserLocation.then(function(position) {
+                $scope.browserPosition = position.coords;
+            });
+            
             var currentLocation = geoLocation.getCurrentLocation();
             currentLocation.then(function(position) {
                 $scope.currentPosition = position;
