@@ -19,6 +19,7 @@
         $scope.ended = false;
         $scope.comments = {};
         $scope.numberOfCommentToShow = 2;
+        $scope.commentedUsers = [];
         $scope.newComment = null;
         $scope.groupTimeout = null;
         $scope.categoryIconClass = '';
@@ -1339,8 +1340,29 @@
                 avatar: $scope.currentUser.user.profileImageURL || '',
                 time: moment().utc().toISOString(),
                 content: content
-            }
+            };
             commentService.addComment(meetingId, data);
+
+            var newUser = {
+                id: data.userId,
+                name: data.username
+            };
+            var commentedUsers = angular.copy($scope.commentedUsers);
+            commentedUsers.unshift(newUser);
+            
+            var notificationData = {
+                type: 'comment',
+                status: '1',
+                users: commentedUsers,
+                createdAt: moment().utc().toISOString(),
+                meetId: $scope.meeting.id,
+                meetName: $scope.meeting.name
+            };
+
+            for (var i in $scope.commentedUsers) {
+                notificationService.addNotificationToUser($scope.commentedUsers[i].id, notificationData);
+            }
+            
             $scope.newComment = '';
             $window.$('#new-comment').val('');
         };
@@ -1353,7 +1375,32 @@
         
         $scope.$on('comment.changed', function(evt, data) {
             $scope.comments = data;
+            
+            $scope.commentedUsers = [];
+            var commentArray = Object.keys(data).reverse();
+            for (var i in commentArray) {
+                var key = commentArray[i];
+                if (data[key] && data[key].userId && data[key].username && data[key].userId !== $.cookie('guid')) {
+                    var userObject = {id: data[key].userId, name: data[key].username};
+                    pushUserToArrayIfNotExist($scope.commentedUsers, userObject);
+                }
+            }
+            console.log($scope.commentedUsers);
         });
+        
+        var pushUserToArrayIfNotExist = function(userArray, userObject) {
+            var existed = false;
+            for (var i in userArray) {
+                if (userArray[i].id === userObject.id) {
+                    existed = true;
+                    break;
+                }
+            }
+            
+            if (!existed) {
+                userArray.push(userObject);
+            }
+        };
         
         $scope.getGroupKey = function (group) {
             return group.where.$id + '+' + group.when.when.id;
