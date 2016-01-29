@@ -893,6 +893,7 @@
         var addRSVPNotification = function (group) {
 
                 var time = angular.copy(group.when.when.when);
+                var profileImageUrl = $scope.currentUser.user.profileImageURL || ''
                 var notificationData = {
                     type: 'rsvp',
                     status: '1',
@@ -901,7 +902,8 @@
                     time: time.utc().toISOString(),
                     createdAt: moment().utc().toISOString(),
                     meetId: $scope.meeting.id,
-                    meetName: $scope.meeting.name
+                    meetName: $scope.meeting.name,
+                    image: profileImageUrl.replace('http:', 'https:')
                 };
                 
                 var sendingEmails = [];
@@ -990,7 +992,8 @@
                     value: newGroupAdded.where.name + ' @ ' + newGroupAdded.when.formatted,
                     createdAt: moment().utc().toISOString(),
                     meetId: $scope.meeting.id,
-                    meetName: $scope.meeting.name
+                    meetName: $scope.meeting.name,
+                    image: newGroupAdded.where.image_url.replace('http:','https:')
                 };
                 
                 var groupId = newGroupAdded.when.when.id + '-' + newGroupAdded.where.$id;
