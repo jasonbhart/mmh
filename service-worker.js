@@ -1,16 +1,24 @@
 var guid = '';
 var meetId = '';
 
+function getFormatedTime(date) {
+	var isoHour = date.getHours();
+	var localHour = isoHour > 12 ? isoHour - 12 : isoHour;
+	var minute = date.getMinutes();
+	return localHour + ":" + minute + (isoHour >= 12 ? 'PM' : 'AM');
+}
+
 self.addEventListener('push', function (event) {
 
     event.waitUntil(
         fetch('https://edgeprod.com:8081/getLastNotification?guid=' + guid).then(function (response) {
             return response.json().then(function(data) {  
 
-                var title = data.title || 'New notification';
+                var date = new Date(data.time);
+                var title = data.title + ' (' + data.place + ' @ ' + getFormatedTime(date) + ')';
                 var body = data.body || 'There is newly updated content available on the site. Click to see more.';
                 meetId = data.meetId || '';
-                var icon = 'https://www.socialivo.com/design/image/favicon.png';
+                var icon = data.image || 'https://www.socialivo.com/design/image/favicon.png';
                 var tag = 'socialivo';
                 self.registration.showNotification(title, {  
                     body: body,  

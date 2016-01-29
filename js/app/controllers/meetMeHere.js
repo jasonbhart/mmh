@@ -80,6 +80,9 @@
                     $scope.coords = options.coords;
                     dataProvider.getSuggestions(options).then(function(suggestions) {
                         $scope.suggestions = suggestions;
+                        if (suggestions.length == 0) {
+                            $('#no-suggestion').show();
+                        }
                         $('#contents').show();
                         $window.$('.loading-wrap').hide();
                         clearTimeout(reloadTimeout);
