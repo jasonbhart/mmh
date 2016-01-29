@@ -244,7 +244,7 @@
             var mapElement = $window.$('.your-location');
             var options = {
                 radius: util.convertMilesToKms(10),
-                count: 3
+                count: 2
             };
             
             
