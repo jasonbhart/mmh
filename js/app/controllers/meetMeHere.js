@@ -1,8 +1,8 @@
 ;(function () {
     "use strict";
     var app = angular.module('mmh.controllers');
-    app.controller('MeetMeHereController', ['$scope', 'dataProvider', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util', 'categoryService', 'userService','gatheringService','errorLoggingService','historyService',
-        function($scope, dataProvider, dialogs, $log, meetingService, geoLocation, $window, sessionService, util, categoryService, userService, gatheringService, errorLoggingService, historyService) {
+    app.controller('MeetMeHereController', ['$scope', 'dataProvider', 'localMeetingService', 'dialogs', '$log', 'meetingService', 'geoLocation', '$window', 'sessionService', 'util', 'categoryService', 'userService','gatheringService','errorLoggingService','historyService',
+        function($scope, dataProvider, localMeetingService, dialogs, $log, meetingService, geoLocation, $window, sessionService, util, categoryService, userService, gatheringService, errorLoggingService, historyService) {
 
         $scope.suggestions = {};
         $scope.timeFormat = 'h:mmA';
@@ -72,9 +72,9 @@
             var currentLocation = geoLocation.getPosition();
             currentLocation.then(function(position) {
                 if (position.coords.latitude && position.coords.longitude) {
-                        options.coords = {lat: position.coords.latitude, lng: position.coords.longitude};
+//                        options.coords = {lat: position.coords.latitude, lng: position.coords.longitude};
                     // Boston location for testing purpose
-//                        options.coords = {lat: '42.3133735', lng: '-71.0571571,12'};
+                        options.coords = {lat: '42.3133735', lng: '-71.0571571,12'};
 //                        options.coords = {lat: '44.567815', lng: '-123.259445'};
 
                     $scope.coords = options.coords;
@@ -217,6 +217,14 @@
             var meetingPromise = meetingService.create(data);
             meetingPromise.then(function(meeting) {
                 var meetingId = meeting.refs.current.key();
+                if (Object.keys(data.where).length > 0) {
+                    // add place to the local Events
+                    localMeetingService.add(meetingId, Object.keys(data.where)[0], data.where[Object.keys(data.where)[0]].location.coordinate, data.timeTitle).then(function() {
+                        if ($.cookie('local_event_' + $scope.currentUser.id)) {
+                            $.removeCookie('local_event_' + $scope.currentUser.id);
+                        }
+                    });
+                }
                 $scope.meetingId = meetingId;
                 addMeetingToCategory(data);
                 addMeetingToHistory(data);
