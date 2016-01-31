@@ -297,7 +297,6 @@
             var cookieId = 'local_event_' + $scope.currentUser.id;
             if ($.cookie(cookieId)) {
                 $scope.otherMeetings = JSON.parse($.cookie(cookieId));
-                $scope.$apply();
                 $window.$('.loading-wrap').hide();
                 clearTimeout(reloadTimeout);
             } else {
@@ -315,7 +314,6 @@
                                     if (meeting.createdDate && $scope.isToday(meeting.createdDate)) {
                                         meeting.formatedTime = $scope.formatTime(meeting.when);
                                         $scope.otherMeetings.push(meeting);
-                                        $scope.$apply();
                                     }
 
                                 }

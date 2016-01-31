@@ -6,9 +6,9 @@
     // get data from yelp
     app.controller('IndexMobileController', ['$scope', 'meetingInfo', 'sessionService', 'util', 'geoLocation','$window', 'googleMap','categoryService', 'appConfig', 'userService', 'meetingService', '$firebaseObject', '$q','errorLoggingService',
             function ($scope, meetingInfo, sessionService, util, geoLocation, $window, googleMap, categoryService, appConfig, userService, meetingService, $firebaseObject, $q, errorLoggingService) {
-        if ($window.$(window).width() > 760) {
-            $window.location = '/index.html?callback=1';
-        }
+//        if ($window.$(window).width() > 760) {
+//            $window.location = '/index.html?callback=1';
+//        }
         $scope.currentUser = null;
         $scope.locationName = '';
         $scope.baseUrl = 'https://www.socialivo.com/';
@@ -117,11 +117,12 @@
                 if (Object.keys($scope.otherMeetings).length == 0) {
                     $window.location = '/index.html?callback=1';
                 } else {
-                    $scope.$apply();
                     $window.$('.loading-wrap').hide();
                     $window.$('#contents').show();
                     clearTimeout(reloadTimeout);
-                    $scope.fireSwipeEvent();
+                    setTimeout(function(){
+                        $scope.fireSwipeEvent();
+                    }, 100);
                 }
             } else {
                 meetingInfo.getLocal(mapOptions).then(function(results) {
@@ -138,8 +139,9 @@
                                     if (meeting.createdDate && $scope.isToday(meeting.createdDate)) {
                                         meeting.formatedTime = $scope.formatTime(meeting.when);
                                         $scope.otherMeetings.push(meeting);
-                                        $scope.$apply();
-                                        $scope.fireSwipeEvent();
+                                        setTimeout(function(){
+                                            $scope.fireSwipeEvent();
+                                        }, 100);
                                     }
 
                                 }
