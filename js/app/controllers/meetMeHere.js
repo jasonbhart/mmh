@@ -208,7 +208,8 @@
                 createdDate: moment().utc().toISOString(),
                 when: times,
                 where: places,
-                users: users
+                users: users,
+                meetMeHere: true
             };
             var time = angular.copy($scope.times[0]);
             data['timeTitle'] = time ? time.utc().toISOString() : '';

@@ -119,6 +119,7 @@
                             defer.reject('Invalid response');
                         }
 
+                        $('.loading-wrap').hide();
                         return;
                     }
                     

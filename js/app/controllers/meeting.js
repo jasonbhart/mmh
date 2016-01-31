@@ -26,6 +26,7 @@
         $scope.unsubscribeList = [];
         $scope.rsvpAfterLogin = false;
         $scope.groupToRSVP = null;
+        $scope.browserPosition = null;
         
         if (document.referrer == '' || (!document.referrer.indexOf('socialivo.com') == -1 && !document.referrer.indexOf('mmh.app') == -1 && !document.referrer.indexOf('localhost') == -1)) {
             $window.location = meetingService.getSharingUrl($scope.currentMeetingId);
@@ -35,6 +36,15 @@
         emailService.getUnsubscribeList($scope.currentMeetingId).then(function(unsubscribeList) {
             $scope.unsubscribeList = unsubscribeList;
         });
+        
+        var getCurrentLocation = function () {
+            var browserLocation = geoLocation.getPosition();
+            browserLocation.then(function(position) {
+                $scope.browserPosition = position.coords;
+            });
+        };
+        
+        getCurrentLocation();
         
         var formattingData = {
             where: [],
@@ -757,6 +767,8 @@
             
             if ($scope.meeting.specificLocation) {
                 options.location = $scope.meeting.specificLocation;
+            } else if ($scope.meeting.meetMeHere && $scope.browserPosition) {
+                options.coords = {lat: $scope.browserPosition.latitude, lng: $scope.browserPosition.longitude};
             } else if ($scope.currentUser.user.location) {
                 options.coords = $scope.currentUser.user.location.coords;
                 options.radius = util.convertMilesToKms($scope.currentUser.user.location.radius);
