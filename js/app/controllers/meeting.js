@@ -637,6 +637,10 @@
                 return;
             }
             
+            if ($.cookie('local_event_' + $scope.currentUser.id)) {
+                $.removeCookie('local_event_' + $scope.currentUser.id);
+            }
+            
             if ($scope.meetingUser.userId !== $scope.currentUser.id) {
                 setTimeout(function(){
                     $scope.joinGroup(group);
