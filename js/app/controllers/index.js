@@ -304,6 +304,7 @@
                     var count = 0;
                     if (results.length > 0) {
                         angular.forEach(results, function (meeting, key) {
+                            var creatorId = getCreatorId(meeting.allUsers);
                             count ++;
                             var userGroupRef = ref.child(meeting.id).child('users').child($scope.currentUser.id).child('group');
                             userGroupRef.once('value', function(snapshot) {
@@ -311,7 +312,7 @@
                                     if (typeof meeting.where.location !== 'undefined') {
                                         meeting.where.location.display_address = meeting.where.location.display_address.replace('undefined', '');
                                     }
-                                    if (meeting.createdDate && $scope.isToday(meeting.createdDate)) {
+                                    if (meeting.createdDate && $scope.isToday(meeting.createdDate) && (creatorId !== $scope.currentUser.id)) {
                                         meeting.formatedTime = $scope.formatTime(meeting.when);
                                         $scope.otherMeetings.push(meeting);
                                     }
@@ -334,6 +335,15 @@
             }
             
         };
+        
+        var getCreatorId = function(users) {
+            for (var i in users) {
+                if (users[i].creator) {
+                    return i;
+                }
+            }
+            return Object.keys(users)[0];
+        }
         
         $window.$(document).ready(function() {
             $window.$('.categories-nav ul').on('click', 'li.level-0', function() {
