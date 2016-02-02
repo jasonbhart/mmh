@@ -1216,8 +1216,8 @@
                 postStepCallback: function (index, tip) {
                 },
                 postRideCallback: function() {
-                    if (!sessionService.getViewedTutorialStatus() || !$scope.userGroups.groups.length) {
-                        $window.$('.fake-group').hide();
+                    $window.$('.fake-group').hide();
+                    if (!sessionService.getViewedTutorialStatus() || !$scope.userGroups.groups.length) {  
                         $window.$('.no-group').show();
                     }
                     util.addEventToDataLayer('Tutorial', 'Cancel', 'Activity', null);
