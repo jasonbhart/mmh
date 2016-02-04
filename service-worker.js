@@ -9,7 +9,6 @@ function getFormatedTime(date) {
 }
 
 self.addEventListener('push', function (event) {
-
     event.waitUntil(
         fetch('https://edgeprod.com:8081/getLastNotification?guid=' + guid).then(function (response) {
             return response.json().then(function(data) {  
@@ -36,6 +35,10 @@ self.addEventListener('push', function (event) {
         })
 
     );
+});
+
+self.addEventListener('install', function(event) {
+  if (self.skipWaiting) { self.skipWaiting(); }
 });
 
 self.addEventListener('message', function (evt) {
