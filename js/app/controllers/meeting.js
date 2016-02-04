@@ -773,6 +773,7 @@
                 options.location = $scope.meeting.specificLocation;
             } else if ($scope.meeting.meetMeHere && $scope.browserPosition) {
                 options.coords = {lat: $scope.browserPosition.latitude, lng: $scope.browserPosition.longitude};
+                options.radius = util.convertMilesToKms(1);
             } else if ($scope.currentUser.user.location) {
                 options.coords = $scope.currentUser.user.location.coords;
                 options.radius = util.convertMilesToKms($scope.currentUser.user.location.radius);
