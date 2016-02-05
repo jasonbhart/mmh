@@ -12,7 +12,7 @@
                     $window.navigator.geolocation.getCurrentPosition(
                         function(result) {
                             $rootScope.$applyAsync(function() {
-//                                result = {coords: {latitude: 45.53192069999999, longitude: -122.6986860000000}}
+                                result = {coords: {latitude: 45.53192069999999, longitude: -122.6986860000000}}
                                 defer.resolve(result);
                             });
                         }, function(error) {

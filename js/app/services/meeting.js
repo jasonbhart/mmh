@@ -397,6 +397,17 @@
                 var ref = new Firebase(meetsUrl);
                 return $firebaseObject(ref.child(id));
             },
+            getLastMeetings: function (limit, startAt) {
+                var ref = new Firebase(meetsUrl);
+                
+                var lastMeetingsRef = ref.orderByKey().limitToLast(limit);
+                
+                if (startAt && typeof startAt === 'string') {
+                    lastMeetingsRef = lastMeetingsRef.startAt(startAt);
+                }
+//                return $firebaseObject(ref.orderBy('createdDate').startAt('2016-02-02T09:27:04.829Z').limitToLast(limit));
+                return $firebaseObject(lastMeetingsRef);
+            },
             checkGroupExisted: function (meetId, groupId) {
                 var ref = new Firebase(meetsUrl);
                 return $firebaseObject(ref.child(meetId).child(groupId));

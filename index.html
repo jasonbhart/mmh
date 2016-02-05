@@ -215,7 +215,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                 <div class="info">
                                     <span class="meetingLabel">{{ meeting.type }}</span>
                                     <h3 class="title"><a ng-href="{{ meeting.url }}">{{ getMeetingName(meeting, false)}}</a></h3>
-                                    <p class="address"><span class="icon"></span>{{ meeting.where.location.display_address }}<span class="subtext">{{ meeting.where.name }}</span></p>
+                                    <p class="address"><span class="icon"></span>{{ meeting.display_address }}<span class="subtext">{{ meeting.location_name }}</span></p>
                                     <p ng-if="meeting.users.length == 1">1 person going</p>
                                     <p ng-if="meeting.users.length > 1">{{ meeting.users.length }} people going</p>
                                 </div>

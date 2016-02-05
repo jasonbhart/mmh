@@ -19,6 +19,13 @@
         $scope.currentPage = util.getCurrentPage();
         $scope.mapLocation = {};
         $scope.saveLocationTimeout = null;
+        $scope.lastMeetings = null;
+        
+        var time = new Date().getTime();
+        
+        meetingService.getLastMeetings(10).$loaded(function(lastMeetings) {
+            $scope.lastMeetings = lastMeetings;
+        });
         
         $window.$('.loading-wrap').show();
         var reloadTimeout = setTimeout(function() {
@@ -88,15 +95,15 @@
 
                 drawMap(userLocation).then(function(mapOptions) {
                     getLocalEvents(mapOptions);
+                    console.log(mapOptions);
+                    $window.$('.loading-wrap').hide();
+                    clearTimeout(reloadTimeout);
                 });
                 
             }
             
             initAuth(sessionService.getCurrentUser());
-            
-            
-                
-            
+
           // listen for the future auth change events
             $scope.$on('auth.changed', function(evt, user) {
                 initAuth(user);
@@ -293,47 +300,75 @@
             return defer.promise;
         };
         
-        var getLocalEvents = function(mapOptions) {
-            var cookieId = 'local_event_' + $scope.currentUser.id;
-            if ($.cookie(cookieId)) {
-                $scope.otherMeetings = JSON.parse($.cookie(cookieId));
-                $window.$('.loading-wrap').hide();
-                clearTimeout(reloadTimeout);
-            } else {
-                meetingInfo.getLocal(mapOptions).then(function(results) {
-                    var count = 0;
-                    if (results.length > 0) {
-                        angular.forEach(results, function (meeting, key) {
-                            var creatorId = getCreatorId(meeting.allUsers);
-                            count ++;
-                            var userGroupRef = ref.child(meeting.id).child('users').child($scope.currentUser.id).child('group');
-                            userGroupRef.once('value', function(snapshot) {
-                                if (snapshot.val() === null) {
-                                    if (typeof meeting.where.location !== 'undefined') {
-                                        meeting.where.location.display_address = meeting.where.location.display_address.replace('undefined', '');
-                                    }
-                                    if (meeting.createdDate && $scope.isToday(meeting.createdDate) && (creatorId !== $scope.currentUser.id)) {
-                                        meeting.formatedTime = $scope.formatTime(meeting.when);
-                                        $scope.otherMeetings.push(meeting);
-                                    }
-
-                                }
-
-                                $window.$('.loading-wrap').hide();
-                                clearTimeout(reloadTimeout);
-                                if (count == results.length) {
-                                    $window.$.cookie("local_event_" + $scope.currentUser.id, JSON.stringify($scope.otherMeetings), { expires : 0.05 });
-                                }
-                            });
-                        });
-                    } else {
-                        $window.$('.loading-wrap').hide();
-                        clearTimeout(reloadTimeout);
-                        $window.$.cookie("local_event_" + $scope.currentUser.id, JSON.stringify({}), { expires : 0.05 });
-                    }
-                });
+        var calculateDistanceToMeeting = function (meeting, mapOptions) {
+            if (!meeting.where) {
+                return 10000;
             }
-            
+            for (var i in meeting.where) {
+                meeting.display_address =  meeting.where[i].location.display_address;
+                meeting.location_name =  meeting.where[i].name;
+                meeting.type =  util.toTitleCase(meeting.where[i].type);
+                return util.getDistanceFromLatLonInKm(
+                    meeting.where[i].location.coordinate.lat,
+                    meeting.where[i].location.coordinate.lng,
+                    mapOptions.coords.lat,
+                    mapOptions.coords.lng
+                );
+            }
+            return 1000;
+        }
+        
+        var getLocalEvents = function(mapOptions) {
+            for (var i in $scope.lastMeetings) {
+                if (typeof $scope.lastMeetings[i] === 'object' && $scope.lastMeetings[i] && $scope.lastMeetings[i].name) {
+                    var distance = calculateDistanceToMeeting($scope.lastMeetings[i], mapOptions);
+                    if (distance < mapOptions.radius) {
+                        $scope.lastMeetings[i].id = i;
+                        $scope.lastMeetings[i].formatedTime = $scope.formatTime($scope.lastMeetings[i].timeTitle);
+                        $scope.otherMeetings.push($scope.lastMeetings[i]);
+                    }
+                }
+            }
+//            var cookieId = 'local_event_' + $scope.currentUser.id;
+//            if ($.cookie(cookieId)) {
+//                $scope.otherMeetings = JSON.parse($.cookie(cookieId));
+//                $window.$('.loading-wrap').hide();
+//                clearTimeout(reloadTimeout);
+//            } else {
+//                meetingInfo.getLocal(mapOptions).then(function(results) {
+//                    var count = 0;
+//                    if (results.length > 0) {
+//                        angular.forEach(results, function (meeting, key) {
+//                            var creatorId = getCreatorId(meeting.allUsers);
+//                            count ++;
+//                            var userGroupRef = ref.child(meeting.id).child('users').child($scope.currentUser.id).child('group');
+//                            userGroupRef.once('value', function(snapshot) {
+//                                if (snapshot.val() === null) {
+//                                    if (typeof meeting.where.location !== 'undefined') {
+//                                        meeting.where.location.display_address = meeting.where.location.display_address.replace('undefined', '');
+//                                    }
+//                                    if (meeting.createdDate && $scope.isToday(meeting.createdDate) && (creatorId !== $scope.currentUser.id)) {
+//                                        meeting.formatedTime = $scope.formatTime(meeting.when);
+//                                        $scope.otherMeetings.push(meeting);
+//                                    }
+//
+//                                }
+//
+//                                $window.$('.loading-wrap').hide();
+//                                clearTimeout(reloadTimeout);
+//                                if (count == results.length) {
+//                                    $window.$.cookie("local_event_" + $scope.currentUser.id, JSON.stringify($scope.otherMeetings), { expires : 0.05 });
+//                                }
+//                            });
+//                        });
+//                    } else {
+//                        $window.$('.loading-wrap').hide();
+//                        clearTimeout(reloadTimeout);
+//                        $window.$.cookie("local_event_" + $scope.currentUser.id, JSON.stringify({}), { expires : 0.05 });
+//                    }
+//                });
+//            }
+//            
         };
         
         var getCreatorId = function(users) {
