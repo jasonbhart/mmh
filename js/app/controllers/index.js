@@ -316,7 +316,17 @@
                 );
             }
             return 1000;
-        }
+        };
+        
+        var checkIfFinished = function (times) {
+            var finished = true;
+            _.forEach(times, function(time) {
+                if (moment().diff(moment(time)) < 2 * 3600 * 1000) {
+                    finished = false;
+                }
+            });
+            return finished;
+        };
         
         var getLocalEvents = function(mapOptions) {
             for (var i in $scope.lastMeetings) {
@@ -324,8 +334,19 @@
                     var distance = calculateDistanceToMeeting($scope.lastMeetings[i], mapOptions);
                     if (distance < mapOptions.radius) {
                         $scope.lastMeetings[i].id = i;
+                        $scope.lastMeetings[i].url = 'activity.html?act=' + i;
                         $scope.lastMeetings[i].formatedTime = $scope.formatTime($scope.lastMeetings[i].timeTitle);
-                        $scope.otherMeetings.push($scope.lastMeetings[i]);
+                        
+                        var finished = checkIfFinished($scope.lastMeetings[i].when);
+                        var creatorId = getCreatorId($scope.lastMeetings[i].users);
+                        var userId = $scope.currentUser.id;
+                        var joined = $scope.lastMeetings[i].users && 
+                                     $scope.lastMeetings[i].users[userId] &&
+                                     $scope.lastMeetings[i].users[userId].group;
+                                     
+                        if (!finished && !joined && creatorId !== userId) {
+                            $scope.otherMeetings.push($scope.lastMeetings[i]);
+                        }                      
                     }
                 }
             }
