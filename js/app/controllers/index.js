@@ -96,7 +96,6 @@
 
                 drawMap(userLocation).then(function(mapOptions) {
                     getLocalEvents(mapOptions);
-                    console.log(mapOptions);
                     $window.$('.loading-wrap').hide();
                     clearTimeout(reloadTimeout);
                 });

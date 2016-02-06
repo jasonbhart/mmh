@@ -6,15 +6,21 @@
     // get data from yelp
     app.controller('IndexMobileController', ['$scope', 'meetingInfo', 'sessionService', 'util', 'geoLocation','$window', 'googleMap','categoryService', 'appConfig', 'userService', 'meetingService', '$firebaseObject', '$q','errorLoggingService',
             function ($scope, meetingInfo, sessionService, util, geoLocation, $window, googleMap, categoryService, appConfig, userService, meetingService, $firebaseObject, $q, errorLoggingService) {
-        if ($window.$(window).width() > 760) {
-            $window.location = '/index.html?callback=1';
-        }
+//        if ($window.$(window).width() > 760) {
+//            $window.location = '/index.html?callback=1';
+//        }
         $scope.currentUser = null;
         $scope.locationName = '';
         $scope.baseUrl = 'https://www.socialivo.com/';
         var ref = new Firebase(appConfig.firebaseUrl + '/meets');
         $scope.otherMeetings = [];
         $scope.currentPage = util.getCurrentPage();
+        $scope.lastMeetings = null;
+        $scope.localEventIds = [];
+        
+        meetingService.getLastMeetings(50).$loaded(function(lastMeetings) {
+            $scope.lastMeetings = lastMeetings;
+        });
         
         $window.$('.loading-wrap').show();
         var reloadTimeout = setTimeout(function() {
@@ -45,11 +51,15 @@
                 if (shouldUseSavedLocation(userLocation)) {
                     options.coords = userLocation.coords;
                     getLocalEvents(options);
+                    $window.$('.loading-wrap').hide();
+                    clearTimeout(reloadTimeout);
                 } else {
                     var locationPromise = geoLocation.getCurrentLocation();
                     locationPromise.then(function(position) {
                         options.coords = position.coords;
                         getLocalEvents(options);
+                        $window.$('.loading-wrap').hide();
+                        clearTimeout(reloadTimeout);
                     });
                 }
             }
@@ -111,69 +121,49 @@
         };
         
         var getLocalEvents = function(mapOptions) {
-            var cookieId = 'local_event_' + $scope.currentUser.id;
-            if ($.cookie(cookieId)) {
-                $scope.otherMeetings = JSON.parse($.cookie(cookieId));
-                if (Object.keys($scope.otherMeetings).length == 0) {
-                    $window.location = '/index.html?callback=1';
-                } else {
-                    $window.$('.loading-wrap').hide();
-                    $window.$('#contents').show();
-                    clearTimeout(reloadTimeout);
-                    setTimeout(function(){
-                        $scope.fireSwipeEvent();
-                    }, 100);
-                }
-            } else {
-                meetingInfo.getLocal(mapOptions).then(function(results) {
-                    var count = 0;
-                    if (results.length > 0) {
-                        angular.forEach(results, function (meeting, key) {
-                            var creatorId = getCreatorId(meeting.allUsers);
-                            count ++;
-                            var userGroupRef = ref.child(meeting.id).child('users').child($scope.currentUser.id).child('group');
-                            userGroupRef.once('value', function(snapshot) {
-                                if (snapshot.val() === null) {
-                                    if (typeof meeting.where.location !== 'undefined') {
-                                        meeting.where.location.display_address = meeting.where.location.display_address.replace('undefined', '');
-                                    }
-                                    if (meeting.createdDate && $scope.isToday(meeting.createdDate) && (creatorId !== $scope.currentUser.id)) {
-                                        meeting.formatedTime = $scope.formatTime(meeting.when);
-                                        $scope.otherMeetings.push(meeting);
-                                        setTimeout(function(){
-                                            $scope.fireSwipeEvent();
-                                        }, 100);
-                                    }
-
-                                }
-                                $window.$('.loading-wrap').hide();
-                                $window.$('#contents').show();
-                                clearTimeout(reloadTimeout);
-                                if (count == results.length) {
-                                    $window.$.cookie("local_event_" + $scope.currentUser.id, JSON.stringify($scope.otherMeetings), { expires : 0.05 });
-                                    if (Object.keys($scope.otherMeetings).length == 0) {
-                                        $window.location = '/index.html?callback=1';
-                                    }
-                                }
-                            });
-                        });
-                    } else {
-                        $window.$('.loading-wrap').hide();
-                        $window.location = '/index.html?callback=1';
-                        clearTimeout(reloadTimeout);
-                    }
-                });
+            if ($scope.lastMeetings === null) {
+                setTimeout(function() {
+                    getLocalEvents(mapOptions);
+                }, 1000);
+                return false;
             }
+            
+            $scope.otherMeetings = [];
+            
+            for (var i in $scope.lastMeetings) {
+                if (typeof $scope.lastMeetings[i] === 'object' && $scope.lastMeetings[i] && $scope.lastMeetings[i].name) {
+                    var distance = meetingService.calculateDistanceToMeeting($scope.lastMeetings[i], mapOptions);
+                    if (distance < mapOptions.radius) {
+                        $scope.lastMeetings[i].id = i;
+                        $scope.lastMeetings[i].url = 'activity.html?act=' + i;
+                        $scope.lastMeetings[i].formatedTime = $scope.formatTime($scope.lastMeetings[i].timeTitle);
+                        
+                        var finished = meetingService.checkIfFinished($scope.lastMeetings[i].when);
+                        var creatorId = meetingService.getCreatorId($scope.lastMeetings[i].users);
+                        var userId = $scope.currentUser.id;
+                        var joined = $scope.lastMeetings[i].users && 
+                                     $scope.lastMeetings[i].users[userId] &&
+                                     $scope.lastMeetings[i].users[userId].group;
+                                     
+                        if (!finished && !joined && creatorId !== userId) {
+                            $scope.otherMeetings.push($scope.lastMeetings[i]);
+                            $scope.localEventIds.push(i);
+                        }                      
+                    }
+                }
+            }
+            
+            if ($scope.otherMeetings.length == 0) {
+                $window.location = '/index.html?callback=1';
+            } else {
+                $window.$('#contents').show();
+                setTimeout(function(){
+                    $scope.fireSwipeEvent();
+                }, 100);
+            }
+            $window.$.cookie('local_events', JSON.stringify($scope.localEventIds), {expire: 0.05});
         };
         
-        var getCreatorId = function(users) {
-            for (var i in users) {
-                if (users[i].creator) {
-                    return i;
-                }
-            }
-            return Object.keys(users)[0];
-        }
         
         $window.$(document).bind('mobileinit', function () {
             $.mobile.pushStateEnabled = false;
@@ -194,7 +184,7 @@
                 }
                 var meetId = this.id;
                 setTimeout(function () {
-                    $window.location = meetingService.getActivityUrl($scope.otherMeetings[meetId].id) + '&rsvp=1';
+                    $window.location = meetingService.getActivityUrl(meetId) + '&rsvp=1';
                     $('#yes').removeClass('yes');
                 }, 500);
             });
