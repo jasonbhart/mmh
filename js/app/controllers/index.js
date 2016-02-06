@@ -20,10 +20,11 @@
         $scope.mapLocation = {};
         $scope.saveLocationTimeout = null;
         $scope.lastMeetings = null;
+        $scope.localEventIds = [];
         
         var time = new Date().getTime();
         
-        meetingService.getLastMeetings(10).$loaded(function(lastMeetings) {
+        meetingService.getLastMeetings(50).$loaded(function(lastMeetings) {
             $scope.lastMeetings = lastMeetings;
         });
         
@@ -298,47 +299,28 @@
             }
             
             return defer.promise;
-        };
-        
-        var calculateDistanceToMeeting = function (meeting, mapOptions) {
-            if (!meeting.where) {
-                return 10000;
-            }
-            for (var i in meeting.where) {
-                meeting.display_address =  meeting.where[i].location.display_address;
-                meeting.location_name =  meeting.where[i].name;
-                meeting.type =  util.toTitleCase(meeting.where[i].type);
-                return util.getDistanceFromLatLonInKm(
-                    meeting.where[i].location.coordinate.lat,
-                    meeting.where[i].location.coordinate.lng,
-                    mapOptions.coords.lat,
-                    mapOptions.coords.lng
-                );
-            }
-            return 1000;
-        };
-        
-        var checkIfFinished = function (times) {
-            var finished = true;
-            _.forEach(times, function(time) {
-                if (moment().diff(moment(time)) < 2 * 3600 * 1000) {
-                    finished = false;
-                }
-            });
-            return finished;
-        };
+        }; 
         
         var getLocalEvents = function(mapOptions) {
+            if ($scope.lastMeetings === null) {
+                setTimeout(function() {
+                    getLocalEvents(mapOptions);
+                }, 1000);
+                return false;
+            }
+            
+            $scope.otherMeetings = [];
+            
             for (var i in $scope.lastMeetings) {
                 if (typeof $scope.lastMeetings[i] === 'object' && $scope.lastMeetings[i] && $scope.lastMeetings[i].name) {
-                    var distance = calculateDistanceToMeeting($scope.lastMeetings[i], mapOptions);
+                    var distance = meetingService.calculateDistanceToMeeting($scope.lastMeetings[i], mapOptions);
                     if (distance < mapOptions.radius) {
                         $scope.lastMeetings[i].id = i;
                         $scope.lastMeetings[i].url = 'activity.html?act=' + i;
                         $scope.lastMeetings[i].formatedTime = $scope.formatTime($scope.lastMeetings[i].timeTitle);
                         
-                        var finished = checkIfFinished($scope.lastMeetings[i].when);
-                        var creatorId = getCreatorId($scope.lastMeetings[i].users);
+                        var finished = meetingService.checkIfFinished($scope.lastMeetings[i].when);
+                        var creatorId = meetingService.getCreatorId($scope.lastMeetings[i].users);
                         var userId = $scope.currentUser.id;
                         var joined = $scope.lastMeetings[i].users && 
                                      $scope.lastMeetings[i].users[userId] &&
@@ -346,60 +328,13 @@
                                      
                         if (!finished && !joined && creatorId !== userId) {
                             $scope.otherMeetings.push($scope.lastMeetings[i]);
+                            $scope.localEventIds.push(i);
                         }                      
                     }
                 }
             }
-//            var cookieId = 'local_event_' + $scope.currentUser.id;
-//            if ($.cookie(cookieId)) {
-//                $scope.otherMeetings = JSON.parse($.cookie(cookieId));
-//                $window.$('.loading-wrap').hide();
-//                clearTimeout(reloadTimeout);
-//            } else {
-//                meetingInfo.getLocal(mapOptions).then(function(results) {
-//                    var count = 0;
-//                    if (results.length > 0) {
-//                        angular.forEach(results, function (meeting, key) {
-//                            var creatorId = getCreatorId(meeting.allUsers);
-//                            count ++;
-//                            var userGroupRef = ref.child(meeting.id).child('users').child($scope.currentUser.id).child('group');
-//                            userGroupRef.once('value', function(snapshot) {
-//                                if (snapshot.val() === null) {
-//                                    if (typeof meeting.where.location !== 'undefined') {
-//                                        meeting.where.location.display_address = meeting.where.location.display_address.replace('undefined', '');
-//                                    }
-//                                    if (meeting.createdDate && $scope.isToday(meeting.createdDate) && (creatorId !== $scope.currentUser.id)) {
-//                                        meeting.formatedTime = $scope.formatTime(meeting.when);
-//                                        $scope.otherMeetings.push(meeting);
-//                                    }
-//
-//                                }
-//
-//                                $window.$('.loading-wrap').hide();
-//                                clearTimeout(reloadTimeout);
-//                                if (count == results.length) {
-//                                    $window.$.cookie("local_event_" + $scope.currentUser.id, JSON.stringify($scope.otherMeetings), { expires : 0.05 });
-//                                }
-//                            });
-//                        });
-//                    } else {
-//                        $window.$('.loading-wrap').hide();
-//                        clearTimeout(reloadTimeout);
-//                        $window.$.cookie("local_event_" + $scope.currentUser.id, JSON.stringify({}), { expires : 0.05 });
-//                    }
-//                });
-//            }
-//            
+            $window.$.cookie('local_events', JSON.stringify($scope.localEventIds), {expire: 0.05});
         };
-        
-        var getCreatorId = function(users) {
-            for (var i in users) {
-                if (users[i].creator) {
-                    return i;
-                }
-            }
-            return Object.keys(users)[0];
-        }
         
         $window.$(document).ready(function() {
             $window.$('.categories-nav ul').on('click', 'li.level-0', function() {

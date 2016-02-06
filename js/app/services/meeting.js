@@ -349,8 +349,8 @@
         return resultDefer.promise;
     }
 
-    app.factory('meetingService', ['$rootScope', '$q', '$firebaseObject', '$firebaseArray', '$log', 'appConfig', 'localMeetingService',
-            function($rootScope, $q, $firebaseObject, $firebaseArray, $log, appConfig, localMeetingService) {
+    app.factory('meetingService', ['$rootScope', '$q', '$firebaseObject', '$firebaseArray', '$log', 'appConfig', 'localMeetingService', 'util',
+            function($rootScope, $q, $firebaseObject, $firebaseArray, $log, appConfig, localMeetingService, util) {
 
         var meetsUrl = appConfig.firebaseUrl + '/meets';
         var service = {
@@ -621,6 +621,40 @@
 
                     return map;
                 });
+            },
+            calculateDistanceToMeeting: function (meeting, mapOptions) {
+                if (!meeting.where) {
+                    return 10000;
+                }
+                for (var i in meeting.where) {
+                    meeting.display_address =  meeting.where[i].location.display_address;
+                    meeting.location_name =  meeting.where[i].name;
+                    meeting.type =  util.toTitleCase(meeting.where[i].type);
+                    return util.getDistanceFromLatLonInKm(
+                        meeting.where[i].location.coordinate.lat,
+                        meeting.where[i].location.coordinate.lng,
+                        mapOptions.coords.lat,
+                        mapOptions.coords.lng
+                    );
+                }
+                return 1000;
+            },
+            checkIfFinished: function (times) {
+                var finished = true;
+                _.forEach(times, function(time) {
+                    if (moment().diff(moment(time)) < 2 * 3600 * 1000) {
+                        finished = false;
+                    }
+                });
+                return finished;
+            },
+            getCreatorId: function(users) {
+                for (var i in users) {
+                    if (users[i].creator) {
+                        return i;
+                    }
+                }
+                return Object.keys(users)[0];
             }
         };
 
