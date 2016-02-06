@@ -139,7 +139,16 @@
             },
             formatTime: function (isoString) {
                 return moment(isoString).format('h:mm A');
-            }
+            },
+            saveOldestActiveMeeting: function(meetings) {
+                var oneDayBefore = moment().subtract(1, 'days').toISOString();
+                for (var i in meetings) {
+                    if (meetings[i] && meetings[i].createdDate && meetings[i].createdDate > oneDayBefore) {
+                        $.cookie('oldestActiveMeeting', i, {expire:7});
+                        return i;
+                    }
+                }
+            } 
         }
     }]);
 })();

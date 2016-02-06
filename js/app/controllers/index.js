@@ -24,8 +24,10 @@
         
         var time = new Date().getTime();
         
-        meetingService.getLastMeetings(50).$loaded(function(lastMeetings) {
+        var startAt = $.cookie('oldestActiveMeeting');
+        meetingService.getLastMeetings(50,startAt).$loaded(function(lastMeetings) {
             $scope.lastMeetings = lastMeetings;
+            util.saveOldestActiveMeeting(lastMeetings);
         });
         
         $window.$('.loading-wrap').show();

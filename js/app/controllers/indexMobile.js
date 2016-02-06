@@ -6,9 +6,9 @@
     // get data from yelp
     app.controller('IndexMobileController', ['$scope', 'meetingInfo', 'sessionService', 'util', 'geoLocation','$window', 'googleMap','categoryService', 'appConfig', 'userService', 'meetingService', '$firebaseObject', '$q','errorLoggingService',
             function ($scope, meetingInfo, sessionService, util, geoLocation, $window, googleMap, categoryService, appConfig, userService, meetingService, $firebaseObject, $q, errorLoggingService) {
-//        if ($window.$(window).width() > 760) {
-//            $window.location = '/index.html?callback=1';
-//        }
+        if ($window.$(window).width() > 760) {
+            $window.location = '/index.html?callback=1';
+        }
         $scope.currentUser = null;
         $scope.locationName = '';
         $scope.baseUrl = 'https://www.socialivo.com/';
@@ -18,8 +18,10 @@
         $scope.lastMeetings = null;
         $scope.localEventIds = [];
         
-        meetingService.getLastMeetings(50).$loaded(function(lastMeetings) {
+        var startAt = $.cookie('oldestActiveMeeting');
+        meetingService.getLastMeetings(50,startAt).$loaded(function(lastMeetings) {
             $scope.lastMeetings = lastMeetings;
+            util.saveOldestActiveMeeting(lastMeetings);
         });
         
         $window.$('.loading-wrap').show();
