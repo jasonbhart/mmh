@@ -637,9 +637,6 @@
                 return;
             }
             
-            if ($.cookie('local_event_' + $scope.currentUser.id)) {
-                $.removeCookie('local_event_' + $scope.currentUser.id);
-            }
             
             if ($scope.meetingUser.userId !== $scope.currentUser.id) {
                 setTimeout(function(){
@@ -1259,11 +1256,7 @@
                 var meetingId = meeting.refs.current.key();
                 if (data.where.length > 0) {
                     // add place to the local Events
-                    localMeetingService.add(meetingId, '0', data.where[0].location.coordinate, data.timeTitle).then(function() {
-                        if ($.cookie('local_event_' + $scope.currentUser.id)) {
-                            $.removeCookie('local_event_' + $scope.currentUser.id);
-                        }
-                    });
+                    localMeetingService.add(meetingId, '0', data.where[0].location.coordinate, data.timeTitle);
                 }
 
                 data.meetingId = meetingId;

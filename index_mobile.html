@@ -134,12 +134,12 @@
                     <h2 class="title">Local Activities</h2>
                     <div id="container">
                         <div class="box"><div class="inner"></div></div>
-                        <div class="buddy" id="{{$index}}" style="display: block;" ng-repeat="meeting in otherMeetings">
-                            <h3 class="title"> Do you want to {{meeting.name}} at {{meeting.where.name}}?</h3>
+                        <div class="buddy" id="{{ meeting.id || 0 }}" style="display: block;" ng-repeat="meeting in otherMeetings">
+                            <h3 class="title"> Do you want to {{meeting.name}} at {{meeting.location_name}}?</h3>
                             <div class="other-meetings">
                                 <span class="thumb"><img ng-src="{{meeting.where.image_url}}" alt=""></span>
                                 <div class="info">
-                                    <p class="address"><span class="icon"></span><span class="txt">{{ meeting.where.location.display_address }}<span class="subtext">{{ meeting.where.name }}</span></span></p>
+                                    <p class="address"><span class="icon"></span><span class="txt">{{ meeting.display_address }}<span class="subtext">{{ meeting.where.name }}</span></span></p>
                                     <p class="time">{{ meeting.formatedTime }}</p>
                                 </div>
                             </div>

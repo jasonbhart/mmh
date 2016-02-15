@@ -219,11 +219,7 @@
                 var meetingId = meeting.refs.current.key();
                 if (Object.keys(data.where).length > 0) {
                     // add place to the local Events
-                    localMeetingService.add(meetingId, Object.keys(data.where)[0], data.where[Object.keys(data.where)[0]].location.coordinate, data.timeTitle).then(function() {
-                        if ($.cookie('local_event_' + $scope.currentUser.id)) {
-                            $.removeCookie('local_event_' + $scope.currentUser.id);
-                        }
-                    });
+                    localMeetingService.add(meetingId, Object.keys(data.where)[0], data.where[Object.keys(data.where)[0]].location.coordinate, data.timeTitle);
                 }
                 $scope.meetingId = meetingId;
                 addMeetingToCategory(data);
