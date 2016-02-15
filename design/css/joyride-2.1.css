@@ -270,6 +270,8 @@ body {
 .joyride-tip-guide.mb-menu-create{top:60px !important}
 .joyride-tip-guide.mb-btn-add span.joyride-nub.bottom{left: 150px;}
 .joyride-tip-guide.mb-meeting-add span.joyride-nub.top{left: 220px;}
+.joyride-tip-guide.tooltip-mr{width: 50% !important;}
+.joyride-tip-guide.tooltip-mr.create-button-tooltip{width: 45% !important;}
 }
 @media only screen and (max-width: 670px){
 .joyride-tip-guide.mb-alert span.joyride-nub.top{left:auto; right:11%;}

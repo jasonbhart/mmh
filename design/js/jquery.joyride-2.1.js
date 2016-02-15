@@ -142,11 +142,11 @@
                   methods.expose($this);
                 });
               }
-              if (methods.is_phone()) {
-                methods.pos_phone();
-              } else {
+//              if (methods.is_phone()) {
+//                methods.pos_phone();
+//              } else {
                 methods.pos_default();
-              }
+//              }
               }
             });
           } else {
@@ -283,11 +283,11 @@
               methods.scroll_to();
             }
 
-            if (methods.is_phone()) {
-              methods.pos_phone(true);
-            } else {
+//            if (methods.is_phone()) {
+//              methods.pos_phone(true);
+//            } else {
               methods.pos_default(true);
-            }
+//            }
 
             $timer = $('.joyride-timer-indicator', settings.$next_tip);
 
