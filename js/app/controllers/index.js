@@ -27,7 +27,7 @@
         var startAt = $.cookie('oldestActiveMeeting');
         meetingService.getLastMeetings(50,startAt).$loaded(function(lastMeetings) {
             $scope.lastMeetings = lastMeetings;
-            util.saveOldestActiveMeeting(lastMeetings);
+            util.saveOldestActiveMeeting(lastMeetings);      
         });
         
         $window.$('.loading-wrap').show();
@@ -151,11 +151,34 @@
             };
         });
         
-        var categories = categoryService.getCategories();
-        categories.$loaded().then(function(data) { 
-            categoryService.removePassedActivity(categories);
-            $scope.categories = data;
-        });
+        var getActivityByCategory = function () {
+            var categories = categoryService.getCategories();
+            categories.$loaded().then(function(data) { 
+                categoryService.removePassedActivity(categories);
+                $scope.cateogries = [];
+                for (var i in data) {
+                    if (data[i] && data[i].meetings) {
+                        var meetings = [];
+                        for (var j in data[i].meetings) {
+                            if (isLocalActivity(data[i].meetings[j].id)) {
+                                meetings.push(data[i].meetings[j]);
+                            }
+                        }
+                        
+                        if (meetings.length) {
+                            data[i].meetings = meetings;
+                            $scope.categories.push(data[i]);
+                        }
+                        
+                    }
+                    
+                }
+            });
+        }
+        
+        var isLocalActivity = function (meetId) {
+            return ($scope.localEventIds.indexOf(meetId) !== -1);
+        }
         
         $scope.isToday = function (isoString) {
             return moment().format('YYYYMMDD') <= moment(isoString).format('YYYYMMDD');
@@ -335,6 +358,7 @@
                 }
             }
             $window.$.cookie('local_events', JSON.stringify($scope.localEventIds), {expire: 0.05});
+            getActivityByCategory();
         };
         
         $window.$(document).ready(function() {
