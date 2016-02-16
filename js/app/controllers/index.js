@@ -21,6 +21,7 @@
         $scope.saveLocationTimeout = null;
         $scope.lastMeetings = null;
         $scope.localEventIds = [];
+        $scope.profileImages = [];
         
         var time = new Date().getTime();
         
@@ -50,44 +51,54 @@
             };
             
             var getRsvpedActivity = function () {
-                userService.get($scope.currentUser.id).then(function(userObj) {
-                    userObj.meetingList.$loaded().then(function(data) {
-                        angular.forEach(data, function (meeting, key) {
-                            var userGroupRef = ref.child(meeting.id).child('users').child($scope.currentUser.id).child('group');
-                            userGroupRef.once('value', function(snapshot) {
-                                if (snapshot.val() !== null) {
-                                    var groupInfo = snapshot.val();
-                                    var meetingRef = new Firebase(appConfig.firebaseUrl + '/meets/' + meeting.id);
-                                    var rsvpMeeting = $firebaseObject(meetingRef);
-                                    rsvpMeeting.$loaded().then(function(data) {
-                                        var firstWhereId = groupInfo.where || Object.keys(data.where)[0];
-                                        var firstWhenId = groupInfo.when || '0';
-                                        var passingData = {meetingId: meeting.id, whereId: firstWhereId, whenId: firstWhenId};
+                var userId = $.cookie('guid');
+                var userMeetingRef = new Firebase(appConfig.firebaseUrl + '/users/' + userId + '/meetings');
+                var userMeetingList = $firebaseObject(userMeetingRef);
+                userMeetingList.$loaded().then(function(data) {
+                    $scope.rsvpMeetingList = [];
+                    for (var i in data) {
+                        if (!data[i] || !data[i].id) {
+                            continue;
+                        }
+                        
+                        var meetId = data[i].id;
+                        if (!$scope.lastMeetings || !$scope.lastMeetings[meetId]) {
+                            continue;
+                        }
+                        
+                        var meetingInfo = $scope.lastMeetings[meetId];
 
-                                        meetingInfo.getMeetingInfo(passingData).then(function(meetingInfo) {
-                                            if (typeof meetingInfo.where.location !== 'undefined') {
-                                                meetingInfo.where.location.display_address = meetingInfo.where.location.display_address.replace('undefined', '');
-                                            }
-                                            if (
-                                                $scope.rsvpMeetingList.indexOf(meetingInfo) === -1
-                                                && $scope.isToday(meetingInfo.timeTitle)
-                                                && moment().diff(moment(meetingInfo.timeTitle)) < 3600 * 1000
-                                            ) {
-                                                meetingInfo.formatedTime = $scope.formatTime(meetingInfo.when);
-                                                $scope.rsvpMeetingList.push(meetingInfo);
-                                            }
-                                        });
-
-                                        $window.$('.loading-wrap').hide();
-                                        clearTimeout(reloadTimeout);
-                                    });
-                                } else {
-                                    $window.$('.loading-wrap').hide();
-                                    clearTimeout(reloadTimeout);
+                        var finished = meetingService.checkIfFinished(meetingInfo.when);
+                        if (finished) {
+                            continue;
+                        }
+                        
+                        if (meetingInfo.users[userId] && meetingInfo.users[userId].group) {
+                            var placeId = meetingInfo.users[userId].group.where;
+                            var timeId  = meetingInfo.users[userId].group.when;
+                            
+                            meetingInfo.chosenLocation = meetingInfo.where[placeId];
+                            meetingInfo.chosenTime     = meetingInfo.when[timeId];
+                            
+                            meetingInfo.joinedUser = [];
+                            for (var j in meetingInfo.users) {
+                                var group = meetingInfo.users[j].group;
+                                if (group && group.where === placeId && group.when === timeId) {
+                                    meetingInfo.joinedUser.push(j);
                                 }
+                            }
+                            
+                            meetingInfo.usersCount = meetingInfo.joinedUser.length;
+                            meetingService.getProfileImages(meetingInfo.joinedUser).then(function(profileImages) {
+                                _.forEach(profileImages, function(profileImage) {
+                                    $scope.profileImages[profileImage.userId] = profileImage.profile;
+                                });
                             });
-                        });
-                    });
+                            $scope.rsvpMeetingList.push(meetingInfo);
+                        }
+                    }
+                    $window.$('.loading-wrap').hide();
+                    clearTimeout(reloadTimeout);
                 });
             }
             

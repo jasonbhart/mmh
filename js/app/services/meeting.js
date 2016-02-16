@@ -397,6 +397,34 @@
                 var ref = new Firebase(meetsUrl);
                 return $firebaseObject(ref.child(id));
             },
+            getProfileImages: function (userIds) {
+                var defer = $q.defer();
+                var deferreds = [];
+                var usersRef = appConfig.firebaseUrl + '/users';
+                var usersObject = new Firebase(usersRef);
+                    // get user photos
+                _.forEach(userIds, function(id) {
+                    var defer = $q.defer();
+                    var userObject = usersObject.child(id).child('profileImageURL');
+                    userObject.once('value', function(snap) {
+                        if (snap.val() !== null) {
+                            defer.resolve({
+                                userId: id,
+                                profile: snap.val()
+                            });
+                        } else {
+                            defer.resolve(null);
+                        }
+                    });
+                    deferreds.push(defer.promise);
+                });
+
+                $q.all(deferreds).then(function(images) {
+                    images = _.filter(images);
+                    defer.resolve(images);
+                });
+                return defer.promise;
+            },
             getLastMeetings: function (limit, startAt) {
                 var ref = new Firebase(meetsUrl);
                 

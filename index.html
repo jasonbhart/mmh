@@ -181,16 +181,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <h3 class="title"><a ng-href="{{ meeting.url }}">{{ getMeetingName(meeting, false) }}</a></h3>
                         <div class="wrap">
                             <div class="info">
-                                <div class="thumb"><img ng-src="{{meeting.where.image_url ? getCorrectProtocolUrl(meeting.where.image_url) : 'design/image/default_place_thumb.gif'}}" alt=""></div>
+                                <div class="thumb"><img ng-src="{{meeting.chosenLocation.image_url ? getCorrectProtocolUrl(meeting.chosenLocation.image_url) : 'design/image/default_place_thumb.gif'}}" alt=""></div>
                                 <div class="des">
-                                    <p class="address"><span class="icon"></span>{{ meeting.where.location.display_address }}<span class="subtext">{{ meeting.where.name }}</span></p>
+                                    <p class="address"><span class="icon"></span>{{ meeting.chosenLocation.location.display_address }}<span class="subtext">{{ meeting.chosenLocation.name }}</span></p>
                                     <div class="member-list">
                                         <p ng-if="meeting.usersCount == 1"><b>1 person going</b></p>
                                         <p ng-if="meeting.usersCount > 1"><b>{{ meeting.usersCount }} people going</b></p>
                                         <ul>
-                                            <li ng-repeat="image in meeting.userImages track by $index">
+                                            <li ng-repeat="userId in meeting.joinedUser track by $index">
                                                 <span class="bordered">
-                                                    <img ng-src="{{ image }}" alt="" style="height: 35px; width: 35px">
+                                                    <img ng-src="{{ profileImages[userId] }}" alt="" style="height: 35px; width: 35px">
                                                 </span>
                                             </li>
                                         </ul>
@@ -199,7 +199,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             </div>
                             <div class="rspvBox">
                                 <div class="date-time">
-                                    <span class="time">{{meeting.formatedTime}}</span>
+                                    <span class="time">{{formatTime(meeting.chosenTime)}}</span>
                                 </div>
                                 <div class="rspv">
                                     <span class="going button-span"><a ng-href="{{ meeting.url }}" class="btn waves-effect waves-light">Going</a></span>
