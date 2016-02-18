@@ -37,7 +37,8 @@
                 users: $firebaseArray(refs.users),
                 where: $firebaseArray(refs.where),
                 when: $firebaseArray(refs.when),
-                meetMeHere: snap.val().meetMeHere || ''
+                meetMeHere: snap.val().meetMeHere || '',
+                radius: snap.val().radius || '1'
             };
 
             meetingObj.addUser = function(id) {

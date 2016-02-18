@@ -7,7 +7,7 @@
         $scope.stage = 1; 
         $scope.what = 'restaurants';
         $scope.when = 'now';
-        $scope.where = 1;
+        $scope.where = '1';
         $scope.establishment = 'other';
         $scope.share = 1;
         $scope.terms = dataProvider.getActivities();
@@ -502,6 +502,8 @@
             
             if ($scope.where === 'other' && $scope.other_location) {
                 data['specific_location'] = $scope.other_location;
+            } else if ($scope.where === '1' || $scope.where === '10') {
+                data['radius'] = $scope.where;
             }
             
             if (!$scope.meetingId) {

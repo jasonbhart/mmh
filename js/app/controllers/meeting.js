@@ -773,7 +773,7 @@
                 options.radius = util.convertMilesToKms(1);
             } else if ($scope.currentUser.user.location) {
                 options.coords = $scope.currentUser.user.location.coords;
-                options.radius = util.convertMilesToKms($scope.currentUser.user.location.radius);
+                options.radius = util.convertMilesToKms($scope.meeting.radius);
             }
             return options;
         }
