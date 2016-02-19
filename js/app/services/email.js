@@ -29,6 +29,9 @@
                         + notification.place 
                         + ' @ ' + moment(notification.time).format('h:mmA') + ')';
                         
+            } else if (notification.type === 'comment') {
+                text = 'User ' + notification.newUser.name + ' commented on activity ' + notification.meetName
+                        + ' with content <br/>' + notification.content;
             }
             
             text += "<br/>" + "<br/>" + 'Click here to see everyone who is participating in this activity'

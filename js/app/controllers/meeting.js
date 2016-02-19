@@ -1372,11 +1372,40 @@
                 users: commentedUsers,
                 createdAt: moment().utc().toISOString(),
                 meetId: $scope.meeting.id,
-                meetName: $scope.meeting.name
+                meetName: $scope.meeting.name,
+                image: $scope.currentUser.user.profileImageURL || '',
+                newUser: newUser,
+                content: content
             };
+            
+            var sendingEmails = [];
+            var resgistrationIds = [];
+            for (var i in $scope.usersInfo.others) {
+                if (typeof $scope.usersInfo.others[i] === 'object') {
+                    // onsite notification
+                    notificationService.addNotificationToUser($scope.usersInfo.others[i].user.id, notificationData);
+                    if (
+                            $scope.usersInfo.others[i].user.user.email && 
+                            !$scope.usersInfo.others[i].user.user.disableEmailNoti &&
+                            $scope.unsubscribeList.indexOf($scope.usersInfo.others[i].user.user.email) === -1
+                        ) {
+                        sendingEmails.push($scope.usersInfo.others[i].user.user.email);
+                    }
+                    if ($scope.usersInfo.others[i].user.user.registrationId) {
+                        resgistrationIds.push($scope.usersInfo.others[i].user.user.registrationId);
+                    }
+                }
+            }
 
-            for (var i in $scope.commentedUsers) {
-                notificationService.addNotificationToUser($scope.commentedUsers[i].id, notificationData);
+            // email notification
+            if (sendingEmails.length > 0) {
+                emailService.sendEmailToUsers(sendingEmails, notificationData);
+            }
+
+            if (resgistrationIds.length > 0) {
+                setTimeout(function() {
+                    emailService.sendPushNotification(resgistrationIds);
+                }, 1000);
             }
             
             $scope.newComment = '';
