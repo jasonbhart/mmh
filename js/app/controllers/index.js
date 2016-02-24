@@ -130,15 +130,12 @@
                 try {
                     geoLocation.getLocality($scope.mapLocation.position.lat, $scope.mapLocation.position.lng).then(
                     function(locality) {
-                        var location = {
+                        var result = {
                             coords: locality.coords,
-                            radius: $scope.mapLocation.radius,
-                            shortName: locality.shortName,
-                            type: 'manual',
-                            saveTime: moment().utc().toISOString()
+                            shortName: locality.shortName
                         };
-                        $scope.currentUser.updateLocation(location);
-                        $window.$('.search-box').val(location.shortName);
+                        $.cookie('currentLocation', JSON.stringify(result), {path: '/', expires: 0.05})
+                        $window.$('.search-box').val(result.shortName);
                         
                         util.addEventToDataLayer('Local Settings', 'Geo', 'Change Search Location', locality.shortName);
                     }, function(error) {
@@ -240,10 +237,6 @@
                     $scope.map.setCenter(location.coords.lat, location.coords.lng);
                     $window.$('.search-box').val(location.shortName);
                     
-                    location.radius = $scope.mapLocation.radius || 1;
-                    location.type = 'auto';
-                    location.saveTime = moment().utc().toISOString();
-                    $scope.currentUser.updateLocation(location);
                     
                     util.addEventToDataLayer('Local Settings', 'Geo', 'Auto Detect', location.shortName);
 
