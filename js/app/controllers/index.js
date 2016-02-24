@@ -103,11 +103,8 @@
             }
             
             var getMapAndLocalEvents = function () {
-                $scope.locationName = $scope.currentUser.getLocationName();
-            
-                var userLocation = $scope.currentUser.getLocation();
 
-                drawMap(userLocation).then(function(mapOptions) {
+                drawMap().then(function(mapOptions) {
                     getLocalEvents(mapOptions);
                     $window.$('.loading-wrap').hide();
                     clearTimeout(reloadTimeout);
@@ -238,7 +235,7 @@
         
         
         $scope.autoDetectLocation = function () {
-            geoLocation.getCurrentLocation().then(
+            geoLocation.getCurrentLocation(true).then(
                 function(location) {
                     $scope.map.setCenter(location.coords.lat, location.coords.lng);
                     $window.$('.search-box').val(location.shortName);
@@ -260,28 +257,8 @@
         $scope.getCorrectProtocolUrl = function(url) {
             return util.getCorrectProtocolUrl(url);
         };
-        
-        var shouldUseSavedLocation = function (userLocation) {
-            var useSavedLocation = true;
-            if (!userLocation) {
-                useSavedLocation = false;
-            } else if (!userLocation.saveTime) {
-                useSavedLocation = false;
-            } else if (userLocation.type === 'auto') {
-                var diff = moment().diff(moment(userLocation.saveTime));
-                if (diff > 1000 * 3600) {
-                    useSavedLocation = false;
-                }
-            } else {
-                var diff = moment().diff(moment(userLocation.saveTime));
-                if (diff > 24 * 1000 * 3600) {
-                    useSavedLocation = false;
-                }
-            }
-            return useSavedLocation;
-        };
-        
-        var drawMap = function (userLocation) {
+           
+        var drawMap = function () {
             var defer = $q.defer();
             
             var mapElement = $window.$('.your-location');
@@ -290,48 +267,24 @@
                 count: 2
             };
             
-            
-            if (shouldUseSavedLocation(userLocation)) {
-                options.coords = userLocation.coords;
+            var locationPromise = geoLocation.getCurrentLocation();
+            locationPromise.then(function(position) {
+                options.coords = position.coords;
+                $scope.locationName = position.shortName;
                 $scope.map = googleMap.drawMap(mapElement, options.coords, util.convertMilesToKms(1));
-                
+
+                util.addEventToDataLayer('Local Settings', 'Geo', 'Auto Detect', $scope.locationName);
+
                 defer.resolve(options);
-            } else {
-                var locationPromise = geoLocation.getCurrentLocation();
-                locationPromise.then(function(position) {
-                    options.coords = position.coords;
-                    $scope.locationName = position.shortName;
-                    $scope.map = googleMap.drawMap(mapElement, options.coords, util.convertMilesToKms(1));
-                    
-                    var location = angular.extend(options, {
-                        type: 'auto', 
-                        saveTime:  moment().utc().toISOString(),
-                        shortName: position.shortName
-                    });
-                    $scope.currentUser.updateLocation(location);
-                    
-                    util.addEventToDataLayer('Local Settings', 'Geo', 'Auto Detect', $scope.locationName);
-                    
-                    defer.resolve(options);
-                }, function (error) {
-                    $window.alert('Cannot detect current location. Set to default value');
-                    options.coords = {lat: 37.7749295, lng: -122.4194155};
-                    
-                    $scope.map = googleMap.drawMap(mapElement, options.coords, util.convertMilesToKms(1));
-                    $scope.locationName = 'SF, US';
-                    
-                    var location = angular.extend(options, {
-                        type: 'auto', 
-                        saveTime:  moment().utc().toISOString(),
-                        shortName: 'SF, US'
-                    });
-                    $scope.currentUser.updateLocation(location);
-                    
-                    defer.resolve(options);
-                });
-                
-                // load default or latest events instead if location is not available
-            }
+            }, function (error) {
+                $window.alert('Cannot detect current location. Set to default value');
+                options.coords = {lat: 37.7749295, lng: -122.4194155};
+
+                $scope.map = googleMap.drawMap(mapElement, options.coords, util.convertMilesToKms(1));
+                $scope.locationName = 'SF, US';
+
+                defer.resolve(options);
+            });
             
             return defer.promise;
         }; 

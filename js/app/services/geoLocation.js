@@ -148,22 +148,37 @@
                 return defer.promise;
             },
             
-            getCurrentLocation: function(options) {           
+            getCurrentLocation: function(forceUpdate) {           
                 var defer = $q.defer();
+                
+                if ($.cookie('currentLocation') && !forceUpdate) {
+                    try {
+                        var location = JSON.parse($.cookie('currentLocation'));
+                        defer.resolve(location);
+                        return defer.promise;
+                    } catch (e) {
+                        console.log(e);
+                    }
+                    
+                };
 
                 this.getCurrentPosition().then(function(position) {
                     // get locality by position
                     service.getLocality(position.latitude, position.longitude)
                         .then(function(locality) {
-                            defer.resolve({
+                            var result = {
                                 coords: locality.coords,
                                 shortName: locality.shortName
-                            });
+                            };
+                            $.cookie('currentLocation', JSON.stringify(result), {path: '/', expires: 0.05})
+                            defer.resolve(result);
                         }, function() {
-                            defer.resolve({
+                            var result = {
                                 coords: {lat: position.latitude, lng: position.longitude},
                                 shortName: 'Unknown'
-                            });
+                            };
+                            $.cookie('currentLocation', JSON.stringify(result), {path: '/', expires: 0.05})
+                            defer.resolve(result);
                         });
                 }, function(error) {
                     defer.reject(error);

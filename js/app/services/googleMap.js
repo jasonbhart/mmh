@@ -82,6 +82,7 @@
                 this.setCenter = function (lat, lng) {
                     var position = new google.maps.LatLng(lat, lng);
                     map.setCenter(position);
+                    marker.setPosition(position);
                 }
                 
                 return this;
