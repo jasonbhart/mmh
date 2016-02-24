@@ -8,12 +8,25 @@
         var service = {
             getPosition: function(options) {
                 var defer = $q.defer();
+                
+                if ($.cookie('browserLocation')) {
+                    try {
+                        var browserLocation = JSON.parse($.cookie('browserLocation'));
+                        defer.resolve(browserLocation);
+                        return defer.promise;
+                    } catch (e) {
+                        console.log(e);
+                    }
+                }
+                
                 if ($window.navigator.geolocation) {
                     $window.navigator.geolocation.getCurrentPosition(
                         function(result) {
                             $rootScope.$applyAsync(function() {
+                                var browserLocation = {coords: {latitude: result.coords.latitude, longitude: result.coords.longitude}}
+                                $.cookie('browserLocation', JSON.stringify(browserLocation), {path: '/', expires: 0.007})
 //                                result = {coords: {latitude: 45.53192069999999, longitude: -122.6986860000000}}
-                                defer.resolve(result);
+                                defer.resolve(browserLocation);
                             });
                         }, function(error) {
                             $rootScope.$applyAsync(function() {
@@ -31,6 +44,17 @@
 
             getPositionByIP: function() {
                 var defer = $q.defer();
+                
+                if ($.cookie('ipLocation')) {
+                    try {
+                        var ipLocation = JSON.parse($.cookie('ipLocation'));
+                        defer.resolve(ipLocation);
+                        return defer.promise;
+                    } catch (e) {
+                        console.log(e);
+                    }
+                }
+                
                 $http.get(
                     util.joinPaths(appConfig.dataUrl, '/geoip'),
                     {
@@ -41,6 +65,8 @@
                             defer.reject('Unknown position');
                             return;
                         }
+                        
+                        $.cookie('ipLocation', JSON.stringify(response.data), {path: '/', expires: 0.05});
                         defer.resolve(response.data);
                     }, function(response) {
                         defer.reject(response.statusText);

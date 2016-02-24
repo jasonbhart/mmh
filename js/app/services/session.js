@@ -128,17 +128,6 @@
             userService.createOrUpdate(userData).then(function(user) {
                 currentUser = user;
                 //service.migrate();
-                if (!user.user.location) {
-                    geoLocation.getCurrentLocation()
-                        .then(
-                            function(location) {
-                                location.radius = appConfig.defaultRadius;
-                                user.updateLocation(location);
-                            }, function(error) {
-                                $log.log('geoLocation error', error);
-                            }
-                        );
-                }
 
                 readyDefer.promise.then().then(function() {
                     $rootScope.$broadcast('auth.changed', user, stateTransition);

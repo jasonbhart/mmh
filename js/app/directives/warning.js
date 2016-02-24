@@ -10,10 +10,14 @@
             templateUrl: 'js/app/tmpl/warning.html',
             link: function(scope, element, attrs) {
                 scope.gpsDisabled = false;
-                navigator.geolocation.getCurrentPosition(function(){
-                }, function(){
-                    scope.gpsDisabled = true;
-                }, {maximumAge: 60000});
+                if (!$.cookie('gpsEnabled')) {
+                    navigator.geolocation.getCurrentPosition(function(){
+                        $.cookie('gpsEnabled', '1', {path: '/', expires: 0.007});
+                    }, function(){
+                        scope.gpsDisabled = true;
+                    }, {maximumAge: 60000});
+                }
+                
                 
                 if (Notification && Notification.permission === 'denied') {
                     scope.notificationDisabled = true;
