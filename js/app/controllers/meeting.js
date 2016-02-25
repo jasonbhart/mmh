@@ -26,7 +26,9 @@
         $scope.unsubscribeList = [];
         $scope.rsvpAfterLogin = false;
         $scope.groupToRSVP = null;
+        $scope.currentPosition = null;
         $scope.browserPosition = null;
+        $scope.locationName = null;
         
         if (document.referrer == '' || (!document.referrer.indexOf('socialivo.com') == -1 && !document.referrer.indexOf('mmh.app') == -1 && !document.referrer.indexOf('localhost') == -1)) {
             $window.location = meetingService.getSharingUrl($scope.currentMeetingId);
@@ -41,6 +43,14 @@
             var browserLocation = geoLocation.getPosition();
             browserLocation.then(function(position) {
                 $scope.browserPosition = position.coords;
+            });
+            
+            var currentLocation = geoLocation.getCurrentLocation();
+            currentLocation.then(function(position) {
+                $scope.currentPosition = position;
+                $scope.locationName = position.shortName;
+            }, function() {
+                $log.log('Can not find current location');
             });
         };
         
@@ -713,12 +723,11 @@
         $scope.changeLocation = function() {
             // position map to current user location if we have such
             var location = null;
-            var currentUser = sessionService.getCurrentUser();
             
-            if (currentUser.user.location) {
+            if ($scope.currentPosition) {
                 location = {
-                    position: currentUser.user.location.coords,
-                    radius: currentUser.user.location.radius
+                    position: $scope.currentPosition.coords,
+                    radius: 1
                 };
             }
             
@@ -734,7 +743,9 @@
                             radius: result.radius,
                             shortName: locality.shortName
                         };
-                        currentUser.updateLocation(location);
+                        $scope.currentPosition = location;
+                        $scope.locationName = location.shortName;
+                        $.cookie('currentLocation', JSON.stringify(location), {path: '/', expires: 0.05});
                     }, function(error) {
                         $window.alert('Failed to change location: ' + error);
                         $log.log('geoLocation error', error);
@@ -771,8 +782,8 @@
             } else if ($scope.meeting.meetMeHere && $scope.browserPosition) {
                 options.coords = {lat: $scope.browserPosition.latitude, lng: $scope.browserPosition.longitude};
                 options.radius = util.convertMilesToKms(1);
-            } else if ($scope.currentUser.user.location) {
-                options.coords = $scope.currentUser.user.location.coords;
+            } else if ($scope.currentPosition) {
+                options.coords = $scope.currentPosition.coords;
                 options.radius = util.convertMilesToKms($scope.meeting.radius);
             }
             return options;

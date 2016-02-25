@@ -23,9 +23,9 @@
                     $window.navigator.geolocation.getCurrentPosition(
                         function(result) {
                             $rootScope.$applyAsync(function() {
-                                var browserLocation = {coords: {latitude: result.coords.latitude, longitude: result.coords.longitude}}
-                                $.cookie('browserLocation', JSON.stringify(browserLocation), {path: '/', expires: 0.007})
 //                                result = {coords: {latitude: 45.53192069999999, longitude: -122.6986860000000}}
+                                var browserLocation = {coords: {latitude: result.coords.latitude, longitude: result.coords.longitude}}
+                                $.cookie('browserLocation', JSON.stringify(browserLocation), {path: '/', expires: 0.007})                        
                                 defer.resolve(browserLocation);
                             });
                         }, function(error) {

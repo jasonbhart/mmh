@@ -134,7 +134,7 @@
                             coords: locality.coords,
                             shortName: locality.shortName
                         };
-                        $.cookie('currentLocation', JSON.stringify(result), {path: '/', expires: 0.05})
+                        $.cookie('currentLocation', JSON.stringify(result), {path: '/', expires: 0.05});
                         $window.$('.search-box').val(result.shortName);
                         
                         util.addEventToDataLayer('Local Settings', 'Geo', 'Change Search Location', locality.shortName);
