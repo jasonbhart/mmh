@@ -162,7 +162,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <div class="box-setting">
                             <h2 class="title-page">Settings</h2>
                             <div class="wrap">
-                                <h3 class="title">Account Information</h3>
+                                <h3 class="title account-information button-span">Account Information</h3>
                                 <div class="box-border acc-info">
                                     <div class="acc-photo center">
                                         <p class="photo"><img ng-src="{{currentUser.getProfileImageURL()}}" alt="" /></p>
@@ -183,7 +183,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                         </li>
                                         <li class="row">
                                             <div class="col s12 l3 tit">Distance unit:</div>
-                                            <div class="col s12 l9">
+                                            <div class="col s12 l9 distance-units button-span">
                                                 <span style="min-width: 100px;display: inline-block">
                                                     <input class="with-gap" ng-model="distance_unit" value="foot" id="distance_unit_1" type="radio" ng-click="changeDistanceUnit()">
                                                     <label for="distance_unit_1">Foot</label>
@@ -196,7 +196,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                         </li>
                                     </ul>
                                 </div>
-                                <h3 class="title">Email Notification</h3>
+                                <h3 class="title email-notification button-span">Email Notification</h3>
                                 <div class="box-border">
                                     <p ng-show="!disableEmailNoti">
                                         Email notification are ON <br>
@@ -220,6 +220,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <footer class="page-footer white"></footer><!--//footer-->
         </div>
 
+        <!-- Tip Content -->
+        <ol id="joyRideTipContent">
+            <li data-class="account-information" data-button="Next" class="mb-input-name tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
+                <p>Showing the information of the user, and allow user to change the distance unit.</p>
+            </li>
+            <li data-class="distance-units" data-button="Next" class="mb-input-name tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
+                <p>You can choose how to show distance value of place by switching this setting.</p>
+            </li>
+            <li data-class="email-notification" data-button="Close" class="last-tip mb-what-do tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
+                <p>Turn ON/OFF email notification.</p>
+            </li>
+        </ol>
+        
         <!-- Tip Content -->
         <div class="loading-wrap" style="display:none"></div>
     </body>

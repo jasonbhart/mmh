@@ -59,6 +59,21 @@
             };
         });
         
+        $scope.startTutorial = function() {
+            util.addEventToDataLayer('Tutorial', 'Start', 'Setting', null);
+            
+            $window.$('#joyRideTipContent').joyride({
+                autoStart: true,
+                postStepCallback: function (index, tip) {
+                },
+                postRideCallback: function() {
+                    util.addEventToDataLayer('Tutorial', 'Cancel', 'Setting', null);
+                },
+                modal: true,
+                expose: true
+            });
+        }
+        
         var showSuccessMessage = function(message) {
             $('.alert-success span').text(message);
             $('.alert-success').show().fadeOut(10000);
