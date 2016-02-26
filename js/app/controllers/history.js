@@ -63,11 +63,13 @@
         }
         
         $scope.showAllHistory = function () {
+            $('.loading-wrap').show();
             util.addEventToDataLayer('History Page', 'Show all activities', null, null);
             historyService.getLastHistory($scope.currentUser.id, 100).then(function(history) {
                 $scope.history = categoryHistoryByDate(history);
                 $scope.showedAll = true;
             });
+            $('.loading-wrap').hide();
             
         }
         
@@ -171,6 +173,21 @@
         
         $scope.formatTime = function (isoString) {
             return moment(isoString).format('h:mm A');
+        }
+        
+        $scope.startTutorial = function() {
+            util.addEventToDataLayer('Tutorial', 'Start', 'History', null);
+            
+            $window.$('#joyRideTipContent').joyride({
+                autoStart: true,
+                postStepCallback: function (index, tip) {
+                },
+                postRideCallback: function() {
+                    util.addEventToDataLayer('Tutorial', 'Cancel', 'History', null);
+                },
+                modal: true,
+                expose: true
+            });
         }
         
     }]);

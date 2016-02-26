@@ -166,20 +166,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <div class="box-history" >
                             <h2 class="title-page"><span class="icon"></span>History</h2>
                             <div class="wrap" ng-if="history.length" ng-repeat="meetings in history">
-                                <p class="date grey-text">{{ meetings[0].date }}</p>
+                                <p class="date grey-text button-span">{{ meetings[0].date }}</p>
                                 <ul class="list" ng-repeat="meeting in meetings | orderBy : 'time' : true">   
                                     <li>
-                                        <a class="btn red waves-effect waves-light right" ng-click="createActivity(meeting.id)">
-                                            Create Activity
-                                        </a>
-                                        <h3 class="title">You "<span class="grey-text">{{ meeting.type || 'RSVPed' }}</span>" {{ meeting.type=='created' ? '' : 'on '}}meeting "<a ng-href="activity.html?act={{ meeting.id }}">{{ getMeetingName(meeting, false)}}</a>"</h3>
+                                        <span class="create-activity button-span right">
+                                            <a class="btn red waves-effect waves-light right" ng-click="createActivity(meeting.id)">
+                                                Create Activity
+                                            </a>
+                                        </span>
+                                        <h3 class="title action-text button-span">You "<span class="grey-text">{{ meeting.type || 'RSVPed' }}</span>" {{ meeting.type=='created' ? '' : 'on '}}meeting "<a ng-href="activity.html?act={{ meeting.id }}">{{ getMeetingName(meeting, false)}}</a>"</h3>
                                         <p ng-if="meeting.place">{{ meeting.place.categories[0][0]}} / {{ meeting.place.name}} / <span class="grey-text">{{ meeting.place.display_address || meeting.place.location.display_address}}</span></p>
                                         <p>{{formatTime(meeting.time)}}</p>
                                     </li>
                                 </ul>
                                 
                             </div>
-                            <div class="btn-bottom center-align" ng-if="history.length" ng-hide="showedAll" ng-click="showAllHistory()"><a href="#none" class="btn red btn-large waves-effect waves-light">Show All</a></div>
+                            <div class="btn-bottom center-align" ng-if="history.length" ng-hide="showedAll" ng-click="showAllHistory()">
+                                <a href="#none" class="btn red btn-large waves-effect waves-light show-all">Show All</a>
+                            </div>
                             <div class="wrap" ng-if="!history.length">
                                 No history
                             </div>
@@ -190,6 +194,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             </div><!--//contents-->
             <footer class="page-footer white"></footer><!--//footer-->
         </div>
+        
+        <!-- Tip Content -->
+        <ol id="joyRideTipContent">
+            <li data-class="date" data-button="Next" class="mb-input-name tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
+                <p>History is showing by its happening date.</p>
+            </li>
+            <li data-class="action-text" data-button="Next" class="mb-input-name tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
+                <p>This is the action that you did on the meeting before.</p>
+            </li>
+            <li data-class="create-activity" data-button="Next" class="mb-input-name tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
+                <p>Use this button to create same activity as previous one.</p>
+            </li>
+            <li data-class="show-all" data-button="Close" class="last-tip mb-what-do tooltip-mb" data-options="tipLocation:top;ipAnimation:fade">
+                <p>Click to show all history.</p>
+            </li>
+        </ol>
 
         <!-- Tip Content -->
         <div class="loading-wrap" style="display:none"></div>
